@@ -1,3 +1,6 @@
+/* Tipografía de las anotaciones "a plumón" de los casos (casos.js) */
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap");
+
 /* ==========================================================================
    Paleta institucional UTFSM
    Colores extraídos del escudo y timbre oficiales de la Universidad Técnica
@@ -913,3 +916,296 @@
 .econ-tikz-tree .t-row > span { font-size: 1.4rem; line-height: 1; }
 
 .econ-tikz-tree .t-cf { color: var(--usm-red); }
+
+
+/* ==========================================================================
+   Casos ilustrados (casos.js)
+   Paleta de datos validada con el skill de dataviz (CVD y contraste):
+   claro  #005f96 · #c28000 · #b30828   |   oscuro #3d9bd6 · #bf8a1a · #e15268
+   ========================================================================== */
+:root,
+[data-md-color-scheme="default"] {
+  --econ-c1: #005f96;
+  --econ-c2: #c28000;
+  --econ-c3: #b30828;
+  --econ-seq-lo: #f3dca6;
+  --econ-seq-hi: #8a5a00;
+  --econ-ink-soft: #8a94ad;
+  --econ-caso-bg: #f5f8fc;
+}
+
+[data-md-color-scheme="slate"] {
+  --econ-c1: #3d9bd6;
+  --econ-c2: #bf8a1a;
+  --econ-c3: #e15268;
+  --econ-seq-lo: #5b4a26;
+  --econ-seq-hi: #f2c334;
+  --econ-ink-soft: #6c7798;
+  --econ-caso-bg: #161c38;
+}
+
+.econ-widget.econ-caso {
+  border-top: 0;
+  border-left: 5px solid var(--usm-gold);
+  background: var(--econ-caso-bg);
+  padding: 1.1rem 1.3rem 1.2rem;
+}
+
+.econ-caso-eyebrow {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--econ-c2);
+}
+
+.econ-caso-title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0.15rem 0 0.35rem;
+  color: var(--usm-navy);
+}
+
+[data-md-color-scheme="slate"] .econ-caso-title { color: #eef1fb; }
+
+.md-typeset .econ-caso-lead {
+  font-size: 0.82rem;
+  margin: 0 0 0.9rem;
+  max-width: 62ch;
+}
+
+/* Escenas ilustradas: fondo propio (se ven igual en claro y oscuro) */
+.econ-scene {
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0.4rem 0 0.8rem;
+  border-radius: 14px;
+  user-select: none;
+}
+
+.econ-scene text { fill: #1b2a5e; font-size: 12px; font-family: var(--md-text-font-family, Roboto), sans-serif; }
+.econ-scene .muted { fill: #5a6785; }
+.econ-scene-bg { fill: #eef3fa; }
+
+/* Anotaciones a plumón */
+.econ-hand {
+  font-family: "Caveat", "Comic Sans MS", cursive !important;
+  font-size: 23px !important;
+  font-weight: 700;
+  fill: var(--usm-red) !important;
+}
+
+/* En gráficos: halo del color de fondo para que la anotación se lea sobre los puntos */
+.econ-chart .econ-hand,
+.econ-plot .econ-hand {
+  fill: var(--econ-c3) !important;
+  paint-order: stroke;
+  stroke: var(--md-default-bg-color);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+.econ-hand-stroke {
+  fill: none;
+  stroke: var(--usm-red);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* Capa ambiental: sol que gira, mar que respira, vapor de la sopa */
+.econ-sun { transform-box: view-box; transform-origin: 520px 44px; }
+.is-live .econ-sun { animation: econ-spin 40s linear infinite; }
+.is-live .econ-wave { animation: econ-breathe 5s ease-in-out infinite alternate; }
+@keyframes econ-spin { to { transform: rotate(360deg); } }
+@keyframes econ-breathe { from { transform: translateX(0); } to { transform: translateX(-10px); } }
+
+.econ-steam {
+  fill: none;
+  stroke: #9aa6c2;
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0;
+}
+.is-live .econ-steam { animation: econ-steam 2.6s ease-in-out infinite; }
+@keyframes econ-steam {
+  0% { opacity: 0; transform: translateY(6px); }
+  40% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(-14px); }
+}
+
+/* Control segmentado (pasos de un caso) */
+.econ-seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--md-default-fg-color--lightest);
+  margin: 0.2rem 0 0.6rem;
+}
+
+.econ-seg-btn {
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  background: transparent;
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  transition: background 0.18s cubic-bezier(0.2, 0, 0, 1), color 0.18s;
+}
+
+.econ-seg-btn[aria-selected="true"] {
+  background: var(--usm-navy);
+  color: #fff;
+}
+
+.econ-seg-btn:focus-visible,
+.econ-btn:focus-visible,
+.econ-quiz-opt:focus-visible {
+  outline: 2px solid var(--usm-gold);
+  outline-offset: 2px;
+}
+
+/* Puntos y diagramas de datos */
+.econ-dot { stroke: var(--md-default-bg-color); stroke-width: 2; }
+.econ-node { fill: var(--md-default-bg-color); stroke: var(--econ-c1); stroke-width: 2; }
+.econ-node-hot { fill: var(--econ-seq-lo); stroke: var(--econ-c2); stroke-width: 2; }
+.econ-arrow { fill: none; stroke: var(--econ-c2); stroke-width: 2.5; }
+.econ-arrowhead { fill: var(--econ-c2); }
+.econ-arrow-q { stroke: var(--econ-ink-soft); stroke-width: 2; stroke-dasharray: 3 3; }
+.econ-dag-side g,
+.econ-dag-side path {
+  transition: opacity 0.35s cubic-bezier(0.2, 0, 0, 1), transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.econ-dag-side .is-hidden { opacity: 0; transform: translateY(-8px) scale(0.9); }
+
+/* Insignias de factores ocultos */
+.econ-badge-bg { fill: #ffffff; stroke: var(--usm-gold); stroke-width: 2; }
+.econ-scene .econ-badge-txt { fill: #1b2a5e; font-size: 12px; }
+
+/* Grilla de tipos de datos */
+.econ-cell {
+  fill: var(--md-default-fg-color--lightest);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill 0.25s cubic-bezier(0.2, 0, 0, 1), transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.econ-cell.is-on { fill: var(--econ-c1); transform: scale(1.06); }
+
+/* Barras del caso Literary Digest */
+.econ-bar-c1 { fill: var(--econ-c1); }
+.econ-bar-c3 { fill: var(--econ-c3); }
+.econ-plot .econ-bar-lbl { fill: var(--md-default-fg-color); font-size: 12px; }
+
+/* Cifras de casos reales */
+.econ-reales {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.9rem;
+}
+
+.econ-real {
+  background: var(--md-default-bg-color);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.econ-real-icon { font-size: 1.6rem; line-height: 1; }
+
+.econ-real-num {
+  display: block;
+  font-size: 2.3rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--econ-c1);
+}
+
+.econ-real-lbl { display: block; font-size: 0.78rem; font-weight: 700; }
+.md-typeset .econ-real p { font-size: 0.78rem; margin: 0.5rem 0; }
+
+/* Tiles media / mediana */
+.econ-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin: 0.6rem 0;
+}
+
+.econ-tile {
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  background: var(--md-default-bg-color);
+  border-left: 5px solid var(--econ-c1);
+}
+
+.econ-tile.is-c2 { border-left-color: var(--econ-c2); }
+.econ-tile span { display: block; font-size: 0.7rem; font-weight: 700; opacity: 0.75; }
+.econ-tile strong { display: block; font-size: 1.8rem; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.econ-tile em { font-size: 0.68rem; opacity: 0.7; }
+
+/* Máquina de Galton y aros */
+.econ-galton { display: block; width: 100%; height: auto; max-width: 600px; margin: 0.3rem auto 0.6rem; }
+.econ-ring { fill: none; stroke: #005f96; stroke-width: 3; }
+.econ-ring.is-miss { stroke: #b30828; }
+
+/* Llamados "¿Sabías que?" y letra chica */
+.econ-sabias {
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px dashed var(--econ-c2);
+}
+
+.econ-fine { font-size: 0.7rem; opacity: 0.65; }
+
+@media (prefers-reduced-motion: reduce) {
+  .is-live .econ-sun,
+  .is-live .econ-wave,
+  .is-live .econ-steam { animation: none; }
+  .econ-cell,
+  .econ-dag-side g,
+  .econ-dag-side path,
+  .econ-seg-btn { transition: none; }
+}
+
+/* Fórmulas anchas de las láminas: scroll horizontal propio en pantallas chicas */
+.md-typeset div.arithmatex {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Control de pasos: en celular se reparte en líneas sin deformarse */
+@media (max-width: 600px) {
+  .econ-seg {
+    display: flex;
+    border-radius: 14px;
+  }
+
+  .econ-seg-btn {
+    flex: 1 1 100%;
+    border-radius: 10px;
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Fórmulas en línea muy largas (p. ej. la de diferencia de medias) */
+  .md-typeset span.arithmatex {
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    vertical-align: middle;
+  }
+}

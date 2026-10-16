@@ -1619,6 +1619,12 @@
     document.querySelectorAll(".econ-quiz").forEach(mountQuiz);
   }
 
+  // API compartida con casos.js (ilustraciones y casos de cada clase)
+  window.Econ = {
+    WIDGETS, mountAll, h, el, text, plot, rng, gauss, newSeed, mean, sd, ols, f, fBig,
+    header, controls, slider, select, buttons, btn, toggle, statsRow, note, histogram, normPdf,
+  };
+
   if (typeof document$ !== "undefined") document$.subscribe(mountAll);
   else document.addEventListener("DOMContentLoaded", mountAll);
 })();
