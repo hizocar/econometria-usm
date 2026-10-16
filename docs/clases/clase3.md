@@ -33,13 +33,13 @@
 | 21:00 – 21:20 | **Parte 2** · Controles, ejemplos (fumar y edad), ¿más es mejor?, conclusiones |
 | 21:20 – 21:25 | Autoevaluación y cierre |
 
----
-
-## Parte 1 · Causalidad y sesgo de selección
+## Causalidad y sesgo de selección { .econ-parte data-eyebrow="Parte 1 · Cátedra" data-toc-label="Parte 1 · Causalidad y sesgo de selección" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem3/Clase3.tex</code> · 16 láminas</p>
 
-### Esperanza condicional versus causalidad
+<div class="econ-lamina" markdown>
+
+### Esperanza condicional versus causalidad { data-lamina="Lámina 1" }
 
 <!-- sem3/Clase3.tex · lámina 1 -->
 
@@ -57,7 +57,11 @@
 
 -   Construiremos un marco analítico para pensar el problema de causalidad.
 
-### Contrafactual
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Contrafactual { data-lamina="Lámina 2" }
 
 <!-- sem3/Clase3.tex · lámina 2 -->
 
@@ -69,7 +73,11 @@
 
 -   **Definición de Contrafactual:** El resultado que los mismos participantes de un programa hubieran obtenido en el caso hipotético de no haber participado.
 
-### El marco teórico de Rubin
+</div>
+
+<div class="econ-lamina" markdown>
+
+### El marco teórico de Rubin { data-lamina="Lámina 3" }
 
 <!-- sem3/Clase3.tex · lámina 3 -->
 
@@ -79,7 +87,11 @@
 
     -   Vamos a definir dos grupos: los tratados (T) y el grupo no tratado o control (NT).
 
-### Modelo de outcomes potenciales (Rubin)
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Modelo de outcomes potenciales (Rubin) { data-lamina="Lámina 4" }
 
 <!-- sem3/Clase3.tex · lámina 4 -->
 
@@ -97,7 +109,11 @@
 
 -   **Nunca observaremos ambos outcomes (o estados) a la vez**.
 
-### ATE y ATT
+</div>
+
+<div class="econ-lamina" markdown>
+
+### ATE y ATT { data-lamina="Lámina 5" }
 
 <!-- sem3/Clase3.tex · lámina 5 -->
 
@@ -113,7 +129,11 @@
 
 -   **Tampoco lo observamos porque $E[Y_i^{NT}|T_i=1]$ no es observable.**
 
-### Observado y no observado
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Observado y no observado { data-lamina="Lámina 6" }
 
 <!-- sem3/Clase3.tex · lámina 6 -->
 
@@ -138,9 +158,13 @@ NO observable. Ej: no puedo saber $Y_i^{NT}$ para Caro porque no sé como hubies
 
 Al menos nos gustaría identificar el efecto del tratamiento para el grupo de tratados $ATT = E[Y_i^T - Y_i^{NT}|T_i=1]$. Tampoco se puede observar porque $E[Y_i^{NT}|T_i=1]$ es no observable.
 
+</div>
+
 <div class="econ-widget" data-widget="po"></div>
 
-### Problema estimación del impacto causal
+<div class="econ-lamina" markdown>
+
+### Problema estimación del impacto causal { data-lamina="Lámina 7" }
 
 <!-- sem3/Clase3.tex · lámina 7 -->
 
@@ -155,7 +179,11 @@ Al menos nos gustaría identificar el efecto del tratamiento para el grupo de tr
 
 -   Este es el problema fundamental de la inferencia causal: para cada $i$ solo vemos $Y_i^{T}$ o $Y_i^{NT}$, nunca ambos.
 
-### Usar datos observacionales para inferir el ATE
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Usar datos observacionales para inferir el ATE { data-lamina="Lámina 8" }
 
 <!-- sem3/Clase3.tex · lámina 8 -->
 
@@ -165,7 +193,11 @@ Al menos nos gustaría identificar el efecto del tratamiento para el grupo de tr
 
 -   Como no puedo comparar las mismas personas en el mundo alternativo, la magia del supuesto esta en encontrar un grupo de comparación (contrafactual) que hubiera sido similar al grupo tratado en ausencia del tratamiento.
 
-### ATT y sesgo de selección
+</div>
+
+<div class="econ-lamina" markdown>
+
+### ATT y sesgo de selección { data-lamina="Láminas 9–12" }
 
 <!-- sem3/Clase3.tex · lámina 9 -->
 
@@ -210,7 +242,11 @@ $$
 
 -   Intuición del sesgo: En el mundo contrafactual en el que nadie tuvo tratamiento, el grupo que obtuvo tratamiendo igual hubiera tenido un diferente outcome porque ya era diferente al grupo que no obtuvo el tratamiento.
 
-### Sesgo de selección
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Sesgo de selección { data-lamina="Lámina 13" }
 
 <!-- sem3/Clase3.tex · lámina 13 -->
 
@@ -222,7 +258,11 @@ $$
 
 -   ¿Qué signo toma el sesgo de selección?
 
-### Ejemplo: una alarma para las casas
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Ejemplo: una alarma para las casas { data-lamina="Lámina 14" }
 
 <!-- sem3/Clase3.tex · lámina 14 -->
 
@@ -238,7 +278,11 @@ $$
 
 -   ¿Sería el efecto causal?
 
-### Aleatorización
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Aleatorización { data-lamina="Láminas 15–16" }
 
 <!-- sem3/Clase3.tex · lámina 15 -->
 
@@ -266,15 +310,17 @@ $$
 
 -   En ciencias sociales, cada vez es más usado tanto en evaluación de políticas públicas, como en el mundo empresarial.
 
+</div>
+
 <div class="econ-widget" data-widget="seleccion"></div>
 
----
-
-## Parte 2 · Sesgo por variable omitida
+## Sesgo por variable omitida { .econ-parte data-eyebrow="Parte 2 · Cátedra" data-toc-label="Parte 2 · Sesgo por variable omitida" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem3/Clase4.tex</code> · 12 láminas</p>
 
-### Sesgo de selección y MCO
+<div class="econ-lamina" markdown>
+
+### Sesgo de selección y MCO { data-lamina="Lámina 1" }
 
 <!-- sem3/Clase4.tex · lámina 1 -->
 
@@ -294,7 +340,11 @@ $$
 
 -   Si esto no se cumple, nuestro coeficiente estará sesgado.
 
-### Sesgo por Variables omitidas
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Sesgo por Variables omitidas { data-lamina="Lámina 2" }
 
 <!-- sem3/Clase4.tex · lámina 2 -->
 
@@ -314,7 +364,11 @@ $$
 
 -   Podemos pensar que en el error está el tamaño de la empresa. Solo empresas más grandes pueden pagar por consultoría. Es decir, el tamaño correlaciona positivamente con la x. Al estar en el error, nuestro $\hat{\beta}$ MCO estará sesgado.
 
-### Omitiendo variables
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Omitiendo variables { data-lamina="Láminas 3–4" }
 
 <!-- sem3/Clase4.tex · lámina 3 -->
 
@@ -368,7 +422,11 @@ $$
 
 -   ¿De qué depende el sesgo? ¿Cuándo es 0?
 
-### Sesgo por omisión de variable
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Sesgo por omisión de variable { data-lamina="Láminas 5–6" }
 
 <!-- sem3/Clase4.tex · lámina 5 -->
 
@@ -407,9 +465,13 @@ $$
 
 -   La intuición es fácil. Piensen el caso (1). La gente mas inteligente va más a la universidad $\left(\delta_{1}>0\right) y$, además, la inteligencia mejora tu salario ( $\beta_{2}>0$ ). Entonces, al omitir inteligencia, el coeficiente de educación se captura no solo el efecto causal sino también el hecho de que gente mas inteligente va más a la universidad y esa gente gana más (sin importar el efecto de la educación en si misma).
 
+</div>
+
 <div class="econ-widget" data-widget="ovb"></div>
 
-### Soluciones a variables omitidas: Controles
+<div class="econ-lamina" markdown>
+
+### Soluciones a variables omitidas: Controles { data-lamina="Lámina 7" }
 
 <!-- sem3/Clase4.tex · lámina 7 -->
 
@@ -421,7 +483,11 @@ $$
 
 -   En este caso, resuelve el problema porque conozco exacto el modelo verdadero y se que solo omitía $x_{2}$. Sin embargo, muchas veces no alcanza porque hay otras variables omitidas.
 
-### Ejemplo 1
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Ejemplo 1 { data-lamina="Lámina 8" }
 
 <!-- sem3/Clase4.tex · lámina 8 -->
 
@@ -433,7 +499,11 @@ $$
 
 -   ¿Qué variables estamos omitiendo aca?
 
-### Ejemplo 2
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Ejemplo 2 { data-lamina="Lámina 9" }
 
 <!-- sem3/Clase4.tex · lámina 9 -->
 
@@ -448,10 +518,14 @@ $$
 
 -   Es negativa: cuanto mayor es la persona, menos fuma.
 
+</div>
+
 !!! tip "Complemento · Compruébalo con los números"
     De $\tilde{\beta}_1 = \beta_1 + \beta_2\delta_2$: $-1.82 = 0.94 + 0.98\,\delta_2 \Rightarrow \delta_2 \approx -2.8 < 0$. Prueba el botón **Fumar y edad** en el simulador de variable omitida: reproduce estas dos regresiones.
 
-### ¿Más es mejor?
+<div class="econ-lamina" markdown>
+
+### ¿Más es mejor? { data-lamina="Lámina 10" }
 
 <!-- sem3/Clase4.tex · lámina 10 -->
 
@@ -463,7 +537,11 @@ $$
 
 -   Incluir variables irrelevantes en el modelo no influye en el insesgamiento de los estimadores, pero incrementa la varianza de los estimadores.
 
-### Sin sesgo de selección
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Sin sesgo de selección { data-lamina="Lámina 11" }
 
 <!-- sem3/Clase4.tex · lámina 11 -->
 
@@ -475,7 +553,11 @@ $$
 
 -   Entonces, no necesitamos incluir otras variables en el modelo para evitar sesgos.
 
-### Conclusiones
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Conclusiones { data-lamina="Lámina 12" }
 
 <!-- sem3/Clase4.tex · lámina 12 -->
 
@@ -486,6 +568,8 @@ $$
 -   El supuesto clave de MCO para que no haya sesgo es que $E[\epsilon \mid X]=0$.
 
 -   Es poco frequente que tengamos TODAS las variables que determinan la asignación y entonces, es poco probable que la inclusión de variables nos permita dar una interpretación causal a una regresión lineal.
+
+</div>
 
 ---
 

@@ -43,13 +43,13 @@
 
 Las **Partes 2 y 3** (repaso de estadística) se trabajan en la **ayudantía**.
 
----
-
-## Parte 1 · Introducción a la econometría
+## Introducción a la econometría { .econ-parte data-eyebrow="Parte 1 · Cátedra" data-toc-label="Parte 1 · Introducción a la econometría" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem1/clase1.tex</code> · 20 láminas</p>
 
-### ¿Qué es econometría?
+<div class="econ-lamina" markdown>
+
+### ¿Qué es econometría? { data-lamina="Lámina 1" }
 
 <!-- sem1/clase1.tex · lámina 1 -->
 
@@ -63,7 +63,11 @@ Las **Partes 2 y 3** (repaso de estadística) se trabajan en la **ayudantía**.
 
     2.  Cuál es el efecto de haber completado la universidad en el salario?
 
-### Econometría moderna
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Econometría moderna { data-lamina="Lámina 2" }
 
 <!-- sem1/clase1.tex · lámina 2 -->
 
@@ -75,7 +79,11 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 -   Predecir el comportamento de una variable hacia el futuro.
 
-### Método econométrico
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Método econométrico { data-lamina="Lámina 3" }
 
 <!-- sem1/clase1.tex · lámina 3 -->
 
@@ -98,7 +106,11 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
         3.  Los datos.
 
-### Causalidad y correlación
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Causalidad y correlación { data-lamina="Lámina 4" }
 
 <!-- sem1/clase1.tex · lámina 4 -->
 
@@ -112,9 +124,13 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 **Correlación espuria:** existe una relación matemática pero los factores no presentan una relación lógica.
 
+</div>
+
 <div class="econ-widget" data-widget="espuria"></div>
 
-### Ejemplo
+<div class="econ-lamina" markdown>
+
+### Ejemplo { data-lamina="Láminas 5–6" }
 
 <!-- sem1/clase1.tex · lámina 5 -->
 
@@ -131,9 +147,13 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
     -   Por ejemplo, la habilidad, el ingreso de los padres, etc.
 
+</div>
+
 <div class="econ-widget" data-widget="confusores"></div>
 
-### Econometría como herramienta aplicada
+<div class="econ-lamina" markdown>
+
+### Econometría como herramienta aplicada { data-lamina="Lámina 7" }
 
 <!-- sem1/clase1.tex · lámina 7 -->
 
@@ -146,9 +166,13 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
     [ **JPAL**](https://www.povertyactionlab.org/evaluation/increasing-firm-productivity-through-management-consulting-services-india)
 
+</div>
+
 <div class="econ-widget" data-widget="casos-reales"></div>
 
-### Tipos de Datos
+<div class="econ-lamina" markdown>
+
+### Tipos de Datos { data-lamina="Láminas 8–11" }
 
 <!-- sem1/clase1.tex · lámina 8 -->
 
@@ -174,6 +198,8 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 Varias ventajas: Control de ciertas características no observadas de individuos, firmas, etc. Facilita estudios de causa-efecto (inferencia causal). Permite estudiar los efectos del rezago en el comportamiento o resultado.
 
+</div>
+
 <div class="econ-widget" data-widget="tipos-datos"></div>
 
 <div class="econ-quiz">
@@ -196,7 +222,9 @@ Varias ventajas: Control de ciertas características no observadas de individuos
 <p class="econ-quiz-fb">✅ La exposición la asigna el investigador <strong>en forma aleatoria</strong>: es un experimento. Si el gerente eligiera las sucursales, sería pseudo-experimental; si cada sucursal decidiera adoptarlo, observacional.</p>
 </div>
 
-### Muestreo
+<div class="econ-lamina" markdown>
+
+### Muestreo { data-lamina="Láminas 12–13" }
 
 <!-- sem1/clase1.tex · lámina 12 -->
 
@@ -212,9 +240,13 @@ Se dice que una muestra es representativa de una población si toda unidad de ob
 
 ![Muestreo](../images/slides/sem1_image.png){ .econ-slide-img }
 
+</div>
+
 <div class="econ-widget" data-widget="sopa"></div>
 
-### ¿Por qué muestrear la población?
+<div class="econ-lamina" markdown>
+
+### ¿Por qué muestrear la población? { data-lamina="Lámina 14" }
 
 <!-- sem1/clase1.tex · lámina 14 -->
 
@@ -224,7 +256,11 @@ Se dice que una muestra es representativa de una población si toda unidad de ob
 
 -   Los resultados del muestreo son normalmente adecuados.
 
-### Objetivos del muestreo
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Objetivos del muestreo { data-lamina="Lámina 15" }
 
 <!-- sem1/clase1.tex · lámina 15 -->
 
@@ -238,7 +274,11 @@ Se dice que una muestra es representativa de una población si toda unidad de ob
 
 -   Los parámetros normalmente son desconocidos, se estiman a través del estadístico.
 
-### Muestreo aleatorio
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Muestreo aleatorio { data-lamina="Láminas 16–17" }
 
 <!-- sem1/clase1.tex · lámina 16 -->
 
@@ -252,7 +292,13 @@ Se dice que una muestra es representativa de una población si toda unidad de ob
 
 -   **Muestreo por conglomerados (cluster):** La población se divide en conglomerados a partir de límites geográficos o de otra clase. Luego se seleccionan los conglomerados al azar y se toma una muestra aleatoria con elementos de cada grupo.
 
-### Muestreo Estratificado vs. Muestreo por Conglomerados
+</div>
+
+<div class="econ-widget" data-widget="muestreo-casos"></div>
+
+<div class="econ-lamina" markdown>
+
+### Muestreo Estratificado vs. Muestreo por Conglomerados { data-lamina="Lámina 18" }
 
 <!-- sem1/clase1.tex · lámina 18 -->
 
@@ -270,6 +316,8 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 
 -   **Conglomerados:** Internamente heterogéneos. Se seleccionan grupos enteros.
 
+</div>
+
 <div class="econ-widget" data-widget="muestreo"></div>
 
 <div class="econ-quiz">
@@ -282,13 +330,23 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 <p class="econ-quiz-fb">✅ Grupos homogéneos por dentro y distintos entre sí funcionan como <strong>estratos</strong>: muestrear en todos reduce la varianza del estimador.</p>
 </div>
 
-### Muestreo no probabilístico
+<div class="econ-lamina" markdown>
+
+### Muestreo no probabilístico { data-lamina="Lámina 19" }
 
 <!-- sem1/clase1.tex · lámina 19 -->
 
 -   En muestreo no probabilístico inclusión en la muestra es basada en el juicio de la persona que selecciona los individuos o elementos.
 
+</div>
+
+<div class="econ-widget" data-widget="no-prob"></div>
+
 <div class="econ-widget" data-widget="digest"></div>
+
+<div class="econ-lamina" markdown>
+
+### Estadística descriptiva e inferencial { data-lamina="Lámina 20" }
 
 <!-- sem1/clase1.tex · lámina 20 -->
 
@@ -300,16 +358,18 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 
     A partir de una muestra, podemos inferir conclusiones estadísticamente válidas para todo la población.
 
----
+</div>
 
-## Parte 2 · Ayudantía · Repaso de estadística descriptiva
+## Repaso de estadística descriptiva { .econ-parte .is-ayudantia data-eyebrow="Parte 2 · Ayudantía" data-toc-label="Parte 2 · Ayudantía · Repaso de estadística descriptiva" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem1/repaso_ayudantia.tex</code> · 10 láminas</p>
 
 !!! note "Material de ayudantía"
     Las Partes 2 y 3 no se ven en la cátedra del viernes: se trabajan en la **ayudantía** de la semana.
 
-### Ramas de la Estadística
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Ramas de la Estadística { data-lamina="Lámina 1" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 1 -->
 
@@ -319,7 +379,11 @@ La Estadística se divide en dos áreas:
 
 -   **Estadística Inferencial:** va un poco más allá. A partir de los datos desarrolla mecanismos de decisión parar determinar si los datos sustentan o no una hipótesis. Permite hacer predicciones.
 
-### Estadística Descriptiva
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Estadística Descriptiva { data-lamina="Lámina 2" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 2 -->
 
@@ -333,7 +397,11 @@ La Estadística se divide en dos áreas:
 
 -   **tablas**: de frecuencia, contingencia, etc.
 
-### Estadísticos de Localización Central
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Estadísticos de Localización Central { data-lamina="Láminas 3–4" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 3 -->
 
@@ -368,9 +436,13 @@ La Estadística se divide en dos áreas:
     X_{(1)},......,\underbrace{X_{(6)},X_{(7)}}_\text{mediana$=\frac{X_{(6)}+X_{(7)}}{2}$},......,X_{(12)}
     $$
 
+</div>
+
 <div class="econ-widget" data-widget="bar-gates"></div>
 
-### Estadísticos de Localización
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Estadísticos de Localización { data-lamina="Lámina 5" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 5 -->
 
@@ -380,7 +452,11 @@ La Estadística se divide en dos áreas:
 
 -   También existen los **quintiles** y **deciles**, según se dividan a los datos en 5 o 10 partes.
 
-### Estadísticos de dispersión
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Estadísticos de dispersión { data-lamina="Láminas 6–7" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 6 -->
 
@@ -404,7 +480,11 @@ La Estadística se divide en dos áreas:
     S(X_1,...,X_n)=\sqrt{\frac{\sum_{i=1}^n (X_i-\bar{X})^2}{n-1}}
     $$
 
-### Histograma
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Histograma { data-lamina="Lámina 8" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 8 -->
 
@@ -414,7 +494,11 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 [Colab](https://colab.research.google.com/drive/1fGx_sLiasa-psVeudjO5IgJPPJX0lB6t?usp=sharing){ .usm-btn target=_blank }
 
-### Gráfico de caja - Boxplot
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Gráfico de caja - Boxplot { data-lamina="Láminas 9–10" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 9 -->
 
@@ -436,15 +520,17 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 -   <u>*Puntos fuera de los bigotes*</u>: Todos los puntos que exceden los bigotes se grafican. Son puntos extremos (atípicos).
 
+</div>
+
 <div class="econ-widget" data-widget="descriptiva"></div>
 
----
-
-## Parte 3 · Ayudantía · Repaso de estadística inferencial
+## Repaso de estadística inferencial { .econ-parte .is-ayudantia data-eyebrow="Parte 3 · Ayudantía" data-toc-label="Parte 3 · Ayudantía · Repaso de estadística inferencial" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem1/repaso_estadistica.tex</code> · 34 láminas</p>
 
-### Estadística Inferencial
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Estadística Inferencial { data-lamina="Lámina 1" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 1 -->
 
@@ -452,7 +538,11 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 -   Requiere hacer supuesto sobre la población de interés. Uso de las teoría de ***probabilidades***.
 
-### Intervalos de confianza (IC)
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Intervalos de confianza (IC) { data-lamina="Lámina 2" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 2 -->
 
@@ -464,9 +554,13 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 -   Para construir un IC hay que decidir previamente el nivel de confianza que se quiere tener.
 
+</div>
+
 <div class="econ-widget" data-widget="aro"></div>
 
-### Teorema central del límite
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Teorema central del límite { data-lamina="Lámina 3" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 3 -->
 
@@ -476,9 +570,13 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 -   La media de la distribución muestral será igual a $\mu$ y la varianza igual a $\sigma^2/n$.
 
+</div>
+
 <div class="econ-widget" data-widget="galton"></div>
 
-### Supuestos TCL
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Supuestos TCL { data-lamina="Lámina 4" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 4 -->
 
@@ -498,9 +596,13 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 4.  **Media finita:** $\mu < \infty$
 
+</div>
+
 <div class="econ-widget" data-widget="tcl"></div>
 
-### IC. ejemplo1
+<div class="econ-lamina is-ayudantia" markdown>
+
+### IC. ejemplo1 { data-lamina="Láminas 5–7" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 5 -->
 
@@ -556,7 +658,11 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
     Haz clic: [Colab](https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing){ .usm-btn target=_blank } [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
 
-### Intervalo de confianza de 95%
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Intervalo de confianza de 95% { data-lamina="Lámina 8" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 8 -->
 
@@ -570,7 +676,11 @@ $$
 
 -   si $n<30$ pero la muestra es **normal**
 
-### Otros niveles de confianza
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Otros niveles de confianza { data-lamina="Láminas 9–10" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 9 -->
 
@@ -608,7 +718,11 @@ Suponga que se desea aumentar la confiabilidad y hacer un intervalo de 99%
 
 Haz clic: [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
 
-### Comparación de IC con distintos niveles de confianza.
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Comparación de IC con distintos niveles de confianza. { data-lamina="Lámina 11" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 11 -->
 
@@ -618,7 +732,11 @@ $$
 
 **Si aumento el nivel de confianza y el intervalo se hace mayor!!!**
 
-### Intervalos de confianza: nivel de confianza y precisión
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Intervalos de confianza: nivel de confianza y precisión { data-lamina="Lámina 12" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 12 -->
 
@@ -638,7 +756,11 @@ Si tomamos como estimador puntual $\bar{X}$
 
 -   Llamaremos a $E$ ***error absoluto*** de la estimación
 
-### Nivel de confianza y precisión.
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Nivel de confianza y precisión. { data-lamina="Lámina 13" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 13 -->
 
@@ -658,9 +780,13 @@ Si tomamos como estimador puntual $\bar{X}$
 
     -   confiabilidad $(1-\alpha)$ $\uparrow \Rightarrow$ precisión $\downarrow$
 
+</div>
+
 <div class="econ-widget" data-widget="ic-cobertura"></div>
 
-### Intervalos de confianza: determinación del tamaño muestral
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Intervalos de confianza: determinación del tamaño muestral { data-lamina="Lámina 14" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 14 -->
 
@@ -680,7 +806,11 @@ Si tomamos como estimador puntual $\bar{X}$
 
 -   si el valor resultante no es entero se redondea hacia arriba.
 
-### Intervalos de confianza para las proporciones
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Intervalos de confianza para las proporciones { data-lamina="Láminas 15–19" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 15 -->
 
@@ -756,13 +886,21 @@ $$
 \color{red}{IC_{(1-\alpha)100\%}=\hat{p}\pm z_{\frac{\alpha}{2}}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}}
 $$
 
-### IC para las proporciones: ejemplo
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### IC para las proporciones: ejemplo { data-lamina="Lámina 20" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 20 -->
 
 **Un fabricante asegura, a una compañía que le compra un producto en forma regular, que el porcentaje de productos defectuosos es 5%. La compañía decide comprobar la afirmación del fabricante seleccionando de su inventario 200 unidades del producto y probándolas. En este procedimiento se detectan 19 unidades defectuosas en la muestra. ¿Es coherente este resultado con la afirmación del proveedor? Utilice una confiabilidad de 95%.**
 
-### IC para las proporciones. respuesta de ejemplo
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### IC para las proporciones. respuesta de ejemplo { data-lamina="Lámina 21" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 21 -->
 
@@ -787,7 +925,11 @@ $$
 
     Haz clic: [Colab](https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing){ .usm-btn target=_blank } [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
 
-### IC para las proporciones: determinación del tamaño muestral
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### IC para las proporciones: determinación del tamaño muestral { data-lamina="Lámina 22" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 22 -->
 
@@ -809,7 +951,11 @@ $$
     n=\frac{z_{\frac{\alpha}{2}}^2p^*(1-p^*)}{E^2}
     $$
 
-### IC para las proporciones
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### IC para las proporciones { data-lamina="Láminas 23–24" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 23 -->
 
@@ -830,7 +976,11 @@ $$
 
     Haz clic: [Colab](https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing){ .usm-btn target=_blank } [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
 
-### Intervalos de confianza diferencia de media de dos poblaciones
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Intervalos de confianza diferencia de media de dos poblaciones { data-lamina="Lámina 25" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 25 -->
 
@@ -842,7 +992,11 @@ Se cree que el salario promedio de recién egresados de la carrera de ingenierí
 
 -   Se supone que las muestras son **independientes** entre si
 
-### Diferencia de media de dos poblaciones
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Diferencia de media de dos poblaciones { data-lamina="Láminas 26–27" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 26 -->
 
@@ -864,7 +1018,11 @@ $$
 
 -   Si el cero cae fuera del intervalo, los datos dan evidencia de diferencia entre las medias
 
-### Caso $\sigma_x^2$ y $\sigma_y^2$ conocidos, con $n_x$ y $n_y$ grandes
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Caso $\sigma_x^2$ y $\sigma_y^2$ conocidos, con $n_x$ y $n_y$ grandes { data-lamina="Láminas 28–31" data-toc-label="Caso σx² y σy² conocidos, con nx y ny grandes" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 28 -->
 
@@ -908,7 +1066,11 @@ $$
 \color{red}{IC_{(1-\alpha)100}=(\bar{X}-\bar{Y}) \pm z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}
 $$
 
-### Ejemplo
+</div>
+
+<div class="econ-lamina is-ayudantia" markdown>
+
+### Ejemplo { data-lamina="Láminas 32–34" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 32 -->
 
@@ -955,6 +1117,8 @@ Obtener un IC de 95% para la diferencia de medias.
     $$
 
     Como el intervalo para $\mu_x-\mu_y$ ***no contiene al cero***, el resultado nos está dando evidencia de que las medias poblacionales son diferentes. ***Los salarios promedio de los egresados de ingeniería son más altos en promedio que los de arquitectura.***
+
+</div>
 
 <div class="econ-widget" data-widget="ic-calc"></div>
 

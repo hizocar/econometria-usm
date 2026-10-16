@@ -34,13 +34,13 @@
 | 20:50 – 21:15 | Supuestos RLS, insesgamiento y varianza de los estimadores |
 | 21:15 – 21:25 | Autoevaluación, tarea y cierre |
 
----
-
-## Regresión lineal simple
+## Regresión lineal simple { .econ-parte data-eyebrow="Cátedra" data-toc-label="Regresión lineal simple" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem2/clase2.tex</code> · 34 láminas</p>
 
-### Modelo de regresión lineal simple
+<div class="econ-lamina" markdown>
+
+### Modelo de regresión lineal simple { data-lamina="Láminas 1–2" }
 
 <!-- sem2/clase2.tex · lámina 1 -->
 
@@ -78,7 +78,11 @@ Terminología:
 
 -   $\beta_0$: es el parámetro del intercepto, algunas veces llamado término constante.
 
-### Termino de error
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Termino de error { data-lamina="Lámina 3" }
 
 <!-- sem2/clase2.tex · lámina 3 -->
 
@@ -88,7 +92,11 @@ Terminología:
 
 -   Es útil considerar a u como abreviación de "unobserved".
 
-### Ejemplo
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Ejemplo { data-lamina="Lámina 4" }
 
 <!-- sem2/clase2.tex · lámina 4 -->
 
@@ -106,7 +114,11 @@ Terminología:
 
 -   $\beta_1$ es el parámetro de la pendiente en la relación entre $y$ y $x$, cuando los factores **no observables** son constantes. **PERO, en general, ¿son constantes?**
 
-### Modelo de regresión lineal simple
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Modelo de regresión lineal simple { data-lamina="Lámina 5" }
 
 <!-- sem2/clase2.tex · lámina 5 -->
 
@@ -130,7 +142,11 @@ Terminología:
 
 -   Sin esa restricción, no es posible estimar el efecto *ceteris paribus* $\beta_1$.
 
-### Supuestos
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Supuestos { data-lamina="Lámina 6" }
 
 <!-- sem2/clase2.tex · lámina 6 -->
 
@@ -144,7 +160,11 @@ Terminología:
 
     $\rightarrow$ El valor esperado de los factores inobservables no depende de los valores de $x$, y dicho promedio es igual a 0, **u es media independiente de x.**
 
-### Ejemplo
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Ejemplo { data-lamina="Lámina 7" }
 
 <!-- sem2/clase2.tex · lámina 7 -->
 
@@ -154,7 +174,11 @@ $$
 
 ¿Qué hay en u? ¿Como se relaciona con x?
 
-### Regresión Poblacional
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Regresión Poblacional { data-lamina="Lámina 8" }
 
 <!-- sem2/clase2.tex · lámina 8 -->
 
@@ -178,7 +202,11 @@ $$
 
 -   A la línea $E[y|x]$ se le llama Función de Regresión Poblacional (FRP).
 
-### Esperanza condicional
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Esperanza condicional { data-lamina="Lámina 9" }
 
 <!-- sem2/clase2.tex · lámina 9 -->
 
@@ -197,13 +225,21 @@ $E[Y_i|X_i = 4] = 80$<br>
 $E[Y_i|X_i = 2] = 50$<br>
 $E[Y_i] = 87.5$
 
-### Regresión Poblacional: FRP
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Regresión Poblacional: FRP { data-lamina="Lámina 10" }
 
 <!-- sem2/clase2.tex · lámina 10 -->
 
 ![Regresión Poblacional: FRP](../images/slides/frp.png){ .econ-slide-img }
 
-### Interpretación
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Interpretación { data-lamina="Lámina 11" }
 
 <!-- sem2/clase2.tex · lámina 11 -->
 
@@ -229,7 +265,11 @@ $$
 
 $\rightarrow$ es el intercepto de la FRP, el valor medio de $y$ cuando $x$ es igual a cero.
 
-### Estimación
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Estimación { data-lamina="Lámina 12" }
 
 <!-- sem2/clase2.tex · lámina 12 -->
 
@@ -245,7 +285,11 @@ $\rightarrow$ es el intercepto de la FRP, el valor medio de $y$ cuando $x$ es ig
 
     donde $u_i$ es el término de error para la observación $i$.
 
-### Mínimos Cuadrados Ordinarios
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Mínimos Cuadrados Ordinarios { data-lamina="Lámina 13" }
 
 <!-- sem2/clase2.tex · lámina 13 -->
 
@@ -272,7 +316,11 @@ Definiciones:
     \min_{\hat{\beta}_0, \hat{\beta}_1} \sum_{i=1}^{n} \hat{u}_i^2 = \min_{\hat{\beta}_0, \hat{\beta}_1} \sum_{i=1}^{n} (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i)^2
     $$
 
-### Estimación de $\beta$ MCO
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Estimación de $\beta$ MCO { data-lamina="Lámina 14" data-toc-label="Estimación de β MCO" }
 
 <!-- sem2/clase2.tex · lámina 14 -->
 
@@ -292,9 +340,13 @@ $$
 
 Noten que todas estas variables están en la data. Entonces podemos obtener estos estimadores.
 
+</div>
+
 <div class="econ-widget" data-widget="mco"></div>
 
-### Tarea
+<div class="econ-lamina" markdown>
+
+### Tarea { data-lamina="Lámina 15" }
 
 <!-- sem2/clase2.tex · lámina 15 -->
 
@@ -302,10 +354,14 @@ Noten que todas estas variables están en la data. Entonces podemos obtener esto
 
     $\sum_{i}^n(x_i - \bar{x})(y_i - \bar{y}) = \sum_{i}^n(x_i - \bar{x})y_i= \sum_{i}^n(y_i - \bar{y})x_i$.
 
+</div>
+
 !!! tip "Complemento · Pista para la tarea"
     Desarrolla el producto y usa que $\sum_{i=1}^n (x_i - \bar{x}) = 0$ y $\sum_{i=1}^n (y_i - \bar{y}) = 0$.
 
-### Regresión Muestral (FRM)
+<div class="econ-lamina" markdown>
+
+### Regresión Muestral (FRM) { data-lamina="Lámina 16" }
 
 <!-- sem2/clase2.tex · lámina 16 -->
 
@@ -321,13 +377,21 @@ Noten que todas estas variables están en la data. Entonces podemos obtener esto
 
 4.  **Valor ajustado o predicho: $\hat{y}$.**
 
-### Mínimos Cuadrados Ordinarios
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Mínimos Cuadrados Ordinarios { data-lamina="Lámina 17" }
 
 <!-- sem2/clase2.tex · lámina 17 -->
 
 ![Mínimos Cuadrados Ordinarios](../images/slides/sem2_images_mco.png){ .econ-slide-img }
 
-### Un ejemplo: relación entre educación y sueldos
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Un ejemplo: relación entre educación y sueldos { data-lamina="Lámina 18" }
 
 <!-- sem2/clase2.tex · lámina 18 -->
 
@@ -341,7 +405,11 @@ Noten que todas estas variables están en la data. Entonces podemos obtener esto
 
 ![Un ejemplo: relación entre educación y sueldos](../images/slides/sem2_images_disper1.png){ .econ-slide-img }
 
-### Un ejemplo
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Un ejemplo { data-lamina="Lámina 19" }
 
 <!-- sem2/clase2.tex · lámina 19 -->
 
@@ -355,7 +423,11 @@ Noten que todas estas variables están en la data. Entonces podemos obtener esto
 
 ![Un ejemplo](../images/slides/sem2_images_reg.png){ .econ-slide-img }
 
-### Propiedades aritméticas de MCO
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Propiedades aritméticas de MCO { data-lamina="Lámina 20" }
 
 <!-- sem2/clase2.tex · lámina 20 -->
 
@@ -379,10 +451,14 @@ Noten que todas estas variables están en la data. Entonces podemos obtener esto
     \bar{y} = \hat{\beta}_0 + \hat{\beta}_1 \bar{x}
     $$
 
+</div>
+
 !!! tip "Complemento · Compruébalo"
     En el simulador *encuentra la recta de mínimos cuadrados* activa **Mostrar recta MCO**: verás que $\sum_i \hat{u}_i = 0$, $\sum_i x_i\hat{u}_i = 0$ y que la recta pasa por $(\bar{x}, \bar{y})$, incluso si arrastras los puntos.
 
-### Método de momentos
+<div class="econ-lamina" markdown>
+
+### Método de momentos { data-lamina="Láminas 21–22" }
 
 <!-- sem2/clase2.tex · lámina 21 -->
 
@@ -405,7 +481,11 @@ $$
 \end{aligned}
 $$
 
-### Estimación de $\beta$ MCO
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Estimación de $\beta$ MCO { data-lamina="Lámina 23" data-toc-label="Estimación de β MCO" }
 
 <!-- sem2/clase2.tex · lámina 23 -->
 
@@ -423,7 +503,11 @@ $$
 {}[\hat{\beta}_1] : \quad \sum_{i=1}^{n} x_i(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i) = 0
 $$
 
-### Descomposición de la varianza muestral
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Descomposición de la varianza muestral { data-lamina="Lámina 24" }
 
 <!-- sem2/clase2.tex · lámina 24 -->
 
@@ -451,7 +535,11 @@ $$
 SST = SSE + SSR
 $$
 
-### Bondad de Ajuste: $R^2$
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Bondad de Ajuste: $R^2$ { data-lamina="Lámina 25" data-toc-label="Bondad de Ajuste: R²" }
 
 <!-- sem2/clase2.tex · lámina 25 -->
 
@@ -467,9 +555,13 @@ $$
 
 -   Cuanto más cercano a $1$, más de la variabilidad de $y$ es explicada por el modelo.
 
+</div>
+
 <div class="econ-widget" data-widget="varianza"></div>
 
-### Cambio de unidades de medición
+<div class="econ-lamina" markdown>
+
+### Cambio de unidades de medición { data-lamina="Lámina 26" }
 
 <!-- sem2/clase2.tex · lámina 26 -->
 
@@ -479,9 +571,13 @@ $$
 
 -   La bondad de ajuste del modelo no depende de las unidades de medición de las variables.
 
+</div>
+
 <div class="econ-widget" data-widget="unidades"></div>
 
-### Supuesto 1 RLS
+<div class="econ-lamina" markdown>
+
+### Supuesto 1 RLS { data-lamina="Lámina 27" }
 
 <!-- sem2/clase2.tex · lámina 27 -->
 
@@ -493,19 +589,31 @@ $$
 
 donde $\beta_0$ y $\beta_1$ representan los parámetros poblacionales, del intercepto y pendiente, respectivamente. $u$ contiene los efectos no observables que afectan a $y$, $u$ no debe confundirse con los residuales.
 
-### Supuesto 2 RLS
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Supuesto 2 RLS { data-lamina="Lámina 28" }
 
 <!-- sem2/clase2.tex · lámina 28 -->
 
 Se cuenta con una muestra **aleatoria** de tamaño n, $\lbrace(x_i,y_i): i = 1, 2, ..., n\rbrace$.
 
-### Supuesto 3 RLS
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Supuesto 3 RLS { data-lamina="Lámina 29" }
 
 <!-- sem2/clase2.tex · lámina 29 -->
 
 No todos los valores muestrales de x, a saber $\lbrace x_i, i = 1,.., n\rbrace$, son iguales, es decir, no todos tienen el mismo valor.
 
-### Supuesto 4 RLS
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Supuesto 4 RLS { data-lamina="Lámina 30" }
 
 <!-- sem2/clase2.tex · lámina 30 -->
 
@@ -513,7 +621,11 @@ Para todo valor de la variable explicativa, el valor esperado del error u es cer
 
 $E(u|x) = 0$.
 
-### Insesgamiento de los estimadores de MCO
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Insesgamiento de los estimadores de MCO { data-lamina="Láminas 31–32" }
 
 <!-- sem2/clase2.tex · lámina 31 -->
 
@@ -535,7 +647,11 @@ El insesgamiento es una propiedad de las distribuciones muestrales de $\hat{\bet
 
 -   Es decir, se encuentra una relación entre x e y que en realidad se debe a factores no observados que afectan a y que resultan estar correlacionados con x.
 
-### Supuesto 5 RLS
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Supuesto 5 RLS { data-lamina="Lámina 33" }
 
 <!-- sem2/clase2.tex · lámina 33 -->
 
@@ -547,7 +663,11 @@ $$
 
 La varianza de los factores inobservables, u, condicionales en x, es constante. Esto se conoce como el supuesto de **homocedasticidad o de varianza constante.**
 
-### Varianza de los estimadores de mínimos cuadrados ordinarios
+</div>
+
+<div class="econ-lamina" markdown>
+
+### Varianza de los estimadores de mínimos cuadrados ordinarios { data-lamina="Lámina 34" }
 
 <!-- sem2/clase2.tex · lámina 34 -->
 
@@ -560,6 +680,8 @@ $$
 $$
 Var(\hat{\beta_0}|x)={\sigma^2 \sum_{i=1}^nx_i^2\over n\sum_{i=1}^n(x_i-\bar{x})^2 }
 $$
+
+</div>
 
 <div class="econ-widget" data-widget="insesgado"></div>
 

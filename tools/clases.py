@@ -98,6 +98,12 @@ ARBOL_CAUSAL = f"""<div class="econ-tikz-tree">
 <div class="t-row t-cf"><div>{ar('Y_i^{NT}')} contrafactual</div><div>{ar('Y_i^{T}')} contrafactual</div></div>
 </div>"""
 
+# Láminas SIN título en el .tex que inician un tema nuevo: título para su tarjeta (el contenido no cambia).
+# Las láminas sin título que continúan el tema anterior se dejan en la misma tarjeta.
+TITULOS = {
+    ("sem1/clase1.tex", 20): "Estadística descriptiva e inferencial",
+}
+
 TIKZ = {
     ("sem1/clase1.tex", 1): svg_estratos(),
     ("sem1/clase1.tex", 2): svg_conglomerados(),
@@ -182,7 +188,8 @@ C1_INSERTAR = {
     ("sem1/clase1.tex", 6): widget("confusores"),
     ("sem1/clase1.tex", 7): widget("casos-reales"),
     ("sem1/clase1.tex", 13): widget("sopa"),
-    ("sem1/clase1.tex", 19): widget("digest"),
+    ("sem1/clase1.tex", 17): widget("muestreo-casos"),
+    ("sem1/clase1.tex", 19): widget("no-prob") + "\n\n" + widget("digest"),
     ("sem1/repaso_ayudantia.tex", 4): widget("bar-gates"),
     ("sem1/repaso_estadistica.tex", 2): widget("aro"),
     ("sem1/repaso_estadistica.tex", 3): widget("galton"),
@@ -390,32 +397,82 @@ def norm(t):
     return re.sub(r"[^a-z0-9]", "", t.lower())
 
 
+def toc_plano(t):
+    """Etiqueta del índice lateral sin LaTeX: "Bondad de Ajuste: $R^2$" -> "Bondad de Ajuste: R²"."""
+    griegas = {"alpha": "α", "beta": "β", "sigma": "σ", "mu": "μ", "delta": "δ", "epsilon": "ε"}
+    t = re.sub(r"\\(alpha|beta|sigma|mu|delta|epsilon)", lambda m: griegas[m.group(1)], t)
+    t = t.replace("^2", "²").replace("$", "")
+    return re.sub(r"[\\{}_]", "", t).strip()
+
+
+def atributos(**kw):
+    """Atributos para attr_list: { .clase clave="valor" }."""
+    partes = []
+    for k, v in kw.items():
+        if k == "cls":
+            partes.extend("." + c for c in v.split())
+        elif v:
+            partes.append(f'{k.replace("_", "-")}="{v}"')
+    return "{ " + " ".join(partes) + " }"
+
+
+def rango(a, b):
+    return f"Lámina {a}" if a == b else f"Láminas {a}–{b}"
+
+
 def generar(n):
     cfg = CLASES[n]
     partes = [cfg["cabecera"].strip()]
     for tex, titulo, *extra in cfg["fuentes"]:
         fr = convert(SLIDES / tex, REPO, SLIDES)
-        partes.append(f"---\n\n## {titulo}\n\n"
-                      f'<p class="econ-source">📄 Diapositivas: <code>{tex}</code> · {len(fr)} láminas</p>')
+        ayud = "Ayudantía" in titulo
+        tipo = "Ayudantía" if ayud else "Cátedra"
+        segs = [x.strip() for x in titulo.split("·")]
+        nombre = segs[-1]
+        parte = next((x for x in segs if x.startswith("Parte")), "")
+        eyebrow = f"{parte} · {tipo}" if parte else tipo
+        partes.append(f"## {nombre} " + atributos(cls="econ-parte" + (" is-ayudantia" if ayud else ""),
+                                                  data_eyebrow=eyebrow, data_toc_label=titulo))
+        partes.append(f'<p class="econ-source">📄 Diapositivas: <code>{tex}</code> · {len(fr)} láminas</p>')
         if extra:
             partes.append(extra[0])
-        previo = None
+
+        # Agrupa láminas consecutivas del mismo tema (mismo título o sin título)
+        grupos = []
         for i, (t, cuerpo) in enumerate(fr, 1):
-            for (src, k), html in TIKZ.items():
-                if src == tex:
-                    cuerpo = re.sub(rf"(?m)^(\s*(?:\d+\.\s+)?)TIKZFIGURA{k}\s*$", lambda m: m.group(1) + html, cuerpo)
-            if "TIKZFIGURA" in cuerpo:
-                raise SystemExit(f"{tex}, lámina {i}: falta la figura TikZ en TIKZ")
-            bloque = cuerpo
-            if (tex, i) in cfg["plegar"]:
-                bloque = plegar(cfg["plegar"][(tex, i)], cuerpo)
-            if t and norm(t) != norm(previo or ""):
-                partes.append(f"### {t}")
-            if t:
-                previo = t
-            partes.append(f"<!-- {tex} · lámina {i} -->\n\n{bloque}")
-            if (tex, i) in cfg["insertar"]:
-                partes.append(cfg["insertar"][(tex, i)])
+            t = t or TITULOS.get((tex, i), "")
+            if grupos and (not t or norm(t) == norm(grupos[-1]["t"])):
+                grupos[-1]["laminas"].append((i, cuerpo))
+            else:
+                grupos.append({"t": t or "(continuación)", "laminas": [(i, cuerpo)]})
+
+        clase_card = "econ-lamina" + (" is-ayudantia" if ayud else "")
+        for g in grupos:
+            primera, ultima = g["laminas"][0][0], g["laminas"][-1][0]
+            attrs = atributos(data_lamina=rango(primera, ultima),
+                              data_toc_label=toc_plano(g["t"]) if "$" in g["t"] else "")
+            bloques = [f'<div class="{clase_card}" markdown>', f"### {g['t']} {attrs}"]
+            for i, cuerpo in g["laminas"]:
+                for (src, k), html in TIKZ.items():
+                    if src == tex:
+                        cuerpo = re.sub(rf"(?m)^(\s*(?:\d+\.\s+)?)TIKZFIGURA{k}\s*$", lambda m: m.group(1) + html, cuerpo)
+                if "TIKZFIGURA" in cuerpo:
+                    raise SystemExit(f"{tex}, lámina {i}: falta la figura TikZ en TIKZ")
+                if (tex, i) in cfg["plegar"]:
+                    cuerpo = plegar(cfg["plegar"][(tex, i)], cuerpo)
+                bloques.append(f"<!-- {tex} · lámina {i} -->\n\n{cuerpo}")
+                if (tex, i) in cfg["insertar"]:
+                    # El material interactivo va fuera de la tarjeta de la lámina
+                    bloques.append("</div>")
+                    partes.append("\n\n".join(bloques))
+                    partes.append(cfg["insertar"][(tex, i)])
+                    bloques = []
+                    if i != ultima:
+                        bloques = [f'<div class="{clase_card}" markdown>',
+                                   f'<p class="econ-lamina-cont">continúa · {g["t"]}</p>']
+            if bloques:
+                bloques.append("</div>")
+                partes.append("\n\n".join(bloques))
     partes.append("---\n\n" + cfg["cierre"].strip())
     aviso = ("<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. "
              "No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->\n\n")
