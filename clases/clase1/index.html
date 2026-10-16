@@ -1,0 +1,1423 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase1/">
+      
+      
+        <link rel="prev" href="../clases/">
+      
+      
+        <link rel="next" href="../clase2/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Clase 1 · Introducción y repaso de estadística - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-1-introduccion-y-repaso-de-estadistica" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 1 · Introducción y repaso de estadística
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-que-es-la-econometria" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. ¿Qué es la econometría?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. ¿Qué es la econometría?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-metodo-econometrico" class="md-nav__link">
+    <span class="md-ellipsis">
+      El método econométrico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlacion-no-es-causalidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Correlación no es causalidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-econometria-como-herramienta-aplicada" class="md-nav__link">
+    <span class="md-ellipsis">
+      La econometría como herramienta aplicada
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-tipos-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Tipos de datos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-muestreo" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Muestreo
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Muestreo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metodos-de-muestreo-aleatorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Métodos de muestreo aleatorio
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-repaso-de-inferencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Repaso de inferencia
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Repaso de inferencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-teorema-central-del-limite-tcl" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Teorema Central del Límite (TCL)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-intervalo-de-confianza-para-la-media-sigma-conocida" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 Intervalo de confianza para la media (\(\sigma\) conocida)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-intervalo-de-confianza-para-una-proporcion" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 Intervalo de confianza para una proporción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-intervalo-de-confianza-para-una-diferencia-de-medias" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.4 Intervalo de confianza para una diferencia de medias
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-que-es-la-econometria" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. ¿Qué es la econometría?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. ¿Qué es la econometría?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-metodo-econometrico" class="md-nav__link">
+    <span class="md-ellipsis">
+      El método econométrico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlacion-no-es-causalidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Correlación no es causalidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-econometria-como-herramienta-aplicada" class="md-nav__link">
+    <span class="md-ellipsis">
+      La econometría como herramienta aplicada
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-tipos-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Tipos de datos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-muestreo" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Muestreo
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Muestreo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metodos-de-muestreo-aleatorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Métodos de muestreo aleatorio
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-repaso-de-inferencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Repaso de inferencia
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Repaso de inferencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-teorema-central-del-limite-tcl" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Teorema Central del Límite (TCL)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-intervalo-de-confianza-para-la-media-sigma-conocida" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 Intervalo de confianza para la media (\(\sigma\) conocida)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-intervalo-de-confianza-para-una-proporcion" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 Intervalo de confianza para una proporción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-intervalo-de-confianza-para-una-diferencia-de-medias" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.4 Intervalo de confianza para una diferencia de medias
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="clase-1-introduccion-y-repaso-de-estadistica">Clase 1 · Introducción y repaso de estadística</h1>
+<div class="usm-session-meta">
+<span>📅 Viernes 16 de octubre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Contenidos 1, 2 y 3 del programa</span>
+</div>
+
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<ul>
+<li>Entender qué es la econometría y qué tipo de preguntas permite responder.</li>
+<li>Distinguir <strong>correlación</strong> de <strong>causalidad</strong> y el rol del supuesto <em>ceteris paribus</em>.</li>
+<li>Reconocer los tipos de datos (experimentales vs. observacionales; corte transversal, series de
+  tiempo y panel).</li>
+<li>Repasar muestreo, el <strong>Teorema Central del Límite</strong> e <strong>intervalos de confianza</strong> para medias,
+  proporciones y diferencias de medias.</li>
+</ul>
+<hr />
+<h2 id="agenda">🗓️ Agenda</h2>
+<table>
+<thead>
+<tr>
+<th>Hora</th>
+<th>Bloque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>18:40 – 19:00</td>
+<td>Presentación del curso: programa, evaluaciones, cátedra + taller, trabajo práctico</td>
+</tr>
+<tr>
+<td>19:00 – 19:30</td>
+<td>¿Qué es la econometría? Método econométrico, correlación vs. causalidad</td>
+</tr>
+<tr>
+<td>19:30 – 19:55</td>
+<td>Tipos de datos</td>
+</tr>
+<tr>
+<td>19:55 – 20:05</td>
+<td><em>Receso</em></td>
+</tr>
+<tr>
+<td>20:05 – 20:30</td>
+<td>Muestreo: población, parámetro, estadístico y métodos de muestreo</td>
+</tr>
+<tr>
+<td>20:30 – 21:10</td>
+<td>Repaso de inferencia: TCL e intervalos de confianza</td>
+</tr>
+<tr>
+<td>21:10 – 21:25</td>
+<td>Ejercicios rápidos y cierre</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-que-es-la-econometria">1. ¿Qué es la econometría?</h2>
+<p>La econometría es una disciplina que emplea la <strong>teoría económica</strong> y <strong>métodos estadísticos</strong> para
+contrastar teorías, pronosticar variables y evaluar políticas públicas utilizando bases de datos.
+Es una aplicación del método científico en economía: nos permite <strong>refutar hipótesis económicas</strong>.</p>
+<p>Nos permite contestar preguntas como:</p>
+<ol>
+<li>¿Cuál es la brecha salarial por género?</li>
+<li>¿Cuál es el efecto de haber completado la universidad en el salario?</li>
+</ol>
+<p>La econometría moderna se enfoca en tres tipos de preguntas:</p>
+<ul>
+<li><strong>Describir:</strong> estimar cómo la esperanza condicional de una variable depende de otra.</li>
+<li><strong>Identificar causas:</strong> estimar el impacto causal de una variable sobre otra.</li>
+<li><strong>Predecir:</strong> pronosticar el comportamiento de una variable hacia el futuro.</li>
+</ul>
+<h3 id="el-metodo-econometrico">El método econométrico</h3>
+<ol>
+<li><strong>Definir el objetivo:</strong> ¿qué quiero estudiar?</li>
+<li><strong>Modelo económico:</strong> explica el comportamiento de una variable en función de otras,
+   <span class="arithmatex">\(Y = f(x_1, x_2, \dots, x_k)\)</span>.<ul>
+<li><em>Ejemplo 1 — función de producción:</em> <span class="arithmatex">\(Y = A K^{\alpha} L^{\beta}\)</span></li>
+<li><em>Ejemplo 2 — retornos a la educación:</em> <span class="arithmatex">\(\text{salario} = f(\text{educ}, \text{experiencia}, \text{ingfamiliar}, \text{habilidad})\)</span></li>
+</ul>
+</li>
+<li><strong>Modelo econométrico:</strong> permite cuantificar, contrastar y evaluar el modelo económico.<ul>
+<li>Especificar la forma de <span class="arithmatex">\(f(\cdot)\)</span>.</li>
+<li>Las variables económicas son aleatorias, así que incorporamos un <strong>término de error</strong>:
+  <span class="arithmatex">\(y = f(x_1, x_2, \dots, x_k) + u\)</span></li>
+<li>Conseguir los <strong>datos</strong>.</li>
+</ul>
+</li>
+</ol>
+<h3 id="correlacion-no-es-causalidad">Correlación no es causalidad</h3>
+<p>Muchas veces nos interesa el <strong>efecto causal</strong> de una variable sobre otra. El concepto clave es
+<strong><em>ceteris paribus</em></strong>: el efecto de <span class="arithmatex">\(X\)</span> sobre <span class="arithmatex">\(Y\)</span> <strong>manteniendo todos los demás factores relevantes
+constantes</strong>. En ciencias sociales esto es muy difícil en la práctica; durante el curso veremos los
+supuestos y técnicas necesarios para lograrlo.</p>
+<p>Una <strong>correlación espuria</strong> es una relación matemática entre variables que no tienen una relación
+lógica entre sí.</p>
+<div class="admonition question">
+<p class="admonition-title">Para discutir</p>
+<p>En una base de personas de 35 años en Chile, quienes terminaron la universidad ganan <strong>30% más</strong>
+que quienes no la terminaron. ¿Podemos concluir que ir a la universidad <strong>causa</strong> un aumento del
+ingreso?</p>
+</div>
+<details class="success">
+<summary>Respuesta</summary>
+<p><strong>No.</strong> Ir a la universidad está asociado con muchas otras características que también afectan
+el ingreso: la habilidad, el ingreso de los padres, las redes, etc. El 30% mezcla el efecto de
+la universidad con el de todas esas diferencias. En la <a href="../clase3/">Clase 3</a> le pondremos nombre
+a ese problema: <strong>sesgo de selección</strong>.</p>
+</details>
+<h3 id="la-econometria-como-herramienta-aplicada">La econometría como herramienta aplicada</h3>
+<ul>
+<li><strong>¿Cómo solucionamos los parásitos intestinales en África?</strong> Miguel y Kremer (2004), <em>Worms</em>:
+  repartir píldoras antiparasitarias en colegios mejora la salud y reduce el ausentismo escolar, no
+  solo de los tratados sino también de sus vecinos. Gracias a estos estudios, la iniciativa
+  <em>Deworm the World</em> ha movilizado enormes recursos para esta política. 📖 <strong>Es la lectura del
+  Certamen 1.</strong></li>
+<li><strong>¿Pueden las consultoras de gestión mejorar la productividad de las firmas?</strong> Bloom et al.
+  (2013), <em>Does Management Matter? Evidence from India</em>: muestra que sí, y lo cuantifica
+  (<a href="https://www.povertyactionlab.org/evaluation/increasing-firm-productivity-through-management-consulting-services-india">J-PAL</a>).</li>
+</ul>
+<hr />
+<h2 id="2-tipos-de-datos">2. Tipos de datos</h2>
+<p><strong>Según cómo se asigna la "exposición" (el tratamiento):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>¿Quién decide la exposición?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Experimental</strong></td>
+<td>El investigador asigna la exposición <strong>en forma aleatoria</strong>.</td>
+</tr>
+<tr>
+<td><strong>Pseudo-experimental</strong></td>
+<td>El investigador controla la exposición, pero <strong>no</strong> la asigna aleatoriamente.</td>
+</tr>
+<tr>
+<td><strong>Observacional</strong> (no experimental)</td>
+<td>El investigador <strong>no controla</strong> la exposición: depende de variables que no maneja.</td>
+</tr>
+</tbody>
+</table>
+<p>En economía rara vez se usan datos experimentales: son caros y pueden presentar problemas éticos.</p>
+<p><strong>Según su estructura:</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Corte transversal</label><label for="__tabbed_1_2">Series de tiempo</label><label for="__tabbed_1_3">Panel (longitudinales)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Muestra de individuos, hogares, empresas, regiones o países <strong>en un momento dado</strong>. Se asume
+que los datos se obtuvieron por <strong>muestreo aleatorio</strong> desde la población. Diferencias
+temporales menores en la recolección se ignoran.</p>
+<p><em>Ej.: encuesta CASEN 2022 — ingreso, educación y edad de cada persona encuestada.</em></p>
+</div>
+<div class="tabbed-block">
+<p>Observaciones de una o más variables <strong>a lo largo del tiempo</strong> (diaria, mensual, trimestral,
+anual…). Los eventos pasados influyen en los futuros y los rezagos son frecuentes: a diferencia
+del corte transversal, <strong>las observaciones no pueden asumirse independientes</strong>.</p>
+<p><em>Ej.: IPC mensual, precio del dólar, ventas de automóviles.</em></p>
+</div>
+<div class="tabbed-block">
+<p>Una serie de tiempo <strong>para cada miembro</strong> del conjunto de datos: los <strong>mismos</strong> individuos,
+firmas o países se siguen por varios períodos.</p>
+<p><em>Ej.: 10 años de salario, educación y empleo de un grupo de personas.</em></p>
+<p><strong>Ventajas:</strong> permite controlar características no observadas que no cambian en el tiempo,
+facilita la inferencia causal y permite estudiar efectos rezagados.</p>
+</div>
+</div>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Tienes el PIB trimestral de Chile, Perú y Colombia entre 2000 y 2024. ¿Qué tipo de datos son?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">Corte transversal</button>
+<button class="econ-quiz-opt">Serie de tiempo</button>
+<button class="econ-quiz-opt" data-correct>Panel</button>
+</div>
+<p class="econ-quiz-fb">✅ Es un <strong>panel</strong>: las mismas unidades (3 países) observadas en muchos períodos. Si tuvieras solo Chile, sería una serie de tiempo; si fuera solo el año 2024 para muchos países, un corte transversal.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Una empresa sortea qué sucursales reciben un nuevo sistema de incentivos y compara las ventas. ¿Qué tipo de datos genera?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Experimentales</button>
+<button class="econ-quiz-opt">Pseudo-experimentales</button>
+<button class="econ-quiz-opt">Observacionales</button>
+</div>
+<p class="econ-quiz-fb">✅ La exposición la decide quien investiga <strong>y al azar</strong>: es un experimento. Si el gerente eligiera las sucursales "más motivadas", sería pseudo-experimental; si cada sucursal decidiera adoptarlo, observacional.</p>
+</div>
+
+<hr />
+<h2 id="3-muestreo">3. Muestreo</h2>
+<p>Los datos se obtienen sobre conjuntos de individuos u objetos de los que queremos conocer alguna
+característica. Cada individuo es una <strong>unidad de observación</strong> y la totalidad de ellas es la
+<strong>población</strong>. El <strong>muestreo</strong> es el conjunto de métodos para obtener una <strong>muestra</strong> de la
+población con el fin de hacer inferencias sobre ella.</p>
+<p>Una muestra es <strong>representativa</strong> si toda unidad de la población puede aparecer en ella con una
+probabilidad conocida.</p>
+<p><strong>¿Por qué muestrear?</strong> Porque es físicamente imposible revisar todos los elementos, porque
+estudiar a toda la población es muy costoso, y porque los resultados del muestreo suelen ser
+adecuados.</p>
+<p><strong>Objetivo del muestreo: estimar los parámetros de la población.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Definición</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Variable</strong></td>
+<td>Lo que se mide en cada unidad</td>
+<td>Ingreso, años de educación</td>
+</tr>
+<tr>
+<td><strong>Parámetro</strong></td>
+<td>Valor numérico que describe a <strong>toda la población</strong> (normalmente desconocido)</td>
+<td><span class="arithmatex">\(\mu\)</span>, <span class="arithmatex">\(\sigma\)</span>, <span class="arithmatex">\(\beta\)</span></td>
+</tr>
+<tr>
+<td><strong>Estadístico</strong></td>
+<td>Valor calculado <strong>con la muestra</strong>, que usamos para estimar el parámetro</td>
+<td><span class="arithmatex">\(\bar{x}\)</span>, <span class="arithmatex">\(s\)</span>, <span class="arithmatex">\(\hat{\beta}\)</span></td>
+</tr>
+</tbody>
+</table>
+<h3 id="metodos-de-muestreo-aleatorio">Métodos de muestreo aleatorio</h3>
+<ul>
+<li><strong>Aleatorio simple:</strong> cada elemento tiene la misma probabilidad de ser incluido.</li>
+<li><strong>Sistemático:</strong> se ordena la población, se elige un inicio al azar y luego cada <span class="arithmatex">\(k\)</span>-ésimo
+  elemento. Técnicamente no es del todo aleatorio: solo la selección del primero lo es.</li>
+<li><strong>Estratificado:</strong> se divide la población en <strong>estratos</strong> (internamente <strong>homogéneos</strong>) y se
+  sortea una muestra <strong>dentro de cada uno</strong>.</li>
+<li><strong>Por conglomerados:</strong> se divide la población en grupos (p. ej., geográficos) internamente
+  <strong>heterogéneos</strong>, se sortean <strong>grupos</strong> y se muestrea dentro de los grupos elegidos.</li>
+</ul>
+<p>En el <strong>muestreo no probabilístico</strong>, la inclusión depende del juicio de quien selecciona (p. ej.,
+encuestar a quienes pasan por un mall): no permite conocer la probabilidad de selección.</p>
+<div class="econ-widget" data-widget="muestreo"></div>
+
+<div class="admonition note">
+<p class="admonition-title">Estadística descriptiva vs. inferencial</p>
+<ul>
+<li><strong>Descriptiva:</strong> resume la muestra con tablas, gráficos y estadísticos; sus conclusiones valen
+  solo para la muestra.</li>
+<li><strong>Inferencial:</strong> a partir de la muestra obtiene conclusiones <strong>estadísticamente válidas para
+  toda la población</strong>. Requiere supuestos sobre la población y usa la teoría de probabilidades.</li>
+</ul>
+</div>
+<hr />
+<h2 id="4-repaso-de-inferencia">4. Repaso de inferencia</h2>
+<h3 id="41-teorema-central-del-limite-tcl">4.1 Teorema Central del Límite (TCL)</h3>
+<p>La <strong>distribución muestral del promedio</strong> es la distribución de todos los posibles promedios de
+muestras de tamaño <span class="arithmatex">\(n\)</span> extraídas de una población. Si la población tiene media <span class="arithmatex">\(\mu\)</span> y varianza
+<span class="arithmatex">\(\sigma^2\)</span>, entonces, para <span class="arithmatex">\(n\)</span> suficientemente grande:</p>
+<div class="arithmatex">\[
+\bar{X} \overset{\text{aprox.}}{\sim} N\!\left(\mu, \frac{\sigma^2}{n}\right)
+\qquad\Longleftrightarrow\qquad
+\frac{\bar{X}-\mu}{\sigma/\sqrt{n}} \overset{\text{aprox.}}{\sim} N(0,1)
+\]</div>
+<p><strong>Supuestos:</strong> observaciones i.i.d. (muestreo aleatorio), media y varianza finitas, y un tamaño
+muestral adecuado (regla de dedo): <span class="arithmatex">\(n \geq 30\)</span> si la población es simétrica, <span class="arithmatex">\(n \geq 50\)</span> si es
+asimétrica y <span class="arithmatex">\(n \geq 100\)</span> si es muy asimétrica.</p>
+<div class="econ-widget" data-widget="tcl"></div>
+
+<h3 id="42-intervalo-de-confianza-para-la-media-sigma-conocida">4.2 Intervalo de confianza para la media (<span class="arithmatex">\(\sigma\)</span> conocida)</h3>
+<p>En lugar de un único valor, entregamos un <strong>rango</strong> donde es plausible que se encuentre el
+parámetro. Su ventaja: comunica la <strong>precisión</strong> de la estimación. El nivel de confianza
+<span class="arithmatex">\((1-\alpha)\)</span> se decide antes de construirlo.</p>
+<div class="arithmatex">\[
+IC_{(1-\alpha)100\%}(\mu) = \bar{x} \pm z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}
+\]</div>
+<p>Válido si <span class="arithmatex">\(n \geq 30\)</span>, o si <span class="arithmatex">\(n &lt; 30\)</span> pero la población es normal. Valores usuales:
+<span class="arithmatex">\(z_{0.05}=1.645\)</span> (90%), <span class="arithmatex">\(z_{0.025}=1.96\)</span> (95%) y <span class="arithmatex">\(z_{0.005}=2.576\)</span> (99%).</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 1 — Ventas mensuales</p>
+<p>Una tienda quiere estimar las ventas mensuales promedio de un producto (ventas estables durante
+el año). Con una muestra de <span class="arithmatex">\(n = 36\)</span> meses se obtuvo <span class="arithmatex">\(\bar{x} = 200\)</span>. Suponga <span class="arithmatex">\(\sigma = 60\)</span>
+conocida. Construya un IC de 95% para <span class="arithmatex">\(\mu\)</span>.</p>
+</div>
+<details class="success">
+<summary>Solución</summary>
+<p>Como <span class="arithmatex">\(n = 36 &gt; 30\)</span> aplica el TCL: <span class="arithmatex">\(\dfrac{\sigma}{\sqrt{n}} = \dfrac{60}{6} = 10\)</span>.</p>
+<div class="arithmatex">\[IC_{95\%} = 200 \pm 1.96 \cdot 10 = (180.4\,;\,219.6)\]</div>
+<p>Con 99%: <span class="arithmatex">\(200 \pm 2.576 \cdot 10 = (174.3\,;\,225.7)\)</span>. <strong>Más confianza ⇒ intervalo más ancho.</strong></p>
+</details>
+<div class="econ-widget" data-widget="ic-cobertura"></div>
+
+<p><strong>Confianza vs. precisión.</strong> El <strong>error absoluto</strong> <span class="arithmatex">\(E = z_{\alpha/2}\,\sigma/\sqrt{n}\)</span> es la máxima
+distancia (con la confianza elegida) entre <span class="arithmatex">\(\bar{x}\)</span> y <span class="arithmatex">\(\mu\)</span>. Para una misma muestra, si aumenta la
+confiabilidad <span class="arithmatex">\((1-\alpha)\)</span>, disminuye la precisión (aumenta <span class="arithmatex">\(E\)</span>).</p>
+<p><strong>Tamaño muestral.</strong> Fijando <span class="arithmatex">\(E\)</span> y <span class="arithmatex">\(\alpha\)</span> antes de muestrear:</p>
+<div class="arithmatex">\[
+n = \left(\frac{z_{\alpha/2}\,\sigma}{E}\right)^2 \quad \text{(redondeando hacia arriba)}
+\]</div>
+<h3 id="43-intervalo-de-confianza-para-una-proporcion">4.3 Intervalo de confianza para una proporción</h3>
+<p>Sea <span class="arithmatex">\(p\)</span> la proporción de "éxitos" en la población (fallas, enfermos, aprobados…). El estimador
+<span class="arithmatex">\(\hat{p} = X/n\)</span> cumple, si <span class="arithmatex">\(n \geq 30\)</span>, <span class="arithmatex">\(np &gt; 5\)</span> y <span class="arithmatex">\(n(1-p) &gt; 5\)</span>:</p>
+<div class="arithmatex">\[
+\hat{p} \overset{\text{aprox.}}{\sim} N\!\left(p, \frac{p(1-p)}{n}\right)
+\qquad\Rightarrow\qquad
+IC_{(1-\alpha)100\%}(p) = \hat{p} \pm z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+\]</div>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 2 — Productos defectuosos</p>
+<p>Un proveedor asegura que el 5% de sus productos son defectuosos. La empresa compradora revisa
+200 unidades y encuentra 19 defectuosas. ¿Es coherente con lo que afirma el proveedor? (95%)</p>
+</div>
+<details class="success">
+<summary>Solución</summary>
+<p><span class="arithmatex">\(\hat{p} = 19/200 = 0.095\)</span></p>
+<div class="arithmatex">\[IC_{95\%} = 0.095 \pm 1.96\sqrt{\frac{0.095 \cdot 0.905}{200}} = (0.0543\,;\,0.1356)\]</div>
+<p>El 5% que afirma el proveedor <strong>no está</strong> dentro del intervalo: la evidencia no es coherente con
+su afirmación.</p>
+</details>
+<p><strong>Tamaño muestral para proporciones</strong>, con una estimación previa <span class="arithmatex">\(p^*\)</span> (de una muestra piloto, o
+<span class="arithmatex">\(p^* = 0.5\)</span> en el peor escenario):</p>
+<div class="arithmatex">\[
+n = \frac{z_{\alpha/2}^2\, p^*(1-p^*)}{E^2}
+\]</div>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 3 — Chips</p>
+<p>Se quiere un IC de 95% para la proporción de chips aceptables cuya <strong>longitud</strong> no exceda 0.05
+(es decir, <span class="arithmatex">\(E = 0.025\)</span>). En una muestra piloto, 26 de 30 chips fueron aceptables. ¿Qué tamaño
+muestral se necesita?</p>
+</div>
+<details class="success">
+<summary>Solución</summary>
+<p><span class="arithmatex">\(p^* = 26/30 = 0.8667\)</span></p>
+<div class="arithmatex">\[n = \frac{1.96^2 \cdot 0.8667 \cdot 0.1333}{0.025^2} = 710.12 \;\Rightarrow\; n = 711 \text{ chips}\]</div>
+</details>
+<h3 id="44-intervalo-de-confianza-para-una-diferencia-de-medias">4.4 Intervalo de confianza para una diferencia de medias</h3>
+<p>Con dos muestras <strong>independientes</strong> y varianzas conocidas (o muestras grandes):</p>
+<div class="arithmatex">\[
+IC_{(1-\alpha)100\%}(\mu_x - \mu_y) = (\bar{x} - \bar{y}) \pm z_{\alpha/2}\sqrt{\frac{\sigma_x^2}{n_x} + \frac{\sigma_y^2}{n_y}}
+\]</div>
+<p>Si el <strong>cero cae fuera</strong> del intervalo, los datos dan evidencia de que las medias son distintas.</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 4 — Salarios de egresados</p>
+<p>Ingeniería industrial: <span class="arithmatex">\(\bar{x} = 800\,000\)</span>, <span class="arithmatex">\(\sigma_x = 60\,000\)</span>, <span class="arithmatex">\(n_x = 144\)</span>.
+Arquitectura: <span class="arithmatex">\(\bar{y} = 680\,000\)</span>, <span class="arithmatex">\(\sigma_y = 50\,000\)</span>, <span class="arithmatex">\(n_y = 121\)</span>. IC de 95% para
+<span class="arithmatex">\(\mu_x - \mu_y\)</span>.</p>
+</div>
+<details class="success">
+<summary>Solución</summary>
+<div class="arithmatex">\[IC_{95\%} = 120\,000 \pm 1.96\sqrt{\frac{60\,000^2}{144} + \frac{50\,000^2}{121}} = (106\,756\,;\,133\,244)\]</div>
+<p>El intervalo <strong>no contiene al cero</strong>: hay evidencia de que el salario promedio de los egresados
+de ingeniería industrial es mayor que el de arquitectura.</p>
+</details>
+<div class="econ-widget" data-widget="ic-calc"></div>
+
+<hr />
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Construiste un IC de 95% para μ y obtuviste (180.4 ; 219.6). ¿Cuál interpretación es correcta?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">Hay 95% de probabilidad de que μ esté entre 180.4 y 219.6.</button>
+<button class="econ-quiz-opt" data-correct>Si repitiéramos el muestreo muchas veces, el 95% de los intervalos construidos así contendría a μ.</button>
+<button class="econ-quiz-opt">El 95% de los meses tiene ventas entre 180.4 y 219.6.</button>
+</div>
+<p class="econ-quiz-fb">✅ μ es fijo: un intervalo ya calculado lo contiene o no. El 95% es una propiedad del <strong>procedimiento</strong> (revisa el simulador de cobertura). La tercera opción confunde la distribución de x̄ con la de las ventas individuales.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si cuadruplicas el tamaño muestral n (manteniendo σ y la confianza), el margen de error E…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">…se reduce a la cuarta parte.</button>
+<button class="econ-quiz-opt" data-correct>…se reduce a la mitad.</button>
+<button class="econ-quiz-opt">…no cambia.</button>
+</div>
+<p class="econ-quiz-fb">✅ E = z·σ/√n, y √(4n) = 2√n. Para reducir el error a la mitad necesitas cuatro veces más datos.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Quieres estimar el ingreso promedio en Santiago y la población se divide en comunas muy distintas entre sí, pero cada una bastante homogénea por dentro. ¿Qué método da estimaciones más precisas para un mismo n?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Estratificado por comuna</button>
+<button class="econ-quiz-opt">Por conglomerados (sortear algunas comunas completas)</button>
+<button class="econ-quiz-opt">No probabilístico, en lugares concurridos</button>
+</div>
+<p class="econ-quiz-fb">✅ Si los grupos son homogéneos por dentro y distintos entre sí, actúan como <strong>estratos</strong>: muestrear en todos reduce la varianza del estimador. Sortear solo algunas comunas (conglomerados) aumentaría la varianza.</p>
+</div>
+
+<hr />
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulo 1 (<em>La naturaleza de la econometría y los datos económicos</em>) y apéndice C
+  (repaso de estadística).</li>
+<li>Próxima clase: <strong>Regresión lineal simple</strong> — ¿cómo estimamos la relación entre educación y
+  salario con una recta?</li>
+</ul>
+<details class="info">
+<summary>Material complementario</summary>
+<ul>
+<li><a href="https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing">Notebook en Colab con los ejemplos de intervalos de confianza</a></li>
+<li><a href="https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing">Planilla Excel con los cálculos</a></li>
+</ul>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1357 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase3/">
+      
+      
+        <link rel="prev" href="../clase2/">
+      
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Clase 3 · Causalidad y variable omitida - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-3-causalidad-y-variable-omitida" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 3 · Causalidad y variable omitida
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-esperanza-condicional-vs-causalidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Esperanza condicional vs. causalidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Esperanza condicional vs. causalidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-contrafactual" class="md-nav__link">
+    <span class="md-ellipsis">
+      El contrafactual
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-el-modelo-de-outcomes-potenciales-rubin" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. El modelo de outcomes potenciales (Rubin)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-sesgo-de-seleccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Sesgo de selección
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-aleatorizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Aleatorización
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-sesgo-por-variable-omitida" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Sesgo por variable omitida
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Sesgo por variable omitida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#derivacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Derivación
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direccion-del-sesgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dirección del sesgo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-solucion-controlar-por-la-variable-omitida" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Solución: controlar por la variable omitida
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Solución: controlar por la variable omitida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-fumar-y-mortalidad-appleton-french-y-vanderpump-1996" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: fumar y mortalidad (Appleton, French y Vanderpump, 1996)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mas-variables-siempre-es-mejor" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Más variables siempre es mejor?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#y-si-hay-aleatorizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Y si hay aleatorización?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusiones" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧠 Conclusiones
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-esperanza-condicional-vs-causalidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Esperanza condicional vs. causalidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Esperanza condicional vs. causalidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-contrafactual" class="md-nav__link">
+    <span class="md-ellipsis">
+      El contrafactual
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-el-modelo-de-outcomes-potenciales-rubin" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. El modelo de outcomes potenciales (Rubin)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-sesgo-de-seleccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Sesgo de selección
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-aleatorizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Aleatorización
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-sesgo-por-variable-omitida" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Sesgo por variable omitida
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Sesgo por variable omitida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#derivacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Derivación
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direccion-del-sesgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dirección del sesgo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-solucion-controlar-por-la-variable-omitida" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Solución: controlar por la variable omitida
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Solución: controlar por la variable omitida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-fumar-y-mortalidad-appleton-french-y-vanderpump-1996" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: fumar y mortalidad (Appleton, French y Vanderpump, 1996)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mas-variables-siempre-es-mejor" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Más variables siempre es mejor?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#y-si-hay-aleatorizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Y si hay aleatorización?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusiones" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧠 Conclusiones
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="clase-3-causalidad-y-variable-omitida">Clase 3 · Causalidad y variable omitida</h1>
+<div class="usm-session-meta">
+<span>📅 Viernes 30 de octubre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Contenidos 4 y 5 · De la correlación a la causalidad</span>
+</div>
+
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<ul>
+<li>Distinguir entre <strong>esperanza condicional</strong> (lo que describe una regresión) y <strong>efecto causal</strong>.</li>
+<li>Usar el modelo de <strong>outcomes potenciales</strong> de Rubin para definir el ATE y el ATT.</li>
+<li>Descomponer una diferencia de promedios en <strong>efecto causal + sesgo de selección</strong>.</li>
+<li>Entender por qué la <strong>aleatorización</strong> elimina el sesgo de selección.</li>
+<li>Derivar el <strong>sesgo por variable omitida</strong> y predecir su signo.</li>
+</ul>
+<hr />
+<h2 id="agenda">🗓️ Agenda</h2>
+<table>
+<thead>
+<tr>
+<th>Hora</th>
+<th>Bloque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>18:40 – 19:00</td>
+<td>Esperanza condicional vs. causalidad: el contrafactual</td>
+</tr>
+<tr>
+<td>19:00 – 19:35</td>
+<td>Modelo de outcomes potenciales: ATE y ATT — <em>simulador</em></td>
+</tr>
+<tr>
+<td>19:35 – 19:55</td>
+<td>Sesgo de selección</td>
+</tr>
+<tr>
+<td>19:55 – 20:05</td>
+<td><em>Receso</em></td>
+</tr>
+<tr>
+<td>20:05 – 20:25</td>
+<td>Aleatorización — <em>simulador</em></td>
+</tr>
+<tr>
+<td>20:25 – 21:00</td>
+<td>Sesgo por variable omitida: derivación y signo — <em>simulador</em></td>
+</tr>
+<tr>
+<td>21:00 – 21:15</td>
+<td>Ejemplo: fumar, edad y la paradoja de los controles</td>
+</tr>
+<tr>
+<td>21:15 – 21:25</td>
+<td>Conclusiones y lectura del Certamen 1</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-esperanza-condicional-vs-causalidad">1. Esperanza condicional vs. causalidad</h2>
+<p>Hasta ahora, la regresión nos entrega la <strong>esperanza condicional</strong> de una variable dada otra. Eso
+permite describir muchas realidades: ¿las personas con más educación ganan más? ¿Estudiar economía
+está asociado a un mayor sueldo?</p>
+<p>Pero, <strong>¿son causales esas relaciones?</strong> ¿Es la educación lo que aumenta el salario, o quienes se
+educan más ganan más por otros motivos?</p>
+<h3 id="el-contrafactual">El contrafactual</h3>
+<p>Para pensar en causalidad hay que imaginar un <strong>mundo contrafactual</strong>: ¿qué habría pasado con las
+personas que fueron a la universidad si <strong>no</strong> hubieran ido?</p>
+<div class="admonition abstract">
+<p class="admonition-title">Problema fundamental de la inferencia causal</p>
+<p>No podemos calcular directamente el impacto causal de un tratamiento sobre un individuo <span class="arithmatex">\(i\)</span>,
+porque <strong>nunca lo observamos en los dos estados</strong> (con y sin tratamiento) a la vez.</p>
+<p><strong>Contrafactual:</strong> el resultado que los mismos participantes de un programa habrían obtenido en
+el caso hipotético de no haber participado.</p>
+</div>
+<hr />
+<h2 id="2-el-modelo-de-outcomes-potenciales-rubin">2. El modelo de outcomes potenciales (Rubin)</h2>
+<p>Queremos medir el impacto de un <strong>tratamiento</strong> binario (recibirlo o no) sobre <span class="arithmatex">\(Y\)</span>: un subsidio,
+una beca, una vacuna, ir a la universidad… Definimos:</p>
+<ul>
+<li><span class="arithmatex">\(Y_i\)</span>: outcome <strong>observado</strong> de la persona <span class="arithmatex">\(i\)</span>.</li>
+<li><span class="arithmatex">\(T_i \in \{0, 1\}\)</span>: vale 1 si fue tratada y 0 si no.</li>
+<li><span class="arithmatex">\(Y_i^{T}\)</span>: outcome <strong>potencial</strong> si es tratada.</li>
+<li><span class="arithmatex">\(Y_i^{NT}\)</span>: outcome <strong>potencial</strong> si <strong>no</strong> es tratada.</li>
+</ul>
+<p>El efecto del tratamiento para <span class="arithmatex">\(i\)</span> es <span class="arithmatex">\(Y_i^{T} - Y_i^{NT}\)</span>, pero <strong>solo observamos uno de los dos</strong>:</p>
+<div class="arithmatex">\[
+Y_i = T_i\,Y_i^{T} + (1 - T_i)\,Y_i^{NT}
+\]</div>
+<table>
+<thead>
+<tr>
+<th>Parámetro</th>
+<th>Definición</th>
+<th>¿Observable?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ATE</strong> (<em>Average Treatment Effect</em>)</td>
+<td><span class="arithmatex">\(E\left[Y_i^{T} - Y_i^{NT}\right]\)</span></td>
+<td>No: a cada <span class="arithmatex">\(i\)</span> lo vemos en un solo estado</td>
+</tr>
+<tr>
+<td><strong>ATT</strong> (<em>Average Treatment effect on the Treated</em>)</td>
+<td><span class="arithmatex">\(E\left[Y_i^{T} - Y_i^{NT} \mid T_i = 1\right]\)</span></td>
+<td>No: <span class="arithmatex">\(E[Y_i^{NT} \mid T_i=1]\)</span> no se observa</td>
+</tr>
+</tbody>
+</table>
+<div class="econ-widget" data-widget="po"></div>
+
+<p>Como no podemos comparar a las mismas personas en el mundo alternativo, <strong>el truco está en
+encontrar un grupo de comparación</strong> que habría sido similar al grupo tratado en ausencia del
+tratamiento.</p>
+<hr />
+<h2 id="3-sesgo-de-seleccion">3. Sesgo de selección</h2>
+<p>Lo que <strong>sí</strong> podemos calcular es la diferencia de promedios entre tratados y no tratados — que es
+exactamente lo que estima MCO con una variable binaria:</p>
+<div class="arithmatex">\[
+\beta_1 = E\left[Y_i \mid T_i = 1\right] - E\left[Y_i \mid T_i = 0\right]
+\]</div>
+<p>¿Es esto el efecto causal? Sumando y restando <span class="arithmatex">\(E\left[Y_i^{NT} \mid T_i=1\right]\)</span>:</p>
+<div class="arithmatex">\[
+\beta_1 = \underbrace{E\left[Y_i^{T} - Y_i^{NT} \mid T_i=1\right]}_{\text{ATT}}
++ \underbrace{E\left[Y_i^{NT} \mid T_i=1\right] - E\left[Y_i^{NT} \mid T_i=0\right]}_{\text{sesgo de selección}}
+\]</div>
+<p>El <strong>sesgo de selección</strong> surge porque el grupo tratado <strong>ya era distinto</strong> del grupo de control: aun
+en un mundo en que nadie recibiera el tratamiento, sus resultados promedio habrían diferido.</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo: universidad y salario</p>
+<p>La decisión de ir a la universidad es voluntaria y depende de intereses, recursos económicos y
+oportunidades previas. Quienes van probablemente tienen características que, <strong>incluso sin ir a
+la universidad</strong>, les darían mayores salarios. Por eso no son un buen contrafactual entre sí.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Ejemplo: alarmas en las casas</p>
+<p>Queremos saber si las alarmas reducen los robos, pero cada hogar decide si instalar una.</p>
+<ol>
+<li>¿En qué podrían diferir los hogares que instalan alarmas de los que no?</li>
+<li>¿Qué signo tendría el sesgo de selección?</li>
+<li>Si comparamos los robos en casas con y sin alarma, ¿obtenemos el efecto causal?</li>
+</ol>
+</div>
+<details class="success">
+<summary>Una posible respuesta</summary>
+<p>Los hogares que instalan alarmas suelen ser <strong>más ricos</strong> y vivir en <strong>zonas con más delitos</strong>
+(por eso la compran). Si en esas zonas hay más robos aun sin alarma, entonces
+<span class="arithmatex">\(E[Y^{NT} \mid T=1] &gt; E[Y^{NT} \mid T=0]\)</span> (con <span class="arithmatex">\(Y\)</span> = robos): el sesgo es <strong>positivo</strong> y la
+comparación ingenua <strong>subestima</strong> el efecto protector de la alarma; incluso podría mostrar que
+las casas con alarma tienen <em>más</em> robos.</p>
+</details>
+<hr />
+<h2 id="4-aleatorizacion">4. Aleatorización</h2>
+<p>¿Qué supuesto necesitamos para que no haya sesgo de selección? Que los <strong>outcomes potenciales sean
+independientes del tratamiento</strong>. <strong>Aleatorizar</strong> quién recibe el tratamiento resuelve el problema:
+en promedio, quienes lo reciben habrían sido iguales a quienes no lo reciben.</p>
+<div class="arithmatex">\[
+E\left[Y_i^{NT} \mid T_i=1\right] = E\left[Y_i^{NT} \mid T_i=0\right]
+\quad\Rightarrow\quad \text{sesgo de selección} = 0
+\quad\Rightarrow\quad \beta_1 = \text{ATT} = \text{ATE}
+\]</div>
+<p>Es el estándar en medicina para evaluar drogas y vacunas, y cada vez más usado en políticas
+públicas y en empresas (los <em>tests A/B</em>).</p>
+<div class="econ-widget" data-widget="seleccion"></div>
+
+<hr />
+<h2 id="5-sesgo-por-variable-omitida">5. Sesgo por variable omitida</h2>
+<p>Volvamos a la regresión <span class="arithmatex">\(y_i = \alpha + \beta x_i + \varepsilon_i\)</span>. El supuesto clave para que
+<span class="arithmatex">\(\beta\)</span> sea el efecto causal es</p>
+<div class="arithmatex">\[
+E[\varepsilon \mid x] = 0
+\]</div>
+<p>es decir, que <strong>nada de lo que está en el error se correlacione con <span class="arithmatex">\(x\)</span></strong>. Si omitimos una variable
+que afecta a <span class="arithmatex">\(y\)</span> <strong>y</strong> se relaciona con <span class="arithmatex">\(x\)</span>, ese supuesto falla y aparece sesgo.</p>
+<div class="admonition example">
+<p class="admonition-title">Consultoría y productividad</p>
+<p><span class="arithmatex">\(\text{productividad}_i = \alpha + \beta\,\text{consultoría}_i + \varepsilon_i\)</span>. Solo las
+empresas grandes pueden pagar una consultoría, y el <strong>tamaño</strong> también afecta la productividad.
+Al quedar el tamaño en el error, <span class="arithmatex">\(\hat{\beta}\)</span> está sesgado.</p>
+</div>
+<h3 id="derivacion">Derivación</h3>
+<p>Suponga que el modelo <strong>verdadero</strong> es</p>
+<div class="arithmatex">\[
+y = \alpha + \beta_1 x_1 + \beta_2 x_2 + u, \qquad E[u \mid x_1, x_2] = 0 \tag{A}
+\]</div>
+<p>y que <span class="arithmatex">\(x_2\)</span> se relaciona con <span class="arithmatex">\(x_1\)</span> según</p>
+<div class="arithmatex">\[
+x_2 = \delta_0 + \delta_1 x_1 + v \tag{B}
+\]</div>
+<p>Si no observamos <span class="arithmatex">\(x_2\)</span> y estimamos la regresión <strong>corta</strong> <span class="arithmatex">\(y = \tilde{\alpha} + \tilde{\beta}_1 x_1 + \epsilon\)</span>,
+el error es <span class="arithmatex">\(\epsilon = \beta_2 x_2 + u\)</span>, que está correlacionado con <span class="arithmatex">\(x_1\)</span>. Reemplazando (B) en (A):</p>
+<div class="arithmatex">\[
+y = (\alpha + \beta_2 \delta_0) + (\beta_1 + \beta_2 \delta_1)\,x_1 + (u + \beta_2 v)
+\]</div>
+<div class="arithmatex">\[
+\boxed{\;\tilde{\beta}_1 = \beta_1 + \underbrace{\beta_2\,\delta_1}_{\text{sesgo}}\;}
+\]</div>
+<p>Capturamos el efecto causal <span class="arithmatex">\(\beta_1\)</span> <strong>más un sesgo</strong> <span class="arithmatex">\(\beta_2 \delta_1\)</span>. El sesgo es cero solo si
+<span class="arithmatex">\(\beta_2 = 0\)</span> (la omitida no afecta a <span class="arithmatex">\(y\)</span>) <strong>o</strong> <span class="arithmatex">\(\delta_1 = 0\)</span> (la omitida no se relaciona con
+<span class="arithmatex">\(x_1\)</span>).</p>
+<h3 id="direccion-del-sesgo">Dirección del sesgo</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: center;"><span class="arithmatex">\(\beta_2 &gt; 0\)</span></th>
+<th style="text-align: center;"><span class="arithmatex">\(\beta_2 &lt; 0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\delta_1 &gt; 0\)</span></td>
+<td style="text-align: center;"><strong>Sesgo positivo</strong> (sobreestima)</td>
+<td style="text-align: center;">Sesgo negativo (subestima)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\delta_1 &lt; 0\)</span></td>
+<td style="text-align: center;">Sesgo negativo (subestima)</td>
+<td style="text-align: center;"><strong>Sesgo positivo</strong> (sobreestima)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Intuición</strong> (educación y salario, omitiendo la habilidad): las personas más hábiles estudian más
+(<span class="arithmatex">\(\delta_1 &gt; 0\)</span>) y la habilidad aumenta el salario (<span class="arithmatex">\(\beta_2 &gt; 0\)</span>). Al omitirla, el coeficiente de
+educación captura el efecto causal <strong>y además</strong> el hecho de que quienes estudian más son más hábiles
+y ganan más por eso: <span class="arithmatex">\(\tilde{\beta}_1\)</span> <strong>sobreestima</strong> el retorno a la educación.</p>
+<div class="econ-widget" data-widget="ovb"></div>
+
+<hr />
+<h2 id="6-solucion-controlar-por-la-variable-omitida">6. Solución: controlar por la variable omitida</h2>
+<p>Si observamos <span class="arithmatex">\(x_2\)</span>, podemos <strong>incluirla como control</strong>: volvemos a <span class="arithmatex">\(E[u \mid x_1, x_2] = 0\)</span> porque
+ahora mantenemos <span class="arithmatex">\(x_2\)</span> constante (<em>ceteris paribus</em>). Esto resuelve el problema <strong>si conocemos el
+modelo verdadero</strong> y <span class="arithmatex">\(x_2\)</span> era lo único omitido; en la práctica, muchas veces hay otras variables
+omitidas que no observamos.</p>
+<h3 id="ejemplo-fumar-y-mortalidad-appleton-french-y-vanderpump-1996">Ejemplo: fumar y mortalidad (Appleton, French y Vanderpump, 1996)</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Regresión corta: y ~ smoke</label><label for="__tabbed_1_2">Regresión larga: y ~ smoke + age</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><img alt="Regresión de y sobre smoke" src="../../images/reg_smoke.jpeg" /></p>
+<p><span class="arithmatex">\(\hat{\tilde{\beta}}_1 = -1.82\)</span>: ¡fumar aparece asociado con un <strong>mejor</strong> resultado! ¿Qué
+variable estamos omitiendo?</p>
+</div>
+<div class="tabbed-block">
+<p><img alt="Regresión de y sobre smoke y age" src="../../images/reg_smoke_age.jpeg" /></p>
+<p>Al controlar por <strong>edad</strong>: <span class="arithmatex">\(\hat{\beta}_1 = 0.94\)</span> y <span class="arithmatex">\(\hat{\beta}_2 = 0.98\)</span>.</p>
+</div>
+</div>
+</div>
+<details class="success">
+<summary>¿Qué nos dice esto sobre la relación entre edad y fumar?</summary>
+<p>De <span class="arithmatex">\(\tilde{\beta}_1 = \beta_1 + \beta_2 \delta_1\)</span>:</p>
+<div class="arithmatex">\[-1.82 = 0.94 + 0.98\,\delta_1 \;\Rightarrow\; \delta_1 \approx -2.8 &lt; 0\]</div>
+<p>La relación es <strong>negativa</strong>: las personas mayores fuman menos y, por su edad, tienen peor
+resultado. Al omitir la edad, fumar "hereda" parte del efecto de ser joven. <em>Prueba el preset
+"Fumar y edad" en el simulador de arriba.</em></p>
+</details>
+<h3 id="mas-variables-siempre-es-mejor">¿Más variables siempre es mejor?</h3>
+<p>Un modelo está <strong>sobreespecificado</strong> cuando incluye variables que no forman parte del modelo
+poblacional. Incluir variables irrelevantes <strong>no sesga</strong> los estimadores, pero <strong>aumenta su
+varianza</strong>. Y agregar controles cambia la interpretación del coeficiente de interés.</p>
+<h3 id="y-si-hay-aleatorizacion">¿Y si hay aleatorización?</h3>
+<p>Si <span class="arithmatex">\(x_1\)</span> (o <span class="arithmatex">\(T_i\)</span>) se asigna <strong>al azar</strong>, se garantiza <span class="arithmatex">\(E[\varepsilon_i \mid x_i] = 0\)</span>: la correlación
+entre el tratamiento y <strong>cualquier</strong> variable omitida es cero (<span class="arithmatex">\(\delta_1 = 0\)</span>). No necesitamos
+incluir otras variables para evitar sesgo (aunque pueden mejorar la precisión).</p>
+<hr />
+<h2 id="conclusiones">🧠 Conclusiones</h2>
+<ul>
+<li>Incluir variables en un modelo <strong>cambia la interpretación</strong> del coeficiente de interés.</li>
+<li>El efecto de excluir una variable relevante depende de <strong>su correlación con la variable de
+  interés</strong> (<span class="arithmatex">\(\delta_1\)</span>) y de <strong>su efecto sobre el outcome</strong> (<span class="arithmatex">\(\beta_2\)</span>).</li>
+<li>El supuesto clave de MCO para que no haya sesgo es <span class="arithmatex">\(E[\epsilon \mid X] = 0\)</span>.</li>
+<li>Rara vez tenemos <strong>todas</strong> las variables que determinan quién recibe el tratamiento, así que es
+  poco probable que agregar controles, por sí solo, permita una interpretación causal.</li>
+</ul>
+<hr />
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Comparas el salario de quienes hicieron un MBA con el de quienes no. ¿Qué representa el sesgo de selección?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">La diferencia entre el salario con y sin MBA de quienes lo hicieron.</button>
+<button class="econ-quiz-opt" data-correct>La diferencia de salario que habría existido entre ambos grupos aun si nadie hubiera hecho el MBA.</button>
+<button class="econ-quiz-opt">El error de muestreo de la diferencia de promedios.</button>
+</div>
+<p class="econ-quiz-fb">✅ Sesgo de selección = E[Yᴺᵀ | T=1] − E[Yᴺᵀ | T=0]. La primera opción es el ATT; la tercera es variabilidad muestral, que no desaparece con supuestos sino con más datos.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Estimas el efecto de las horas de estudio sobre la nota omitiendo "horas de trabajo remunerado". Quienes trabajan más estudian menos, y trabajar más reduce la nota. ¿Qué signo tiene el sesgo?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Positivo: la regresión corta sobreestima el efecto del estudio.</button>
+<button class="econ-quiz-opt">Negativo: la regresión corta subestima el efecto del estudio.</button>
+<button class="econ-quiz-opt">No hay sesgo, porque la variable omitida no es la de interés.</button>
+</div>
+<p class="econ-quiz-fb">✅ δ₁ &lt; 0 (más estudio, menos trabajo) y β₂ &lt; 0 (trabajar baja la nota) ⇒ β₂·δ₁ &gt; 0. Parte de lo que parece "efecto del estudio" es en realidad "efecto de no tener que trabajar".</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Un programa de capacitación se asignó por sorteo. ¿Es necesario agregar controles para obtener un estimador insesgado del efecto?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">Sí, siempre hay que controlar por todas las características observables.</button>
+<button class="econ-quiz-opt" data-correct>No: el sorteo garantiza que el tratamiento no se correlaciona con las variables omitidas.</button>
+<button class="econ-quiz-opt">Solo si el R² de la regresión es bajo.</button>
+</div>
+<p class="econ-quiz-fb">✅ Con aleatorización, δ₁ = 0 para cualquier variable omitida, así que β₂·δ₁ = 0. Agregar controles puede mejorar la precisión, pero no es necesario para el insesgamiento.</p>
+</div>
+
+<hr />
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulo 3, secciones 3.1–3.3 (<em>Análisis de regresión múltiple: estimación</em>).</li>
+<li>📖 Comienza la lectura del <strong>Certamen 1</strong> (lunes 16 de noviembre): Miguel, E. y Kremer, M. (2004).
+  <em>Worms: Identifying Impacts on Education and Health in the Presence of Treatment
+  Externalities.</em> Econometrica, 72(1). Fíjate en cómo <strong>aleatorizan</strong> el tratamiento entre escuelas
+  y en qué pasa cuando el tratamiento de unos afecta a otros (externalidades).</li>
+<li>Próxima clase: <strong>Regresión lineal múltiple y Teorema de Gauss-Markov</strong>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+    
+  </body>
+</html>
