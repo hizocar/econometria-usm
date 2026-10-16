@@ -20,7 +20,7 @@ complementan con el **taller de los lunes** (Iván). El detalle de fechas está 
 ### 1️⃣ Introducción y repaso de estadística
 **Viernes 16 de octubre** · ¿Qué es la econometría? · Tipos de datos · Muestreo · Estadística descriptiva · TCL · Intervalos de confianza
 
-🧪 5 simuladores
+🧪 5 simuladores · 🦈 9 casos ilustrados (helados y tiburones, Bill Gates en el bar, la sopa, Literary Digest…)
 
 [Ir a la clase →](clase1.md)
 </div>

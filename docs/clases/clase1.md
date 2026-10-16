@@ -102,6 +102,8 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 **Correlación espuria:** existe una relación matemática pero los factores no presentan una relación lógica.
 
+<div class="econ-widget" data-widget="espuria"></div>
+
 ### Ejemplo
 
 <!-- sem1/clase1.tex · lámina 5 -->
@@ -119,6 +121,8 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
     -   Por ejemplo, la habilidad, el ingreso de los padres, etc.
 
+<div class="econ-widget" data-widget="confusores"></div>
+
 ### Econometría como herramienta aplicada
 
 <!-- sem1/clase1.tex · lámina 7 -->
@@ -131,6 +135,8 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
     Bloom et al. (2017) *Increasing Firm Productivity through Management Consulting Services in India*: Muestra que si y lo cuantifica.
 
     [ **JPAL**](https://www.povertyactionlab.org/evaluation/increasing-firm-productivity-through-management-consulting-services-india)
+
+<div class="econ-widget" data-widget="casos-reales"></div>
 
 ### Tipos de Datos
 
@@ -157,6 +163,8 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 **Datos longitudinales o de panel:** Consiste en una serie de tiempo para cada miembro del set de datos. Ejemplo: 10 años de datos de salario, educación y empleo sobre un set de individuos. Diferencias con los anteriores es que los mismos individuos, firmas o países, son seguidos por varios años.
 
 Varias ventajas: Control de ciertas características no observadas de individuos, firmas, etc. Facilita estudios de causa-efecto (inferencia causal). Permite estudiar los efectos del rezago en el comportamiento o resultado.
+
+<div class="econ-widget" data-widget="tipos-datos"></div>
 
 <div class="econ-quiz">
 <p class="econ-quiz-q">Tienes el PIB trimestral de Chile, Perú y Colombia entre 2000 y 2024. ¿Qué tipo de datos son?</p>
@@ -193,6 +201,8 @@ El Muestreo es la disciplina que trata con el conjunto de métodos, técnicas y 
 Se dice que una muestra es representativa de una población si toda unidad de observación podrá aparecer en la muestra, y esto con una probabilidad conocida.
 
 ![Muestreo](../images/slides/sem1_image.png){ .econ-slide-img }
+
+<div class="econ-widget" data-widget="sopa"></div>
 
 ### ¿Por qué muestrear la población?
 
@@ -268,6 +278,8 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 
 -   En muestreo no probabilístico inclusión en la muestra es basada en el juicio de la persona que selecciona los individuos o elementos.
 
+<div class="econ-widget" data-widget="digest"></div>
+
 <!-- sem1/clase1.tex · lámina 20 -->
 
 -   **Estadística Descriptiva o Deductiva.**
@@ -342,6 +354,8 @@ La Estadística se divide en dos áreas:
     $$
     X_{(1)},......,\underbrace{X_{(6)},X_{(7)}}_\text{mediana$=\frac{X_{(6)}+X_{(7)}}{2}$},......,X_{(12)}
     $$
+
+<div class="econ-widget" data-widget="bar-gates"></div>
 
 ### Estadísticos de Localización
 
@@ -437,6 +451,8 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 -   Para construir un IC hay que decidir previamente el nivel de confianza que se quiere tener.
 
+<div class="econ-widget" data-widget="aro"></div>
+
 ### Teorema central del límite
 
 <!-- sem1/repaso_estadistica.tex · lámina 3 -->
@@ -446,6 +462,8 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 -   Para una población con media $\mu$ y varianza $\sigma^2$ la distribución muestral de los promedios de todas las posibles muestras de tamaño n generadas desde la población serán, aproximadamente, normalmente distribuidas.
 
 -   La media de la distribución muestral será igual a $\mu$ y la varianza igual a $\sigma^2/n$.
+
+<div class="econ-widget" data-widget="galton"></div>
 
 ### Supuestos TCL
 

@@ -168,7 +168,15 @@ C1_CIERRE = """## ✅ Autoevaluación
 """
 
 C1_INSERTAR = {
-    ("sem1/clase1.tex", 11): "\n\n".join([
+    ("sem1/clase1.tex", 4): widget("espuria"),
+    ("sem1/clase1.tex", 6): widget("confusores"),
+    ("sem1/clase1.tex", 7): widget("casos-reales"),
+    ("sem1/clase1.tex", 13): widget("sopa"),
+    ("sem1/clase1.tex", 19): widget("digest"),
+    ("sem1/repaso_ayudantia.tex", 4): widget("bar-gates"),
+    ("sem1/repaso_estadistica.tex", 2): widget("aro"),
+    ("sem1/repaso_estadistica.tex", 3): widget("galton"),
+    ("sem1/clase1.tex", 11): "\n\n".join([widget("tipos-datos"),
         quiz("Tienes el PIB trimestral de Chile, Perú y Colombia entre 2000 y 2024. ¿Qué tipo de datos son?",
              ["Corte transversal", "Series de tiempo", "Datos de panel"], 2,
              "Es un <strong>panel</strong>: las mismas unidades (3 países) observadas en muchos períodos. Solo Chile sería una serie de tiempo; solo el año 2024 para muchos países, un corte transversal."),
