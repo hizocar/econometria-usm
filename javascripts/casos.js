@@ -403,35 +403,475 @@
   };
 
   /* ========================================================================
-     CASO · Dos estudios reales que cambiaron decisiones
+     Componente: historia en pasos (pregunta → problema → diseño → resultado)
+     Cada paso tiene un texto y una escena SVG que se redibuja con su animación.
+     ======================================================================== */
+  function story(root, steps, opts) {
+    opts = opts || {};
+    const nav = h("div", { class: "econ-steps", role: "tablist" });
+    root.append(nav);
+    const svg = svgBox(root, 600, opts.height || 230, opts.label || "Escena", opts.chart);
+    const body = h("div", { class: "econ-step-body" });
+    root.append(body);
+    const ctrl = buttons(root);
+    const prev = btn(ctrl, "← Anterior", () => go(cur - 1), "econ-btn-ghost");
+    const next = btn(ctrl, "Siguiente →", () => go(cur + 1), "econ-btn-gold");
+    let cur = -1;
+    const pills = steps.map((s, i) => {
+      const b = h("button", { type: "button", class: "econ-step-pill", role: "tab" }, h("span", {}, String(i + 1)), s.t);
+      b.addEventListener("click", () => go(i));
+      nav.append(b);
+      return b;
+    });
+    function go(i) {
+      if (i < 0 || i >= steps.length || i === cur) return;
+      cur = i;
+      pills.forEach((p, k) => {
+        p.setAttribute("aria-selected", String(k === i));
+        p.classList.toggle("is-done", k < i);
+      });
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      if (!opts.chart) el("rect", { x: 0, y: 0, width: 600, height: opts.height || 230, rx: 14, class: "econ-scene-bg" }, svg);
+      steps[i].draw(svg);
+      body.innerHTML = steps[i].body;
+      body.classList.remove("is-in");
+      void body.offsetWidth;
+      body.classList.add("is-in");
+      prev.disabled = i === 0;
+      next.disabled = i === steps.length - 1;
+      next.textContent = i === steps.length - 2 ? "Ver resultado →" : "Siguiente →";
+    }
+    onVisible(svg, () => go(0));
+    return { go };
+  }
+
+  function emoji(parent, x, y, ch, size, delay) {
+    const t = text(parent, x, y, ch, { "text-anchor": "middle", style: `font-size:${size || 40}px` });
+    popIn(t, delay || 0, 380);
+    return t;
+  }
+
+  function school(parent, x, y, cls) {
+    const g = el("g", { transform: `translate(${x},${y})` }, parent);
+    el("polygon", { points: "-13,-2 0,-13 13,-2", class: "econ-roof " + (cls || "") }, g);
+    el("rect", { x: -11, y: -2, width: 22, height: 15, rx: 1.5, class: "econ-wall " + (cls || "") }, g);
+    el("rect", { x: -3, y: 5, width: 6, height: 8, fill: "#ffffff", opacity: 0.85 }, g);
+    return g;
+  }
+
+  function factory(parent, x, y, cls) {
+    const g = el("g", { transform: `translate(${x},${y})` }, parent);
+    g.dataset.scale = "1.3";
+    el("path", { transform: "scale(1.3)", d: "M-18,14 L-18,-4 L-8,2 L-8,-4 L2,2 L2,-4 L12,2 L12,-14 L18,-14 L18,14 Z", class: "econ-wall " + (cls || "") }, g);
+    return g;
+  }
+
+  /* ========================================================================
+     CASO · Dos estudios reales, contados como historia
      ======================================================================== */
   WIDGETS["casos-reales"] = function (root) {
-    caso(root, "Caso · La econometría en el mundo real",
-      "Dos estudios, dos decisiones 🌍",
-      "Los dos ejemplos de la lámina, en una cifra cada uno.");
-    const grid = h("div", { class: "econ-reales" });
-    root.append(grid);
-    const items = [
+    caso(root, "Caso real · La econometría en el mundo real",
+      "Dos experimentos que cambiaron decisiones 🌍",
+      "La lámina menciona dos estudios. Aquí los contamos paso a paso: qué querían saber, por qué no bastaba con comparar, " +
+      "cómo diseñaron el estudio y qué encontraron. Elige un estudio y avanza con los pasos.");
+    const tabs = h("div", { class: "econ-seg", role: "tablist" });
+    root.append(tabs);
+    const holder = h("div");
+    root.append(holder);
+
+    const WORMS = [
       {
-        icon: "💊🏫", num: -25, suf: "%", label: "ausentismo escolar",
-        txt: "Repartir pastillas antiparasitarias en escuelas de Kenia redujo el ausentismo en torno a un cuarto, también entre vecinos no tratados.",
-        src: "Miguel y Kremer (2004), Econometrica · lectura del Certamen 1",
+        t: "La pregunta",
+        body: "<strong>Kenia, fines de los 90.</strong> Muchos escolares tenían parásitos intestinales (gusanos), que causan anemia y cansancio. " +
+          "Una pastilla antiparasitaria cuesta muy poco. <strong>¿Repartirla en los colegios mejora la salud y la asistencia a clases?</strong>",
+        draw: (s) => {
+          emoji(s, 150, 130, "🧒", 70, 0);
+          emoji(s, 210, 160, "🪱", 34, 250);
+          emoji(s, 330, 125, "💊", 54, 450);
+          emoji(s, 470, 130, "🏫", 70, 650);
+          hand(s, 330, 50, "¿más niños en clases?", { "text-anchor": "middle" });
+          drawStroke(handArrow(s, "M370,64 Q430,70 452,92"), 450, 800);
+        },
       },
       {
-        icon: "🏭📋", num: 17, suf: "%", label: "productividad en el primer año",
-        txt: "Consultoría gratuita de gestión, asignada al azar a plantas textiles en India, aumentó su productividad.",
-        src: "Bloom et al., experimento en India (J-PAL)",
+        t: "Por qué no basta comparar",
+        body: "Si comparamos niños que toman la pastilla con niños que no, mezclamos otras diferencias: los que la toman pueden venir de " +
+          "<strong>familias con más recursos</strong> o de colegios con <strong>mejor acceso a agua potable</strong>, y esos niños faltarían menos de todas formas. " +
+          "Es el problema de la lámina <em>Ejemplo</em>: correlación no es causalidad.",
+        draw: (s) => {
+          text(s, 160, 40, "Toman la pastilla", { "text-anchor": "middle", "font-weight": "700" });
+          text(s, 440, 40, "No la toman", { "text-anchor": "middle", "font-weight": "700" });
+          [0, 1, 2].forEach((k) => { emoji(s, 110 + k * 50, 100, "🧒", 38, k * 80); emoji(s, 390 + k * 50, 100, "🧒", 38, 120 + k * 80); });
+          [["💰 más recursos", 0], ["🚰 agua potable", 1]].forEach(([lbl, k]) => {
+            const g = el("g", {}, s);
+            el("rect", { x: 80, y: 140 + k * 34, width: 160, height: 26, rx: 13, class: "econ-badge-bg" }, g);
+            text(g, 160, 158 + k * 34, lbl, { "text-anchor": "middle", "font-weight": "700" });
+            popIn(g, 500 + k * 120, 380);
+          });
+          hand(s, 440, 175, "¿la pastilla o", { "text-anchor": "middle" });
+          hand(s, 440, 198, "todo lo demás?", { "text-anchor": "middle" });
+        },
+      },
+      {
+        t: "Cómo lo diseñaron",
+        body: "Miguel y Kremer trabajaron con <strong>75 escuelas</strong> del distrito de Busia. Las escuelas se <strong>sortearon en 3 grupos</strong> " +
+          "que empezaron a recibir el tratamiento en años distintos (1998, 1999 y 2001). Mientras un grupo esperaba su turno, servía de comparación: " +
+          "como el orden fue <strong>al azar</strong>, los grupos eran parecidos en todo lo demás.",
+        draw: (s) => {
+          const yrs = ["1998", "1999", "2001"];
+          yrs.forEach((yv, j) => text(s, 70, 70 + j * 60, `Grupo ${j + 1}`, { "text-anchor": "middle", "font-weight": "700" }));
+          text(s, 330, 26, "25 escuelas por grupo · el color indica desde qué año reciben pastillas", { "text-anchor": "middle", class: "muted" });
+          const cols = ["#005f96", "#c28000", "#b30828"];
+          for (let j = 0; j < 3; j++) {
+            for (let k = 0; k < 25; k++) {
+              const g = school(s, 130 + (k % 13) * 33, 56 + j * 60 + Math.floor(k / 13) * 24, "is-off");
+              setTimeout(() => {
+                g.querySelectorAll(".econ-roof, .econ-wall").forEach((n) => { n.classList.remove("is-off"); n.style.fill = cols[j]; });
+              }, reduced() ? 0 : 500 + j * 650 + k * 14);
+            }
+            const t = text(s, 575, 70 + j * 60, yrs[j], { "text-anchor": "end", "font-weight": "700" });
+            popIn(t, 450 + j * 650, 360);
+          }
+        },
+      },
+      {
+        t: "Resultado y decisión",
+        body: "<strong>El ausentismo escolar bajó en torno a un cuarto</strong> en las escuelas tratadas. Además, los niños <strong>no tratados</strong> de escuelas vecinas " +
+          "también mejoraron, porque hubo menos contagio: son las <em>externalidades</em> del título del paper. Con tan bajo costo, el programa se volvió " +
+          "una de las formas más baratas de aumentar la asistencia escolar e inspiró programas masivos de desparasitación (por ejemplo, la iniciativa " +
+          "<em>Deworm the World</em>). <span class=\"econ-fine\">Miguel y Kremer (2004), Econometrica · lectura del Certamen 1.</span>",
+        draw: (s) => {
+          const base = 196;
+          el("line", { x1: 60, x2: 540, y1: base, y2: base, stroke: "#1b2a5e", "stroke-width": 2 }, s);
+          const bars = [["Escuelas de comparación", 100, "#8fa3c8", 170], ["Escuelas con pastillas", 75, "#005f96", 400]];
+          bars.forEach(([lbl, v, col, x], i) => {
+            const r = el("rect", { x: x - 50, width: 100, y: base, height: 0, rx: 4, fill: col }, s);
+            const t = text(s, x, base - 8, "", { "text-anchor": "middle", "font-weight": "700" });
+            text(s, x, 216, lbl, { "text-anchor": "middle" });
+            setTimeout(() => tween(650, ease.outCubic, (k) => {
+              const hh = v * 1.4 * k;
+              r.setAttribute("y", base - hh); r.setAttribute("height", hh);
+              t.setAttribute("y", base - hh - 8); t.textContent = Math.round(v * k);
+            }), reduced() ? 0 : i * 200);
+          });
+          text(s, 300, 26, "Ausentismo escolar (índice, comparación = 100)", { "text-anchor": "middle", class: "muted" });
+          hand(s, 520, 92, "−25%", { "text-anchor": "middle", style: "font-size:34px" });
+        },
       },
     ];
-    items.forEach((it) => {
-      const numEl = h("span", { class: "econ-real-num" }, "0" + it.suf);
-      grid.append(h("div", { class: "econ-real" },
-        h("div", { class: "econ-real-icon" }, it.icon),
-        h("div", {}, numEl, h("span", { class: "econ-real-lbl" }, it.label)),
-        h("p", {}, it.txt),
-        h("span", { class: "econ-fine" }, it.src)));
-      onVisible(grid, () => countUp(numEl, 0, it.num, 900, (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(Math.round(v)) + it.suf));
+
+    const BLOOM = [
+      {
+        t: "La pregunta",
+        body: "Las empresas gastan mucho en <strong>consultoras de gestión</strong>. Pero, <strong>¿realmente mejoran la productividad</strong>, " +
+          "o es dinero tirado? Bloom y coautores lo estudiaron en grandes empresas textiles cerca de Mumbai, India.",
+        draw: (s) => {
+          emoji(s, 170, 130, "🏭", 80, 0);
+          emoji(s, 300, 130, "➕", 34, 250);
+          emoji(s, 420, 130, "📋", 70, 450);
+          hand(s, 300, 52, "¿consultoría = más productividad?", { "text-anchor": "middle" });
+        },
+      },
+      {
+        t: "Por qué no basta comparar",
+        body: "Las empresas que <strong>contratan</strong> consultores suelen ser más grandes, más ricas o más ambiciosas, y quizás serían más productivas " +
+          "de todas formas. Comparar “con consultoría” vs. “sin consultoría” mezclaría el efecto de la consultoría con esas diferencias.",
+        draw: (s) => {
+          text(s, 160, 40, "Contratan consultoría", { "text-anchor": "middle", "font-weight": "700" });
+          text(s, 440, 40, "No contratan", { "text-anchor": "middle", "font-weight": "700" });
+          [0, 1, 2].forEach((k) => { popIn(factory(s, 110 + k * 50, 100), k * 80, 360); popIn(factory(s, 390 + k * 50, 100), 120 + k * 80, 360); });
+          [["💰 más grandes y ricas", 0], ["🚀 más ambiciosas", 1]].forEach(([lbl, k]) => {
+            const g = el("g", {}, s);
+            el("rect", { x: 70, y: 140 + k * 34, width: 180, height: 26, rx: 13, class: "econ-badge-bg" }, g);
+            text(g, 160, 158 + k * 34, lbl, { "text-anchor": "middle", "font-weight": "700" });
+            popIn(g, 500 + k * 120, 380);
+          });
+          hand(s, 440, 175, "¿la consultoría o", { "text-anchor": "middle" });
+          hand(s, 440, 198, "la empresa?", { "text-anchor": "middle" });
+        },
+      },
+      {
+        t: "Cómo lo diseñaron",
+        body: "Los investigadores <strong>sortearon</strong> qué plantas recibían <strong>consultoría gratuita e intensiva</strong> durante varios meses " +
+          "(de la consultora Accenture) en prácticas como control de calidad, inventarios y mantención, y cuáles quedaban como grupo de control. " +
+          "Como la asignación fue al azar, las diferencias posteriores se deben a la consultoría.",
+        draw: (s) => {
+          emoji(s, 300, 74, "🪙", 46, 0);
+          text(s, 150, 120, "Consultoría gratis", { "text-anchor": "middle", "font-weight": "700" });
+          text(s, 450, 120, "Control", { "text-anchor": "middle", "font-weight": "700" });
+          for (let k = 0; k < 8; k++) {
+            const toT = k % 2 === 0;
+            const g = factory(s, 300, 74, toT ? "is-t" : "is-c");
+            const tx = (toT ? 72 : 372) + Math.floor(k / 2) * 52, ty = 166;
+            g.setAttribute("transform", `translate(${tx},${ty})`);
+            g.style.opacity = reduced() ? 1 : 0;
+            setTimeout(() => tween(480, ease.outBack, (q) => {
+              g.style.opacity = Math.min(1, q * 1.5);
+              g.setAttribute("transform", `translate(${300 + (tx - 300) * q},${74 + (ty - 74) * q})`);
+            }), reduced() ? 0 : 300 + k * 140);
+          }
+        },
+      },
+      {
+        t: "Resultado",
+        body: "Las plantas tratadas adoptaron más prácticas de gestión y su <strong>productividad subió 17% en el primer año</strong>, gracias a mejor calidad " +
+          "y menos inventario. En los <strong>tres años siguientes abrieron más plantas</strong>. Conclusión: la gestión sí causa productividad, y el estudio " +
+          "lo <em>cuantifica</em>. <span class=\"econ-fine\">Bloom, Eifert, Mahajan, McKenzie y Roberts (2013), Quarterly Journal of Economics · resumen en J-PAL.</span>",
+        draw: (s) => {
+          const base = 196;
+          el("line", { x1: 60, x2: 540, y1: base, y2: base, stroke: "#1b2a5e", "stroke-width": 2 }, s);
+          [["Plantas de control", 100, "#8fa3c8", 170], ["Plantas con consultoría", 117, "#005f96", 400]].forEach(([lbl, v, col, x], i) => {
+            const r = el("rect", { x: x - 50, width: 100, y: base, height: 0, rx: 4, fill: col }, s);
+            const t = text(s, x, base - 8, "", { "text-anchor": "middle", "font-weight": "700" });
+            text(s, x, 216, lbl, { "text-anchor": "middle" });
+            setTimeout(() => tween(650, ease.outCubic, (k) => {
+              const hh = v * 1.25 * k;
+              r.setAttribute("y", base - hh); r.setAttribute("height", hh);
+              t.setAttribute("y", base - hh - 8); t.textContent = Math.round(v * k);
+            }), reduced() ? 0 : i * 200);
+          });
+          text(s, 300, 26, "Productividad en el primer año (índice, control = 100)", { "text-anchor": "middle", class: "muted" });
+          hand(s, 520, 70, "+17%", { "text-anchor": "middle", style: "font-size:34px" });
+        },
+      },
+    ];
+
+    const STUDIES = [["💊 Pastillas en colegios (Kenia)", WORMS], ["🏭 Consultoría en fábricas (India)", BLOOM]];
+    const tbtn = STUDIES.map(([label, steps], i) => {
+      const b = h("button", { type: "button", class: "econ-seg-btn", role: "tab" }, label);
+      b.addEventListener("click", () => show(i));
+      tabs.append(b);
+      return b;
     });
+    function show(i) {
+      tbtn.forEach((b, k) => b.setAttribute("aria-selected", String(k === i)));
+      holder.innerHTML = "";
+      story(holder, STUDIES[i][1], { label: STUDIES[i][0] });
+    }
+    show(0);
+  };
+
+  /* ========================================================================
+     CASO · Métodos de muestreo, aplicados
+     ======================================================================== */
+  WIDGETS["muestreo-casos"] = function (root) {
+    caso(root, "Casos aplicados · Muestreo aleatorio",
+      "Cada método, en un caso de la vida real 🔎",
+      "Elige un método para ver un caso concreto, cómo se haría paso a paso y cuándo conviene.");
+    const tabs = h("div", { class: "econ-seg", role: "tablist" });
+    root.append(tabs);
+    const svg = svgBox(root, 600, 240, "Escena del método de muestreo");
+    const info = h("div", { class: "econ-metodo" });
+    root.append(info);
+    let timers = [];
+    const later = (fn, ms) => { timers.push(setTimeout(fn, reduced() ? 0 : ms)); };
+    const r0 = rng(77);
+
+    const METODOS = {
+      simple: {
+        label: "🎟️ Aleatorio simple",
+        caso: "Encuesta de satisfacción a los estudiantes de la USM",
+        pasos: ["Conseguir la lista completa de estudiantes (el <em>marco muestral</em>).", "Un computador sortea 100 números de matrícula, como una tómbola.", "Se encuesta a esos 100 estudiantes."],
+        ventaja: "Cada estudiante tiene la <strong>misma probabilidad</strong> de salir: es el método más simple de explicar.",
+        cuidado: "Necesitas la lista completa; y por azar podrían salir muy pocos de alguna carrera chica.",
+        draw: (s) => {
+          const drum = el("g", { class: "econ-drum" }, s);
+          el("circle", { cx: 110, cy: 125, r: 72, fill: "#ffffff", stroke: "#1b2a5e", "stroke-width": 4 }, drum);
+          for (let k = 0; k < 16; k++) {
+            const a = k * 2.4, rr = 18 + (k % 4) * 12;
+            el("circle", { cx: 110 + rr * Math.cos(a), cy: 125 + rr * Math.sin(a), r: 9, fill: ["#005f96", "#c28000", "#b30828", "#8fa3c8"][k % 4] }, drum);
+          }
+          el("rect", { x: 102, y: 196, width: 16, height: 26, fill: "#1b2a5e" }, s);
+          text(s, 110, 40, "tómbola", { "text-anchor": "middle", class: "muted" });
+          const dots = [];
+          for (let i = 0; i < 60; i++) {
+            const x = 270 + (i % 12) * 26, y = 64 + Math.floor(i / 12) * 28;
+            dots.push(el("circle", { cx: x, cy: y, r: 8, class: "econ-pop" }, s));
+          }
+
+          const picked = shuffleIdx(60, r0).slice(0, 8);
+          const cnt = text(s, 413, 38, "60 estudiantes · seleccionados: 0", { "text-anchor": "middle", "font-weight": "700" });
+          picked.forEach((idx, j) => later(() => {
+            const d = dots[idx];
+            const ball = el("circle", { cx: 110, cy: 60, r: 9, fill: "#e5b300", stroke: "#1b2a5e", "stroke-width": 1.5 }, s);
+            const tx = +d.getAttribute("cx"), ty = +d.getAttribute("cy");
+            tween(520, ease.outCubic, (k) => {
+              ball.setAttribute("cx", 110 + (tx - 110) * k);
+              ball.setAttribute("cy", 60 + (ty - 60) * k - Math.sin(Math.PI * k) * 60);
+            }, () => { ball.remove(); d.classList.add("is-on"); popIn(d, 0, 260); cnt.textContent = `60 estudiantes · seleccionados: ${j + 1}`; });
+          }, 300 + j * 380));
+          hand(s, 413, 222, "todos con la misma probabilidad", { "text-anchor": "middle", style: "font-size:20px" });
+        },
+      },
+      sistematico: {
+        label: "🍾 Sistemático",
+        caso: "Control de calidad en una embotelladora",
+        pasos: ["Se sortea un número de inicio entre 1 y 10 (por ejemplo, la botella 3).", "Desde ahí se revisa <strong>una de cada 10</strong> botellas: la 3, 13, 23, 33…", "Con las botellas revisadas se estima la proporción de defectuosas."],
+        ventaja: "Muy fácil de aplicar sobre una fila o una lista ordenada, sin tener que sortear cada elemento.",
+        cuidado: "Si el proceso tiene un patrón que se repite cada 10 botellas (una máquina con 10 boquillas, por ejemplo), siempre revisarías la misma boquilla.",
+        draw: (s) => {
+          el("rect", { x: 0, y: 168, width: 600, height: 14, fill: "#5a6785" }, s);
+          for (let k = 0; k < 15; k++) el("circle", { cx: 20 + k * 40, cy: 189, r: 6, fill: "#8a94ad" }, s);
+          const belt = el("g", { class: "econ-belt" }, s);
+          for (let i = -10; i < 15; i++) {
+            const x = 20 + i * 40;
+            const chk = ((i % 10) + 10) % 10 === 3;
+            const g = el("g", {}, belt);
+            el("rect", { x: x - 9, y: 120, width: 18, height: 46, rx: 5, fill: chk ? "#c28000" : "#7fb7dc", stroke: "#1b2a5e", "stroke-width": 1.5 }, g);
+            el("rect", { x: x - 4, y: 106, width: 8, height: 16, rx: 2, fill: chk ? "#c28000" : "#7fb7dc", stroke: "#1b2a5e", "stroke-width": 1.5 }, g);
+            if (chk) text(g, x, 96, "🔍", { "text-anchor": "middle", style: "font-size:20px" });
+          }
+          hand(s, 300, 44, "inicio al azar: la 3ª · luego cada 10", { "text-anchor": "middle" });
+          s.classList.add("is-live");
+        },
+      },
+      estratificado: {
+        label: "🎓 Estratificado",
+        caso: "Encuesta a estudiantes de Ingeniería Comercial, Civil e Informática",
+        pasos: ["Dividir a la población en <strong>estratos</strong> (aquí, carreras), cada uno más homogéneo por dentro.", "Sortear dentro de cada carrera, en proporción a su tamaño: 50% → 5, 30% → 3, 20% → 2.", "Juntar las tres submuestras en una muestra de 10."],
+        ventaja: "Garantiza que <strong>todos los grupos aparezcan</strong> en la muestra y suele dar estimaciones más precisas.",
+        cuidado: "Necesitas saber de antemano a qué estrato pertenece cada persona.",
+        draw: (s) => {
+          const groups = [["Ing. Comercial · 50%", 20, 5, "#005f96"], ["Ing. Civil · 30%", 12, 3, "#c28000"], ["Informática · 20%", 8, 2, "#b30828"]];
+          const tray = [];
+          let t = 0;
+          groups.forEach(([lbl, n, pick, col], j) => {
+            const y0 = 30 + j * 68;
+            el("rect", { x: 20, y: y0, width: 330, height: 56, rx: 10, fill: "#ffffff", stroke: col, "stroke-width": 2 }, s);
+            text(s, 30, y0 + 16, lbl, { "font-weight": "700" });
+            const ds = [];
+            for (let k = 0; k < n; k++) ds.push(el("circle", { cx: 40 + k * 15, cy: y0 + 38, r: 6, fill: col, opacity: 0.85 }, s));
+            shuffleIdx(n, r0).slice(0, pick).forEach((idx) => {
+              const d = ds[idx];
+              const slot = tray.length;
+              tray.push(1);
+              const tx = 420 + (slot % 5) * 30, ty = 100 + Math.floor(slot / 5) * 34;
+              later(() => {
+                const fx = +d.getAttribute("cx"), fy = +d.getAttribute("cy");
+                d.setAttribute("opacity", 0.25);
+                const m = el("circle", { cx: fx, cy: fy, r: 9, fill: col, stroke: "#1b2a5e", "stroke-width": 1.5 }, s);
+                tween(480, ease.outCubic, (k) => {
+                  m.setAttribute("cx", fx + (tx - fx) * k);
+                  m.setAttribute("cy", fy + (ty - fy) * k - Math.sin(Math.PI * k) * 40);
+                });
+              }, 300 + t++ * 260);
+            });
+          });
+          el("rect", { x: 400, y: 70, width: 165, height: 100, rx: 12, fill: "#ffffff", stroke: "#1b2a5e", "stroke-width": 2, "stroke-dasharray": "5 4" }, s);
+          text(s, 482, 60, "Muestra (n = 10)", { "text-anchor": "middle", "font-weight": "700" });
+          hand(s, 482, 205, "5 + 3 + 2", { "text-anchor": "middle" });
+        },
+      },
+      conglomerados: {
+        label: "🏫 Conglomerados",
+        caso: "Estudio sobre hábitos de lectura de escolares de una región",
+        pasos: ["Hacer la lista de <strong>colegios</strong> (no hace falta la lista de todos los alumnos).", "Sortear algunos colegios: los <em>conglomerados</em>.", "Encuestar a los alumnos de los colegios sorteados (todos, o una muestra dentro de cada uno)."],
+        ventaja: "Mucho <strong>más barato</strong>: el encuestador visita 3 colegios en vez de recorrer toda la región.",
+        cuidado: "Si los colegios son muy distintos entre sí, la estimación es menos precisa que con un muestreo simple del mismo tamaño.",
+        draw: (s) => {
+          const chosen = new Set(shuffleIdx(12, r0).slice(0, 3));
+          for (let i = 0; i < 12; i++) {
+            const cx = 70 + (i % 6) * 92, cy = 62 + Math.floor(i / 6) * 96;
+            const card = el("rect", { x: cx - 38, y: cy - 30, width: 76, height: 78, rx: 10, class: "econ-cluster" }, s);
+            school(s, cx, cy - 6);
+            const kids = [];
+            for (let k = 0; k < 6; k++) kids.push(el("circle", { cx: cx - 25 + k * 10, cy: cy + 32, r: 4, fill: "#8fa3c8" }, s));
+            if (chosen.has(i)) {
+              later(() => { card.classList.add("is-on"); popIn(card, 0, 320); }, 400 + [...chosen].indexOf(i) * 300);
+              later(() => kids.forEach((kd) => kd.setAttribute("fill", "#c28000")), 1500);
+            } else {
+              later(() => card.classList.add("is-dim"), 1400);
+            }
+          }
+          hand(s, 300, 232, "se sortean colegios, no alumnos", { "text-anchor": "middle", style: "font-size:20px" });
+        },
+      },
+    };
+
+    function shuffleIdx(n, r) {
+      const a = Array.from({ length: n }, (_, i) => i);
+      for (let i = n - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+
+    const btns = {};
+    Object.entries(METODOS).forEach(([k, m]) => {
+      btns[k] = h("button", { type: "button", class: "econ-seg-btn", role: "tab" }, m.label);
+      btns[k].addEventListener("click", () => show(k));
+      tabs.append(btns[k]);
+    });
+    function show(k) {
+      timers.forEach(clearTimeout);
+      timers = [];
+      Object.entries(btns).forEach(([kk, b]) => b.setAttribute("aria-selected", String(kk === k)));
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      svg.classList.remove("is-live");
+      el("rect", { x: 0, y: 0, width: 600, height: 240, rx: 14, class: "econ-scene-bg" }, svg);
+      const m = METODOS[k];
+      m.draw(svg);
+      info.innerHTML =
+        `<div class="econ-metodo-caso">📌 <strong>Caso:</strong> ${m.caso}</div>` +
+        `<ol>${m.pasos.map((p) => `<li>${p}</li>`).join("")}</ol>` +
+        `<div class="econ-metodo-pc"><div><strong>✓ Ventaja:</strong> ${m.ventaja}</div><div><strong>⚠ Cuidado:</strong> ${m.cuidado}</div></div>`;
+    }
+    onVisible(svg, () => show("simple"));
+  };
+
+  /* ========================================================================
+     CASO · Muestreo no probabilístico: la encuesta por Instagram
+     ======================================================================== */
+  WIDGETS["no-prob"] = function (root) {
+    caso(root, "Caso · Muestreo no probabilístico",
+      "La encuesta por Instagram 📱",
+      "La cuenta de Instagram del curso publica una historia: “¿Te gusta la econometría?”. ¿Podemos concluir qué piensan todos los estudiantes de la USM?");
+    const scene = svgBox(root, 600, 250, "Teléfono con una encuesta en una historia de Instagram");
+    el("rect", { x: 0, y: 0, width: 600, height: 250, rx: 14, class: "econ-scene-bg" }, scene);
+    el("rect", { x: 40, y: 14, width: 150, height: 226, rx: 22, fill: "#1b2a5e" }, scene);
+    el("rect", { x: 48, y: 26, width: 134, height: 202, rx: 14, fill: "url(#econ-ig)" }, scene);
+    const defs = el("defs", {}, scene);
+    const g = el("linearGradient", { id: "econ-ig", x1: 0, y1: 0, x2: 1, y2: 1 }, defs);
+    el("stop", { offset: 0, "stop-color": "#f58529" }, g);
+    el("stop", { offset: 0.5, "stop-color": "#dd2a7b" }, g);
+    el("stop", { offset: 1, "stop-color": "#8134af" }, g);
+    text(scene, 115, 70, "¿Te gusta la", { "text-anchor": "middle", style: "fill:#fff;font-weight:700;font-size:13px" });
+    text(scene, 115, 88, "econometría? 🤓", { "text-anchor": "middle", style: "fill:#fff;font-weight:700;font-size:13px" });
+    const bars = [["Sí 💙", 92, 112], ["No", 8, 150]].map(([lbl, v, y]) => {
+      el("rect", { x: 60, y, width: 110, height: 26, rx: 13, fill: "#ffffff", opacity: 0.9 }, scene);
+      const fill = el("rect", { x: 60, y, width: 0, height: 26, rx: 13, fill: "#e5b300" }, scene);
+      text(scene, 70, y + 17, lbl, { style: "font-weight:700;font-size:12px" });
+      const t = text(scene, 160, y + 17, "0%", { "text-anchor": "end", style: "font-weight:700;font-size:12px" });
+      return { fill, t, v };
+    });
+    text(scene, 115, 210, "Votos: 250", { "text-anchor": "middle", style: "fill:#fff;font-size:11px" });
+    const hearts = el("g", {}, scene);
+    hand(scene, 400, 50, "¿quiénes votaron?", { "text-anchor": "middle" });
+    const who = [["👀 solo quienes siguen la cuenta", 90], ["📲 y vieron la historia ese día", 128], ["🙋 y quisieron responder", 166]].map(([lbl, y]) => {
+      const gg = el("g", {}, scene);
+      el("rect", { x: 250, y: y - 18, width: 300, height: 28, rx: 14, class: "econ-badge-bg" }, gg);
+      text(gg, 400, y + 1, lbl, { "text-anchor": "middle", "font-weight": "700" });
+      gg.style.opacity = 0;
+      return gg;
+    });
+    hand(scene, 400, 222, "= los fans del curso, no “todos”", { "text-anchor": "middle", style: "font-size:20px" });
+    onVisible(scene, () => {
+      bars.forEach((b) => tween(1100, ease.outCubic, (k) => {
+        b.fill.setAttribute("width", 110 * (b.v / 100) * k);
+        b.t.textContent = Math.round(b.v * k) + "%";
+      }));
+      for (let i = 0; i < 7; i++) {
+        later(() => {
+          const ht = text(hearts, 150 + (i % 3) * 12, 200, "💙", { style: "font-size:16px" });
+          tween(900, ease.outCubic, (k) => { ht.setAttribute("y", 200 - 150 * k); ht.style.opacity = 1 - k; }, () => ht.remove());
+        }, i * 140);
+      }
+      who.forEach((w, i) => later(() => { w.style.opacity = 1; popIn(w, 0, 360); }, 900 + i * 300));
+    });
+    function later(fn, ms) { setTimeout(fn, reduced() ? 0 : ms); }
+    const nt = note(root);
+    nt.innerHTML = "El 92% dice que sí… pero respondieron <strong>solo quienes eligieron responder</strong>: nadie sorteó a los participantes y no sabemos la probabilidad " +
+      "de que cada estudiante aparezca. Otros ejemplos de muestreo no probabilístico: encuestar en la puerta de un mall, pedir voluntarios, o " +
+      "<em>bola de nieve</em> (cada encuestado recomienda al siguiente). Sirven para explorar ideas, <strong>no para inferir sobre toda la población</strong>. " +
+      "A continuación, un caso histórico donde esto salió muy mal. <span class=\"econ-fine\">Encuesta ilustrativa.</span>";
   };
 
   /* ========================================================================

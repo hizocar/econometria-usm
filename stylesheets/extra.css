@@ -1209,3 +1209,221 @@
     vertical-align: middle;
   }
 }
+
+/* \color{blue} / \color{red} de las láminas: en modo oscuro el azul puro es ilegible */
+[data-md-color-scheme="slate"] mjx-container [style*="color: blue"] { color: #8fb8ff !important; }
+[data-md-color-scheme="slate"] mjx-container [style*="color: red"] { color: #ff8f9c !important; }
+
+/* ---------- Historia por pasos (casos reales) ---------- */
+.econ-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0.6rem;
+}
+
+.econ-step-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem 0.25rem 0.3rem;
+  cursor: pointer;
+  transition: background 0.18s cubic-bezier(0.2, 0, 0, 1), border-color 0.18s;
+}
+
+.econ-step-pill span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: var(--md-default-fg-color--lightest);
+  font-size: 0.7rem;
+}
+
+.econ-step-pill.is-done span { background: var(--econ-c2); color: #fff; }
+.econ-step-pill[aria-selected="true"] { background: var(--usm-navy); border-color: var(--usm-navy); color: #fff; }
+.econ-step-pill[aria-selected="true"] span { background: var(--usm-gold); color: var(--usm-navy-dark); }
+
+.econ-step-body {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  border-left: 4px solid var(--econ-c2);
+  min-height: 5.5rem;
+}
+
+.econ-step-body.is-in { animation: econ-rise 0.32s cubic-bezier(0.2, 0, 0, 1); }
+@keyframes econ-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.econ-btn:disabled { opacity: 0.4; cursor: default; }
+
+/* Íconos de escuelas y fábricas */
+.econ-roof { fill: #1b2a5e; transition: fill 0.3s; }
+.econ-wall { fill: #3f6aa8; transition: fill 0.3s; }
+.econ-roof.is-off, .econ-wall.is-off { fill: #c7cfdf; }
+.econ-wall.is-t { fill: #c28000; }
+.econ-wall.is-c { fill: #8fa3c8; }
+
+/* ---------- Casos de métodos de muestreo ---------- */
+.econ-pop { fill: #c7cfdf; transition: fill 0.25s; }
+.econ-pop.is-on { fill: #c28000; stroke: #1b2a5e; stroke-width: 1.5; }
+
+.econ-belt { transform-box: view-box; }
+.is-live .econ-belt { animation: econ-belt 9s linear infinite; }
+@keyframes econ-belt { from { transform: translateX(0); } to { transform: translateX(400px); } }
+
+.econ-cluster {
+  fill: #ffffff;
+  stroke: #c7cfdf;
+  stroke-width: 2;
+  transition: opacity 0.4s, stroke 0.25s;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.econ-cluster.is-on { stroke: #c28000; stroke-width: 4; }
+.econ-cluster.is-dim { opacity: 0.45; }
+
+.econ-metodo {
+  font-size: 0.82rem;
+  background: var(--md-default-bg-color);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+}
+
+.econ-metodo-caso { font-size: 0.86rem; margin-bottom: 0.3rem; }
+.md-typeset .econ-metodo ol { margin: 0.3rem 0 0.6rem 1.2rem; }
+.md-typeset .econ-metodo li { margin-bottom: 0.15rem; }
+
+.econ-metodo-pc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.econ-metodo-pc > div {
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  background: var(--econ-caso-bg);
+}
+
+@media (max-width: 600px) {
+  .econ-metodo-pc { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-live .econ-belt { animation: none; }
+  .econ-step-body.is-in { animation: none; }
+}
+
+/* ==========================================================================
+   Estructura de las clases: franja por parte + tarjeta por tema (tools/clases.py)
+   ========================================================================== */
+.md-typeset h2.econ-parte {
+  margin: 2.8rem 0 0.4rem;
+  padding: 1.1rem 1.4rem 1.2rem;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(120deg, var(--usm-navy-dark) 0%, var(--usm-navy) 60%, #24438a 100%);
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.25;
+  scroll-margin-top: 4.5rem;
+}
+
+.md-typeset h2.econ-parte::before {
+  content: attr(data-eyebrow);
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--usm-gold);
+}
+
+.md-typeset h2.econ-parte.is-ayudantia {
+  background: linear-gradient(120deg, #00456e 0%, var(--usm-blue) 70%, #2b86bd 100%);
+}
+
+.md-typeset h2.econ-parte.is-ayudantia::before { color: #ffffff; opacity: 0.85; }
+
+.md-typeset h2.econ-parte + .econ-source { margin: 0.2rem 0 1rem 0.2rem; }
+
+/* Tarjeta de un tema (una o varias láminas con el mismo título) */
+.md-typeset .econ-lamina {
+  margin: 1.2rem 0;
+  padding: 0 1.3rem 0.5rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-left: 5px solid var(--usm-navy);
+  border-radius: 12px;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 1px 3px rgba(16, 25, 59, 0.06);
+}
+
+.md-typeset .econ-lamina.is-ayudantia { border-left-color: var(--usm-blue); }
+
+/* Bloque normal (no flex): con flex, cada fórmula del título era un ítem aparte y el
+   título no podía partirse en líneas, desbordando la pantalla en celular. */
+.md-typeset .econ-lamina > h3 {
+  position: relative;
+  margin: 0 -1.3rem 0.9rem;
+  padding: 0.7rem 8rem 0.7rem 1.3rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0 12px 0 0;
+  background: color-mix(in srgb, var(--usm-navy) 7%, transparent);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--usm-navy);
+  scroll-margin-top: 4.5rem;
+}
+
+.md-typeset .econ-lamina.is-ayudantia > h3 { background: color-mix(in srgb, var(--usm-blue) 9%, transparent); }
+
+.md-typeset .econ-lamina > h3::after {
+  content: attr(data-lamina);
+  position: absolute;
+  top: 0.95rem;
+  right: 1.3rem;
+  white-space: nowrap;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .econ-lamina { border-left-color: #8fa3e8; box-shadow: none; }
+[data-md-color-scheme="slate"] .md-typeset .econ-lamina.is-ayudantia { border-left-color: var(--usm-blue); }
+[data-md-color-scheme="slate"] .md-typeset .econ-lamina > h3 { color: #eef1fb; background: rgba(255, 255, 255, 0.04); }
+
+.md-typeset .econ-lamina-cont {
+  margin: 0.7rem 0 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Las imágenes de lámina dentro de la tarjeta no necesitan margen extra */
+.md-typeset .econ-lamina > p:last-child { margin-bottom: 0.6rem; }
+
+@media (max-width: 600px) {
+  .md-typeset .econ-lamina > h3 { padding-right: 1.3rem; }
+  .md-typeset .econ-lamina > h3::after {
+    position: static;
+    display: block;
+    margin-top: 0.2rem;
+  }
+}
