@@ -1,0 +1,862 @@
+/* ==========================================================================
+   Paleta institucional UTFSM
+   Colores extraídos del escudo y timbre oficiales de la Universidad Técnica
+   Federico Santa María (Dirección General de Docencia).
+   ========================================================================== */
+:root,
+[data-md-color-scheme="default"] {
+  --usm-navy: #1b2a5e;
+  --usm-navy-dark: #10193b;
+  --usm-blue: #005f96;
+  --usm-gold: #e5b300;
+  --usm-red: #b30828;
+
+  --md-primary-fg-color: var(--usm-navy);
+  --md-primary-fg-color--light: var(--usm-blue);
+  --md-primary-fg-color--dark: var(--usm-navy-dark);
+  --md-accent-fg-color: var(--usm-gold);
+  --md-accent-fg-color--transparent: #e5b30022;
+  --md-typeset-a-color: var(--usm-blue);
+}
+
+[data-md-color-scheme="slate"] {
+  --usm-navy: #24356e;
+  --usm-navy-dark: #0c1330;
+  --usm-blue: #3d9bd6;
+  --usm-gold: #f2c334;
+  --usm-red: #e15268;
+
+  --md-primary-fg-color: var(--usm-navy-dark);
+  --md-primary-fg-color--light: var(--usm-navy);
+  --md-primary-fg-color--dark: #080d1f;
+  --md-accent-fg-color: var(--usm-gold);
+  --md-typeset-a-color: var(--usm-blue);
+  --md-default-bg-color: #10142a;
+}
+
+/* Header / topbar -------------------------------------------------------- */
+.md-header {
+  background: linear-gradient(90deg, var(--usm-navy-dark) 0%, var(--usm-navy) 55%, var(--usm-blue) 100%);
+  box-shadow: 0 1px 0 var(--usm-gold);
+}
+
+.md-tabs {
+  background-color: var(--usm-navy-dark);
+}
+
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+/* Gold accent underline on active tabs/links */
+.md-tabs__link--active,
+.md-nav__link--active {
+  color: var(--usm-gold) !important;
+}
+
+.md-typeset a:hover {
+  color: var(--usm-gold);
+}
+
+/* Footer ------------------------------------------------------------------ */
+.md-footer {
+  background-color: var(--usm-navy-dark);
+}
+
+.md-footer-meta {
+  background-color: var(--usm-navy-dark);
+}
+
+/* Headings ----------------------------------------------------------------*/
+.md-typeset h1 {
+  color: var(--usm-navy);
+  border-bottom: 3px solid var(--usm-gold);
+  padding-bottom: 0.3rem;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h1 {
+  color: #eef1fb;
+}
+
+.md-typeset h2 {
+  border-left: 4px solid var(--usm-blue);
+  padding-left: 0.6rem;
+}
+
+/* Tables -------------------------------------------------------------------*/
+.md-typeset table:not([class]) th {
+  background-color: var(--usm-navy);
+  color: #ffffff;
+}
+
+.md-typeset table:not([class]) tr:nth-child(even) {
+  background-color: var(--md-accent-fg-color--transparent);
+}
+
+/* Admonitions tuned to the palette ------------------------------------------*/
+.md-typeset .admonition.note,
+.md-typeset .note > .admonition-title {
+  border-color: var(--usm-blue);
+}
+.md-typeset .note > .admonition-title::before {
+  background-color: var(--usm-blue);
+}
+
+.md-typeset .admonition.warning,
+.md-typeset .warning > .admonition-title {
+  border-color: var(--usm-gold);
+}
+.md-typeset .warning > .admonition-title::before {
+  background-color: var(--usm-gold);
+}
+
+/* ==========================================================================
+   Hero banner (home page)
+   ========================================================================== */
+.usm-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  background: linear-gradient(120deg, var(--usm-navy-dark) 0%, var(--usm-navy) 60%, var(--usm-blue) 100%);
+  color: #f3f5fb;
+  border-radius: 12px;
+  padding: 2.2rem 2.4rem;
+  margin: 0.5rem 0 2rem 0;
+  border-bottom: 4px solid var(--usm-gold);
+}
+
+.usm-hero h1 {
+  color: #ffffff !important;
+  border-bottom: none !important;
+  margin: 0 0 0.4rem 0;
+  font-size: 1.9rem;
+}
+
+.usm-hero p {
+  margin: 0;
+  opacity: 0.92;
+  max-width: 46ch;
+}
+
+.usm-hero .usm-hero-tag {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background: var(--usm-gold);
+  color: var(--usm-navy-dark);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.usm-hero img {
+  height: 110px;
+  width: auto;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+
+/* Info strip / key facts ---------------------------------------------------*/
+.usm-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2rem 0;
+}
+
+.usm-fact {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-accent-fg-color--transparent);
+  border-top: 3px solid var(--usm-blue);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  text-align: center;
+}
+
+.usm-fact .usm-fact-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  margin-bottom: 0.25rem;
+}
+
+.usm-fact .usm-fact-value {
+  display: block;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--usm-navy);
+}
+
+[data-md-color-scheme="slate"] .usm-fact .usm-fact-value {
+  color: #eef1fb;
+}
+
+/* Card grid (docente, unidades, etc.) ---------------------------------------*/
+.usm-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.usm-card {
+  border: 1px solid var(--md-accent-fg-color--transparent);
+  border-radius: 10px;
+  padding: 1.2rem 1.3rem;
+  background: var(--md-default-bg-color);
+  border-top: 4px solid var(--usm-gold);
+}
+
+.usm-card h3 {
+  margin-top: 0;
+  color: var(--usm-navy);
+}
+
+[data-md-color-scheme="slate"] .usm-card h3 {
+  color: #eef1fb;
+}
+
+/* Class session header badge -------------------------------------------------*/
+.usm-session-meta {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0.6rem 0 1.4rem 0;
+}
+
+.usm-session-meta span {
+  background: var(--usm-navy);
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.usm-session-meta span.usm-tag-gold {
+  background: var(--usm-gold);
+  color: var(--usm-navy-dark);
+}
+
+.usm-session-meta span.usm-tag-red {
+  background: var(--usm-red);
+}
+
+/* Interactive chart containers ----------------------------------------------*/
+.usm-chart {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-accent-fg-color--transparent);
+  border-radius: 10px;
+  padding: 1.2rem 1.4rem 0.6rem 1.4rem;
+  margin: 1.4rem 0;
+}
+
+.usm-chart-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.usm-chart-canvas-wrap canvas {
+  /* Chart.js sizes the canvas to this wrapper (responsive + maintainAspectRatio:false in
+     charts.js) — without a fixed-height wrapper, Chart.js and the CSS max-height fight over the
+     canvas size and it collapses over successive re-renders. */
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.usm-chart-caption {
+  display: block;
+  text-align: center;
+  font-size: 0.78rem;
+  opacity: 0.7;
+  margin: 0.4rem 0 0.9rem 0;
+  font-style: italic;
+}
+
+.usm-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+/* Deliverable / activity callouts --------------------------------------------*/
+.usm-activity {
+  border: 1px solid var(--md-accent-fg-color--transparent);
+  border-left: 5px solid var(--usm-blue);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  background: var(--md-default-bg-color);
+}
+
+.usm-activity h3 {
+  margin-top: 0;
+}
+
+.usm-deliverable {
+  border: 1px solid var(--md-accent-fg-color--transparent);
+  border-left: 5px solid var(--usm-red);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  background: var(--md-default-bg-color);
+}
+
+.usm-deliverable h3 {
+  margin-top: 0;
+  color: var(--usm-red);
+}
+
+.usm-deliverable-badge {
+  display: inline-block;
+  background: var(--usm-red);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.6rem;
+}
+
+/* ==========================================================================
+   Perfil docente (Home)
+   ========================================================================== */
+.usm-profile {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+  border-top: 4px solid var(--usm-gold);
+  border: 1px solid var(--md-accent-fg-color--transparent);
+  border-radius: 12px;
+  padding: 1.6rem 1.8rem;
+  margin: 1.2rem 0 1.6rem 0;
+  background: var(--md-default-bg-color);
+}
+
+.usm-profile img {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--usm-gold);
+  flex-shrink: 0;
+}
+
+.usm-profile-body {
+  flex: 1;
+  min-width: 240px;
+}
+
+.usm-profile-body h3 {
+  margin: 0 0 0.15rem 0;
+  font-size: 1.35rem;
+  color: var(--usm-navy);
+}
+
+[data-md-color-scheme="slate"] .usm-profile-body h3 {
+  color: #eef1fb;
+}
+
+.usm-profile-role {
+  display: block;
+  font-weight: 600;
+  color: var(--usm-blue);
+  margin-bottom: 0.6rem;
+}
+
+.usm-profile-body p {
+  margin: 0 0 0.8rem 0;
+}
+
+.usm-profile-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--usm-navy);
+  color: #fff !important;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+.usm-profile-links a:hover {
+  background: var(--usm-blue);
+}
+
+/* Timeline (experiencia / docencia) ------------------------------------------*/
+.usm-timeline {
+  list-style: none;
+  margin: 0.6rem 0 0 0;
+  padding: 0;
+  position: relative;
+}
+
+.usm-timeline li {
+  position: relative;
+  padding: 0 0 1.1rem 1.4rem;
+  border-left: 2px solid var(--md-accent-fg-color--transparent);
+}
+
+.usm-timeline li:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+
+.usm-timeline li::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--usm-blue);
+  border: 2px solid var(--md-default-bg-color);
+}
+
+.usm-timeline li.usm-current::before {
+  background: var(--usm-gold);
+}
+
+.usm-timeline .usm-timeline-title {
+  display: block;
+  font-weight: 700;
+  color: var(--usm-navy);
+}
+
+[data-md-color-scheme="slate"] .usm-timeline .usm-timeline-title {
+  color: #eef1fb;
+}
+
+.usm-timeline .usm-timeline-meta {
+  display: block;
+  font-size: 0.82rem;
+  opacity: 0.75;
+}
+
+.usm-timeline .usm-timeline-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  background: var(--usm-gold);
+  color: var(--usm-navy-dark);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+}
+
+/* Call-to-action box (ej. registro de grupos) --------------------------------*/
+.usm-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  border: 1px solid var(--md-accent-fg-color--transparent);
+  border-left: 5px solid var(--usm-gold);
+  border-radius: 8px;
+  padding: 1rem 1.3rem;
+  margin: 1.2rem 0;
+  background: var(--md-default-bg-color);
+}
+
+.usm-cta-text > strong {
+  display: block;
+  color: var(--usm-navy);
+  font-size: 1rem;
+  margin-bottom: 0.15rem;
+}
+
+[data-md-color-scheme="slate"] .usm-cta-text > strong {
+  color: #eef1fb;
+}
+
+.usm-cta-text span {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Negritas dentro del texto secundario: inline, sin romper el párrafo */
+.usm-cta-text span strong {
+  display: inline;
+  font-size: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+.usm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--usm-gold);
+  color: var(--usm-navy-dark) !important;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.usm-btn:hover {
+  background: #f2c334;
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   Simuladores interactivos de econometría (econ.js)
+   Cada <div class="econ-widget" data-widget="..."> es montado por econ.js.
+   Los colores del SVG usan las variables de la paleta, así funcionan en
+   modo claro y oscuro sin lógica adicional en JS.
+   ========================================================================== */
+.econ-widget {
+  --econ-ink: var(--md-default-fg-color);
+  --econ-muted: var(--md-default-fg-color--light);
+  --econ-grid: var(--md-default-fg-color--lightest);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-top: 4px solid var(--usm-blue);
+  border-radius: 10px;
+  padding: 1rem 1.2rem 1.1rem 1.2rem;
+  margin: 1.5rem 0;
+  background: var(--md-default-bg-color);
+}
+
+.econ-widget-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--usm-navy);
+  margin-bottom: 0.2rem;
+}
+
+[data-md-color-scheme="slate"] .econ-widget-title {
+  color: #eef1fb;
+}
+
+.econ-widget-title .econ-chip {
+  background: var(--usm-gold);
+  color: var(--usm-navy-dark);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+}
+
+.econ-widget-sub {
+  font-size: 0.78rem;
+  opacity: 0.8;
+  margin: 0 0 0.8rem 0;
+}
+
+.econ-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.6rem 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.econ-control label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.econ-control label output {
+  font-variant-numeric: tabular-nums;
+  color: var(--usm-blue);
+}
+
+.econ-control input[type="range"] {
+  width: 100%;
+  accent-color: var(--usm-blue);
+}
+
+.econ-control select,
+.econ-control input[type="number"] {
+  width: 100%;
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+}
+
+.econ-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.2rem 0 0.8rem 0;
+}
+
+.econ-btn {
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.4rem 0.95rem;
+  cursor: pointer;
+  background: var(--usm-navy);
+  color: #fff;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.econ-btn:hover {
+  background: var(--usm-blue);
+}
+
+.econ-btn:active {
+  transform: scale(0.97);
+}
+
+.econ-btn.econ-btn-gold {
+  background: var(--usm-gold);
+  color: var(--usm-navy-dark);
+}
+
+.econ-btn.econ-btn-ghost {
+  background: transparent;
+  color: var(--md-default-fg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.econ-btn[aria-pressed="true"] {
+  background: var(--usm-gold);
+  color: var(--usm-navy-dark);
+}
+
+.econ-plot {
+  width: 100%;
+  height: auto;
+  display: block;
+  touch-action: none;
+  user-select: none;
+}
+
+.econ-plot-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.econ-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.econ-stat {
+  flex: 1 1 120px;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-left: 3px solid var(--usm-blue);
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+}
+
+.econ-stat.is-gold { border-left-color: var(--usm-gold); }
+.econ-stat.is-red { border-left-color: var(--usm-red); }
+
+/* Sin text-transform: las mayúsculas convertirían μ en M y σ en Σ. */
+.econ-stat span {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.econ-stat strong {
+  display: block;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.econ-note {
+  font-size: 0.78rem;
+  margin-top: 0.7rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  background: var(--md-accent-fg-color--transparent);
+}
+
+/* SVG primitives ----------------------------------------------------------*/
+.econ-plot .ax { stroke: var(--econ-muted); stroke-width: 1; }
+.econ-plot .grid { stroke: var(--econ-grid); stroke-width: 1; }
+.econ-plot text { fill: var(--econ-ink); font-size: 11px; font-family: inherit; }
+.econ-plot text.muted { fill: var(--econ-muted); }
+.econ-plot .pt { fill: var(--usm-blue); fill-opacity: 0.75; }
+.econ-plot .pt-alt { fill: var(--usm-gold); fill-opacity: 0.9; }
+.econ-plot .pt-red { fill: var(--usm-red); fill-opacity: 0.8; }
+.econ-plot .bar { fill: var(--usm-blue); fill-opacity: 0.7; }
+.econ-plot .bar-gold { fill: var(--usm-gold); }
+.econ-plot .bar-red { fill: var(--usm-red); fill-opacity: 0.8; }
+.econ-plot .bar-navy { fill: var(--usm-navy); }
+.econ-plot .line { stroke: var(--usm-red); stroke-width: 2.5; fill: none; }
+.econ-plot .line-gold { stroke: var(--usm-gold); stroke-width: 2.5; fill: none; }
+.econ-plot .line-navy { stroke: var(--usm-navy); stroke-width: 2.5; fill: none; }
+.econ-plot .line-dash { stroke-dasharray: 6 4; }
+.econ-plot .resid { stroke: var(--usm-red); stroke-width: 1.2; stroke-opacity: 0.55; }
+.econ-plot .sq { fill: var(--usm-red); fill-opacity: 0.08; stroke: var(--usm-red); stroke-opacity: 0.25; }
+.econ-plot .ci-hit { stroke: var(--usm-blue); stroke-width: 2; }
+.econ-plot .ci-miss { stroke: var(--usm-red); stroke-width: 2.5; }
+.econ-plot .mu { stroke: var(--usm-gold); stroke-width: 2; }
+.econ-plot .drag { cursor: grab; }
+
+[data-md-color-scheme="slate"] .econ-plot .bar-navy { fill: #8fa3e8; }
+[data-md-color-scheme="slate"] .econ-plot .line-navy { stroke: #8fa3e8; }
+
+/* Tabla de outcomes potenciales -------------------------------------------*/
+.econ-po-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin: 0.4rem 0;
+}
+
+.econ-po-table th,
+.econ-po-table td {
+  padding: 0.35rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.econ-po-table th {
+  background: var(--usm-navy);
+  color: #fff;
+  font-weight: 600;
+}
+
+.econ-po-table td.hidden-po {
+  color: var(--econ-muted);
+  font-style: italic;
+}
+
+.econ-po-table td.revealed-po {
+  color: var(--usm-red);
+  font-weight: 700;
+}
+
+/* Quizzes -----------------------------------------------------------------*/
+.econ-quiz {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-left: 5px solid var(--usm-gold);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+}
+
+.econ-quiz-q {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.econ-quiz-opts {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.econ-quiz-opt {
+  text-align: left;
+  font: inherit;
+  font-size: 0.82rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.econ-quiz-opt:hover { border-color: var(--usm-blue); }
+.econ-quiz-opt.is-right { border-color: #2e8b57; background: #2e8b5722; }
+.econ-quiz-opt.is-wrong { border-color: var(--usm-red); background: color-mix(in srgb, var(--usm-red) 12%, transparent); }
+
+.econ-quiz-fb {
+  font-size: 0.8rem;
+  margin-top: 0.6rem;
+  display: none;
+}
+
+.econ-quiz-fb.is-visible { display: block; }
+
+/* Bloque de agenda de la clase -------------------------------------------*/
+.econ-agenda-break td {
+  font-style: italic;
+  opacity: 0.75;
+}
+
+/* Tarjetas de semana en el calendario ---------------------------------------*/
+.econ-week {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-left: 5px solid var(--usm-blue);
+  border-radius: 8px;
+  padding: 0.8rem 1.1rem;
+  margin: 0.9rem 0;
+}
+
+.econ-week.is-eval { border-left-color: var(--usm-red); }
+.econ-week.is-now { border-left-color: var(--usm-gold); background: var(--md-accent-fg-color--transparent); }
+
+.econ-week h3 {
+  margin: 0 0 0.3rem 0 !important;
+  font-size: 0.95rem;
+}
+
+.econ-week ul {
+  margin: 0.2rem 0 0 0 !important;
+}
+
+.econ-pill {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.08rem 0.5rem;
+  border-radius: 999px;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+  background: var(--usm-red);
+  color: #fff;
+}
+
+.econ-pill.is-gold { background: var(--usm-gold); color: var(--usm-navy-dark); }
+.econ-pill.is-grey { background: var(--md-default-fg-color--lighter); color: var(--md-default-bg-color); }
+.econ-pill.is-blue { background: var(--usm-blue); }
+
+@media (max-width: 600px) {
+  .econ-widget { padding: 0.8rem 0.8rem 0.9rem 0.8rem; }
+  .econ-controls { grid-template-columns: 1fr 1fr; }
+}
+
+/* Proporciones de columnas solo en pantallas anchas; en celular se apilan. */
+@media (min-width: 760px) {
+  .econ-plot-row.is-2-1 { grid-template-columns: 2fr 1fr; }
+  .econ-plot-row.is-3-2 { grid-template-columns: 3fr 2fr; }
+}
