@@ -47,7 +47,7 @@ def main():
     total = completas = 0
     for n, cfg in CLASES.items():
         pagina = palabras_html(site / "clases" / f"clase{n}" / "index.html")
-        for tex, _ in cfg["fuentes"]:
+        for tex, *_ in cfg["fuentes"]:
             print(f"== Clase {n} · {tex}")
             for i, (titulo, cuerpo) in enumerate(frames(SLIDES / tex), 1):
                 w = palabras_tex(cuerpo)

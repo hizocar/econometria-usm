@@ -119,29 +119,39 @@ C1_CABECERA = """# Clase 1 · Introducción y repaso de estadística
 </div>
 
 !!! info "Contenido oficial de la semana"
-    Esta página reproduce **íntegras y en orden** las diapositivas de la semana 1 (`sem1/`):
-    `clase1.tex`, `repaso_ayudantia.tex` y `repaso_estadistica.tex`. Los bloques
-    **Interactivo**, **Complemento** y las preguntas de autoevaluación son material adicional para
+    Esta página reproduce **íntegras y en orden** las diapositivas de la semana 1 (`sem1/`).
+    **Cátedra del viernes:** Parte 1 (`clase1.tex`). **Ayudantía:** Partes 2 y 3
+    (`repaso_ayudantia.tex` y `repaso_estadistica.tex`), que se ven otro día. Los bloques
+    **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para
     estudiar; las soluciones de los ejemplos aparecen plegadas para que intentes resolverlos antes.
 
 ## 🎯 Objetivos de la sesión
 
+**Cátedra (viernes)**
+
 - Entender qué es la econometría y qué tipo de preguntas permite responder.
 - Distinguir **correlación** de **causalidad** y el rol del supuesto *ceteris paribus*.
 - Reconocer los tipos de datos y los métodos de muestreo.
+
+**Ayudantía**
+
 - Repasar estadística descriptiva (localización, dispersión, histograma y boxplot) e inferencial
   (TCL e intervalos de confianza para medias, proporciones y diferencias de medias).
 
-## 🗓️ Agenda
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque |
-|---|---|
-| 18:40 – 18:55 | Presentación del curso: programa, evaluaciones, cátedra + taller, trabajo práctico |
-| 18:55 – 19:40 | **Parte 1** · Introducción: econometría, causalidad, tipos de datos y muestreo |
-| 19:40 – 19:55 | **Parte 2** · Repaso de estadística descriptiva |
-| 19:55 – 20:05 | *Receso* |
-| 20:05 – 21:15 | **Parte 3** · Repaso de inferencia: TCL e intervalos de confianza |
-| 21:15 – 21:25 | Autoevaluación y cierre |
+| Hora | Bloque | Láminas |
+|---|---|---|
+| 18:40 – 19:00 | Presentación del curso: programa, evaluaciones, cátedra + ayudantía, trabajo práctico | — |
+| 19:00 – 19:25 | ¿Qué es la econometría?, econometría moderna y método econométrico | 1 – 3 |
+| 19:25 – 19:55 | Causalidad y correlación: caso de los helados y los tiburones; ejemplo de la universidad | 4 – 6 |
+| 19:55 – 20:05 | *Receso* | |
+| 20:05 – 20:25 | Econometría como herramienta aplicada: Worms y consultorías | 7 |
+| 20:25 – 20:50 | Tipos de datos | 8 – 11 |
+| 20:50 – 21:15 | Muestreo: población y muestra, métodos aleatorios y no probabilísticos | 12 – 19 |
+| 21:15 – 21:25 | Estadística descriptiva vs. inferencial y cierre | 20 |
+
+Las **Partes 2 y 3** (repaso de estadística) se trabajan en la **ayudantía**.
 """
 
 C1_CIERRE = """## ✅ Autoevaluación
@@ -356,8 +366,10 @@ C3_INSERTAR = {
 CLASES = {
     1: dict(out="docs/clases/clase1.md", cabecera=C1_CABECERA, cierre=C1_CIERRE,
             fuentes=[("sem1/clase1.tex", "Parte 1 · Introducción a la econometría"),
-                     ("sem1/repaso_ayudantia.tex", "Parte 2 · Repaso de estadística descriptiva"),
-                     ("sem1/repaso_estadistica.tex", "Parte 3 · Repaso de estadística inferencial")],
+                     ("sem1/repaso_ayudantia.tex", "Parte 2 · Ayudantía · Repaso de estadística descriptiva",
+                      '!!! note "Material de ayudantía"\n'
+                      '    Las Partes 2 y 3 no se ven en la cátedra del viernes: se trabajan en la **ayudantía** de la semana.'),
+                     ("sem1/repaso_estadistica.tex", "Parte 3 · Ayudantía · Repaso de estadística inferencial")],
             insertar=C1_INSERTAR, plegar=C1_PLEGAR),
     2: dict(out="docs/clases/clase2.md", cabecera=C2_CABECERA, cierre=C2_CIERRE,
             fuentes=[("sem2/clase2.tex", "Regresión lineal simple")],
@@ -381,10 +393,12 @@ def norm(t):
 def generar(n):
     cfg = CLASES[n]
     partes = [cfg["cabecera"].strip()]
-    for tex, titulo in cfg["fuentes"]:
+    for tex, titulo, *extra in cfg["fuentes"]:
         fr = convert(SLIDES / tex, REPO, SLIDES)
         partes.append(f"---\n\n## {titulo}\n\n"
                       f'<p class="econ-source">📄 Diapositivas: <code>{tex}</code> · {len(fr)} láminas</p>')
+        if extra:
+            partes.append(extra[0])
         previo = None
         for i, (t, cuerpo) in enumerate(fr, 1):
             for (src, k), html in TIKZ.items():
@@ -412,7 +426,7 @@ def generar(n):
 def inventario():
     for n, cfg in CLASES.items():
         print(f"== Clase {n}")
-        for tex, _ in cfg["fuentes"]:
+        for tex, *_ in cfg["fuentes"]:
             print(f"  {tex}")
             for i, (t, _) in enumerate(frames(SLIDES / tex), 1):
                 print(f"    {i:2d}. {title_md(t)}")

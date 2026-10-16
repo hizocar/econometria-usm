@@ -9,29 +9,39 @@
 </div>
 
 !!! info "Contenido oficial de la semana"
-    Esta página reproduce **íntegras y en orden** las diapositivas de la semana 1 (`sem1/`):
-    `clase1.tex`, `repaso_ayudantia.tex` y `repaso_estadistica.tex`. Los bloques
-    **Interactivo**, **Complemento** y las preguntas de autoevaluación son material adicional para
+    Esta página reproduce **íntegras y en orden** las diapositivas de la semana 1 (`sem1/`).
+    **Cátedra del viernes:** Parte 1 (`clase1.tex`). **Ayudantía:** Partes 2 y 3
+    (`repaso_ayudantia.tex` y `repaso_estadistica.tex`), que se ven otro día. Los bloques
+    **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para
     estudiar; las soluciones de los ejemplos aparecen plegadas para que intentes resolverlos antes.
 
 ## 🎯 Objetivos de la sesión
 
+**Cátedra (viernes)**
+
 - Entender qué es la econometría y qué tipo de preguntas permite responder.
 - Distinguir **correlación** de **causalidad** y el rol del supuesto *ceteris paribus*.
 - Reconocer los tipos de datos y los métodos de muestreo.
+
+**Ayudantía**
+
 - Repasar estadística descriptiva (localización, dispersión, histograma y boxplot) e inferencial
   (TCL e intervalos de confianza para medias, proporciones y diferencias de medias).
 
-## 🗓️ Agenda
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque |
-|---|---|
-| 18:40 – 18:55 | Presentación del curso: programa, evaluaciones, cátedra + taller, trabajo práctico |
-| 18:55 – 19:40 | **Parte 1** · Introducción: econometría, causalidad, tipos de datos y muestreo |
-| 19:40 – 19:55 | **Parte 2** · Repaso de estadística descriptiva |
-| 19:55 – 20:05 | *Receso* |
-| 20:05 – 21:15 | **Parte 3** · Repaso de inferencia: TCL e intervalos de confianza |
-| 21:15 – 21:25 | Autoevaluación y cierre |
+| Hora | Bloque | Láminas |
+|---|---|---|
+| 18:40 – 19:00 | Presentación del curso: programa, evaluaciones, cátedra + ayudantía, trabajo práctico | — |
+| 19:00 – 19:25 | ¿Qué es la econometría?, econometría moderna y método econométrico | 1 – 3 |
+| 19:25 – 19:55 | Causalidad y correlación: caso de los helados y los tiburones; ejemplo de la universidad | 4 – 6 |
+| 19:55 – 20:05 | *Receso* | |
+| 20:05 – 20:25 | Econometría como herramienta aplicada: Worms y consultorías | 7 |
+| 20:25 – 20:50 | Tipos de datos | 8 – 11 |
+| 20:50 – 21:15 | Muestreo: población y muestra, métodos aleatorios y no probabilísticos | 12 – 19 |
+| 21:15 – 21:25 | Estadística descriptiva vs. inferencial y cierre | 20 |
+
+Las **Partes 2 y 3** (repaso de estadística) se trabajan en la **ayudantía**.
 
 ---
 
@@ -292,9 +302,12 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 
 ---
 
-## Parte 2 · Repaso de estadística descriptiva
+## Parte 2 · Ayudantía · Repaso de estadística descriptiva
 
 <p class="econ-source">📄 Diapositivas: <code>sem1/repaso_ayudantia.tex</code> · 10 láminas</p>
+
+!!! note "Material de ayudantía"
+    Las Partes 2 y 3 no se ven en la cátedra del viernes: se trabajan en la **ayudantía** de la semana.
 
 ### Ramas de la Estadística
 
@@ -427,7 +440,7 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 ---
 
-## Parte 3 · Repaso de estadística inferencial
+## Parte 3 · Ayudantía · Repaso de estadística inferencial
 
 <p class="econ-source">📄 Diapositivas: <code>sem1/repaso_estadistica.tex</code> · 34 láminas</p>
 

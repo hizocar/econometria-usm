@@ -13,8 +13,10 @@
 <div class="econ-week" markdown>
 ### Semana 1 · 12 al 17 de octubre <span class="econ-pill is-gold">En curso</span>
 - **Lunes 12** — 🏖️ Feriado (Encuentro de Dos Mundos): sin taller.
-- **Viernes 16** — [Clase 1 · Introducción y repaso de estadística](clases/clase1.md): econometría,
-  tipos de datos, muestreo, TCL e intervalos de confianza.
+- **Viernes 16** — [Clase 1 · Introducción](clases/clase1.md): econometría, causalidad,
+  tipos de datos y muestreo.
+- **Ayudantía** — Repaso de estadística descriptiva e inferencial (TCL e intervalos de confianza),
+  [Partes 2 y 3 de la Clase 1](clases/clase1.md).
 </div>
 
 <div class="econ-week is-eval" markdown>

@@ -18,7 +18,8 @@ complementan con el **taller de los lunes** (Iván). El detalle de fechas está 
 
 <div class="usm-card" markdown>
 ### 1️⃣ Introducción y repaso de estadística
-**Viernes 16 de octubre** · ¿Qué es la econometría? · Tipos de datos · Muestreo · Estadística descriptiva · TCL · Intervalos de confianza
+**Viernes 16 de octubre** · Cátedra: ¿qué es la econometría? · Causalidad · Tipos de datos · Muestreo<br>
+**Ayudantía:** repaso de estadística descriptiva, TCL e intervalos de confianza
 
 🧪 5 simuladores · 🦈 9 casos ilustrados (helados y tiburones, Bill Gates en el bar, la sopa, Literary Digest…)
 
