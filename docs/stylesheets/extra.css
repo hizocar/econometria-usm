@@ -860,3 +860,56 @@
   .econ-plot-row.is-2-1 { grid-template-columns: 2fr 1fr; }
   .econ-plot-row.is-3-2 { grid-template-columns: 3fr 2fr; }
 }
+
+/* ==========================================================================
+   Láminas oficiales convertidas desde los .tex (tools/clases.py)
+   ========================================================================== */
+.econ-source {
+  font-size: 0.74rem;
+  opacity: 0.75;
+  margin-top: -0.4rem;
+}
+
+/* Figuras de las diapositivas: fondo blanco para que se lean también en modo oscuro */
+.md-typeset img.econ-slide-img {
+  display: block;
+  max-width: min(560px, 100%);
+  margin: 0.8rem auto;
+  background: #fff;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+/* Figuras TikZ re-dibujadas */
+/* Prefijo .md-typeset: Material fija ".md-typeset svg { max-width: 100% }" */
+.md-typeset .econ-tikz-svg {
+  display: inline-block;
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  vertical-align: middle;
+  margin: 0.4rem 0;
+  font-size: 13px;
+}
+
+.md-typeset .econ-tikz-svg.econ-dag { max-width: 190px; }
+
+.econ-tikz-tree {
+  max-width: 560px;
+  margin: 1rem auto;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.econ-tikz-tree .t-root { font-weight: 700; }
+
+.econ-tikz-tree .t-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0.2rem 0;
+}
+
+.econ-tikz-tree .t-row > span { font-size: 1.4rem; line-height: 1; }
+
+.econ-tikz-tree .t-cf { color: var(--usm-red); }

@@ -506,6 +506,132 @@
     draw();
   };
 
+  /* --- Estadística descriptiva: histograma y boxplot ----------------------- */
+  /* Sigue las definiciones de las láminas de repaso_ayudantia.tex: media, mediana (n par/impar),
+     cuartiles, RIQ, varianza con n − 1 y bigotes = mín(q3 + 1.5·RIQ, máximo) / máx(q1 − 1.5·RIQ, mínimo). */
+  WIDGETS.descriptiva = function (root) {
+    header(root, "Simulador: estadísticos descriptivos, histograma y boxplot",
+      "Sueldos líquidos mensuales (miles de $) de una muestra. Arrastra los puntos de la franja inferior, agrega un dato " +
+      "atípico o cambia el número de rangos del histograma, y observa qué estadísticos reaccionan.");
+    const DOM = [0, 3600];
+    const st = { bins: 10, drag: -1, data: [] };
+    function fresh(seed) {
+      const r = rng(seed);
+      st.data = Array.from({ length: 15 }, () => Math.round(Math.min(2400, Math.max(450, 950 + 280 * gauss(r)))));
+    }
+    fresh(21);
+
+    const c = controls(root);
+    slider(c, { label: "Número de rangos del histograma", min: 4, max: 24, step: 1, value: st.bins }, (v) => { st.bins = v; render(); });
+    const b = buttons(root);
+    btn(b, "Agregar dato atípico", () => { st.data.push(3200 + Math.round(300 * Math.random())); render(); }, "econ-btn-gold");
+    btn(b, "Quitar último dato", () => { if (st.data.length > 4) st.data.pop(); render(); });
+    btn(b, "Nuevos datos", () => { fresh(newSeed()); render(); }, "econ-btn-ghost");
+
+    const wrap = h("div");
+    root.append(wrap);
+    const p = plot(wrap, 600, 360, { l: 14, t: 10, b: 36 });
+    const stats = statsRow(root, [
+      { k: "n", label: "n" },
+      { k: "mean", label: "Media X̄", cls: "is-gold" },
+      { k: "med", label: "Mediana" },
+      { k: "q", label: "q₁ ; q₃" },
+      { k: "riq", label: "RIQ = q₃ − q₁" },
+      { k: "var", label: "Varianza (n − 1)" },
+      { k: "sd", label: "Desv. estándar S", cls: "is-red" },
+    ]);
+    const n = note(root);
+
+    // Bandas verticales del gráfico (coordenadas del viewBox)
+    const HIST = [10, 190], BOX = [212, 252], STRIP = [276, 316];
+
+    function quantile(sorted, pr) {
+      // Percentil por interpolación lineal (método por defecto de R, Python y Excel).
+      const h0 = (sorted.length - 1) * pr;
+      const lo = Math.floor(h0);
+      return sorted[lo] + (h0 - lo) * ((sorted[lo + 1] ?? sorted[lo]) - sorted[lo]);
+    }
+    function median(sorted) {
+      const k = sorted.length;
+      return k % 2 ? sorted[(k - 1) / 2] : (sorted[k / 2 - 1] + sorted[k / 2]) / 2;
+    }
+
+    p.svg.addEventListener("pointerdown", (e) => {
+      const q = p.local(e);
+      if (q.y < STRIP[0] - 10) return;
+      let best = -1, bd = 14;
+      st.data.forEach((v, i) => {
+        const dist = Math.abs(p.x(v) - q.x);
+        if (dist < bd) { bd = dist; best = i; }
+      });
+      if (best >= 0) { st.drag = best; p.svg.setPointerCapture(e.pointerId); e.preventDefault(); }
+    });
+    p.svg.addEventListener("pointermove", (e) => {
+      if (st.drag < 0) return;
+      st.data[st.drag] = Math.round(Math.min(DOM[1] - 10, Math.max(DOM[0] + 10, p.ix(p.local(e).x))));
+      render();
+    });
+    const end = () => { st.drag = -1; };
+    p.svg.addEventListener("pointerup", end);
+    p.svg.addEventListener("pointercancel", end);
+
+    function render() {
+      const s = [...st.data].sort((a, b2) => a - b2);
+      const xbar = mean(s), med = median(s), q1 = quantile(s, 0.25), q3 = quantile(s, 0.75), riq = q3 - q1;
+      const v = sd(s) ** 2;
+      const wHi = Math.min(q3 + 1.5 * riq, s[s.length - 1]);
+      const wLo = Math.max(q1 - 1.5 * riq, s[0]);
+
+      p.clear();
+      p.domain(DOM, [0, 1]);
+      p.axes({ noY: true, xlabel: "Sueldo (miles de $)" });
+      const g = el("g", {}, p.svg);
+      // Histograma
+      const H = histogram(s, DOM[0], DOM[1], st.bins);
+      const top = Math.max(...H.counts);
+      const hy = (cnt) => HIST[1] - (cnt / (top * 1.35)) * (HIST[1] - HIST[0]);
+      H.counts.forEach((cnt, i) => {
+        if (!cnt) return;
+        el("rect", { x: p.x(H.lo + i * H.w) + 0.5, width: p.x(H.w) - p.x(0) - 1, y: hy(cnt), height: HIST[1] - hy(cnt), class: "bar" }, g);
+        text(g, p.x(H.lo + (i + 0.5) * H.w), hy(cnt) - 4, String(cnt), { "text-anchor": "middle", class: "muted" });
+      });
+      el("line", { x1: p.m.l, x2: p.w - p.m.r, y1: HIST[1], y2: HIST[1], class: "ax" }, g);
+      text(g, p.m.l + 4, HIST[0] + 12, "Histograma (frecuencia por rango)", { "font-weight": "700" });
+      // Boxplot
+      const ym = (BOX[0] + BOX[1]) / 2;
+      el("line", { x1: p.x(wLo), x2: p.x(q1), y1: ym, y2: ym, class: "line-navy" }, g);
+      el("line", { x1: p.x(q3), x2: p.x(wHi), y1: ym, y2: ym, class: "line-navy" }, g);
+      [wLo, wHi].forEach((w) => el("line", { x1: p.x(w), x2: p.x(w), y1: BOX[0] + 8, y2: BOX[1] - 8, class: "line-navy" }, g));
+      el("rect", { x: p.x(q1), width: Math.max(1, p.x(q3) - p.x(q1)), y: BOX[0], height: BOX[1] - BOX[0], class: "bar", style: "fill-opacity:.25;stroke:var(--usm-navy);stroke-width:2px" }, g);
+      el("line", { x1: p.x(med), x2: p.x(med), y1: BOX[0], y2: BOX[1], class: "line-navy", style: "stroke-width:4px" }, g);
+      el("polygon", { points: `${p.x(xbar)},${ym - 7} ${p.x(xbar) + 7},${ym} ${p.x(xbar)},${ym + 7} ${p.x(xbar) - 7},${ym}`, class: "pt-alt", stroke: "currentColor" }, g);
+      s.filter((x) => x > wHi || x < wLo).forEach((x) => el("circle", { cx: p.x(x), cy: ym, r: 5, class: "pt-red" }, g));
+      text(g, p.m.l + 4, BOX[0] - 6, "Boxplot  (◆ = media, | = mediana)", { "font-weight": "700" });
+      // Franja de datos (arrastrables)
+      el("rect", { x: p.m.l, y: STRIP[0], width: p.w - p.m.l - p.m.r, height: STRIP[1] - STRIP[0], class: "grid", fill: "none", rx: 6 }, g);
+      st.data.forEach((x, i) => el("circle", {
+        cx: p.x(x), cy: (STRIP[0] + STRIP[1]) / 2, r: st.drag === i ? 9 : 7,
+        class: (x > wHi || x < wLo) ? "pt-red drag" : "pt drag", stroke: "currentColor",
+      }, g));
+      text(g, p.w - p.m.r - 4, STRIP[0] - 6, "Datos: arrástralos ↔", { "text-anchor": "end", class: "muted" });
+
+      stats.set("n", String(s.length));
+      stats.set("mean", f(xbar, 1));
+      stats.set("med", f(med, 1));
+      stats.set("q", `${f(q1, 0)} ; ${f(q3, 0)}`);
+      stats.set("riq", f(riq, 0));
+      stats.set("var", f(v, 0)); // sin separador de miles: las láminas usan punto decimal
+      stats.set("sd", f(Math.sqrt(v), 1));
+      const outl = s.filter((x) => x > wHi || x < wLo).length;
+      n.innerHTML = `n = ${s.length} es ${s.length % 2 ? "impar: la mediana es el dato central X₍" + (s.length + 1) / 2 + "₎" : "par: la mediana es el promedio de X₍" + s.length / 2 + "₎ y X₍" + (s.length / 2 + 1) + "₎"}. ` +
+        `Bigote superior = mín(q₃ + 1.5·RIQ, máximo) = ${f(wHi, 0)}; bigote inferior = máx(q₁ − 1.5·RIQ, mínimo) = ${f(wLo, 0)}. ` +
+        (outl ? `<strong>${outl} punto(s) fuera de los bigotes</strong> (atípicos, en rojo): mira cómo mueven la media y la desviación estándar, pero casi no la mediana ni el RIQ.`
+          : "Agrega un dato atípico y compara cuánto se mueven la media y la mediana.") +
+        " <em>Cuartiles calculados por interpolación lineal (método por defecto de R, Python y Excel).</em>";
+    }
+    render();
+  };
+
   /* --- Teorema Central del Límite ---------------------------------------- */
   WIDGETS.tcl = function (root) {
     header(root, "Simulador: Teorema Central del Límite",

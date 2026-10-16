@@ -1,148 +1,171 @@
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
 # Clase 1 · Introducción y repaso de estadística
 
 <div class="usm-session-meta">
 <span>📅 Viernes 16 de octubre de 2026</span>
 <span>⏱️ 18:40 – 21:25</span>
-<span class="usm-tag-gold">Contenidos 1, 2 y 3 del programa</span>
+<span class="usm-tag-gold">Semana 1 · Contenidos 1, 2 y 3 del programa</span>
 </div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la semana 1 (`sem1/`):
+    `clase1.tex`, `repaso_ayudantia.tex` y `repaso_estadistica.tex`. Los bloques
+    **Interactivo**, **Complemento** y las preguntas de autoevaluación son material adicional para
+    estudiar; las soluciones de los ejemplos aparecen plegadas para que intentes resolverlos antes.
 
 ## 🎯 Objetivos de la sesión
 
 - Entender qué es la econometría y qué tipo de preguntas permite responder.
 - Distinguir **correlación** de **causalidad** y el rol del supuesto *ceteris paribus*.
-- Reconocer los tipos de datos (experimentales vs. observacionales; corte transversal, series de
-  tiempo y panel).
-- Repasar muestreo, el **Teorema Central del Límite** e **intervalos de confianza** para medias,
-  proporciones y diferencias de medias.
-
----
+- Reconocer los tipos de datos y los métodos de muestreo.
+- Repasar estadística descriptiva (localización, dispersión, histograma y boxplot) e inferencial
+  (TCL e intervalos de confianza para medias, proporciones y diferencias de medias).
 
 ## 🗓️ Agenda
 
 | Hora | Bloque |
 |---|---|
-| 18:40 – 19:00 | Presentación del curso: programa, evaluaciones, cátedra + taller, trabajo práctico |
-| 19:00 – 19:30 | ¿Qué es la econometría? Método econométrico, correlación vs. causalidad |
-| 19:30 – 19:55 | Tipos de datos |
+| 18:40 – 18:55 | Presentación del curso: programa, evaluaciones, cátedra + taller, trabajo práctico |
+| 18:55 – 19:40 | **Parte 1** · Introducción: econometría, causalidad, tipos de datos y muestreo |
+| 19:40 – 19:55 | **Parte 2** · Repaso de estadística descriptiva |
 | 19:55 – 20:05 | *Receso* |
-| 20:05 – 20:30 | Muestreo: población, parámetro, estadístico y métodos de muestreo |
-| 20:30 – 21:10 | Repaso de inferencia: TCL e intervalos de confianza |
-| 21:10 – 21:25 | Ejercicios rápidos y cierre |
+| 20:05 – 21:15 | **Parte 3** · Repaso de inferencia: TCL e intervalos de confianza |
+| 21:15 – 21:25 | Autoevaluación y cierre |
 
 ---
 
-## 1. ¿Qué es la econometría?
+## Parte 1 · Introducción a la econometría
 
-La econometría es una disciplina que emplea la **teoría económica** y **métodos estadísticos** para
-contrastar teorías, pronosticar variables y evaluar políticas públicas utilizando bases de datos.
-Es una aplicación del método científico en economía: nos permite **refutar hipótesis económicas**.
+<p class="econ-source">📄 Diapositivas: <code>sem1/clase1.tex</code> · 20 láminas</p>
 
-Nos permite contestar preguntas como:
+### ¿Qué es econometría?
 
-1. ¿Cuál es la brecha salarial por género?
-2. ¿Cuál es el efecto de haber completado la universidad en el salario?
+<!-- sem1/clase1.tex · lámina 1 -->
 
-La econometría moderna se enfoca en tres tipos de preguntas:
+-   Es una disciplina que emplea la teoría económica y métodos estadísticos para contrastar distintas teorías, pronosticar variables y evaluar políticas públicas utilizando bases de datos.
 
-- **Describir:** estimar cómo la esperanza condicional de una variable depende de otra.
-- **Identificar causas:** estimar el impacto causal de una variable sobre otra.
-- **Predecir:** pronosticar el comportamiento de una variable hacia el futuro.
+-   Es una aplicación del metodo científico en economía. Nos permite refutar hipótesis económicas.
 
-### El método econométrico
+-   Nos permite contestar preguntas como por ejemplo:
 
-1. **Definir el objetivo:** ¿qué quiero estudiar?
-2. **Modelo económico:** explica el comportamiento de una variable en función de otras,
-   $Y = f(x_1, x_2, \dots, x_k)$.
-    - *Ejemplo 1 — función de producción:* $Y = A K^{\alpha} L^{\beta}$
-    - *Ejemplo 2 — retornos a la educación:* $\text{salario} = f(\text{educ}, \text{experiencia}, \text{ingfamiliar}, \text{habilidad})$
-3. **Modelo econométrico:** permite cuantificar, contrastar y evaluar el modelo económico.
-    - Especificar la forma de $f(\cdot)$.
-    - Las variables económicas son aleatorias, así que incorporamos un **término de error**:
-      $y = f(x_1, x_2, \dots, x_k) + u$
-    - Conseguir los **datos**.
+    1.  Cuál es la brecha salarial por género?
 
-### Correlación no es causalidad
+    2.  Cuál es el efecto de haber completado la universidad en el salario?
 
-Muchas veces nos interesa el **efecto causal** de una variable sobre otra. El concepto clave es
-***ceteris paribus***: el efecto de $X$ sobre $Y$ **manteniendo todos los demás factores relevantes
-constantes**. En ciencias sociales esto es muy difícil en la práctica; durante el curso veremos los
-supuestos y técnicas necesarios para lograrlo.
+### Econometría moderna
 
-Una **correlación espuria** es una relación matemática entre variables que no tienen una relación
-lógica entre sí.
+<!-- sem1/clase1.tex · lámina 2 -->
 
-!!! question "Para discutir"
-    En una base de personas de 35 años en Chile, quienes terminaron la universidad ganan **30% más**
-    que quienes no la terminaron. ¿Podemos concluir que ir a la universidad **causa** un aumento del
-    ingreso?
+La econometría moderna se enfoca en contestar 3 tipos de preguntas:
+
+-   Estimar como la esperanza condicional de una variable depende de otra.
+
+-   Estimar el impacto causal de una variable sobre la otra.
+
+-   Predecir el comportamento de una variable hacia el futuro.
+
+### Método econométrico
+
+<!-- sem1/clase1.tex · lámina 3 -->
+
+-   Definir objetivo: qué quiero estudiar?
+
+-   Estructura:
+
+    1.  **Modelo Económico:** modelos que explican el comportamiento de una variable económica en función de otras.<br>
+        $Y = f (x_1; x_2; ...; x_k)$<br>
+        Ejemplo 1: Función de producción $Y = AK^{\alpha}L^{\beta}$<br>
+        Ejemplo 2: Retornos educación<br>
+        salario = f (educ; experiencia; ingfamiliar ; habilidad)
+
+    2.  **Modelo econométrico:** permite cuantificar, contrastar y evaluar el modelo económico.
+
+        1.  Especificar la funcion f (:).
+
+        2.  Las variables económicas son aleatorias por lo que lo incorporamos con un termino de error:<br>
+            $y = f (x_1; x_2;...; x_k) + u$
+
+        3.  Los datos.
+
+### Causalidad y correlación
+
+<!-- sem1/clase1.tex · lámina 4 -->
+
+**Correlación no es causalidad**
+
+-   Muchas veces nos interesa conocer el efecto causal de una variable sobre otra.
+
+-   El concepto **ceteris paribus** es clave para la causalidad: efecto de X sobre Y *manteniendo todos los demas factores relevantes constantes*. Muy difícil en la práctica en ciencias sociales.
+
+-   Vamos a ver en el curso los supuestos necesarios y técnicas para hacerlo.
+
+**Correlación espuria:** existe una relación matemática pero los factores no presentan una relación lógica.
+
+### Ejemplo
+
+<!-- sem1/clase1.tex · lámina 5 -->
+
+-   Información: En una base de individuos de 35 años de Chile, encuentro que las personas que terminaron la universidad ganan 30% más que las que no la terminaron.
+
+-   Pregunta: De lo anterior, puedo concluir que ir a la universidad causa un aumento del ingreso de los individuos?
+
+<!-- sem1/clase1.tex · lámina 6 -->
 
 ??? success "Respuesta"
-    **No.** Ir a la universidad está asociado con muchas otras características que también afectan
-    el ingreso: la habilidad, el ingreso de los padres, las redes, etc. El 30% mezcla el efecto de
-    la universidad con el de todas esas diferencias. En la [Clase 3](clase3.md) le pondremos nombre
-    a ese problema: **sesgo de selección**.
+    No puedo concluir eso.
 
-### La econometría como herramienta aplicada
+    -   Ir a la universidad está asociado con un montón de otras características que tambien afectan ingreso.
 
-- **¿Cómo solucionamos los parásitos intestinales en África?** Miguel y Kremer (2004), *Worms*:
-  repartir píldoras antiparasitarias en colegios mejora la salud y reduce el ausentismo escolar, no
-  solo de los tratados sino también de sus vecinos. Gracias a estos estudios, la iniciativa
-  *Deworm the World* ha movilizado enormes recursos para esta política. 📖 **Es la lectura del
-  Certamen 1.**
-- **¿Pueden las consultoras de gestión mejorar la productividad de las firmas?** Bloom et al.
-  (2013), *Does Management Matter? Evidence from India*: muestra que sí, y lo cuantifica
-  ([J-PAL](https://www.povertyactionlab.org/evaluation/increasing-firm-productivity-through-management-consulting-services-india)).
+    -   Por ejemplo, la habilidad, el ingreso de los padres, etc.
 
----
+### Econometría como herramienta aplicada
 
-## 2. Tipos de datos
+<!-- sem1/clase1.tex · lámina 7 -->
 
-**Según cómo se asigna la "exposición" (el tratamiento):**
+-   **Pregunta: como solucionamos problemas de worms intestinales en Africa?**<br>
+    Miguel y Kremer (2004), *Worms: Identifying Impacts on Education and Health in the Presence of Treatment Externalities*: Encuentran que repartir pildoras en colegios, mejora la salud, reduce el ausentismo educacional no solo de los tratados sino también de sus vecinos. Gracias a estos estudios la iniciativa deworming the world recauda billones de dólares para esta política.
 
-| Tipo | ¿Quién decide la exposición? |
-|---|---|
-| **Experimental** | El investigador asigna la exposición **en forma aleatoria**. |
-| **Pseudo-experimental** | El investigador controla la exposición, pero **no** la asigna aleatoriamente. |
-| **Observacional** (no experimental) | El investigador **no controla** la exposición: depende de variables que no maneja. |
+-   **Pregunta: las consultoras de management pueden mejorar la productividad de las firmas?**
 
-En economía rara vez se usan datos experimentales: son caros y pueden presentar problemas éticos.
+    Bloom et al. (2017) *Increasing Firm Productivity through Management Consulting Services in India*: Muestra que si y lo cuantifica.
 
-**Según su estructura:**
+    [ **JPAL**](https://www.povertyactionlab.org/evaluation/increasing-firm-productivity-through-management-consulting-services-india)
 
-=== "Corte transversal"
+### Tipos de Datos
 
-    Muestra de individuos, hogares, empresas, regiones o países **en un momento dado**. Se asume
-    que los datos se obtuvieron por **muestreo aleatorio** desde la población. Diferencias
-    temporales menores en la recolección se ignoran.
+<!-- sem1/clase1.tex · lámina 8 -->
 
-    *Ej.: encuesta CASEN 2022 — ingreso, educación y edad de cada persona encuestada.*
+-   **Experimentales**: el investigador asigna en forma aleatoria la exposición.
 
-=== "Series de tiempo"
+-   **Pseudo-experimental**: el investigador controla la exposición pero no asigna en forma aleatoria.
 
-    Observaciones de una o más variables **a lo largo del tiempo** (diaria, mensual, trimestral,
-    anual…). Los eventos pasados influyen en los futuros y los rezagos son frecuentes: a diferencia
-    del corte transversal, **las observaciones no pueden asumirse independientes**.
+-   **Observacional (o no-experimental)**: el investigador no controla la exposición, depende de variables que el no controla.
 
-    *Ej.: IPC mensual, precio del dólar, ventas de automóviles.*
+**Rara vez usa datos experimentales extremadamente caros, problemas éticos.**
 
-=== "Panel (longitudinales)"
+<!-- sem1/clase1.tex · lámina 9 -->
 
-    Una serie de tiempo **para cada miembro** del conjunto de datos: los **mismos** individuos,
-    firmas o países se siguen por varios períodos.
+**Corte transversal:** Muestra de individuos, hogares, empresas, regiones, países, etc., recolectados en un tiempo dado. A veces el estudio no se realiza exactamente en el mismo periodo de tiempo para todos las unidades evaluadas, pero diferencias temporales menores se ignoran. Se asume que los datos fueron obtenidos por muestreo aleatorio (random sampling) desde la población subyacente.
 
-    *Ej.: 10 años de salario, educación y empleo de un grupo de personas.*
+<!-- sem1/clase1.tex · lámina 10 -->
 
-    **Ventajas:** permite controlar características no observadas que no cambian en el tiempo,
-    facilita la inferencia causal y permite estudiar efectos rezagados.
+**Series de tiempo:** Observaciones de una o más variables en el tiempo. Ej. Precios de acciones, dólar, IPC, ventas de automóviles, etc. Eventos pasados influencian eventos futuros. Rezagos en el comportamiento son prevalentes en ciencias sociales. Tiempo es una dimensión importante en datos de series de tiempo. Frecuencia $\Delta$ tiempo=1, día, año, semestre, trimestre, etc. A diferencia de datos de corte transversal, datos de series de tiempo no pueden asumirse independientes.
+
+<!-- sem1/clase1.tex · lámina 11 -->
+
+**Datos longitudinales o de panel:** Consiste en una serie de tiempo para cada miembro del set de datos. Ejemplo: 10 años de datos de salario, educación y empleo sobre un set de individuos. Diferencias con los anteriores es que los mismos individuos, firmas o países, son seguidos por varios años.
+
+Varias ventajas: Control de ciertas características no observadas de individuos, firmas, etc. Facilita estudios de causa-efecto (inferencia causal). Permite estudiar los efectos del rezago en el comportamiento o resultado.
 
 <div class="econ-quiz">
 <p class="econ-quiz-q">Tienes el PIB trimestral de Chile, Perú y Colombia entre 2000 y 2024. ¿Qué tipo de datos son?</p>
 <div class="econ-quiz-opts">
 <button class="econ-quiz-opt">Corte transversal</button>
-<button class="econ-quiz-opt">Serie de tiempo</button>
-<button class="econ-quiz-opt" data-correct>Panel</button>
+<button class="econ-quiz-opt">Series de tiempo</button>
+<button class="econ-quiz-opt" data-correct>Datos de panel</button>
 </div>
-<p class="econ-quiz-fb">✅ Es un <strong>panel</strong>: las mismas unidades (3 países) observadas en muchos períodos. Si tuvieras solo Chile, sería una serie de tiempo; si fuera solo el año 2024 para muchos países, un corte transversal.</p>
+<p class="econ-quiz-fb">✅ Es un <strong>panel</strong>: las mismas unidades (3 países) observadas en muchos períodos. Solo Chile sería una serie de tiempo; solo el año 2024 para muchos países, un corte transversal.</p>
 </div>
 
 <div class="econ-quiz">
@@ -152,173 +175,755 @@ En economía rara vez se usan datos experimentales: son caros y pueden presentar
 <button class="econ-quiz-opt">Pseudo-experimentales</button>
 <button class="econ-quiz-opt">Observacionales</button>
 </div>
-<p class="econ-quiz-fb">✅ La exposición la decide quien investiga <strong>y al azar</strong>: es un experimento. Si el gerente eligiera las sucursales "más motivadas", sería pseudo-experimental; si cada sucursal decidiera adoptarlo, observacional.</p>
+<p class="econ-quiz-fb">✅ La exposición la asigna el investigador <strong>en forma aleatoria</strong>: es un experimento. Si el gerente eligiera las sucursales, sería pseudo-experimental; si cada sucursal decidiera adoptarlo, observacional.</p>
 </div>
 
----
+### Muestreo
 
-## 3. Muestreo
+<!-- sem1/clase1.tex · lámina 12 -->
 
-Los datos se obtienen sobre conjuntos de individuos u objetos de los que queremos conocer alguna
-característica. Cada individuo es una **unidad de observación** y la totalidad de ellas es la
-**población**. El **muestreo** es el conjunto de métodos para obtener una **muestra** de la
-población con el fin de hacer inferencias sobre ella.
+Los datos experimentales son obtenidos sobre conjuntos de individuos u objetos, sobre los cuales se quiere conocer algunas características.
 
-Una muestra es **representativa** si toda unidad de la población puede aparecer en ella con una
-probabilidad conocida.
+Llamaremos **unidad de observación** a estos individuos y la totalidad de estas unidades de observación se denomina **población.**
 
-**¿Por qué muestrear?** Porque es físicamente imposible revisar todos los elementos, porque
-estudiar a toda la población es muy costoso, y porque los resultados del muestreo suelen ser
-adecuados.
+El Muestreo es la disciplina que trata con el conjunto de métodos, técnicas y procedimientos para tomar u obtener una muestra particular de la población a efecto de realizar inferencias a partir de la misma.
 
-**Objetivo del muestreo: estimar los parámetros de la población.**
+<!-- sem1/clase1.tex · lámina 13 -->
 
-| Concepto | Definición | Ejemplo |
-|---|---|---|
-| **Variable** | Lo que se mide en cada unidad | Ingreso, años de educación |
-| **Parámetro** | Valor numérico que describe a **toda la población** (normalmente desconocido) | $\mu$, $\sigma$, $\beta$ |
-| **Estadístico** | Valor calculado **con la muestra**, que usamos para estimar el parámetro | $\bar{x}$, $s$, $\hat{\beta}$ |
+Se dice que una muestra es representativa de una población si toda unidad de observación podrá aparecer en la muestra, y esto con una probabilidad conocida.
 
-### Métodos de muestreo aleatorio
+![Muestreo](../images/slides/sem1_image.png){ .econ-slide-img }
 
-- **Aleatorio simple:** cada elemento tiene la misma probabilidad de ser incluido.
-- **Sistemático:** se ordena la población, se elige un inicio al azar y luego cada $k$-ésimo
-  elemento. Técnicamente no es del todo aleatorio: solo la selección del primero lo es.
-- **Estratificado:** se divide la población en **estratos** (internamente **homogéneos**) y se
-  sortea una muestra **dentro de cada uno**.
-- **Por conglomerados:** se divide la población en grupos (p. ej., geográficos) internamente
-  **heterogéneos**, se sortean **grupos** y se muestrea dentro de los grupos elegidos.
+### ¿Por qué muestrear la población?
 
-En el **muestreo no probabilístico**, la inclusión depende del juicio de quien selecciona (p. ej.,
-encuestar a quienes pasan por un mall): no permite conocer la probabilidad de selección.
+<!-- sem1/clase1.tex · lámina 14 -->
+
+-   Imposibilidad física de chequear todos los ítems en la población.
+
+-   El costo de estudiar todos los elementos en la población.
+
+-   Los resultados del muestreo son normalmente adecuados.
+
+### Objetivos del muestreo
+
+<!-- sem1/clase1.tex · lámina 15 -->
+
+**Estimar los parámetros de la población.**
+
+-   Variable: lo que se desea medir en la muestra. Ej. Nivel de educación, nivel de ingresos, etc.
+
+-   Parámetros: valor numérico que describe una característica de una población completa. Promedio, desviación estándar, betas, etc.
+
+-   Estadístico: calculado sobre la muestra.
+
+-   Los parámetros normalmente son desconocidos, se estiman a través del estadístico.
+
+### Muestreo aleatorio
+
+<!-- sem1/clase1.tex · lámina 16 -->
+
+-   **Muestreo aleatorio simple:** muestra seleccionada de manera que cada elemento o individuo de la población tenga las mismas posibilidades de que se le incluya.
+
+-   **Muestreo aleatorio sistemático:** Los elementos o individuos de la población se ordenan de alguna manera. Se selecciona un punto aleatorio de inicio y posteriormente se elige cada k-esimo miembro de la población. A nivel técnico, el muestreo sistemático no crea una muestra verdaderamente aleatoria. Sólo la selección del primer elemento de muestreo sistemático es una selección de probabilidad. Una vez que el primer elemento es seleccionado, algunos de los elementos tendrán una probabilidad cero de selección.
+
+<!-- sem1/clase1.tex · lámina 17 -->
+
+-   **Muestreo aleatorio estratificado:** La población se divide en subgrupos denominados estratos y se selecciona al azar una muestra de cada estrato.
+
+-   **Muestreo por conglomerados (cluster):** La población se divide en conglomerados a partir de límites geográficos o de otra clase. Luego se seleccionan los conglomerados al azar y se toma una muestra aleatoria con elementos de cada grupo.
+
+### Muestreo Estratificado vs. Muestreo por Conglomerados
+
+<!-- sem1/clase1.tex · lámina 18 -->
+
+**Muestreo Estratificado**<br>
+<svg class="econ-tikz-svg" viewBox="0 0 130 112" role="img" aria-label="Tres estratos homogéneos, uno por color"><rect x="6" y="4" width="118" height="28" fill="none" stroke="currentColor"/><circle cx="24" cy="18" r="9" fill="#2a9d55" stroke="currentColor"/><circle cx="64" cy="18" r="9" fill="#2a9d55" stroke="currentColor"/><circle cx="104" cy="18" r="9" fill="#2a9d55" stroke="currentColor"/><rect x="6" y="38" width="118" height="28" fill="none" stroke="currentColor"/><circle cx="24" cy="52" r="9" fill="#1d4ed8" stroke="currentColor"/><circle cx="64" cy="52" r="9" fill="#1d4ed8" stroke="currentColor"/><circle cx="104" cy="52" r="9" fill="#1d4ed8" stroke="currentColor"/><rect x="6" y="72" width="118" height="28" fill="none" stroke="currentColor"/><circle cx="24" cy="86" r="9" fill="#d62828" stroke="currentColor"/><circle cx="64" cy="86" r="9" fill="#d62828" stroke="currentColor"/><circle cx="104" cy="86" r="9" fill="#d62828" stroke="currentColor"/></svg>
+Cada estrato es homogéneo. Se selecciona muestra dentro de cada uno.
+
+**Muestreo por Conglomerados**<br>
+<svg class="econ-tikz-svg" viewBox="0 0 240 70" role="img" aria-label="Tres conglomerados heterogéneos con varios colores cada uno"><rect x="10" y="6" width="58" height="58" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="35" r="9" fill="#d62828"/><circle cx="39" cy="18" r="9" fill="#1d4ed8"/><circle cx="56" cy="35" r="9" fill="#2a9d55"/><circle cx="39" cy="52" r="9" fill="#1d4ed8"/><rect x="86" y="6" width="58" height="58" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="98" cy="35" r="9" fill="#d62828"/><circle cx="115" cy="18" r="9" fill="#1d4ed8"/><circle cx="132" cy="35" r="9" fill="#2a9d55"/><circle cx="115" cy="52" r="9" fill="#1d4ed8"/><rect x="162" y="6" width="58" height="58" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="174" cy="35" r="9" fill="#d62828"/><circle cx="191" cy="18" r="9" fill="#1d4ed8"/><circle cx="208" cy="35" r="9" fill="#2a9d55"/><circle cx="191" cy="52" r="9" fill="#1d4ed8"/></svg>
+Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
+
+**Comparación Clave**
+
+-   **Estratos:** Internamente homogéneos. Se muestrea dentro de cada grupo.
+
+-   **Conglomerados:** Internamente heterogéneos. Se seleccionan grupos enteros.
 
 <div class="econ-widget" data-widget="muestreo"></div>
 
-!!! note "Estadística descriptiva vs. inferencial"
-    - **Descriptiva:** resume la muestra con tablas, gráficos y estadísticos; sus conclusiones valen
-      solo para la muestra.
-    - **Inferencial:** a partir de la muestra obtiene conclusiones **estadísticamente válidas para
-      toda la población**. Requiere supuestos sobre la población y usa la teoría de probabilidades.
+<div class="econ-quiz">
+<p class="econ-quiz-q">Quieres estimar el ingreso promedio en Santiago y la población se divide en comunas muy distintas entre sí, pero cada una bastante homogénea por dentro. ¿Qué método da estimaciones más precisas para un mismo n?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Estratificado por comuna</button>
+<button class="econ-quiz-opt">Por conglomerados (sortear algunas comunas)</button>
+<button class="econ-quiz-opt">No probabilístico, en lugares concurridos</button>
+</div>
+<p class="econ-quiz-fb">✅ Grupos homogéneos por dentro y distintos entre sí funcionan como <strong>estratos</strong>: muestrear en todos reduce la varianza del estimador.</p>
+</div>
+
+### Muestreo no probabilístico
+
+<!-- sem1/clase1.tex · lámina 19 -->
+
+-   En muestreo no probabilístico inclusión en la muestra es basada en el juicio de la persona que selecciona los individuos o elementos.
+
+<!-- sem1/clase1.tex · lámina 20 -->
+
+-   **Estadística Descriptiva o Deductiva.**
+
+    Si al analizar una muestra sólo se obtenemos conclusiones válidas para la muestra sin que se puedan o se requieran generalizar sus resultados para toda la población.
+
+-   **Estadística Inductiva o Inferencial.**
+
+    A partir de una muestra, podemos inferir conclusiones estadísticamente válidas para todo la población.
 
 ---
 
-## 4. Repaso de inferencia
+## Parte 2 · Repaso de estadística descriptiva
 
-### 4.1 Teorema Central del Límite (TCL)
+<p class="econ-source">📄 Diapositivas: <code>sem1/repaso_ayudantia.tex</code> · 10 láminas</p>
 
-La **distribución muestral del promedio** es la distribución de todos los posibles promedios de
-muestras de tamaño $n$ extraídas de una población. Si la población tiene media $\mu$ y varianza
-$\sigma^2$, entonces, para $n$ suficientemente grande:
+### Ramas de la Estadística
 
-$$
-\bar{X} \overset{\text{aprox.}}{\sim} N\!\left(\mu, \frac{\sigma^2}{n}\right)
-\qquad\Longleftrightarrow\qquad
-\frac{\bar{X}-\mu}{\sigma/\sqrt{n}} \overset{\text{aprox.}}{\sim} N(0,1)
-$$
+<!-- sem1/repaso_ayudantia.tex · lámina 1 -->
 
-**Supuestos:** observaciones i.i.d. (muestreo aleatorio), media y varianza finitas, y un tamaño
-muestral adecuado (regla de dedo): $n \geq 30$ si la población es simétrica, $n \geq 50$ si es
-asimétrica y $n \geq 100$ si es muy asimétrica.
+La Estadística se divide en dos áreas:
+
+-   **Estadística Descriptiva:** se emplea como una primera aproximación a los datos. Utiliza tablas y gráficos para resumir la información disponible.
+
+-   **Estadística Inferencial:** va un poco más allá. A partir de los datos desarrolla mecanismos de decisión parar determinar si los datos sustentan o no una hipótesis. Permite hacer predicciones.
+
+### Estadística Descriptiva
+
+<!-- sem1/repaso_ayudantia.tex · lámina 2 -->
+
+-   Los **estadísticos** son funciones de los datos de una muestra:
+
+    $$
+    f(X_1,....,X_n)
+    $$
+
+-   **gráficos**: histogramas, gráficos de caja
+
+-   **tablas**: de frecuencia, contingencia, etc.
+
+### Estadísticos de Localización Central
+
+<!-- sem1/repaso_ayudantia.tex · lámina 3 -->
+
+-   **Media empírica o promedio**:
+
+    $$
+    \bar{X}=\frac{1}{n}\sum_{i=1}^n X_i
+    $$
+
+-   **Mediana**: Si se tiene una muestra $X_1,...,X_n$, se ordenan los datos de menor a mayor: $X_{(1)},...X_{(n)}$. La mediana es la observación que queda en el medio.
+
+    $$
+    Med(X_1,....,X_n)=\left\{
+    \begin{array}{ll}
+    X_{(\frac{n+1}{2})}, & \hbox{si $n$ es impar} \\
+    \frac{X_{(n/2)}+X_{(n/2+1)}}{2}, & \hbox{si $n$ es par}
+    \end{array}
+    \right.
+    $$
+
+<!-- sem1/repaso_ayudantia.tex · lámina 4 -->
+
+-   Suponiendo que se tienen 13 datos (caso de $n$ impar):
+
+    $$
+    X_{(1)},......,\underbrace{X_{(7)}}_\text{mediana},......,X_{(13)}
+    $$
+
+-   Suponiendo que se tienen 12 datos (caso de $n$ par):
+
+    $$
+    X_{(1)},......,\underbrace{X_{(6)},X_{(7)}}_\text{mediana$=\frac{X_{(6)}+X_{(7)}}{2}$},......,X_{(12)}
+    $$
+
+### Estadísticos de Localización
+
+<!-- sem1/repaso_ayudantia.tex · lámina 5 -->
+
+-   Un percentil es una medida estadística que indica la posición de un dato dentro de un conjunto de observaciones, dividiendo los datos en 100 partes iguales.
+
+-   Los percentiles más empleados son: $P_{25}$, $P_{50}=Mediana$, $P_{75}$ y se conocen como ***cuartiles*** ya que dividen a los datos en 4 partes (se suelen nombrar $q_1$, $q_2$ y $q_3$).
+
+-   También existen los **quintiles** y **deciles**, según se dividan a los datos en 5 o 10 partes.
+
+### Estadísticos de dispersión
+
+<!-- sem1/repaso_ayudantia.tex · lámina 6 -->
+
+-   El ***rango intercuartílico***: se define como:
+
+    $$
+    RIQ(X_1,...,X_n)=q_3-q_1
+    $$
+
+-   La ***varianza muestral o empírica*** se define como:
+
+    $$
+    Var(X_1,...,X_n)=\frac{\sum_{i=1}^n (X_i-\bar{X})^2}{n-1}
+    $$
+
+<!-- sem1/repaso_ayudantia.tex · lámina 7 -->
+
+-   La ***desviación estándar muestral o empírico*** es la raíz cuadrada de la varianza, es decir:
+
+    $$
+    S(X_1,...,X_n)=\sqrt{\frac{\sum_{i=1}^n (X_i-\bar{X})^2}{n-1}}
+    $$
+
+### Histograma
+
+<!-- sem1/repaso_ayudantia.tex · lámina 8 -->
+
+El histograma resume los datos dentro de algunos rangos y se cuenta el número de observaciones dentro de cada rango.
+
+![Histograma](../images/slides/sem1_hist.png){ .econ-slide-img }
+
+[Colab](https://colab.research.google.com/drive/1fGx_sLiasa-psVeudjO5IgJPPJX0lB6t?usp=sharing){ .usm-btn target=_blank }
+
+### Gráfico de caja - Boxplot
+
+<!-- sem1/repaso_ayudantia.tex · lámina 9 -->
+
+![Gráfico de caja - Boxplot](../images/slides/sem1_box_plot.png){ .econ-slide-img }
+
+<!-- sem1/repaso_ayudantia.tex · lámina 10 -->
+
+-   <u>*Línea en medio de la caja*</u>: $Med$ (mediana).
+
+-   <u>*Límite superior de la caja*</u>: $q_3$ (tercer cuartil).
+
+-   <u>*Límite inferior de la caja*</u>: $q_1$ (primer cuartil).
+
+-   notar que el largo de la caja representa el $RIQ$ (rango intercuartilico).
+
+-   <u>*Bigote superior*</u>: es el mínimo entre $q_3+ 1.5RIQ$ y el máximo de los datos ($X_n$).
+
+-   <u>*Bigote inferior*</u>: es el máximo entre $q_1 - 1.5RIQ$ y el mínimo de los datos ($X_1$).
+
+-   <u>*Puntos fuera de los bigotes*</u>: Todos los puntos que exceden los bigotes se grafican. Son puntos extremos (atípicos).
+
+<div class="econ-widget" data-widget="descriptiva"></div>
+
+---
+
+## Parte 3 · Repaso de estadística inferencial
+
+<p class="econ-source">📄 Diapositivas: <code>sem1/repaso_estadistica.tex</code> · 34 láminas</p>
+
+### Estadística Inferencial
+
+<!-- sem1/repaso_estadistica.tex · lámina 1 -->
+
+-   Utiliza los datos muestrales para ***inferir*** sobre la población.
+
+-   Requiere hacer supuesto sobre la población de interés. Uso de las teoría de ***probabilidades***.
+
+### Intervalos de confianza (IC)
+
+<!-- sem1/repaso_estadistica.tex · lámina 2 -->
+
+-   En lugar de ofrecer un valor único, se ofrece un rango de valores donde es más probable que el parámetro se encuentre.
+
+-   Este rango de valores lo llamaremos Intervalo de confianza (IC).
+
+-   Ventaja: da una idea de la precisión que se tiene al estimar.
+
+-   Para construir un IC hay que decidir previamente el nivel de confianza que se quiere tener.
+
+### Teorema central del límite
+
+<!-- sem1/repaso_estadistica.tex · lámina 3 -->
+
+-   La distribución muestral del promedio es la distribución de probabilidad de todos los posibles promedios de muestras de un determinado tamaño ($n$), seleccionadas desde una población.
+
+-   Para una población con media $\mu$ y varianza $\sigma^2$ la distribución muestral de los promedios de todas las posibles muestras de tamaño n generadas desde la población serán, aproximadamente, normalmente distribuidas.
+
+-   La media de la distribución muestral será igual a $\mu$ y la varianza igual a $\sigma^2/n$.
+
+### Supuestos TCL
+
+<!-- sem1/repaso_estadistica.tex · lámina 4 -->
+
+1.  **Muestreo aleatorio:** Las observaciones deben ser i.i.d. $(X_1, X_2, \ldots, X_n)$.
+
+2.  **Tamaño muestral adecuado (regla de dedo):**
+
+    $$
+    n \text{ debe ser } \begin{cases}
+    \geq 30 & \text{para distribuciones simétricas (normal)} \\
+    \geq 50 & \text{para distribuciones  asimétricas} \\
+    \geq 100 & \text{para distribuciones muy asimétricas}
+    \end{cases}
+    $$
+
+3.  **Varianza finita:** $\sigma^2 < \infty$
+
+4.  **Media finita:** $\mu < \infty$
 
 <div class="econ-widget" data-widget="tcl"></div>
 
-### 4.2 Intervalo de confianza para la media ($\sigma$ conocida)
+### IC. ejemplo1
 
-En lugar de un único valor, entregamos un **rango** donde es plausible que se encuentre el
-parámetro. Su ventaja: comunica la **precisión** de la estimación. El nivel de confianza
-$(1-\alpha)$ se decide antes de construirlo.
+<!-- sem1/repaso_estadistica.tex · lámina 5 -->
 
-$$
-IC_{(1-\alpha)100\%}(\mu) = \bar{x} \pm z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}
-$$
+**Una tienda quiere obtener una estimación de las ventas mensuales promedio de un cierto producto. Supongamos que las ventas de este producto son bastante estables a los largo del año. Se dispone de una m.a. $X_1,...,X_{36}$ de datos de venta mensual y $\bar{x}=200$. Obtener un IC de 95% para la media poblacional.**
 
-Válido si $n \geq 30$, o si $n < 30$ pero la población es normal. Valores usuales:
-$z_{0.05}=1.645$ (90%), $z_{0.025}=1.96$ (95%) y $z_{0.005}=2.576$ (99%).
+-   Como $n=36>30$ aplica el TCL.
 
-!!! example "Ejemplo 1 — Ventas mensuales"
-    Una tienda quiere estimar las ventas mensuales promedio de un producto (ventas estables durante
-    el año). Con una muestra de $n = 36$ meses se obtuvo $\bar{x} = 200$. Suponga $\sigma = 60$
-    conocida. Construya un IC de 95% para $\mu$.
+    $$
+    \bar{X} \stackrel{aprox.}\sim N(\mu,\frac{\sigma^2}{n})
+    $$
+
+-   $\mu$ es la media poblacional que desconocemos
+
+-   $\sigma^2$ es la varianza poblacional (supongamos que es conocida por el momento)
+
+    $$
+    \sigma^2=60^2
+    $$
+
+<!-- sem1/repaso_estadistica.tex · lámina 6 -->
 
 ??? success "Solución"
-    Como $n = 36 > 30$ aplica el TCL: $\dfrac{\sigma}{\sqrt{n}} = \dfrac{60}{6} = 10$.
+    -   $$
+        \frac{\bar{X}-\mu}{\frac{\sigma}{\sqrt{n}}}=\frac{\bar{X}-\mu}{\frac{60}{\sqrt{36}}}=\frac{\bar{X}-\mu}{10} \stackrel{aprox.}\sim N(0,1)
+        $$
 
-    $$IC_{95\%} = 200 \pm 1.96 \cdot 10 = (180.4\,;\,219.6)$$
+    -   Intervalo de confianza de 95%
 
-    Con 99%: $200 \pm 2.576 \cdot 10 = (174.3\,;\,225.7)$. **Más confianza ⇒ intervalo más ancho.**
+        $$
+        P(a\leq \frac{\bar{X}-\mu}{\frac{\sigma}{\sqrt{n}}}\leq b)=0.95
+        $$
+
+<!-- sem1/repaso_estadistica.tex · lámina 7 -->
+
+??? success "Solución (continuación)"
+    El intervalos de confianza de 95% para $\mu$ cuando $\sigma$ es conocido está dado por:
+
+    $$
+    \color{blue}{\bar{x} \pm 1.96\frac{\sigma}{\sqrt{n}}}
+    $$
+
+    $$
+    a=z_{0.025}=-1.96 \text{ y } b=z_{0.975}=-z_{0.025}=1.96
+    $$
+
+    -   Esto es así si $n\geq 30$ o bien
+
+    -   si $n<30$ pero la muestra es **normal**
+
+    $$
+    \color{red}{IC_{95\%}=(180.4;219.6})
+    $$
+
+    Haz clic: [Colab](https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing){ .usm-btn target=_blank } [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
+
+### Intervalo de confianza de 95%
+
+<!-- sem1/repaso_estadistica.tex · lámina 8 -->
+
+El intervalo de confianza de 95% para $\mu$ cuando $\sigma$ es conocido está dado por:
+
+$$
+\color{blue}{\bar{x} \pm 1.96\frac{\sigma}{\sqrt{n}}}
+$$
+
+-   Esto es así si $n\geq 30$ o bien
+
+-   si $n<30$ pero la muestra es **normal**
+
+### Otros niveles de confianza
+
+<!-- sem1/repaso_estadistica.tex · lámina 9 -->
+
+Si $\alpha$ es un número entre 0 y 1. El intervalo de confianza de $100(1-\alpha)\%$ para la media poblacional $\mu$ cuando $\sigma$ es conocido se obtiene de la siguiente forma:
+
+-   Se identifica: $z_{\frac{\alpha}{2}}$
+
+-   Finalmente el IC de $100(1-\alpha)\%$ es:
+
+    $$
+    \color{red}{\bar{x} \pm z_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}}
+    $$
+
+<!-- sem1/repaso_estadistica.tex · lámina 10 -->
+
+Suponga que se desea aumentar la confiabilidad y hacer un intervalo de 99%
+
+-   $1-\alpha=0.99,$ entonces $\frac{\alpha}{2}=0.005$.:
+
+    $$
+    z_{0.005}=-2.57
+    $$
+
+-   $$
+    IC_{99\%}=(\bar{x}+z_{0.005}\frac{\sigma}{\sqrt{n}};\bar{x}-z_{0.005}\frac{\sigma}{\sqrt{n}})
+    $$
+
+-   $$
+    IC_{99\%}=(200-(2.57)10;200+(2.57)10)
+    $$
+
+-   $$
+    \color{red}{IC_{99\%}=(174.3;225.7)}
+    $$
+
+Haz clic: [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
+
+### Comparación de IC con distintos niveles de confianza.
+
+<!-- sem1/repaso_estadistica.tex · lámina 11 -->
+
+$$
+\color{blue}{IC_{95\%}=(180.4;219.6) \text{, y } IC_{99\%}=(174.3;225.7)}
+$$
+
+**Si aumento el nivel de confianza y el intervalo se hace mayor!!!**
+
+### Intervalos de confianza: nivel de confianza y precisión
+
+<!-- sem1/repaso_estadistica.tex · lámina 12 -->
+
+Si tomamos como estimador puntual $\bar{X}$
+
+-   Con un 95% de confianza el verdadero valor del parámetro $\mu$ no estará mas lejos de:
+
+    $$
+    E_{95}=(1.96)\frac{\sigma }{\sqrt{n}}
+    $$
+
+-   Con un 99% de confianza el verdadero valor del parámetro $\mu$ no estará mas lejos de:
+
+    $$
+    E_{99}=(2.58)\frac{\sigma }{\sqrt{n}}
+    $$
+
+-   Llamaremos a $E$ ***error absoluto*** de la estimación
+
+### Nivel de confianza y precisión.
+
+<!-- sem1/repaso_estadistica.tex · lámina 13 -->
+
+-   Si para una misma muestra aumentamos el nivel de confianza (por ejemplo de 95% a 99%) lograremos una mejora en la **confiabilidad**\... pero se pierde **precisión** (mayor error absoluto)
+
+    -   el error absoluto ($E_{95}$) del IC de **95%**:
+
+        $$
+        {\color{blue}{E_{95}}}=(1.96)\frac{\sigma }{\sqrt{n}}
+        $$
+
+    -   el error absoluto ($E_{99}$) del IC de **99%**:
+
+        $$
+        {\color{blue}{E_{99}}}=(2.58)\frac{\sigma }{\sqrt{n}}
+        $$
+
+    -   confiabilidad $(1-\alpha)$ $\uparrow \Rightarrow$ precisión $\downarrow$
 
 <div class="econ-widget" data-widget="ic-cobertura"></div>
 
-**Confianza vs. precisión.** El **error absoluto** $E = z_{\alpha/2}\,\sigma/\sqrt{n}$ es la máxima
-distancia (con la confianza elegida) entre $\bar{x}$ y $\mu$. Para una misma muestra, si aumenta la
-confiabilidad $(1-\alpha)$, disminuye la precisión (aumenta $E$).
+### Intervalos de confianza: determinación del tamaño muestral
 
-**Tamaño muestral.** Fijando $E$ y $\alpha$ antes de muestrear:
+<!-- sem1/repaso_estadistica.tex · lámina 14 -->
+
+-   Antes de realizar un muestreo se puede definir el nivel de confianza y precisión (error absoluto) deseados y luego determinar el tamaño muestral ($n$)
+
+-   suponiendo $\sigma$ conocido y eligiendo $E$ (el error absoluto) y $\alpha$:
+
+    $$
+    {\color{blue}{E}}=-z_{\frac{{\color{blue}{\alpha}}}{2}}\sigma/\sqrt{{\color{red}{n}}}
+    $$
+
+-   luego, despejando $n$:
+
+    $$
+    n=(z_{\frac{\alpha}{2}}\frac{\sigma}{E})^2
+    $$
+
+-   si el valor resultante no es entero se redondea hacia arriba.
+
+### Intervalos de confianza para las proporciones
+
+<!-- sem1/repaso_estadistica.tex · lámina 15 -->
+
+-   Sea $\bf{p}$ la proporción de *éxitos* en una población.
+
+-   ***éxito:*** identifica a un individuo de una población con una determinada característica.
+
+-   ejemplos:
+
+    -   proporción de fallas en una población de un determinado artefacto.
+
+    -   proporción de enfermos en una población.
+
+    -   proporción de aprobados en un curso
+
+<!-- sem1/repaso_estadistica.tex · lámina 16 -->
+
+-   Recordemos que la v.a. :
+
+    $$
+    X\equiv \text{número de éxitos en una muestra de tamaño } n
+    $$
+
+    Distribuye $Bin(n,p)$
+
+-   Además si $n\geq 30$
+
+    $$
+    X\stackrel{aprox.}\sim N(np,np(1-p))
+    $$
+
+-   Se pedirá adicionalmente que $np>5$ y $n(1-p)>5$
+
+<!-- sem1/repaso_estadistica.tex · lámina 17 -->
+
+-   Un buen estimador puntual para $p$ es $\hat{p}=\frac{X}{n}$ la fracción de éxitos en la muestra.
+
+-   Ahora:
+
+    $$
+    \hat{p}\stackrel{aprox.}\sim N(p,\frac{p(1-p)}{n})
+    $$
+
+    y
+
+    $$
+    \frac{\hat{p}-p}{\sqrt{\frac{p(1-p)}{n}}}\stackrel{aprox.}\sim N(0,1)
+    $$
+
+<!-- sem1/repaso_estadistica.tex · lámina 18 -->
+
+Entonces se puede emplear la distribución normal para armar un IC para las proporciones. En este caso:
 
 $$
-n = \left(\frac{z_{\alpha/2}\,\sigma}{E}\right)^2 \quad \text{(redondeando hacia arriba)}
+P(z_{\frac{\alpha}{2}}\leq \frac{\hat{p}-p}{\sqrt{\frac{p(1-p)}{n}}}\leq -z_{\frac{\alpha}{2}} )\simeq 1-\alpha
 $$
 
-### 4.3 Intervalo de confianza para una proporción
+<!-- sem1/repaso_estadistica.tex · lámina 19 -->
 
-Sea $p$ la proporción de "éxitos" en la población (fallas, enfermos, aprobados…). El estimador
-$\hat{p} = X/n$ cumple, si $n \geq 30$, $np > 5$ y $n(1-p) > 5$:
+Es decir:
 
 $$
-\hat{p} \overset{\text{aprox.}}{\sim} N\!\left(p, \frac{p(1-p)}{n}\right)
-\qquad\Rightarrow\qquad
-IC_{(1-\alpha)100\%}(p) = \hat{p} \pm z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+P(z_{\frac{\alpha}{2}}\leq \frac{\hat{p}-p}{\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}}\leq -z_{\frac{\alpha}{2}} )\simeq 1-\alpha
 $$
 
-!!! example "Ejemplo 2 — Productos defectuosos"
-    Un proveedor asegura que el 5% de sus productos son defectuosos. La empresa compradora revisa
-    200 unidades y encuentra 19 defectuosas. ¿Es coherente con lo que afirma el proveedor? (95%)
+$$
+P(\hat{p}+z_{\frac{\alpha}{2}}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\leq p \leq \hat{p}-z_{\frac{\alpha}{2}}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} )\simeq 1-\alpha
+$$
+
+El IC se construye como:
+
+$$
+\color{red}{IC_{(1-\alpha)100\%}=\hat{p}\pm z_{\frac{\alpha}{2}}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}}
+$$
+
+### IC para las proporciones: ejemplo
+
+<!-- sem1/repaso_estadistica.tex · lámina 20 -->
+
+**Un fabricante asegura, a una compañía que le compra un producto en forma regular, que el porcentaje de productos defectuosos es 5%. La compañía decide comprobar la afirmación del fabricante seleccionando de su inventario 200 unidades del producto y probándolas. En este procedimiento se detectan 19 unidades defectuosas en la muestra. ¿Es coherente este resultado con la afirmación del proveedor? Utilice una confiabilidad de 95%.**
+
+### IC para las proporciones. respuesta de ejemplo
+
+<!-- sem1/repaso_estadistica.tex · lámina 21 -->
 
 ??? success "Solución"
-    $\hat{p} = 19/200 = 0.095$
+    $$
+    \hat{p}=\frac{19}{200}=0.095
+    $$
 
-    $$IC_{95\%} = 0.095 \pm 1.96\sqrt{\frac{0.095 \cdot 0.905}{200}} = (0.0543\,;\,0.1356)$$
+    $$
+    IC_{95\%}=\hat{p}\pm z_{0.025}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+    $$
 
-    El 5% que afirma el proveedor **no está** dentro del intervalo: la evidencia no es coherente con
-    su afirmación.
+    $$
+    IC_{95\%}=0.095 \pm 1.96 \sqrt{\frac{0.095(1-0.095)}{200}}
+    $$
 
-**Tamaño muestral para proporciones**, con una estimación previa $p^*$ (de una muestra piloto, o
-$p^* = 0.5$ en el peor escenario):
+    $$
+    IC_{95\%}=(0.05433;0.1356)
+    $$
 
-$$
-n = \frac{z_{\alpha/2}^2\, p^*(1-p^*)}{E^2}
-$$
+    El proveedor afirma que $p$ es $0.05$. Este valor no cae dentro del IC.
 
-!!! example "Ejemplo 3 — Chips"
-    Se quiere un IC de 95% para la proporción de chips aceptables cuya **longitud** no exceda 0.05
-    (es decir, $E = 0.025$). En una muestra piloto, 26 de 30 chips fueron aceptables. ¿Qué tamaño
-    muestral se necesita?
+    Haz clic: [Colab](https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing){ .usm-btn target=_blank } [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
+
+### IC para las proporciones: determinación del tamaño muestral
+
+<!-- sem1/repaso_estadistica.tex · lámina 22 -->
+
+-   Aquí también se puede determinar $n$ fijando el nivel de confianza y el largo del intervalo.
+
+-   se requiere una estimación inicial de $p$, $p^*$.
+
+-   Para obtener $p^*$ se puede extraer una muestra preliminar (más pequeña), o usar $p^*=0.5$ (peor escenario).
+
+-   En este caso el error absoluto es:
+
+    $$
+    E=-z_{\frac{\alpha}{2}}\sqrt{\frac{p^*(1-p^*)}{n}}
+    $$
+
+-   luego, despejando $n$:
+
+    $$
+    n=\frac{z_{\frac{\alpha}{2}}^2p^*(1-p^*)}{E^2}
+    $$
+
+### IC para las proporciones
+
+<!-- sem1/repaso_estadistica.tex · lámina 23 -->
+
+**Un fabricante produce chips para computadores. Cada chip tiene una probabilidad $p$ de tener una calidad aceptable. Para obtener un IC de 95% para $p$ cuya longitud no exceda $0.05$, se toma una muestra inicial de 30 chips. De estos 30 chips, 26 resultaron con una calidad aceptable. ¿Cuál es el tamaño muestral necesario para obtener un intervalo con las características requeridas?**
+
+<!-- sem1/repaso_estadistica.tex · lámina 24 -->
 
 ??? success "Solución"
-    $p^* = 26/30 = 0.8667$
+    $$
+    p^*=\frac{26}{30}=0.8667
+    $$
 
-    $$n = \frac{1.96^2 \cdot 0.8667 \cdot 0.1333}{0.025^2} = 710.12 \;\Rightarrow\; n = 711 \text{ chips}$$
+    $$
+    n=\frac{z_{\frac{\alpha}{2}}^2p^*(1-p^*)}{E^2}=\frac{(1.96)^2(0.8667)(1-0.8667)}{(0.025)^2}=710.12
+    $$
 
-### 4.4 Intervalo de confianza para una diferencia de medias
+    Se requiere un tamaño muestral de 711 chips.
 
-Con dos muestras **independientes** y varianzas conocidas (o muestras grandes):
+    Haz clic: [Colab](https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing){ .usm-btn target=_blank } [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
+
+### Intervalos de confianza diferencia de media de dos poblaciones
+
+<!-- sem1/repaso_estadistica.tex · lámina 25 -->
+
+Se cree que el salario promedio de recién egresados de la carrera de ingeniería industrial es mayor que el salario promedio de recién egresados de arquitectura. Se obtuvieron muestras aleatorias de cada grupo de egresados:
+
+-   $X_1,....,X_{n_x}$: salarios de egresados de ing. industrial
+
+-   $Y_1,....,Y_{n_y}$: salarios de egresados de arquitectura
+
+-   Se supone que las muestras son **independientes** entre si
+
+### Diferencia de media de dos poblaciones
+
+<!-- sem1/repaso_estadistica.tex · lámina 26 -->
+
+Llamaremos:
+
+-   $\mu_x$: media poblacional de salarios de egresados de ing. industrial
+
+-   $\mu_y$: media poblacional de salarios de egresados de arquitectura
+
+<!-- sem1/repaso_estadistica.tex · lámina 27 -->
+
+La idea es armar un IC para:
 
 $$
-IC_{(1-\alpha)100\%}(\mu_x - \mu_y) = (\bar{x} - \bar{y}) \pm z_{\alpha/2}\sqrt{\frac{\sigma_x^2}{n_x} + \frac{\sigma_y^2}{n_y}}
+\mu_x-\mu_y
 $$
 
-Si el **cero cae fuera** del intervalo, los datos dan evidencia de que las medias son distintas.
+-   Si el cero cae dentro del intervalo, los datos no dan evidencia de diferencia entre las medias
 
-!!! example "Ejemplo 4 — Salarios de egresados"
-    Ingeniería industrial: $\bar{x} = 800\,000$, $\sigma_x = 60\,000$, $n_x = 144$.
-    Arquitectura: $\bar{y} = 680\,000$, $\sigma_y = 50\,000$, $n_y = 121$. IC de 95% para
-    $\mu_x - \mu_y$.
+-   Si el cero cae fuera del intervalo, los datos dan evidencia de diferencia entre las medias
+
+### Caso $\sigma_x^2$ y $\sigma_y^2$ conocidos, con $n_x$ y $n_y$ grandes
+
+<!-- sem1/repaso_estadistica.tex · lámina 28 -->
+
+-   $\bar{X} \stackrel{aprox.}\sim N(\mu_x,\frac{\sigma_x^2}{n_x})$
+
+-   $\bar{Y} \stackrel{aprox.}\sim N(\mu_y,\frac{\sigma_y^2}{n_y})$
+
+-   $\bar{X}-\bar{Y}$ también es aproximadamente normal
+
+-   $E(\bar{X}-\bar{Y})=E(\bar{X})-E(\bar{Y})=\mu_x-\mu_y$
+
+-   $V(\bar{X}-\bar{Y})=V(\bar{X})+V(\bar{Y})=\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}$ (porque las muestras son independientes)
+
+<!-- sem1/repaso_estadistica.tex · lámina 29 -->
+
+Por ello,
+
+$$
+Z=\frac{(\bar{X}-\bar{Y})-(\mu_x-\mu_y)}{\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}} \stackrel{aprox.}\sim N(0,1)
+$$
+
+<!-- sem1/repaso_estadistica.tex · lámina 30 -->
+
+De aquí surge que:
+
+$$
+P(z_{\frac{\alpha}{2}}\leq Z\leq -z_{\frac{\alpha}{2}}) \simeq 1-\alpha
+$$
+
+$$
+P(z_{\frac{\alpha}{2}}\leq \frac{(\bar{X}-\bar{Y})-(\mu_x-\mu_y)}{\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}\leq -z_{\frac{\alpha}{2}}) \simeq 1-\alpha
+$$
+
+$P((\bar{X}-\bar{Y}) + z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}\leq \mu_x-\mu_y\leq (\bar{X}-\bar{Y})-z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}})$ $\simeq 1-\alpha$
+
+<!-- sem1/repaso_estadistica.tex · lámina 31 -->
+
+El IC de $(1-\alpha)100\%$ para la diferencia de medias $\mu_x-\mu_y$ es:
+
+$$
+\color{red}{IC_{(1-\alpha)100}=(\bar{X}-\bar{Y}) \pm z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}
+$$
+
+### Ejemplo
+
+<!-- sem1/repaso_estadistica.tex · lámina 32 -->
+
+En el ejemplo de salarios. Supongamos que:
+
+-   $\bar{X}=\$800000$
+
+-   $\bar{Y}=\$680000$
+
+-   $n_x=144$
+
+-   $n_y=121$
+
+-   $\sigma_x=60000$
+
+-   $\sigma_y=50000$
+
+Obtener un IC de 95% para la diferencia de medias.
+
+<!-- sem1/repaso_estadistica.tex · lámina 33 -->
 
 ??? success "Solución"
-    $$IC_{95\%} = 120\,000 \pm 1.96\sqrt{\frac{60\,000^2}{144} + \frac{50\,000^2}{121}} = (106\,756\,;\,133\,244)$$
+    El IC de 95% es:
 
-    El intervalo **no contiene al cero**: hay evidencia de que el salario promedio de los egresados
-    de ingeniería industrial es mayor que el de arquitectura.
+    $$
+    IC_{95}=(\bar{X}-\bar{Y}) \pm z_{0.025}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}
+    $$
+
+    $$
+    IC_{95}=(800000-680000)\pm(1.96)\sqrt{\frac{60000^2}{144}+\frac{50000^2}{121}}
+    $$
+
+    $$
+    IC_{95}=(106756; 133244)
+    $$
+
+    Haz clic: [Colab](https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing){ .usm-btn target=_blank } [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing){ .usm-btn target=_blank }
+
+<!-- sem1/repaso_estadistica.tex · lámina 34 -->
+
+??? success "Conclusión"
+    $$
+    \color{red}{IC_{95}=(106.756; 133.244)}
+    $$
+
+    Como el intervalo para $\mu_x-\mu_y$ ***no contiene al cero***, el resultado nos está dando evidencia de que las medias poblacionales son diferentes. ***Los salarios promedio de los egresados de ingeniería son más altos en promedio que los de arquitectura.***
 
 <div class="econ-widget" data-widget="ic-calc"></div>
 
@@ -337,7 +942,7 @@ Si el **cero cae fuera** del intervalo, los datos dan evidencia de que las media
 </div>
 
 <div class="econ-quiz">
-<p class="econ-quiz-q">Si cuadruplicas el tamaño muestral n (manteniendo σ y la confianza), el margen de error E…</p>
+<p class="econ-quiz-q">Si cuadruplicas el tamaño muestral n (manteniendo σ y la confianza), el error absoluto E…</p>
 <div class="econ-quiz-opts">
 <button class="econ-quiz-opt">…se reduce a la cuarta parte.</button>
 <button class="econ-quiz-opt" data-correct>…se reduce a la mitad.</button>
@@ -347,24 +952,17 @@ Si el **cero cae fuera** del intervalo, los datos dan evidencia de que las media
 </div>
 
 <div class="econ-quiz">
-<p class="econ-quiz-q">Quieres estimar el ingreso promedio en Santiago y la población se divide en comunas muy distintas entre sí, pero cada una bastante homogénea por dentro. ¿Qué método da estimaciones más precisas para un mismo n?</p>
+<p class="econ-quiz-q">En una muestra de 15 sueldos aparece uno de 10 millones. ¿Qué estadístico cambia más?</p>
 <div class="econ-quiz-opts">
-<button class="econ-quiz-opt" data-correct>Estratificado por comuna</button>
-<button class="econ-quiz-opt">Por conglomerados (sortear algunas comunas completas)</button>
-<button class="econ-quiz-opt">No probabilístico, en lugares concurridos</button>
+<button class="econ-quiz-opt">La mediana</button>
+<button class="econ-quiz-opt" data-correct>La media</button>
+<button class="econ-quiz-opt">Ambos cambian lo mismo</button>
 </div>
-<p class="econ-quiz-fb">✅ Si los grupos son homogéneos por dentro y distintos entre sí, actúan como <strong>estratos</strong>: muestrear en todos reduce la varianza del estimador. Sortear solo algunas comunas (conglomerados) aumentaría la varianza.</p>
+<p class="econ-quiz-fb">✅ La media usa el valor de cada dato, así que un atípico la arrastra; la mediana solo depende de la posición central. Pruébalo agregando un atípico en el simulador de estadística descriptiva.</p>
 </div>
-
----
 
 ## 📚 Para la próxima clase
 
 - **Wooldridge**, capítulo 1 (*La naturaleza de la econometría y los datos económicos*) y apéndice C
   (repaso de estadística).
-- Próxima clase: **Regresión lineal simple** — ¿cómo estimamos la relación entre educación y
-  salario con una recta?
-
-??? info "Material complementario"
-    - [Notebook en Colab con los ejemplos de intervalos de confianza](https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing)
-    - [Planilla Excel con los cálculos](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing)
+- Próxima clase: **Regresión lineal simple**.

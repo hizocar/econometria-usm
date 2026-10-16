@@ -4,6 +4,11 @@ Material de cada sesión de cátedra. Las clases se dictan los **viernes de 18:4
 complementan con el **taller de los lunes** (Iván). El detalle de fechas está en el
 [Calendario](../calendario.md).
 
+!!! info "Contenido oficial"
+    Cada clase reproduce **íntegras y en orden** las diapositivas de su semana (carpeta `semN/`),
+    las mismas que usa la sección paralela del curso. Lo interactivo se agrega alrededor, sin
+    reemplazar la teoría.
+
 !!! tip "Clases interactivas"
     Cada clase incluye **simuladores** que puedes manipular directamente en el navegador (deslizadores,
     botones, puntos arrastrables) y **preguntas de autoevaluación**. Funcionan en el computador y en
@@ -13,9 +18,9 @@ complementan con el **taller de los lunes** (Iván). El detalle de fechas está 
 
 <div class="usm-card" markdown>
 ### 1️⃣ Introducción y repaso de estadística
-**Viernes 16 de octubre** · ¿Qué es la econometría? · Tipos de datos · Muestreo · TCL · Intervalos de confianza
+**Viernes 16 de octubre** · ¿Qué es la econometría? · Tipos de datos · Muestreo · Estadística descriptiva · TCL · Intervalos de confianza
 
-🧪 4 simuladores
+🧪 5 simuladores
 
 [Ir a la clase →](clase1.md)
 </div>
