@@ -30,7 +30,7 @@ complementan con el **taller de los lunes** (Iván). El detalle de fechas está 
 ### 2️⃣ Regresión lineal simple
 **Viernes 23 de octubre** · Esperanza condicional · MCO · SST = SSE + SSR · R² · Supuestos RLS
 
-🧪 4 simuladores · 📝 Semana del Control 1
+🧪 4 simuladores · 🎒 7 casos ilustrados (la mochila de u, ¿por qué al cuadrado?, galería de R², detective de supuestos…) · 📝 Semana del Control 1
 
 [Ir a la clase →](clase2.md)
 </div>

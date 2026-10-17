@@ -1427,3 +1427,75 @@
     margin-top: 0.2rem;
   }
 }
+
+/* ---------- Clase 2 · casos ---------- */
+.econ-cards6 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.6rem;
+  margin: 0.4rem 0 0.6rem;
+}
+
+.econ-card6 {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+  font-size: 0.78rem;
+}
+
+.econ-card6-e { font-size: 1.6rem; line-height: 1.1; }
+.econ-card6 > strong { display: block; margin: 0.2rem 0 0.4rem; }
+.econ-card6-opts { display: grid; gap: 0.3rem; }
+.econ-card6-opts .econ-quiz-opt { padding: 0.3rem 0.5rem; font-size: 0.74rem; }
+.md-typeset .econ-card6-fb { font-size: 0.74rem; margin: 0.4rem 0 0; }
+
+.econ-r2-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0.8rem;
+}
+
+.econ-r2-card {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.econ-r2-opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem;
+  margin: 0.2rem 0 0.4rem;
+}
+
+.econ-r2-opts .econ-quiz-opt { padding: 0.3rem 0.4rem; font-size: 0.72rem; text-align: center; }
+.econ-r2-val { font-weight: 800; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+
+.econ-r2-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--md-default-fg-color--lightest);
+  overflow: hidden;
+  margin: 0.25rem 0 0.2rem;
+}
+
+.econ-r2-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: var(--econ-c2);
+}
+
+.econ-plot .econ-band { fill: var(--econ-c1); fill-opacity: 0.1; stroke: var(--econ-c1); stroke-opacity: 0.35; stroke-dasharray: 4 4; }
+
+.econ-swing { transform-box: fill-box; transform-origin: center; }
+.is-live .econ-swing { animation: econ-swing 1.6s ease-in-out infinite alternate; }
+@keyframes econ-swing { from { transform: rotate(-35deg); } to { transform: rotate(35deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .is-live .econ-swing { animation: none; }
+}

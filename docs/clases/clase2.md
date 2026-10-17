@@ -11,8 +11,8 @@
 
 !!! info "Contenido oficial de la semana"
     Esta página reproduce **íntegras y en orden** las diapositivas de la semana 2
-    (`sem2/clase2.tex`). Los bloques **Interactivo**, **Complemento** y las preguntas de
-    autoevaluación son material adicional para estudiar.
+    (`sem2/clase2.tex`, 34 láminas), todas de la **cátedra del viernes**. Los bloques
+    **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para estudiar.
 
 ## 🎯 Objetivos de la sesión
 
@@ -22,19 +22,20 @@
 - Descomponer la variabilidad de $y$ ($SST = SSE + SSR$) y medir la bondad de ajuste con el $R^2$.
 - Conocer los supuestos RLS 1–5 y las propiedades de insesgamiento y varianza de MCO.
 
-## 🗓️ Agenda
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque |
-|---|---|
-| 18:40 – 19:15 | Modelo RLS, término de error, supuestos, regresión poblacional y esperanza condicional |
-| 19:15 – 19:55 | Estimación por MCO, regresión muestral y ejemplo educación–sueldos |
-| 19:55 – 20:05 | *Receso* |
-| 20:05 – 20:30 | Propiedades aritméticas de MCO y método de momentos |
-| 20:30 – 20:50 | Descomposición de la varianza, $R^2$ y cambio de unidades |
-| 20:50 – 21:15 | Supuestos RLS, insesgamiento y varianza de los estimadores |
-| 21:15 – 21:25 | Autoevaluación, tarea y cierre |
+| Hora | Bloque | Láminas |
+|---|---|---|
+| 18:40 – 19:05 | El modelo de regresión lineal simple, terminología y término de error | 1 – 4 |
+| 19:05 – 19:30 | El supuesto $E[u \mid x] = 0$, ¿qué hay en u?, regresión poblacional y esperanza condicional | 5 – 11 |
+| 19:30 – 19:55 | Estimación por Mínimos Cuadrados Ordinarios y condiciones de primer orden | 12 – 15 |
+| 19:55 – 20:05 | *Receso* | |
+| 20:05 – 20:30 | Regresión muestral, ejemplo educación–sueldos y propiedades aritméticas | 16 – 20 |
+| 20:30 – 20:45 | Método de momentos | 21 – 23 |
+| 20:45 – 21:05 | Descomposición de la varianza, $R^2$ y cambio de unidades | 24 – 26 |
+| 21:05 – 21:25 | Supuestos RLS, insesgamiento y varianza de los estimadores · cierre | 27 – 34 |
 
-## Regresión lineal simple { .econ-parte data-eyebrow="Cátedra" data-toc-label="Regresión lineal simple" }
+## Regresión lineal simple { .econ-parte data-eyebrow="Parte 1 · Cátedra" data-toc-label="Parte 1 · Regresión lineal simple" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem2/clase2.tex</code> · 34 láminas</p>
 
@@ -176,6 +177,8 @@ $$
 
 </div>
 
+<div class="econ-widget" data-widget="mochila-u"></div>
+
 <div class="econ-lamina" markdown>
 
 ### Regresión Poblacional { data-lamina="Lámina 8" }
@@ -226,6 +229,8 @@ $E[Y_i|X_i = 2] = 50$<br>
 $E[Y_i] = 87.5$
 
 </div>
+
+<div class="econ-widget" data-widget="esperanza-cond"></div>
 
 <div class="econ-lamina" markdown>
 
@@ -317,6 +322,8 @@ Definiciones:
     $$
 
 </div>
+
+<div class="econ-widget" data-widget="cuadrados"></div>
 
 <div class="econ-lamina" markdown>
 
@@ -424,6 +431,8 @@ Noten que todas estas variables están en la data. Entonces podemos obtener esto
 ![Un ejemplo](../images/slides/sem2_images_reg.png){ .econ-slide-img }
 
 </div>
+
+<div class="econ-widget" data-widget="prediccion"></div>
 
 <div class="econ-lamina" markdown>
 
@@ -559,6 +568,8 @@ $$
 
 <div class="econ-widget" data-widget="varianza"></div>
 
+<div class="econ-widget" data-widget="r2-galeria"></div>
+
 <div class="econ-lamina" markdown>
 
 ### Cambio de unidades de medición { data-lamina="Lámina 26" }
@@ -665,6 +676,8 @@ La varianza de los factores inobservables, u, condicionales en x, es constante. 
 
 </div>
 
+<div class="econ-widget" data-widget="homocedasticidad"></div>
+
 <div class="econ-lamina" markdown>
 
 ### Varianza de los estimadores de mínimos cuadrados ordinarios { data-lamina="Lámina 34" }
@@ -684,6 +697,8 @@ $$
 </div>
 
 <div class="econ-widget" data-widget="insesgado"></div>
+
+<div class="econ-widget" data-widget="supuestos"></div>
 
 ---
 

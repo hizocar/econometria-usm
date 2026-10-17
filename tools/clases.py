@@ -235,8 +235,8 @@ C2_CABECERA = """# Clase 2 · Regresión lineal simple
 
 !!! info "Contenido oficial de la semana"
     Esta página reproduce **íntegras y en orden** las diapositivas de la semana 2
-    (`sem2/clase2.tex`). Los bloques **Interactivo**, **Complemento** y las preguntas de
-    autoevaluación son material adicional para estudiar.
+    (`sem2/clase2.tex`, 34 láminas), todas de la **cátedra del viernes**. Los bloques
+    **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para estudiar.
 
 ## 🎯 Objetivos de la sesión
 
@@ -246,17 +246,18 @@ C2_CABECERA = """# Clase 2 · Regresión lineal simple
 - Descomponer la variabilidad de $y$ ($SST = SSE + SSR$) y medir la bondad de ajuste con el $R^2$.
 - Conocer los supuestos RLS 1–5 y las propiedades de insesgamiento y varianza de MCO.
 
-## 🗓️ Agenda
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque |
-|---|---|
-| 18:40 – 19:15 | Modelo RLS, término de error, supuestos, regresión poblacional y esperanza condicional |
-| 19:15 – 19:55 | Estimación por MCO, regresión muestral y ejemplo educación–sueldos |
-| 19:55 – 20:05 | *Receso* |
-| 20:05 – 20:30 | Propiedades aritméticas de MCO y método de momentos |
-| 20:30 – 20:50 | Descomposición de la varianza, $R^2$ y cambio de unidades |
-| 20:50 – 21:15 | Supuestos RLS, insesgamiento y varianza de los estimadores |
-| 21:15 – 21:25 | Autoevaluación, tarea y cierre |
+| Hora | Bloque | Láminas |
+|---|---|---|
+| 18:40 – 19:05 | El modelo de regresión lineal simple, terminología y término de error | 1 – 4 |
+| 19:05 – 19:30 | El supuesto $E[u \\mid x] = 0$, ¿qué hay en u?, regresión poblacional y esperanza condicional | 5 – 11 |
+| 19:30 – 19:55 | Estimación por Mínimos Cuadrados Ordinarios y condiciones de primer orden | 12 – 15 |
+| 19:55 – 20:05 | *Receso* | |
+| 20:05 – 20:30 | Regresión muestral, ejemplo educación–sueldos y propiedades aritméticas | 16 – 20 |
+| 20:30 – 20:45 | Método de momentos | 21 – 23 |
+| 20:45 – 21:05 | Descomposición de la varianza, $R^2$ y cambio de unidades | 24 – 26 |
+| 21:05 – 21:25 | Supuestos RLS, insesgamiento y varianza de los estimadores · cierre | 27 – 34 |
 """
 
 C2_CIERRE = """## ✅ Autoevaluación
@@ -283,6 +284,11 @@ C2_CIERRE = """## ✅ Autoevaluación
 """
 
 C2_INSERTAR = {
+    ("sem2/clase2.tex", 7): widget("mochila-u"),
+    ("sem2/clase2.tex", 9): widget("esperanza-cond"),
+    ("sem2/clase2.tex", 13): widget("cuadrados"),
+    ("sem2/clase2.tex", 19): widget("prediccion"),
+    ("sem2/clase2.tex", 33): widget("homocedasticidad"),
     ("sem2/clase2.tex", 14): widget("mco"),
     ("sem2/clase2.tex", 15): complemento("Pista para la tarea",
         "Desarrolla el producto y usa que $\\sum_{i=1}^n (x_i - \\bar{x}) = 0$ y $\\sum_{i=1}^n (y_i - \\bar{y}) = 0$."),
@@ -290,9 +296,9 @@ C2_INSERTAR = {
         "En el simulador *encuentra la recta de mínimos cuadrados* activa **Mostrar recta MCO**: "
         "verás que $\\sum_i \\hat{u}_i = 0$, $\\sum_i x_i\\hat{u}_i = 0$ y que la recta pasa por $(\\bar{x}, \\bar{y})$, "
         "incluso si arrastras los puntos."),
-    ("sem2/clase2.tex", 25): widget("varianza"),
+    ("sem2/clase2.tex", 25): widget("varianza") + "\n\n" + widget("r2-galeria"),
     ("sem2/clase2.tex", 26): widget("unidades"),
-    ("sem2/clase2.tex", 34): widget("insesgado"),
+    ("sem2/clase2.tex", 34): widget("insesgado") + "\n\n" + widget("supuestos"),
 }
 
 # --------------------------------------------------------------------------------------------
@@ -379,7 +385,7 @@ CLASES = {
                      ("sem1/repaso_estadistica.tex", "Parte 3 · Ayudantía · Repaso de estadística inferencial")],
             insertar=C1_INSERTAR, plegar=C1_PLEGAR),
     2: dict(out="docs/clases/clase2.md", cabecera=C2_CABECERA, cierre=C2_CIERRE,
-            fuentes=[("sem2/clase2.tex", "Regresión lineal simple")],
+            fuentes=[("sem2/clase2.tex", "Parte 1 · Regresión lineal simple")],
             insertar=C2_INSERTAR, plegar={}),
     3: dict(out="docs/clases/clase3.md", cabecera=C3_CABECERA, cierre=C3_CIERRE,
             fuentes=[("sem3/Clase3.tex", "Parte 1 · Causalidad y sesgo de selección"),
