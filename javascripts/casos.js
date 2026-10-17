@@ -14,7 +14,10 @@
   "use strict";
   const E = window.Econ;
   if (!E) return;
-  const { WIDGETS, h, el, text, plot, rng, gauss, mean, ols, f, buttons, btn, statsRow, note } = E;
+  const { WIDGETS, h, el, text, plot, rng, gauss, mean, ols, f, buttons, btn, statsRow, note, histogram } = E;
+
+  // Miles con espacio: el sitio usa punto decimal, así que "10.140" se confundiría con un decimal
+  const miles = (n) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
   const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -97,7 +100,12 @@
       h("div", { class: "econ-caso-eyebrow" }, eyebrow),
       h("div", { class: "econ-caso-title" }, title),
     );
-    if (lead) root.append(h("p", { class: "econ-caso-lead" }, lead));
+    if (lead) {
+      // Las bajadas son textos fijos del código y pueden traer énfasis (<em>, <strong>)
+      const p = h("p", { class: "econ-caso-lead" });
+      p.innerHTML = lead;
+      root.append(p);
+    }
   }
 
   function svgBox(root, w, hgt, label, chart) {
@@ -1601,7 +1609,7 @@
       stats.set("b", `US$ ${f(yB, 2)}`);
       stats.set("d", `${d >= 0 ? "+" : "−"}US$ ${f(Math.abs(d), 2)}`);
       // Separador de miles con espacio: con punto se confundiría con el punto decimal de 2.16
-      const anual = String(Math.round(Math.abs(d) * 2080)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      const anual = miles(Math.abs(d) * 2080);
       stats.set("y", `${d >= 0 ? "+" : "−"}US$ ${anual}`);
       const dx = st.b - st.a;
       nt.innerHTML = `Bruno tiene ${Math.abs(dx)} año(s) de educación ${dx >= 0 ? "más" : "menos"} que Ana, así que el modelo predice una diferencia de ` +
@@ -1852,6 +1860,546 @@
       if (done[i]) { opts.dataset.lock = String(i); opts.children[cs.ans].classList.add("is-right"); } else delete opts.dataset.lock;
     }
     onVisible(svg, () => show(0));
+  };
+
+  /* ========================================================================
+     CLASE 3 · Causalidad, sesgo de selección y variable omitida
+     ======================================================================== */
+
+  /* MCO con varios regresores: resuelve (X'X) b = X'y por eliminación gaussiana.
+     X es una lista de columnas (sin la constante, que se agrega). */
+  function olsMulti(cols, y) {
+    const n = y.length, k = cols.length + 1;
+    const X = (i, j) => (j === 0 ? 1 : cols[j - 1][i]);
+    const A = Array.from({ length: k }, () => new Array(k + 1).fill(0));
+    for (let i = 0; i < n; i++) {
+      for (let a = 0; a < k; a++) {
+        const xa = X(i, a);
+        for (let b = 0; b < k; b++) A[a][b] += xa * X(i, b);
+        A[a][k] += xa * y[i];
+      }
+    }
+    for (let c = 0; c < k; c++) {
+      let piv = c;
+      for (let r = c + 1; r < k; r++) if (Math.abs(A[r][c]) > Math.abs(A[piv][c])) piv = r;
+      [A[c], A[piv]] = [A[piv], A[c]];
+      for (let r = 0; r < k; r++) {
+        if (r === c) continue;
+        const m = A[r][c] / A[c][c];
+        for (let q = c; q <= k; q++) A[r][q] -= m * A[c][q];
+      }
+    }
+    return A.map((row, i) => row[k] / A[i][i]);
+  }
+
+  function shake(node, ms) {
+    tween(ms || 360, (t) => t, (k) => {
+      node.setAttribute("transform", `translate(${Math.sin(k * Math.PI * 6) * 9 * (1 - k)},0)`);
+    }, () => node.removeAttribute("transform"));
+  }
+
+  /* --- Caso · El contrafactual: dos universos ------------------------------ */
+  WIDGETS.universo = function (root) {
+    caso(root, "Caso · El contrafactual",
+      "Si Sofía pudiera vivir dos vidas… 🌌",
+      "El día que Sofía decide ir a la universidad, el universo se divide. En uno va; en el otro, no. " +
+      "Para medir el efecto causal de la universidad en <em>su</em> salario tendríamos que observar ambos universos.");
+    const scene = svgBox(root, 600, 240, "Dos universos paralelos con Sofía");
+    const defs = el("defs", {}, scene);
+    const gA = el("linearGradient", { id: "econ-uA", x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+    el("stop", { offset: 0, "stop-color": "#dcebf7" }, gA);
+    el("stop", { offset: 1, "stop-color": "#f6fafd" }, gA);
+    const gB = el("linearGradient", { id: "econ-uB", x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+    el("stop", { offset: 0, "stop-color": "#2a2f55" }, gB);
+    el("stop", { offset: 1, "stop-color": "#4a4f78" }, gB);
+    el("rect", { x: 0, y: 0, width: 300, height: 240, fill: "url(#econ-uA)" }, scene);
+    el("rect", { x: 300, y: 0, width: 300, height: 240, fill: "url(#econ-uB)" }, scene);
+    for (let i = 0; i < 26; i++) el("circle", { cx: 310 + ((i * 97) % 280), cy: 10 + ((i * 53) % 110), r: 1.4, fill: "#ffffff", opacity: 0.7, class: "econ-star" }, scene);
+    el("line", { x1: 300, y1: 0, x2: 300, y2: 240, stroke: "#e5b300", "stroke-width": 4, "stroke-dasharray": "8 6" }, scene);
+    text(scene, 150, 28, "Universo A · fue a la universidad", { "text-anchor": "middle", "font-weight": "700" });
+    text(scene, 450, 28, "Universo B · no fue", { "text-anchor": "middle", style: "fill:#ffffff;font-weight:700" });
+    person(scene, 90, 120, { cap: true, body: "#005f96" });
+    person(scene, 390, 120, { body: "#8fa3c8" });
+    const base = 214;
+    const barA = el("rect", { x: 160, width: 50, y: base, height: 0, rx: 4, fill: "#005f96" }, scene);
+    const lblA = text(scene, 185, base - 8, "", { "text-anchor": "middle", "font-weight": "700" });
+    el("rect", { x: 460, width: 50, y: base - 80, height: 80, rx: 4, fill: "#ffffff", opacity: 0.18, "stroke-dasharray": "4 4", stroke: "#ffffff" }, scene);
+    text(scene, 485, base - 88, "Yᴺᵀ = ??", { "text-anchor": "middle", style: "fill:#ffffff;font-weight:700" });
+    text(scene, 185, 232, "Yᵀ (observado)", { "text-anchor": "middle", class: "muted" });
+    text(scene, 485, 232, "Yᴺᵀ (contrafactual)", { "text-anchor": "middle", style: "fill:#c7cfdf" });
+    const wall = el("g", { style: "opacity:0" }, scene);
+    el("rect", { x: 292, y: 70, width: 16, height: 110, rx: 4, fill: "#b30828" }, wall);
+    text(wall, 300, 64, "🚫", { "text-anchor": "middle", style: "font-size:26px" });
+    const rocket = text(scene, 40, 70, "🚀", { style: "font-size:30px;opacity:0" });
+    onVisible(scene, () => {
+      tween(650, ease.outBack, (k) => { const hh = 110 * k; barA.setAttribute("y", base - hh); barA.setAttribute("height", hh); lblA.setAttribute("y", base - hh - 8); lblA.textContent = Math.round(100 * k); });
+      scene.classList.add("is-live");
+    });
+    const b = buttons(root);
+    btn(b, "Viajar al universo B 🚀", () => {
+      rocket.style.opacity = 1;
+      wall.style.opacity = 1;
+      tween(700, ease.inQuad, (k) => { rocket.setAttribute("x", 40 + (250 - 40) * k); rocket.setAttribute("y", 70 + 30 * Math.sin(Math.PI * k)); }, () => {
+        shake(rocket, 380);
+        shake(wall, 380);
+        nt.innerHTML = "💥 <strong>No existe un portal entre universos.</strong> Nunca veremos el salario que Sofía habría tenido sin universidad (Yᴺᵀ): " +
+          "es su <strong>contrafactual</strong>. Por eso el efecto individual Yᵀ − Yᴺᵀ = 100 − ?? no se puede calcular. La salida es trabajar con " +
+          "<strong>promedios de grupos</strong> y buscar un grupo de comparación que se parezca a lo que habría pasado sin tratamiento.";
+      });
+    }, "econ-btn-gold");
+    const nt = note(root);
+    nt.innerHTML = "En el universo A vemos el salario de Sofía con universidad (Yᵀ = 100). ¿Cuál habría sido sin universidad? Intenta viajar al universo B.";
+  };
+
+  /* --- Caso real · Los gemelos de Twinsburg -------------------------------- */
+  WIDGETS.gemelos = function (root) {
+    caso(root, "Caso real · Buscar el mejor contrafactual",
+      "Los gemelos de Twinsburg 👯",
+      "Si no podemos ver a la misma persona con y sin más educación, ¿quién se le parece más? Su gemelo idéntico. Avanza paso a paso.");
+    const S = [
+      {
+        t: "La pregunta",
+        body: "<strong>¿Cuánto aumenta el salario un año más de educación?</strong> Al comparar personas distintas, la habilidad o la familia " +
+          "(lo que está en u) se mezclan con el efecto de la educación: quienes estudian más pueden ser distintos en todo lo demás.",
+        draw: (s) => {
+          emoji(s, 160, 130, "🎓", 64, 0);
+          emoji(s, 300, 130, "➡️", 36, 250);
+          emoji(s, 440, 130, "💵", 64, 450);
+          hand(s, 300, 50, "¿cuánto vale un año más?", { "text-anchor": "middle" });
+        },
+      },
+      {
+        t: "La idea",
+        body: "Los <strong>gemelos idénticos</strong> comparten genes y crecieron en la misma familia. Si uno estudió más que el otro, comparar sus salarios " +
+          "elimina gran parte de lo que se esconde en u: el hermano es un contrafactual mucho mejor que un desconocido.",
+        draw: (s) => {
+          person(s, 220, 96, { cap: true, body: "#005f96" });
+          person(s, 380, 96, { body: "#005f96" });
+          [["🧬 mismos genes", 0], ["🏠 misma familia", 1]].forEach(([lbl, k]) => {
+            const g = el("g", {}, s);
+            el("rect", { x: 220, y: 172 + k * 30, width: 160, height: 24, rx: 12, class: "econ-badge-bg" }, g);
+            text(g, 300, 189 + k * 30, lbl, { "text-anchor": "middle", "font-weight": "700" });
+            popIn(g, 300 + k * 150, 360);
+          });
+          hand(s, 300, 40, "casi la misma persona", { "text-anchor": "middle" });
+        },
+      },
+      {
+        t: "Qué hicieron",
+        body: "Ashenfelter y Krueger (1994) viajaron al <strong>Festival de Gemelos de Twinsburg</strong> (Ohio, EE. UU.), donde cada año se reúnen miles de gemelos, " +
+          "y encuestaron a más de un centenar de pares de gemelos idénticos sobre su educación y su salario. Luego compararon <strong>dentro de cada par</strong>: " +
+          "¿gana más el gemelo que estudió más?",
+        draw: (s) => {
+          const banner = el("g", {}, s);
+          el("rect", { x: 170, y: 18, width: 260, height: 30, rx: 8, fill: "#e5b300" }, banner);
+          text(banner, 300, 38, "🎉 Twins Days · Twinsburg, Ohio", { "text-anchor": "middle", "font-weight": "700" });
+          popIn(banner, 0, 380);
+          const cols = ["#005f96", "#c28000", "#b30828", "#2a9d55"];
+          for (let i = 0; i < 8; i++) {
+            const g = el("g", {}, s);
+            const x = 60 + (i % 4) * 140, y = 92 + Math.floor(i / 4) * 88;
+            const pa = person(g, x - 16, y, { body: cols[i % 4], cap: i % 2 === 0 });
+            const pb = person(g, x + 18, y, { body: cols[i % 4] });
+            pa.setAttribute("transform", `translate(${x - 16},${y}) scale(.7)`);
+            pb.setAttribute("transform", `translate(${x + 18},${y}) scale(.7)`);
+            popIn(g, 250 + i * 60, 360);
+          }
+        },
+      },
+      {
+        t: "Resultado y cuidado",
+        body: "Encontraron que <strong>cada año adicional de educación se asocia con alrededor de 12% a 16% más salario</strong>, comparando gemelos entre sí. " +
+          "<strong>Cuidado:</strong> los gemelos no son idénticos en todo. Si uno estudió más por algo que también afecta el salario (por ejemplo, más motivación), " +
+          "todavía quedaría algo de sesgo. Buscar contrafactuales creíbles es el corazón de la econometría aplicada. " +
+          "<span class=\"econ-fine\">Ashenfelter, O. y Krueger, A. (1994), American Economic Review.</span>",
+        draw: (s) => {
+          const base = 196;
+          el("line", { x1: 80, x2: 520, y1: base, y2: base, stroke: "#1b2a5e", "stroke-width": 2 }, s);
+          [["Gemelo con menos educación", 100, "#8fa3c8", 200, "100"], ["Gemelo con 1 año más", 114, "#005f96", 400, "112 – 116"]].forEach(([lbl, v, col, x, val], i) => {
+            const r = el("rect", { x: x - 50, width: 100, y: base, height: 0, rx: 4, fill: col }, s);
+            const t = text(s, x, base, "", { "text-anchor": "middle", "font-weight": "700" });
+            text(s, x, 216, lbl, { "text-anchor": "middle" });
+            setTimeout(() => tween(650, ease.outCubic, (k) => {
+              const hh = v * 1.2 * k;
+              r.setAttribute("y", base - hh); r.setAttribute("height", hh);
+              t.setAttribute("y", base - hh - (i ? 14 : 8));
+              if (k === 1) t.textContent = val;
+            }), reduced() ? 0 : i * 200);
+          });
+          const top = base - 112 * 1.2, bot = base - 116 * 1.2;
+          el("path", { d: `M400,${top} L400,${bot} M392,${top} L408,${top} M392,${bot} L408,${bot}`, stroke: "#b30828", "stroke-width": 2.5 }, s);
+          text(s, 300, 26, "Salario (índice, gemelo con menos educación = 100)", { "text-anchor": "middle", class: "muted" });
+          hand(s, 505, 50, "+12% a +16%", { "text-anchor": "middle", style: "font-size:26px" });
+          hand(s, 505, 74, "por año", { "text-anchor": "middle" });
+        },
+      },
+    ];
+    story(root, S, { label: "Gemelos de Twinsburg" });
+  };
+
+  /* --- Caso real · ¿Ir al hospital te enferma? ----------------------------- */
+  WIDGETS.hospital = function (root) {
+    caso(root, "Caso real · Sesgo de selección",
+      "¿Ir al hospital te enferma? 🏥",
+      "En una gran encuesta de salud de EE. UU. se preguntó a las personas si estuvieron hospitalizadas el último año y cómo evalúan su salud " +
+      "(de 1 = mala a 5 = excelente). Compara los dos grupos.");
+    const base = 200;
+    const svg = svgBox(root, 600, 240, "Salud promedio de quienes fueron y no fueron al hospital", true);
+    const bars = [["No fueron al hospital", 3.93, 180, "econ-bar-c1"], ["Fueron al hospital", 3.21, 400, "econ-bar-c3"]].map(([lbl, v, x, cls]) => {
+      const r = el("rect", { x: x - 55, width: 110, y: base, height: 0, rx: 4, class: cls }, svg);
+      const t = text(svg, x, base - 8, "", { "text-anchor": "middle", "font-weight": "700", class: "econ-bar-lbl" });
+      text(svg, x, 222, lbl, { "text-anchor": "middle", class: "econ-bar-lbl" });
+      return { r, t, v };
+    });
+    el("line", { x1: 80, x2: 520, y1: base, y2: base, class: "ax" }, svg);
+    text(svg, 300, 22, "Salud autorreportada promedio (1 = mala, 5 = excelente)", { "text-anchor": "middle", class: "muted" });
+    const ann = el("g", {}, svg);
+    onVisible(svg, () => bars.forEach((b, i) => setTimeout(() => tween(650, ease.outCubic, (k) => {
+      const hh = b.v * 36 * k;
+      b.r.setAttribute("y", base - hh); b.r.setAttribute("height", hh);
+      b.t.setAttribute("y", base - hh - 8); b.t.textContent = f(b.v * k, 2);
+    }, () => {
+      if (i === 1) {
+        hand(ann, 466, 130, "¡los del hospital", {});
+        hand(ann, 466, 154, "están peor!", {});
+      }
+    }), reduced() ? 0 : i * 200)));
+    const bt = buttons(root);
+    btn(bt, "¿Entonces los hospitales enferman? 🤔", reveal, "econ-btn-gold");
+    const dec = h("div", { class: "econ-metodo", style: "display:none" });
+    root.append(dec);
+    const nt = note(root);
+    nt.innerHTML = "La diferencia observada es 3.21 − 3.93 = <strong>−0.72</strong>: quienes fueron al hospital reportan peor salud. " +
+      "<span class=\"econ-fine\">Datos de la National Health Interview Survey 2005, citados por Angrist y Pischke (2009), <em>Mostly Harmless Econometrics</em>.</span>";
+    function reveal() {
+      dec.style.display = "";
+      dec.innerHTML = "<strong>No: es sesgo de selección.</strong> Usando la descomposición de la lámina:" +
+        "<div class=\"econ-decomp\">" +
+        "<div><span>Diferencia observada</span><strong>−0.72</strong></div><em>=</em>" +
+        "<div class=\"is-att\"><span>ATT: efecto del hospital en quienes fueron</span><strong>probablemente positivo ↑</strong></div><em>+</em>" +
+        "<div class=\"is-bias\"><span>Sesgo de selección: quienes van ya estaban más enfermos</span><strong>muy negativo ↓↓</strong></div>" +
+        "</div>" +
+        "Las personas que se internan lo hacen <em>porque</em> están enfermas: aun sin hospital, su salud sería peor, E[Yᴺᵀ | T=1] &lt; E[Yᴺᵀ | T=0]. " +
+        "Ese sesgo negativo es tan grande que esconde el efecto (positivo) de la atención médica.";
+      dec.classList.remove("is-in"); void dec.offsetWidth; dec.classList.add("is-in");
+    }
+  };
+
+  /* --- Caso · Alarmas: ¿protegen o atraen ladrones? ------------------------- */
+  WIDGETS.alarmas = function (root) {
+    caso(root, "Caso · Pensar el signo del sesgo",
+      "¿Las alarmas atraen a los ladrones? 🔔",
+      "Una ciudad con dos barrios. Mira quién instala alarmas y dónde ocurren más robos, y responde la pregunta de la lámina.");
+    const scene = svgBox(root, 600, 230, "Dos barrios: uno con muchas alarmas y robos, otro tranquilo");
+    el("rect", { x: 0, y: 0, width: 600, height: 230, rx: 14, class: "econ-scene-bg" }, scene);
+    el("rect", { x: 10, y: 10, width: 285, height: 210, rx: 12, fill: "#f6e3e6" }, scene);
+    el("rect", { x: 305, y: 10, width: 285, height: 210, rx: 12, fill: "#e3f1e8" }, scene);
+    text(scene, 152, 34, "Barrio A · más delitos", { "text-anchor": "middle", "font-weight": "700" });
+    text(scene, 447, 34, "Barrio B · tranquilo", { "text-anchor": "middle", "font-weight": "700" });
+    const bells = [];
+    const house = (x, y, alarm, delay) => {
+      const g = el("g", {}, scene);
+      el("polygon", { points: `${x - 22},${y} ${x},${y - 20} ${x + 22},${y}`, fill: "#1b2a5e" }, g);
+      el("rect", { x: x - 18, y, width: 36, height: 30, rx: 2, fill: "#ffffff", stroke: "#1b2a5e", "stroke-width": 2 }, g);
+      el("rect", { x: x - 5, y: y + 12, width: 10, height: 18, fill: "#c28000" }, g);
+      if (alarm) bells.push(text(g, x + 14, y - 8, "🔔", { style: "font-size:16px" }));
+      popIn(g, delay, 360);
+    };
+    [[55, 85, 1], [123, 85, 1], [191, 85, 1], [259, 85, 0], [55, 160, 1], [123, 160, 1], [191, 160, 1], [259, 160, 0]].forEach(([x, y, a], i) => house(x, y, a, i * 60));
+    [[350, 85, 0], [418, 85, 0], [486, 85, 1], [554, 85, 0], [350, 160, 0], [418, 160, 0], [486, 160, 0], [554, 160, 0]].forEach(([x, y, a], i) => house(x, y, a, 300 + i * 60));
+    const thieves = [[89, 140], [157, 140], [225, 212], [452, 212]].map(([x, y]) => text(scene, x, y, "🦹", { "text-anchor": "middle", style: "font-size:22px;opacity:0" }));
+    onVisible(scene, () => {
+      thieves.forEach((t, i) => setTimeout(() => { t.style.transition = "opacity .3s"; t.style.opacity = 1; popIn(t, 0, 320); }, reduced() ? 0 : 900 + i * 150));
+      setTimeout(() => bells.forEach((bl) => shake(bl, 420)), reduced() ? 0 : 1500);
+    });
+    const q = h("div", { class: "econ-metodo" });
+    root.append(q);
+    q.append(h("p", { class: "econ-quiz-q" }, "Si comparamos los robos en casas con alarma vs. sin alarma, la diferencia observada…"));
+    const opts = h("div", { class: "econ-quiz-opts" });
+    q.append(opts);
+    const fb = h("p", { class: "econ-card6-fb" });
+    q.append(fb);
+    [
+      ["…es el efecto causal de las alarmas.", false],
+      ["…exagera cuánto protegen las alarmas.", false],
+      ["…subestima cuánto protegen: hasta podría parecer que las alarmas atraen robos.", true],
+    ].forEach(([lb, ok]) => {
+      const bt2 = h("button", { type: "button", class: "econ-quiz-opt" }, lb);
+      bt2.addEventListener("click", () => {
+        if (q.dataset.done) return;
+        bt2.classList.add(ok ? "is-right" : "is-wrong");
+        if (!ok) { fb.innerHTML = "❌ Piensa: ¿quiénes instalan alarmas? ¿Cuántos robos habrían tenido <em>sin</em> alarma?"; return; }
+        q.dataset.done = "1";
+        fb.innerHTML = "✅ Las alarmas se instalan sobre todo donde ya hay más delitos. Sin alarma, esas casas tendrían más robos: " +
+          "E[Yᴺᵀ | T=1] &gt; E[Yᴺᵀ | T=0], así que el <strong>sesgo de selección es positivo</strong> (en número de robos). " +
+          "Diferencia observada = ATT (negativo: la alarma protege) + sesgo (positivo) ⇒ la comparación ingenua <strong>se acerca a cero o incluso se vuelve positiva</strong>.";
+      });
+      opts.append(bt2);
+    });
+  };
+
+  /* --- Simulación · Test A/B (Obama 2008) ---------------------------------- */
+  WIDGETS["ab-test"] = function (root) {
+    caso(root, "Aleatorización en empresas · Test A/B",
+      "El experimento de un botón que recaudó millones 🧪",
+      "En 2008, la campaña presidencial de Obama asignó <em>al azar</em> a cada visitante de su web una versión distinta de la página de inscripción. " +
+      "Simula el experimento: cada punto es un visitante; los dorados se inscriben.");
+    const P = { A: 0.0826, B: 0.116 };
+    const st = { n: { A: 0, B: 0 }, c: { A: 0, B: 0 }, pending: 0, running: false };
+    const svg = svgBox(root, 600, 250, "Visitantes asignados al azar a la versión A o B");
+    el("rect", { x: 0, y: 0, width: 600, height: 250, rx: 14, class: "econ-scene-bg" }, svg);
+    const page = (x, label, btnTxt, emo) => {
+      el("rect", { x: x - 85, y: 120, width: 170, height: 118, rx: 10, fill: "#ffffff", stroke: "#1b2a5e", "stroke-width": 2 }, svg);
+      el("rect", { x: x - 85, y: 120, width: 170, height: 18, rx: 6, fill: "#1b2a5e" }, svg);
+      text(svg, x, 133, label, { "text-anchor": "middle", style: "fill:#fff;font-size:11px;font-weight:700" });
+      text(svg, x, 178, emo, { "text-anchor": "middle", style: "font-size:30px" });
+      el("rect", { x: x - 55, y: 196, width: 110, height: 26, rx: 13, fill: "#b30828" }, svg);
+      text(svg, x, 213, btnTxt, { "text-anchor": "middle", style: "fill:#fff;font-size:12px;font-weight:700" });
+    };
+    page(150, "Versión A", "Inscríbete ahora", "🧑‍💼");
+    page(450, "Versión B", "Más información", "👨‍👩‍👧");
+    text(svg, 300, 26, "🎲 cada visitante se asigna al azar", { "text-anchor": "middle", "font-weight": "700" });
+    const dots = el("g", {}, svg);
+    const stats = statsRow(root, [
+      { k: "a", label: "Tasa de inscripción A" },
+      { k: "b", label: "Tasa de inscripción B" },
+      { k: "d", label: "Efecto estimado (B − A)", cls: "is-gold" },
+      { k: "ic", label: "IC 95% del efecto", cls: "is-red" },
+    ]);
+    const b = buttons(root);
+    btn(b, "Enviar 300 visitantes", () => send(300, true), "econ-btn-gold");
+    btn(b, "Enviar 20 000 (rápido)", () => send(20000, false));
+    btn(b, "Reiniciar", reset, "econ-btn-ghost");
+    const nt = note(root);
+    const r0 = rng(Date.now() % 9999);
+    function visit() {
+      const arm = r0() < 0.5 ? "A" : "B";
+      const conv = r0() < P[arm];
+      st.n[arm]++; if (conv) st.c[arm]++;
+      return { arm, conv };
+    }
+    function animDot(arm, conv) {
+      const x0 = 300, y0 = 40, x1 = (arm === "A" ? 150 : 450) + (r0() - 0.5) * 120, y1 = 92 + (r0() - 0.5) * 20;
+      const d = el("circle", { cx: x0, cy: y0, r: conv ? 5 : 3.5, fill: conv ? "#e5b300" : "#8fa3c8", stroke: conv ? "#1b2a5e" : "none" }, dots);
+      tween(520, ease.outCubic, (k) => { d.setAttribute("cx", x0 + (x1 - x0) * k); d.setAttribute("cy", y0 + (y1 - y0) * k); });
+      if (dots.childNodes.length > 160) dots.removeChild(dots.firstChild);
+    }
+    function send(m, animate) {
+      if (!animate || reduced()) { for (let i = 0; i < m; i++) visit(); update(); return; }
+      st.pending += m;
+      if (st.running) return;
+      st.running = true;
+      (function tick() {
+        const k = Math.min(6, st.pending);
+        for (let i = 0; i < k; i++) { const v = visit(); animDot(v.arm, v.conv); }
+        st.pending -= k;
+        update();
+        if (st.pending > 0) setTimeout(tick, 60); else st.running = false;
+      })();
+    }
+    function reset() { st.n = { A: 0, B: 0 }; st.c = { A: 0, B: 0 }; st.pending = 0; while (dots.firstChild) dots.removeChild(dots.firstChild); update(); }
+    function update() {
+      const pa = st.n.A ? st.c.A / st.n.A : NaN, pb = st.n.B ? st.c.B / st.n.B : NaN;
+      const d = pb - pa;
+      const se = Math.sqrt((pa * (1 - pa)) / st.n.A + (pb * (1 - pb)) / st.n.B);
+      stats.set("a", st.n.A ? `${f(100 * pa, 1)}% (n = ${miles(st.n.A)})` : "—");
+      stats.set("b", st.n.B ? `${f(100 * pb, 1)}% (n = ${miles(st.n.B)})` : "—");
+      stats.set("d", Number.isFinite(d) ? `${d >= 0 ? "+" : ""}${f(100 * d, 1)} puntos` : "—");
+      stats.set("ic", Number.isFinite(se) && se > 0 ? `(${f(100 * (d - 1.96 * se), 1)} ; ${f(100 * (d + 1.96 * se), 1)})` : "—");
+      const tot = st.n.A + st.n.B;
+      nt.innerHTML = (tot < 2000
+        ? "Con pocos visitantes el efecto estimado salta mucho y el intervalo es ancho. Envía más visitantes."
+        : "Con miles de visitantes el intervalo se angosta alrededor del efecto verdadero (+3.3 puntos). ") +
+        " Como la versión se asigna <strong>al azar</strong>, los dos grupos son iguales en promedio en todo lo demás: la diferencia de tasas es el <strong>efecto causal</strong> " +
+        "de la página (sin sesgo de selección). Según su responsable, Dan Siroker, la mejor combinación subió la inscripción de 8.26% a 11.6% (+40.6%). " +
+        "<span class=\"econ-fine\">Simulación con esas tasas; textos de los botones ilustrativos.</span>";
+    }
+    update();
+  };
+
+  /* --- Juego · Adivina el signo del sesgo ----------------------------------- */
+  WIDGETS["signo-sesgo"] = function (root) {
+    caso(root, "Juego · Dirección del sesgo",
+      "Adivina el signo del sesgo 🧭",
+      "Para cada estudio, decide cómo se relaciona la variable omitida con x (δ₁) y con y (β₂). El sesgo es β₂·δ₁: usa la tabla de signos de la lámina.");
+    const CASOS = [
+      { ic: "👮", x: "policías por habitante", y: "delitos", om: "peligrosidad previa del barrio", d: 1, b: 1,
+        why: "Se envían más policías a los barrios más peligrosos (δ₁ > 0) y esos barrios tienen más delitos (β₂ > 0): sesgo positivo. La regresión corta puede mostrar que <em>más policías se asocian con más delitos</em>." },
+      { ic: "📚", x: "horas de estudio", y: "nota", om: "horas de trabajo remunerado", d: -1, b: -1,
+        why: "Quien trabaja más estudia menos (δ₁ < 0) y trabajar baja la nota (β₂ < 0): β₂·δ₁ > 0, sesgo positivo. Se sobreestima el efecto del estudio." },
+      { ic: "🏫", x: "tamaño del curso", y: "puntaje en la prueba", om: "nivel socioeconómico de las familias", d: -1, b: 1,
+        why: "Los colegios con familias de más recursos suelen tener cursos más chicos (δ₁ < 0) y ese nivel sube el puntaje (β₂ > 0): sesgo negativo. Los cursos grandes parecen todavía peores de lo que son." },
+      { ic: "📺", x: "gasto en publicidad del mes", y: "ventas del mes", om: "temporada alta (diciembre)", d: 1, b: 1,
+        why: "Las empresas hacen más publicidad en temporada alta (δ₁ > 0) y en temporada alta se vende más de todas formas (β₂ > 0): sesgo positivo. Se sobreestima el efecto de la publicidad." },
+    ];
+    const grid = h("div", { class: "econ-signos" });
+    root.append(grid);
+    CASOS.forEach((cs) => {
+      const pick = { d: 0, b: 0 };
+      const card = h("div", { class: "econ-signo-card" });
+      card.append(h("div", { class: "econ-card6-e" }, cs.ic),
+        h("p", {}, h("strong", {}, "x: "), cs.x, h("br"), h("strong", {}, "y: "), cs.y, h("br"), h("strong", {}, "omitida: "), cs.om));
+      const row = (lbl, key) => {
+        const wrap = h("div", { class: "econ-signo-row" }, h("span", {}, lbl));
+        [["+", 1], ["−", -1]].forEach(([s, v]) => {
+          const bt = h("button", { type: "button", class: "econ-signo-btn" }, s);
+          bt.addEventListener("click", () => {
+            pick[key] = v;
+            wrap.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === bt)));
+          });
+          wrap.append(bt);
+        });
+        return wrap;
+      };
+      card.append(row("δ₁ (omitida vs. x)", "d"), row("β₂ (omitida vs. y)", "b"));
+      const res = h("p", { class: "econ-card6-fb" });
+      const chk = h("button", { type: "button", class: "econ-btn econ-btn-gold" }, "Ver el sesgo");
+      chk.addEventListener("click", () => {
+        if (!pick.d || !pick.b) { res.innerHTML = "Elige un signo para δ₁ y otro para β₂."; return; }
+        const ok = pick.d === cs.d && pick.b === cs.b;
+        const sign = cs.d * cs.b > 0 ? "positivo ⬆️" : "negativo ⬇️";
+        res.innerHTML = `${ok ? "✅" : "❌"} Sesgo <strong>${sign}</strong>. ${cs.why}`;
+        card.classList.remove("is-pop"); void card.offsetWidth; card.classList.add("is-pop");
+      });
+      card.append(chk, res);
+      grid.append(card);
+    });
+  };
+
+  /* --- Visual · Paradoja de Simpson: fumar y edad -------------------------- */
+  WIDGETS.simpson = function (root) {
+    caso(root, "Visual · Paradoja de Simpson",
+      "¿Fumar protege? El efecto que cambia de signo 🚬",
+      "Recrea las regresiones de las láminas con datos simulados: primero todos juntos y luego separando por edad. Mira qué pasa con la pendiente.");
+    const r0 = rng(17);
+    // Tres grupos de edad concentrada (≈30, 50 y 70 años): dentro de cada grupo la edad casi no varía,
+    // así la pendiente por grupo recupera el efecto de fumar (≈ 0.94) y la global queda ≈ −1.8.
+    const D = Array.from({ length: 220 }, (_, i) => {
+      const g = i % 3;
+      const age = 30 + 20 * g + 4 * (r0() - 0.5);
+      const smoke = Math.max(0, 25 - 0.3 * (age - 20) + 2.2 * gauss(r0));
+      const y = 12.8 + 0.94 * smoke + 0.98 * age + gauss(r0);
+      return { age, smoke, y, g };
+    });
+    const GR = [["≈ 30 años", "var(--econ-c1)"], ["≈ 50 años", "var(--econ-c2)"], ["≈ 70 años", "var(--econ-c3)"]];
+    const seg = h("div", { class: "econ-seg", role: "tablist" });
+    root.append(seg);
+    const wrap = h("div");
+    root.append(wrap);
+    const p = plot(wrap, 600, 320, { l: 48, r: 70 });
+    p.domain([0, 32], [45, 115]);
+    const stats = statsRow(root, [
+      { k: "all", label: "Pendiente todos juntos", cls: "is-red" },
+      { k: "g", label: "Pendientes por grupo de edad", cls: "is-gold" },
+    ]);
+    const nt = note(root);
+    const oAll = ols(D.map((d) => d.smoke), D.map((d) => d.y));
+    const oG = GR.map((_, k) => ols(D.filter((d) => d.g === k).map((d) => d.smoke), D.filter((d) => d.g === k).map((d) => d.y)));
+    const VIEWS = {
+      todos: { label: "1 · Todos juntos" },
+      edad: { label: "2 · Separar por edad" },
+    };
+    Object.entries(VIEWS).forEach(([k, v]) => {
+      v.btn = h("button", { type: "button", class: "econ-seg-btn", role: "tab" }, v.label);
+      v.btn.addEventListener("click", () => show(k));
+      seg.append(v.btn);
+    });
+    function show(k) {
+      Object.entries(VIEWS).forEach(([kk, v]) => v.btn.setAttribute("aria-selected", String(kk === k)));
+      p.clear();
+      p.axes({ xlabel: "Cigarrillos al día", ylabel: "Índice de riesgo (ilustrativo)", nx: 8 });
+      const g = p.clipped();
+      D.forEach((d) => el("circle", { cx: p.x(d.smoke), cy: p.y(d.y), r: 3.4, class: "econ-dot", style: `fill:${k === "todos" ? "var(--econ-ink-soft)" : GR[d.g][1]};transition:fill .4s` }, g));
+      if (k === "todos") {
+        const ln = el("path", { d: `M${p.x(0)},${p.y(oAll.b0)} L${p.x(30)},${p.y(oAll.b0 + oAll.b1 * 30)}`, class: "line" }, g);
+        drawStroke(ln, 600, 100);
+        hand(p.svg, p.x(17), p.y(110), "¿más cigarrillos, menos riesgo?", { "text-anchor": "middle" });
+      } else {
+        oG.forEach((o, i) => {
+          const xs = D.filter((d) => d.g === i).map((d) => d.smoke);
+          const a = Math.min(...xs), bb = Math.max(...xs);
+          const ln = el("path", { d: `M${p.x(a)},${p.y(o.b0 + o.b1 * a)} L${p.x(bb)},${p.y(o.b0 + o.b1 * bb)}`, style: `stroke:${GR[i][1]};stroke-width:3px;fill:none` }, g);
+          drawStroke(ln, 500, 150 + i * 150);
+          text(p.svg, p.x(bb) + 6, p.y(o.b0 + o.b1 * bb) + 4, GR[i][0], { "font-weight": "700", style: `fill:${GR[i][1]}` });
+        });
+        hand(p.svg, p.x(8), p.y(52), "dentro de cada edad, fumar SUBE el riesgo", {});
+      }
+      stats.set("all", f(oAll.b1, 2));
+      stats.set("g", oG.map((o) => f(o.b1, 2)).join(" · "));
+      nt.innerHTML = k === "todos"
+        ? "Todos juntos, la pendiente es <strong>negativa</strong> (como el −1.81 de la lámina): parece que fumar reduce el riesgo. ¿Qué variable estamos omitiendo?"
+        : "Las personas mayores fuman menos (δ < 0) y la edad aumenta el riesgo (β₂ > 0): al omitir la edad, “fumar poco” se confunde con “ser mayor”. " +
+          "Al comparar personas de edad parecida la pendiente es <strong>positiva</strong> (cerca del 0.94 de la lámina). Esto es la <strong>paradoja de Simpson</strong>. " +
+          "En el estudio real de Whickham (Reino Unido), tras 20 años había muerto el 24% de las fumadoras y el 31% de las no fumadoras, ¡porque las no fumadoras eran mucho mayores! " +
+          "<span class=\"econ-fine\">Puntos simulados con los coeficientes de las láminas.</span>";
+    }
+    onVisible(wrap, () => show("todos"));
+  };
+
+  /* --- Simulación · ¿Más controles es mejor? -------------------------------- */
+  WIDGETS["mas-controles"] = function (root) {
+    caso(root, "Simulación · ¿Más es mejor?",
+      "Agregar variables irrelevantes: ¿gratis? ➕",
+      "Modelo verdadero: y = 1 + 0.5·x + u. Agregamos variables que NO afectan a y pero se parecen a x. Mira qué pasa con β̂₁ en 400 muestras.");
+    const st = { k: 3, rho: 0.7 };
+    const c = E.controls(root);
+    E.slider(c, { label: "Variables irrelevantes agregadas", min: 0, max: 6, step: 1, value: st.k }, (v) => { st.k = v; render(); });
+    E.slider(c, { label: "Correlación con x (ρ)", min: 0, max: 0.95, step: 0.05, value: st.rho, fmt: (v) => f(v, 2) }, (v) => { st.rho = v; render(); });
+    const wrap = h("div");
+    root.append(wrap);
+    const p = plot(wrap, 600, 260, { l: 14 });
+    const stats = statsRow(root, [
+      { k: "m0", label: "Promedio β̂₁ · sin extras" },
+      { k: "m1", label: "Promedio β̂₁ · con extras", cls: "is-gold" },
+      { k: "s0", label: "Desv. est. · sin extras" },
+      { k: "s1", label: "Desv. est. · con extras", cls: "is-red" },
+    ]);
+    const nt = note(root);
+    const SIMS = 400, N = 60;
+    let timer = null;
+    function simulate(k, rho, seed) {
+      const r = rng(seed);
+      const out = [];
+      for (let s = 0; s < SIMS; s++) {
+        const x = [], y = [], ws = Array.from({ length: k }, () => []);
+        for (let i = 0; i < N; i++) {
+          const xi = gauss(r);
+          x.push(xi);
+          y.push(1 + 0.5 * xi + gauss(r));
+          for (let j = 0; j < k; j++) ws[j].push(rho * xi + Math.sqrt(1 - rho * rho) * gauss(r));
+        }
+        out.push(olsMulti([x, ...ws], y)[1]);
+      }
+      return out;
+    }
+    const base = simulate(0, 0, 5);
+    function render() {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const ext = simulate(st.k, st.rho, 5);
+        const dom = [-0.4, 1.4];
+        const H0 = histogram(base, dom[0], dom[1], 45), H1 = histogram(ext, dom[0], dom[1], 45);
+        p.clear();
+        p.domain(dom, [0, Math.max(...H0.counts, ...H1.counts) * 1.15]);
+        p.axes({ noY: true, xlabel: "β̂₁ en 400 muestras (verdadero = 0.5)", nx: 9, xfmt: (v) => f(v, 1) });
+        const g = p.clipped();
+        // La distribución más ancha (con extras) va atrás para que no tape a la otra
+        p.bars(g, H1, "bar-gold");
+        p.bars(g, H0, "bar");
+        el("line", { x1: p.x(0.5), x2: p.x(0.5), y1: p.m.t, y2: p.h - p.m.b, class: "line-navy line-dash" }, g);
+        text(p.svg, p.m.l + 8, p.m.t + 14, "■ sin extras", { style: "fill:var(--econ-c1);font-weight:700" });
+        text(p.svg, p.m.l + 8, p.m.t + 30, `■ con ${st.k} extra(s)`, { style: "fill:var(--econ-c2);font-weight:700" });
+        const sd0 = E.sd(base), sd1 = E.sd(ext);
+        stats.set("m0", f(mean(base), 3));
+        stats.set("m1", f(mean(ext), 3));
+        stats.set("s0", f(sd0, 3));
+        stats.set("s1", f(sd1, 3));
+        nt.innerHTML = `Las dos distribuciones siguen centradas en 0.5: agregar variables irrelevantes <strong>no sesga</strong> β̂₁. Pero la dispersión pasa de ${f(sd0, 3)} a ` +
+          `<strong>${f(sd1, 3)}</strong> (${f((sd1 / sd0 - 1) * 100, 0)}% más): el estimador se vuelve <strong>menos preciso</strong>, sobre todo cuando las variables extra se parecen a x. ` +
+          "Es lo que dice la lámina: incluir variables irrelevantes incrementa la varianza de los estimadores.";
+      }, 60);
+    }
+    onVisible(wrap, render);
   };
 
   if (typeof document$ !== "undefined") document$.subscribe(E.mountAll);

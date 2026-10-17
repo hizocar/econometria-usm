@@ -1499,3 +1499,80 @@
 @media (prefers-reduced-motion: reduce) {
   .is-live .econ-swing { animation: none; }
 }
+
+/* ---------- Clase 3 · casos ---------- */
+.is-live .econ-star { animation: econ-twinkle 2.8s ease-in-out infinite alternate; }
+.is-live .econ-star:nth-child(3n) { animation-delay: 0.9s; }
+.is-live .econ-star:nth-child(3n + 1) { animation-delay: 1.7s; }
+@keyframes econ-twinkle { from { opacity: 0.2; } to { opacity: 0.9; } }
+
+.econ-metodo.is-in { animation: econ-rise 0.32s cubic-bezier(0.2, 0, 0, 1); }
+
+.econ-decomp {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.6rem 0;
+}
+
+.econ-decomp > div {
+  flex: 1 1 140px;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  background: var(--econ-caso-bg);
+  border-left: 4px solid var(--econ-ink-soft);
+}
+
+.econ-decomp > div.is-att { border-left-color: var(--econ-c1); }
+.econ-decomp > div.is-bias { border-left-color: var(--econ-c3); }
+.econ-decomp span { display: block; font-size: 0.7rem; opacity: 0.8; }
+.econ-decomp strong { font-size: 0.95rem; }
+.econ-decomp > em { font-style: normal; font-weight: 800; font-size: 1.2rem; }
+
+.econ-signos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0.7rem;
+}
+
+.econ-signo-card {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.md-typeset .econ-signo-card p { margin: 0.3rem 0 0.5rem; }
+.econ-signo-card.is-pop { animation: econ-pop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes econ-pop { 0% { transform: scale(0.97); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+.econ-signo-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.25rem 0;
+}
+
+.econ-signo-row > span { flex: 1; font-weight: 600; font-size: 0.74rem; }
+
+.econ-signo-btn {
+  font: inherit;
+  font-weight: 800;
+  width: 2.1rem;
+  height: 1.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.econ-signo-btn[aria-pressed="true"] { background: var(--usm-navy); color: #fff; border-color: var(--usm-navy); }
+.econ-signo-card .econ-btn { margin-top: 0.4rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .is-live .econ-star, .econ-signo-card.is-pop, .econ-metodo.is-in { animation: none; }
+}
