@@ -1,0 +1,2511 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase4/">
+      
+      
+        <link rel="prev" href="../clase3/">
+      
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Clase 4 · Regresión lineal múltiple - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-4-regresion-lineal-multiple" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 4 · Regresión lineal múltiple
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regresion-lineal-multiple-estimacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Regresión lineal múltiple: estimación
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Regresión lineal múltiple: estimación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-regresion-multiple-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de Regresión Múltiple: Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-regresion-lineal-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de Regresión Lineal Múltiple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-regresion-multiple-estimacion-mco" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de Regresión Múltiple: Estimación MCO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-regresion-lineal-multiple-estimacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de Regresión Lineal Múltiple: Estimación
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mco-para-el-modelo-lineal-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      MCO para el Modelo Lineal Múltiple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notacion-matricial-modelo-poblacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notación matricial modelo poblacional
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notación
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-n5-dos-variables-x_1-x_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: n=5, dos variables: x1, x2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimos-cuadrados-ordinarios-mrl-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mínimos Cuadrados Ordinarios (MRL Múltiple)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recordar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimos-cuadrados-ordinarios-mrl-multiple_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mínimos Cuadrados Ordinarios (MRL Múltiple)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#propiedades-algebraicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Propiedades algebraicas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bondad-de-ajuste-r2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bondad de Ajuste: R²
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bondad-de-ajuste-r2-ajustado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bondad de Ajuste: R² ajustado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-obtener-hatbeta-xtop-x-1xtop-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: obtener hatβ = (X^top X)^-1X^top y
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-general" class="md-nav__link">
+    <span class="md-ellipsis">
+      En general
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      En R
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regresion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regresión
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-la-inversa-de-xtx-por-cofactores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-y-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo y datos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-matriz-de-menores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 1: Matriz de menores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-matriz-de-cofactores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 2: Matriz de cofactores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-matriz-adjunta-adjunta-transpuesta-de-cofactores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 3: Matriz adjunta (adjunta = transpuesta de cofactores)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-determinante-de-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 4: Determinante de A
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-5-matriz-inversa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 5: Matriz inversa
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculo-de-hatbetaxtop-x-1xtop-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cálculo de hatβ=(X^top X)^-1X^top y
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regresion-lineal-multiple-estimacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Regresión lineal múltiple: estimación
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Regresión lineal múltiple: estimación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-regresion-multiple-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de Regresión Múltiple: Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-regresion-lineal-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de Regresión Lineal Múltiple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-regresion-multiple-estimacion-mco" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de Regresión Múltiple: Estimación MCO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-regresion-lineal-multiple-estimacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de Regresión Lineal Múltiple: Estimación
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mco-para-el-modelo-lineal-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      MCO para el Modelo Lineal Múltiple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notacion-matricial-modelo-poblacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notación matricial modelo poblacional
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notación
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-n5-dos-variables-x_1-x_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: n=5, dos variables: x1, x2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimos-cuadrados-ordinarios-mrl-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mínimos Cuadrados Ordinarios (MRL Múltiple)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recordar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimos-cuadrados-ordinarios-mrl-multiple_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mínimos Cuadrados Ordinarios (MRL Múltiple)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#propiedades-algebraicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Propiedades algebraicas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bondad-de-ajuste-r2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bondad de Ajuste: R²
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bondad-de-ajuste-r2-ajustado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bondad de Ajuste: R² ajustado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-obtener-hatbeta-xtop-x-1xtop-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: obtener hatβ = (X^top X)^-1X^top y
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-general" class="md-nav__link">
+    <span class="md-ellipsis">
+      En general
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      En R
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regresion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regresión
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-la-inversa-de-xtx-por-cofactores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-y-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo y datos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-matriz-de-menores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 1: Matriz de menores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-matriz-de-cofactores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 2: Matriz de cofactores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-matriz-adjunta-adjunta-transpuesta-de-cofactores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 3: Matriz adjunta (adjunta = transpuesta de cofactores)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-determinante-de-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 4: Determinante de A
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-5-matriz-inversa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 5: Matriz inversa
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculo-de-hatbetaxtop-x-1xtop-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cálculo de hatβ=(X^top X)^-1X^top y
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="clase-4-regresion-lineal-multiple">Clase 4 · Regresión lineal múltiple</h1>
+<div class="usm-session-meta">
+<span>📅 Viernes 6 de noviembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 4 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">🛠️ Semana del Taller 1</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la semana</p>
+<p>Esta página reproduce <strong>íntegros y en orden</strong> los materiales de la semana 4 (<code>sem4/</code>).
+<strong>Cátedra del viernes:</strong> Parte 1 (<code>Clase5.tex</code>, 25 láminas). <strong>Ayudantía/taller:</strong> Parte 2
+(<code>calculo_matrices.tex</code>, ejercicio de la inversa de <span class="arithmatex">\(X^\top X\)</span>). Los bloques <strong>Interactivo</strong>, los casos
+y las preguntas de autoevaluación son material adicional para estudiar.</p>
+</div>
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<p><strong>Cátedra (viernes)</strong></p>
+<ul>
+<li>Pasar del modelo simple al <strong>modelo de regresión lineal múltiple</strong> e interpretar cada <span class="arithmatex">\(\beta_j\)</span> <em>ceteris paribus</em>.</li>
+<li>Plantear la estimación por MCO con <span class="arithmatex">\(k\)</span> variables y escribir el modelo en <strong>notación matricial</strong>, <span class="arithmatex">\(y = X\beta + u\)</span>.</li>
+<li>Derivar <span class="arithmatex">\(\hat{\beta} = (X^\top X)^{-1} X^\top y\)</span> y reconocer sus propiedades algebraicas.</li>
+<li>Distinguir entre <span class="arithmatex">\(R^2\)</span> y <span class="arithmatex">\(R^2\)</span> ajustado, y leer la salida de una regresión en R.</li>
+</ul>
+<p><strong>Ayudantía</strong></p>
+<ul>
+<li>Calcular a mano <span class="arithmatex">\((X^\top X)^{-1}\)</span> por cofactores y obtener <span class="arithmatex">\(\hat{\beta}\)</span> con los datos del ejemplo.</li>
+</ul>
+<h2 id="agenda-de-la-catedra-viernes-1840-2125">🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)</h2>
+<table>
+<thead>
+<tr>
+<th>Hora</th>
+<th>Bloque</th>
+<th>Láminas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>18:40 – 19:05</td>
+<td>Del modelo simple al múltiple: motivación e interpretación <em>ceteris paribus</em></td>
+<td>1 – 3</td>
+</tr>
+<tr>
+<td>19:05 – 19:25</td>
+<td>Estimación por MCO con <span class="arithmatex">\(k\)</span> variables: residuos y condiciones de primer orden</td>
+<td>4 – 5</td>
+</tr>
+<tr>
+<td>19:25 – 19:55</td>
+<td>Notación matricial: <span class="arithmatex">\(y = X\beta + u\)</span></td>
+<td>6 – 9</td>
+</tr>
+<tr>
+<td>19:55 – 20:05</td>
+<td><em>Receso</em></td>
+<td></td>
+</tr>
+<tr>
+<td>20:05 – 20:35</td>
+<td>Derivación de <span class="arithmatex">\(\hat{\beta} = (X^\top X)^{-1}X^\top y\)</span> y propiedades algebraicas</td>
+<td>10 – 12</td>
+</tr>
+<tr>
+<td>20:35 – 20:55</td>
+<td><span class="arithmatex">\(R^2\)</span> y <span class="arithmatex">\(R^2\)</span> ajustado</td>
+<td>13 – 14</td>
+</tr>
+<tr>
+<td>20:55 – 21:20</td>
+<td>Ejemplo numérico paso a paso y salida en R</td>
+<td>15 – 25</td>
+</tr>
+<tr>
+<td>21:20 – 21:25</td>
+<td>Autoevaluación y cierre</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>La <strong>Parte 2</strong> (ejercicio de cálculo matricial) se trabaja en la <strong>ayudantía/taller</strong> de la semana.</p>
+<h2 class="econ-parte" data-eyebrow="Parte 1 · Cátedra" id="regresion-lineal-multiple-estimacion">Regresión lineal múltiple: estimación</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem4/Clase5.tex</code> · 25 láminas</p>
+
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 1" id="modelo-de-regresion-multiple-introduccion">Modelo de Regresión Múltiple: Introducción</h3>
+<!-- sem4/Clase5.tex · lámina 1 -->
+<ul>
+<li>
+<p>En las clases anteriores, vimos el modelo de regresión lineal simple:</p>
+<div class="arithmatex">\[
+y = \beta_0 + \beta_1x + u
+\]</div>
+</li>
+<li>
+<p>Sin embargo, el supuesto de que <span class="arithmatex">\(E[u|x] = 0\)</span> en dicho modelo es muy fuerte, ya que todas las variables no incluidas van al error.</p>
+</li>
+<li>
+<p>Además, si nos interesa la predicción, es muy difícil predecir la variable <span class="arithmatex">\(y\)</span> en base a una sola variable.</p>
+</li>
+<li>
+<p>El modelo de regresión lineal múltiple (RLM) permite esto.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 2" id="modelo-de-regresion-lineal-multiple">Modelo de Regresión Lineal Múltiple</h3>
+<!-- sem4/Clase5.tex · lámina 2 -->
+<ul>
+<li>
+<p>A nivel poblacional, el modelo RLM se define como:</p>
+<div class="arithmatex">\[
+y = \beta_0 + \beta_1x_1 + \beta_2x_2 + \ldots + \beta_kx_k + u
+\]</div>
+</li>
+<li>
+<p>Asumamos que <span class="arithmatex">\(E[u|x_1, x_2, \ldots, x_k] = 0\)</span>.</p>
+</li>
+<li>
+<p>Interpretación de los parámetros <span class="arithmatex">\(\beta\)</span>:</p>
+</li>
+<li>
+<p>Por ejemplo, si todas las variables excepto <span class="arithmatex">\(x_1\)</span> permanecen constantes:</p>
+<div class="arithmatex">\[
+\Delta E[y|x_1, x_2, \ldots, x_k] = \beta_1 \Delta x_1
+\]</div>
+<p><span class="arithmatex">\(\Rightarrow\)</span> <span class="arithmatex">\(\beta_1 = \frac{\Delta E[y|x_1, x_2, \ldots, x_k]}{\Delta x_1}\)</span></p>
+</li>
+<li>
+<p>Interpretación: Cuando <span class="arithmatex">\(x_1\)</span> cambia en una unidad, el valor esperado de <span class="arithmatex">\(y\)</span> cambia en <span class="arithmatex">\(\beta_1\)</span> unidades, <strong>manteniendo todas las demás variables incluidas constantes</strong>.<br>
+    Es como una derivada parcial!</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="plano"></div>
+
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 3" id="modelo-de-regresion-multiple-estimacion-mco">Modelo de Regresión Múltiple: Estimación MCO</h3>
+<!-- sem4/Clase5.tex · lámina 3 -->
+<ul>
+<li>
+<p>Al agregar más variables al modelo para poder estudiar el efecto de <span class="arithmatex">\(x\)</span>, ceteris paribus estas otras variables.</p>
+</li>
+<li>
+<p>Por ejemplo, al estudiar el efecto de educación en salario, queremos dejar la inteligencia constante (IQ).</p>
+</li>
+<li>
+<p>Al incluir esta variable en la regresión, podemos ver cuánto afecta un año más de educación en salario, dejando constante IQ.</p>
+</li>
+<li>
+<p>De hecho, si agregamos la variable IQ, el coeficiente de educación que obtenemos se hace más pequeño.</p>
+</li>
+</ul>
+<p><em>MCO Simple:</em> <span class="arithmatex">\(\hat{salario} = 0.09 + 0.54 \cdot educacion\)</span><br></p>
+<p><em>MCO Múltiple:</em> <span class="arithmatex">\(\hat{salario} = 0.065 + 0.37 \cdot educacion + 0.20 \cdot IQ\)</span></p>
+<ul>
+<li>Ahora vamos a ver cómo estimar los <span class="arithmatex">\(\hat{\beta}\)</span> del modelo de regresión múltiple.</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="iq-control"></div>
+
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 4" id="modelo-de-regresion-lineal-multiple-estimacion">Modelo de Regresión Lineal Múltiple: Estimación</h3>
+<!-- sem4/Clase5.tex · lámina 4 -->
+<p>Dada una muestra de <span class="arithmatex">\(n\)</span> individuos, tenemos la siguiente ecuación:</p>
+<div class="arithmatex">\[
+y_i = \hat{\beta_0} + \hat{\beta_1}x_{i1} + \hat{\beta_2}x_{i2} + \ldots + \hat{\beta_k}x_{ik} + \hat{u_i}, \quad \forall i = 1, \ldots, n
+\]</div>
+<p>Igual que en el modelo RLS, los <strong>residuos</strong> vienen dados por:</p>
+<div class="arithmatex">\[
+\hat{u}_i = y_i - \hat{y}_i
+\]</div>
+<div class="arithmatex">\[
+\hat{u_i}= y_i - (\hat{\beta}_0 + \hat{\beta}_1x_{i1} + \hat{\beta}_2x_{i2} + \ldots + \hat{\beta}_kx_{ik})
+\]</div>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 5" id="mco-para-el-modelo-lineal-multiple">MCO para el Modelo Lineal Múltiple</h3>
+<!-- sem4/Clase5.tex · lámina 5 -->
+<div class="arithmatex">\[
+\min_{\hat{\beta}_0, \hat{\beta}_1, \ldots, \hat{\beta}_k} \sum_i \hat{u}_i^2
+\]</div>
+<p>Es decir,</p>
+<div class="arithmatex">\[
+\min_{\hat{\beta}_0, \hat{\beta}_1, \ldots, \hat{\beta}_k} \sum_i \left( y_i - \hat{\beta}_0 - \hat{\beta}_1x_{i1} - \hat{\beta}_2x_{i2} - \ldots - \hat{\beta}_kx_{ik} \right)^2
+\]</div>
+<p><strong>CPO:</strong></p>
+<div class="arithmatex">\[
+\hat{\beta}_0: \sum_i \left( y_i - \hat{\beta}_0 - \hat{\beta}_1x_{i1} - \hat{\beta}_2x_{i2} - \ldots - \hat{\beta}_kx_{ik} \right) = 0
+\]</div>
+<div class="arithmatex">\[
+\hat{\beta}_1: \sum_i x_{i1} \left( y_i - \hat{\beta}_0 - \hat{\beta}_1x_{i1} - \hat{\beta}_2x_{i2} - \ldots - \hat{\beta}_kx_{ik} \right) = 0
+\]</div>
+<p>...</p>
+<div class="arithmatex">\[
+\hat{\beta}_k:
+\sum_i x_{ik} \left( y_i - \hat{\beta}_0 - \hat{\beta}_1x_{i1} - \hat{\beta}_2x_{i2} - \ldots - \hat{\beta}_kx_{ik} \right) = 0
+\]</div>
+<p>Existen <span class="arithmatex">\(k + 1\)</span> condiciones de primer orden para <span class="arithmatex">\(k + 1\)</span> incógnitas.</p>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 6" id="notacion-matricial-modelo-poblacional">Notación matricial modelo poblacional</h3>
+<!-- sem4/Clase5.tex · lámina 6 -->
+<ul>
+<li>
+<p>El modelo de regresión lineal múltiple cada individuo <span class="arithmatex">\(i\)</span> es:</p>
+<div class="arithmatex">\[
+y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_k x_{ik} + u_i \quad \forall i = 1, \dots, n
+\]</div>
+</li>
+<li>
+<p>Matricialmente, lo podemos expresar:</p>
+<div class="arithmatex">\[
+y_i = \mathbf{x}_i^\top \mathbf{\beta} + u_i \quad \forall i = 1, \dots, n
+\]</div>
+<p>con</p>
+<div class="arithmatex">\[
+\mathbf{x}_i = \begin{pmatrix}
+1 \\
+x_{i1} \\
+\vdots \\
+x_{ik}
+\end{pmatrix}, \quad
+\mathbf{\beta} = \begin{pmatrix}
+\beta_0 \\
+\beta_1 \\
+\vdots \\
+\beta_k
+\end{pmatrix}
+\]</div>
+</li>
+<li>
+<p>Noten que son <span class="arithmatex">\(n\)</span> ecuaciones (una para cada individuo).</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 7" id="notacion">Notación</h3>
+<!-- sem4/Clase5.tex · lámina 7 -->
+<ul>
+<li>
+<div class="arithmatex">\[
+    y = X\beta + u
+    \]</div>
+<p>con</p>
+<div class="arithmatex">\[
+y = \begin{pmatrix}
+y_1 \\
+\vdots \\
+y_n
+\end{pmatrix}, \quad
+X = \begin{pmatrix}
+\mathbf{x}_1^\top \\
+\vdots \\
+\mathbf{x}_n^\top
+\end{pmatrix} = \begin{pmatrix}
+1 &amp; x_{11} &amp; \dots &amp; x_{1k} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; x_{n1} &amp; \dots &amp; x_{nk}
+\end{pmatrix}, \quad
+u = \begin{pmatrix}
+u_1 \\
+\vdots \\
+u_n
+\end{pmatrix}
+\]</div>
+<p>donde <span class="arithmatex">\(u\)</span> y <span class="arithmatex">\(y\)</span> son vectores de <span class="arithmatex">\(n \times 1\)</span> y <span class="arithmatex">\(X\)</span> es una matriz de <span class="arithmatex">\(n \times (k + 1)\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 8" id="ejemplo-n5-dos-variables-x_1-x_2">Ejemplo: <span class="arithmatex">\(n=5\)</span>, dos variables: <span class="arithmatex">\(x_1\)</span>, <span class="arithmatex">\(x_2\)</span></h3>
+<!-- sem4/Clase5.tex · lámina 8 -->
+<div class="arithmatex">\[
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\hdots \\
+y_5
+\end{bmatrix}
+=
+\beta_0
+\begin{bmatrix}
+1 \\
+1 \\
+\hdots \\
+1
+\end{bmatrix}
++
+\beta_1
+\begin{bmatrix}
+x_{11} \\
+x_{12}\\
+\hdots\\
+x_{15}\\
+\end{bmatrix}
++
+\beta_2
+\begin{bmatrix}
+x_{21} \\
+x_{22} \\
+\hdots \\
+x_{25}
+\end{bmatrix}
++
+\begin{bmatrix}
+u_1 \\
+u_2 \\
+\hdots \\
+u_5
+\end{bmatrix}
+\]</div>
+<p>Re-escribiendo:</p>
+<div class="arithmatex">\[
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\hdots \\
+y_5
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp; x_{11} &amp; x_{12} \\
+1 &amp; x_{12} &amp; x_{22} \\
+\hdots &amp; \hdots &amp; \hdots \\
+1 &amp; x_{15} &amp; x_{25}
+\end{bmatrix}
+\begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2
+\end{bmatrix}
++
+\begin{bmatrix}
+u_1 \\
+u_2 \\
+\hdots \\
+u_5
+\end{bmatrix}
+\]</div>
+<div class="arithmatex">\[
+y = X\beta + u
+\]</div>
+</div>
+<div class="econ-widget" data-widget="matriz-x"></div>
+
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 9" id="minimos-cuadrados-ordinarios-mrl-multiple">Mínimos Cuadrados Ordinarios (MRL Múltiple)</h3>
+<!-- sem4/Clase5.tex · lámina 9 -->
+<ul>
+<li>
+<p>Como antes, podemos definir:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\hat{\beta}\)</span>: estimadores de los <span class="arithmatex">\(\beta\)</span> dimensión, <span class="arithmatex">\((k+1) \times 1\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\hat{y} = X \hat{\beta}\)</span>: Valores predichos de <span class="arithmatex">\(y\)</span>, dimensión <span class="arithmatex">\(n \times 1\)</span></p>
+</li>
+<li>
+<p>Por lo tanto, los residuos en forma matricial:</p>
+<div class="arithmatex">\[
+\hat{u} = y - \hat{y} = y - X \hat{\beta}
+\]</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 10" id="recordar">Recordar</h3>
+<!-- sem4/Clase5.tex · lámina 10 -->
+<ul>
+<li>
+<p><strong>Derivadas</strong></p>
+<p>Si <span class="arithmatex">\(a\)</span> y <span class="arithmatex">\(\beta\)</span> son vectores y <span class="arithmatex">\(A\)</span> una matriz simétrica, entonces:</p>
+<ol>
+<li>
+<p><span class="arithmatex">\(\frac{da^\top \beta}{d\beta} = a\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\frac{d\beta^\top A\beta}{d\beta} = 2A\beta\)</span></p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Propiedades de la traspuesta</strong></p>
+<p>Sean <span class="arithmatex">\(D\)</span> y <span class="arithmatex">\(E\)</span> matrices: <span class="arithmatex">\((DE)^\top = E^\top D^\top\)</span></p>
+</li>
+<li>
+<p><strong>Potencias</strong></p>
+<p><span class="arithmatex">\(\sum_{i} (s_i)^2 = s^\top s\)</span></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 11" id="minimos-cuadrados-ordinarios-mrl-multiple_1">Mínimos Cuadrados Ordinarios (MRL Múltiple)</h3>
+<!-- sem4/Clase5.tex · lámina 11 -->
+<div class="arithmatex">\[
+\min \sum_{i=1}^{n} \hat{u}_i^2 \quad \Rightarrow \quad \min_{\hat{\beta}} \hat{u}^\top \hat{u}
+\]</div>
+<ul>
+<li>
+<p>La suma de los residuos al cuadrado es:</p>
+<div class="arithmatex">\[
+\hat{u}^\top \hat{u} = (y - X \hat{\beta})^\top (y - X \hat{\beta})
+\]</div>
+<div class="arithmatex">\[
+= y^\top y - \hat{\beta}^\top X^\top y - y^\top X \hat{\beta} + \hat{\beta}^\top X^\top X \hat{\beta}
+\]</div>
+<div class="arithmatex">\[
+= y^\top y - 2 y^\top X \hat{\beta} + \hat{\beta}^\top X^\top X \hat{\beta}
+\]</div>
+</li>
+<li>
+<p>Entonces, condiciones de primer orden:</p>
+<div class="arithmatex">\[
+\frac{\partial \hat{u}^\top \hat{u}}{\partial \hat{\beta}} = 0 \quad \Rightarrow \quad -2X^\top y + 2X^\top X \hat{\beta} = 0 \quad \Rightarrow \quad \hat{\beta} = (X^\top X)^{-1} X^\top y
+\]</div>
+</li>
+<li>
+<p>Note que precisamos suponer que <span class="arithmatex">\(X\)</span> tiene rango <span class="arithmatex">\((k+1)\)</span> completo <span class="arithmatex">\(\Rightarrow X^\top X\)</span> es invertible.</p>
+</li>
+<li>
+<p>Las <span class="arithmatex">\(k + 1\)</span> ecuaciones <span class="arithmatex">\(X^\top y = X^\top X \hat{\beta}\)</span> son llamadas ecuaciones normales para MCO.</p>
+</li>
+<li>
+<p>Condición de segundo grado: <span class="arithmatex">\(\frac{d^2 \hat{u}^\top \hat{u}}{d \hat{\beta} d \hat{\beta}} = 2X^\top X\)</span> positiva definida.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 12" id="propiedades-algebraicas">Propiedades algebraicas</h3>
+<!-- sem4/Clase5.tex · lámina 12 -->
+<ul>
+<li>
+<p>Al igual que el caso de regresión simple, las propiedades algebraicas se derivan de las CPO.</p>
+</li>
+<li>
+<p>Propiedades 1 y 2: <span class="arithmatex">\(X^\top \hat{u} = 0\)</span>:</p>
+<div class="arithmatex">\[
+\sum_{i} \hat{u}_i = 0 \quad (\text{propiedad 1})
+\]</div>
+<div class="arithmatex">\[
+\sum_{i} x_{i1} \hat{u}_i = 0 \quad (\text{propiedad 2})
+\]</div>
+<div class="arithmatex">\[
+\sum_{i} x_{i2} \hat{u}_i = 0 \quad (\text{propiedad 2})
+\]</div>
+<div class="arithmatex">\[
+\dots
+\]</div>
+<div class="arithmatex">\[
+\sum_{i} x_{ik} \hat{u}_i = 0 \quad (\text{propiedad 2})
+\]</div>
+</li>
+<li>
+<p>Propiedad 3: La media de la variable observada <span class="arithmatex">\(y\)</span> es igual a la media de la variable predicha <span class="arithmatex">\(\hat{y}\)</span>:</p>
+<div class="arithmatex">\[
+\bar{y} = \bar{\hat{y}}
+\]</div>
+</li>
+<li>
+<p>Propiedad 4: El punto <span class="arithmatex">\((\bar{x}_1, \bar{x}_2, \dots, \bar{x}_k, \bar{y})\)</span> pasa por la curva de regresión.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 13" id="bondad-de-ajuste-r2">Bondad de Ajuste: <span class="arithmatex">\(R^2\)</span></h3>
+<!-- sem4/Clase5.tex · lámina 13 -->
+<p>El <span class="arithmatex">\(R^2\)</span> nos dice que la proporción de la varianza muestral de <span class="arithmatex">\(y\)</span> es explicada por nuestra regresión MCO. Recordando las definiciones:</p>
+<ul>
+<li>
+<p>Suma de cuadrados explicada: <span class="arithmatex">\(SSE = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2\)</span></p>
+</li>
+<li>
+<p>Suma de cuadrados residual: <span class="arithmatex">\(SSR = \sum_{i=1}^{n} \hat{u}_i^2\)</span></p>
+</li>
+<li>
+<p>Suma de cuadrados total: <span class="arithmatex">\(SST = \sum_{i=1}^{n} (y_i - \bar{y})^2\)</span></p>
+</li>
+</ul>
+<p>La fórmula para el <span class="arithmatex">\(R^2\)</span> es igual que en el caso de la regresión simple:</p>
+<div class="arithmatex">\[
+R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST}
+\]</div>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 14" id="bondad-de-ajuste-r2-ajustado">Bondad de Ajuste: <span class="arithmatex">\(R^2\)</span> ajustado</h3>
+<!-- sem4/Clase5.tex · lámina 14 -->
+<ul>
+<li>
+<p><span class="arithmatex">\(R^2\)</span> crece (o queda igual) a medida que se agregan más variables al modelo. Esto ocurre incluso si la variable agregada no es relevante en el modelo poblacional.</p>
+</li>
+<li>
+<p>Necesitamos una medida que penalice agregar variables irrelevantes.</p>
+</li>
+<li>
+<p>Se define el <span class="arithmatex">\(R^2\)</span> ajustado como:</p>
+<div class="arithmatex">\[
+\overline{R^2} = 1 - \frac{n - 1}{n - k - 1} \frac{SSR}{SST}
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="r2-trampa"></div>
+
+<div class="econ-lamina">
+<h3 data-lamina="Láminas 15–22" id="ejemplo-obtener-hatbeta-xtop-x-1xtop-y">Ejemplo: obtener <span class="arithmatex">\(\hat{\beta} = (X^\top X)^{-1}X^\top y\)</span></h3>
+<p class="econ-lamina-cont">Lámina progresiva · recórrela paso a paso, como en la presentación</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:8"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><input id="__tabbed_1_6" name="__tabbed_1" type="radio" /><input id="__tabbed_1_7" name="__tabbed_1" type="radio" /><input id="__tabbed_1_8" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Paso 1</label><label for="__tabbed_1_2">Paso 2</label><label for="__tabbed_1_3">Paso 3</label><label for="__tabbed_1_4">Paso 4</label><label for="__tabbed_1_5">Paso 5</label><label for="__tabbed_1_6">Paso 6</label><label for="__tabbed_1_7">Paso 7</label><label for="__tabbed_1_8">Paso 8</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<!-- sem4/Clase5.tex · lámina 15 -->
+<p>Modelo: <span class="arithmatex">\(y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i\)</span>, <span class="arithmatex">\(n=5\)</span>.</p>
+<p>Base de datos:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Individuos</th>
+<th style="text-align: center;">unos</th>
+<th style="text-align: center;"><span class="arithmatex">\(x_1\)</span> (experiencia)</th>
+<th style="text-align: center;"><span class="arithmatex">\(x_2\)</span> (educación)</th>
+<th style="text-align: center;"><span class="arithmatex">\(y\)</span> (salario)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Juan</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">93</td>
+<td style="text-align: center;">769</td>
+</tr>
+<tr>
+<td style="text-align: center;">Pedro</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">119</td>
+<td style="text-align: center;">808</td>
+</tr>
+<tr>
+<td style="text-align: center;">Sofia</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">108</td>
+<td style="text-align: center;">825</td>
+</tr>
+<tr>
+<td style="text-align: center;">Caro</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">650</td>
+</tr>
+<tr>
+<td style="text-align: center;">Alex</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">74</td>
+<td style="text-align: center;">562</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<!-- sem4/Clase5.tex · lámina 16 -->
+<p>Modelo: <span class="arithmatex">\(y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i\)</span>, <span class="arithmatex">\(n=5\)</span>.</p>
+<p>Base de datos:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Individuos</th>
+<th style="text-align: center;">unos</th>
+<th style="text-align: center;"><span class="arithmatex">\(x_1\)</span> (experiencia)</th>
+<th style="text-align: center;"><span class="arithmatex">\(x_2\)</span> (educación)</th>
+<th style="text-align: center;"><span class="arithmatex">\(y\)</span> (salario)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Juan</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">93</td>
+<td style="text-align: center;">769</td>
+</tr>
+<tr>
+<td style="text-align: center;">Pedro</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">119</td>
+<td style="text-align: center;">808</td>
+</tr>
+<tr>
+<td style="text-align: center;">Sofia</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">108</td>
+<td style="text-align: center;">825</td>
+</tr>
+<tr>
+<td style="text-align: center;">Caro</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">650</td>
+</tr>
+<tr>
+<td style="text-align: center;">Alex</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">74</td>
+<td style="text-align: center;">562</td>
+</tr>
+</tbody>
+</table>
+<div class="arithmatex">\[
+X = \begin{bmatrix}
+1 &amp; 12 &amp; 93 \\
+1 &amp; 18 &amp; 119 \\
+1 &amp; 14 &amp; 108 \\
+1 &amp; 12 &amp; 96 \\
+1 &amp; 11 &amp; 74 \\
+\end{bmatrix} \quad
+X^\top = \begin{bmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\
+12 &amp; 18 &amp; 14 &amp; 12 &amp; 11 \\
+93 &amp; 119 &amp; 108 &amp; 96 &amp; 74 \\
+\end{bmatrix}
+\]</div>
+<div class="arithmatex">\[
+X^\top X = \begin{bmatrix}
+5 &amp; 67 &amp; 490 \\
+67 &amp; 929 &amp; 6736 \\
+490 &amp; 6736 &amp; 49166 \\
+\end{bmatrix}
+\]</div>
+</div>
+<div class="tabbed-block">
+<!-- sem4/Clase5.tex · lámina 17 -->
+<p>Modelo: <span class="arithmatex">\(y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i\)</span>, <span class="arithmatex">\(n=5\)</span>.</p>
+<p>Base de datos:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Individuos</th>
+<th style="text-align: center;">unos</th>
+<th style="text-align: center;"><span class="arithmatex">\(x_1\)</span> (experiencia)</th>
+<th style="text-align: center;"><span class="arithmatex">\(x_2\)</span> (educación)</th>
+<th style="text-align: center;"><span class="arithmatex">\(y\)</span> (salario)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Juan</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">93</td>
+<td style="text-align: center;">769</td>
+</tr>
+<tr>
+<td style="text-align: center;">Pedro</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">119</td>
+<td style="text-align: center;">808</td>
+</tr>
+<tr>
+<td style="text-align: center;">Sofia</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">108</td>
+<td style="text-align: center;">825</td>
+</tr>
+<tr>
+<td style="text-align: center;">Caro</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">650</td>
+</tr>
+<tr>
+<td style="text-align: center;">Alex</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">74</td>
+<td style="text-align: center;">562</td>
+</tr>
+</tbody>
+</table>
+<div class="arithmatex">\[
+X = \begin{bmatrix}
+1 &amp; 12 &amp; 93 \\
+1 &amp; 18 &amp; 119 \\
+1 &amp; 14 &amp; 108 \\
+1 &amp; 12 &amp; 96 \\
+1 &amp; 11 &amp; 74 \\
+\end{bmatrix} \quad
+X^\top = \begin{bmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\
+12 &amp; 18 &amp; 14 &amp; 12 &amp; 11 \\
+93 &amp; 119 &amp; 108 &amp; 96 &amp; 74 \\
+\end{bmatrix}
+\]</div>
+<div class="arithmatex">\[
+X^\top X = \begin{bmatrix}
+5 &amp; 67 &amp; 490 \\
+67 &amp; 929 &amp; 6736 \\
+490 &amp; 6736 &amp; 49166 \\
+\end{bmatrix}
+\quad  (X^\top X)^{-1} =
+\begin{bmatrix}
+8.80 &amp; 0.19 &amp; -0.11 \\
+0.19 &amp; 0.17 &amp; -0.02 \\
+-0.11 &amp; -0.02 &amp; 0.00 \\
+\end{bmatrix}
+\]</div>
+</div>
+<div class="tabbed-block">
+<!-- sem4/Clase5.tex · lámina 18 -->
+<div class="arithmatex">\[
+X^\top y =
+\begin{bmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\
+12 &amp; 18 &amp; 14 &amp; 12 &amp; 11 \\
+93 &amp; 119 &amp; 108 &amp; 96 &amp; 74 \\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+769 \\
+808 \\
+825 \\
+650 \\
+562 \\
+\end{bmatrix}
+= \begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}
+\]</div>
+</div>
+<div class="tabbed-block">
+<!-- sem4/Clase5.tex · lámina 19 -->
+<div class="arithmatex">\[
+X^\top y =
+\begin{bmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\
+12 &amp; 18 &amp; 14 &amp; 12 &amp; 11 \\
+93 &amp; 119 &amp; 108 &amp; 96 &amp; 74 \\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+769 \\
+808 \\
+825 \\
+650 \\
+562 \\
+\end{bmatrix}
+= \begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix} =
+\]</div>
+</div>
+<div class="tabbed-block">
+<!-- sem4/Clase5.tex · lámina 20 -->
+<p>Entonces tenemos: <span class="arithmatex">\((X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 &amp; 0.19 &amp; -0.11 \\
+0.19 &amp; 0.17 &amp; -0.02 \\
+-0.11 &amp; -0.02 &amp; 0.00 \\
+\end{bmatrix}\)</span></p>
+<p><span class="arithmatex">\(X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}\)</span></p>
+</div>
+<div class="tabbed-block">
+<!-- sem4/Clase5.tex · lámina 21 -->
+<p>Entonces tenemos: <span class="arithmatex">\((X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 &amp; 0.19 &amp; -0.11 \\
+0.19 &amp; 0.17 &amp; -0.02 \\
+-0.11 &amp; -0.02 &amp; 0.00 \\
+\end{bmatrix}\)</span></p>
+<p><span class="arithmatex">\(X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}\)</span></p>
+<p>Multiplicando obtenemos los estimadores: <span class="arithmatex">\(\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y=
+\begin{bmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1 \\
+\hat{\beta}_2 \\
+\end{bmatrix}=
+\begin{bmatrix}
+140.59 \\
+-16.79 \\
+8.24 \\
+\end{bmatrix}\)</span><br></p>
+</div>
+<div class="tabbed-block">
+<!-- sem4/Clase5.tex · lámina 22 -->
+<p>Entonces tenemos: <span class="arithmatex">\((X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 &amp; 0.19 &amp; -0.11 \\
+0.19 &amp; 0.17 &amp; -0.02 \\
+-0.11 &amp; -0.02 &amp; 0.00 \\
+\end{bmatrix}\)</span></p>
+<p><span class="arithmatex">\(X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}\)</span></p>
+<p>Multiplicando obtenemos los estimadores: <span class="arithmatex">\(\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y=
+\begin{bmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1 \\
+\hat{\beta}_2 \\
+\end{bmatrix}=
+\begin{bmatrix}
+140.59 \\
+-16.79 \\
+8.24 \\
+\end{bmatrix}\)</span><br>
+Si quisieramos la matrix de prediccion de y, simplemente calculamos:</p>
+<div class="arithmatex">\[
+\hat{y}=X\hat{\beta}
+\]</div>
+</div>
+</div>
+</div>
+</div>
+<div class="econ-widget" data-widget="calc-matricial"></div>
+
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 23" id="en-general">En general</h3>
+<!-- sem4/Clase5.tex · lámina 23 -->
+<div class="arithmatex">\[
+X^T X =
+\begin{pmatrix}
+n &amp; \sum_{i=1}^{n} x_{i1} &amp; \sum_{i=1}^{n} x_{i2} &amp; \cdots &amp; \sum_{i=1}^{n} x_{ik} \\
+\sum_{i=1}^{n} x_{i1} &amp; \sum_{i=1}^{n} x_{i1}^2 &amp; \sum_{i=1}^{n} x_{i1}x_{i2} &amp; \cdots &amp; \sum_{i=1}^{n} x_{i1}x_{ik} \\
+\sum_{i=1}^{n} x_{i2} &amp; \sum_{i=1}^{n} x_{i1}x_{i2} &amp; \sum_{i=1}^{n} x_{i2}^2 &amp; \cdots &amp; \sum_{i=1}^{n} x_{i2}x_{ik} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\sum_{i=1}^{n} x_{ik} &amp; \sum_{i=1}^{n} x_{i1}x_{ik} &amp; \sum_{i=1}^{n} x_{i2}x_{ik} &amp; \cdots &amp; \sum_{i=1}^{n} x_{ik}^2
+\end{pmatrix}
+\]</div>
+<div class="arithmatex">\[
+X^Ty=\begin{pmatrix}
+\sum_{i=1}^n y_i \\
+\sum_{i=1}^n x_{i1}y_i \\
+\vdots\\
+\sum_{i=1}^n x_{ik}y_i \\
+\end{pmatrix}
+\]</div>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 24" id="en-r">En R</h3>
+<!-- sem4/Clase5.tex · lámina 24 -->
+<p><img alt="En R" class="econ-slide-img" src="../../images/slides/sem5_images_datos_r.png" /></p>
+</div>
+<div class="econ-lamina">
+<h3 data-lamina="Lámina 25" id="regresion">Regresión</h3>
+<!-- sem4/Clase5.tex · lámina 25 -->
+<p><img alt="Regresión" class="econ-slide-img" src="../../images/slides/sem5_images_tabla_reg.png" /></p>
+</div>
+<div class="econ-widget" data-widget="salida-r"></div>
+
+<h2 class="econ-parte is-ayudantia" data-eyebrow="Parte 2 · Ayudantía" id="ejercicio-la-inversa-de-xtx-por-cofactores">Ejercicio: la inversa de XᵀX por cofactores</h2>
+<p class="econ-source">📄 Documento: <code>sem4/calculo_matrices.tex</code> · 7 secciones</p>
+
+<div class="admonition note">
+<p class="admonition-title">Material de ayudantía/taller</p>
+<p>Este ejercicio no se ve en la cátedra del viernes: se trabaja en la <strong>ayudantía/taller</strong> de la semana. Mantiene el formato numérico del documento original (punto para los miles, coma decimal).</p>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h3 data-lamina="Lámina 1" id="modelo-y-datos">Modelo y datos</h3>
+<!-- sem4/calculo_matrices.tex · lámina 1 -->
+<p>Modelo de regresión lineal múltiple con <span class="arithmatex">\(n=5\)</span> individuos:</p>
+<div class="arithmatex">\[
+y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i, \qquad i=1,\dots,5,
+\]</div>
+<p>donde <span class="arithmatex">\(x_{1}=\)</span> experiencia (años) y <span class="arithmatex">\(x_{2}=\)</span> educación (años).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Individuo</th>
+<th style="text-align: center;"><em>unos</em></th>
+<th style="text-align: center;"><span class="arithmatex">\(x_1\)</span> (experiencia)</th>
+<th style="text-align: center;"><span class="arithmatex">\(x_2\)</span> (educación)</th>
+<th style="text-align: center;"><span class="arithmatex">\(y\)</span> (salario)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Juan</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">93</td>
+<td style="text-align: center;">769</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pedro</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">119</td>
+<td style="text-align: center;">808</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sofía</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">108</td>
+<td style="text-align: center;">825</td>
+</tr>
+<tr>
+<td style="text-align: left;">Caro</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">96</td>
+<td style="text-align: center;">650</td>
+</tr>
+<tr>
+<td style="text-align: left;">Alex</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">74</td>
+<td style="text-align: center;">562</td>
+</tr>
+</tbody>
+</table>
+<p>Matrices del modelo:</p>
+<div class="arithmatex">\[
+X=\begin{bmatrix}
+1 &amp; 12 &amp; 93\\
+1 &amp; 18 &amp; 119\\
+1 &amp; 14 &amp; 108\\
+1 &amp; 12 &amp; 96\\
+1 &amp; 11 &amp; 74
+\end{bmatrix},
+\qquad
+X^\top=\begin{bmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\
+12 &amp; 18 &amp; 14 &amp; 12 &amp; 11\\
+93 &amp; 119 &amp; 108 &amp; 96 &amp; 74
+\end{bmatrix}.
+\]</div>
+<p>Multiplicando <span class="arithmatex">\(X^\top X\)</span> (cada entrada es la suma de productos correspondiente: <span class="arithmatex">\(n\)</span>, <span class="arithmatex">\(\sum x_1\)</span>, <span class="arithmatex">\(\sum x_2\)</span>, <span class="arithmatex">\(\sum x_1^2\)</span>, <span class="arithmatex">\(\sum x_1 x_2\)</span>, <span class="arithmatex">\(\sum x_2^2\)</span>):</p>
+<div class="arithmatex">\[
+A \;=\; X^\top X \;=\;
+\begin{bmatrix}
+5 &amp; 67 &amp; 490\\
+67 &amp; 929 &amp; 6.736\\
+490 &amp; 6.736 &amp; 49.166
+\end{bmatrix}.
+\]</div>
+<p>El objetivo de este documento es obtener <span class="arithmatex">\(A^{-1}=(X^\top X)^{-1}\)</span> <strong>paso a paso, usando el método de cofactores</strong>:</p>
+<div class="arithmatex">\[
+A^{-1} = \frac{1}{\det(A)}\,\operatorname{adj}(A),
+\qquad
+\operatorname{adj}(A) = C^\top,
+\]</div>
+<p>donde <span class="arithmatex">\(C\)</span> es la matriz de cofactores de <span class="arithmatex">\(A\)</span>.</p>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h3 data-lamina="Lámina 2" id="paso-1-matriz-de-menores">Paso 1: Matriz de menores</h3>
+<!-- sem4/calculo_matrices.tex · lámina 2 -->
+<p>El menor <span class="arithmatex">\(M_{ij}\)</span> es el determinante de la submatriz <span class="arithmatex">\(2\times 2\)</span> que resulta de eliminar la fila <span class="arithmatex">\(i\)</span> y la columna <span class="arithmatex">\(j\)</span> de <span class="arithmatex">\(A\)</span>.</p>
+<div class="arithmatex">\[
+M_{11}=\begin{vmatrix}929 &amp; 6.736\\ 6.736 &amp; 49.166\end{vmatrix}
+= 929\times 49.166 - 6.736\times 6.736
+= 45.675.214-45.373.696=301.518
+\]</div>
+<div class="arithmatex">\[
+M_{12}=\begin{vmatrix}67 &amp; 6.736\\ 490 &amp; 49.166\end{vmatrix}
+= 67\times 49.166 - 6.736\times 490
+= 3.294.122-3.300.640=-6.518
+\]</div>
+<div class="arithmatex">\[
+M_{13}=\begin{vmatrix}67 &amp; 929\\ 490 &amp; 6.736\end{vmatrix}
+= 67\times 6.736 - 929\times 490
+= 451.312-455.210=-3.898
+\]</div>
+<div class="arithmatex">\[
+M_{21}=\begin{vmatrix}67 &amp; 490\\ 6.736 &amp; 49.166\end{vmatrix}
+= 67\times 49.166 - 490\times 6.736
+= 3.294.122-3.300.640=-6.518
+\]</div>
+<div class="arithmatex">\[
+M_{22}=\begin{vmatrix}5 &amp; 490\\ 490 &amp; 49.166\end{vmatrix}
+= 5\times 49.166 - 490\times 490
+= 245.830-240.100=5.730
+\]</div>
+<div class="arithmatex">\[
+M_{23}=\begin{vmatrix}5 &amp; 67\\ 490 &amp; 6.736\end{vmatrix}
+= 5\times 6.736 - 67\times 490
+= 33.680-32.830=850
+\]</div>
+<div class="arithmatex">\[
+M_{31}=\begin{vmatrix}67 &amp; 490\\ 929 &amp; 6.736\end{vmatrix}
+= 67\times 6.736 - 490\times 929
+= 451.312-455.210=-3.898
+\]</div>
+<div class="arithmatex">\[
+M_{32}=\begin{vmatrix}5 &amp; 490\\ 67 &amp; 6.736\end{vmatrix}
+= 5\times 6.736 - 490\times 67
+= 33.680-32.830=850
+\]</div>
+<div class="arithmatex">\[
+M_{33}=\begin{vmatrix}5 &amp; 67\\ 67 &amp; 929\end{vmatrix}
+= 5\times 929 - 67\times 67
+= 4.645-4.489=156
+\]</div>
+<p>Por lo tanto, la matriz de menores es:</p>
+<div class="arithmatex">\[
+M=\begin{bmatrix}
+301.518 &amp; -6.518 &amp; -3.898\\
+-6.518 &amp; 5.730 &amp; 850\\
+-3.898 &amp; 850 &amp; 156
+\end{bmatrix}.
+\]</div>
+<p><em>(Nota: como <span class="arithmatex">\(A=X^\top X\)</span> es simétrica, se cumple <span class="arithmatex">\(M_{12}=M_{21}\)</span> y <span class="arithmatex">\(M_{13}=M_{31}\)</span>, <span class="arithmatex">\(M_{23}=M_{32}\)</span>, lo cual sirve como chequeo intermedio.)</em></p>
+</div>
+<div class="econ-widget" data-widget="cofactores"></div>
+
+<div class="econ-lamina is-ayudantia">
+<h3 data-lamina="Lámina 3" id="paso-2-matriz-de-cofactores">Paso 2: Matriz de cofactores</h3>
+<!-- sem4/calculo_matrices.tex · lámina 3 -->
+<p>Cada cofactor se obtiene aplicando el patrón de signos (tablero de ajedrez) a los menores:</p>
+<div class="arithmatex">\[
+\operatorname{sgn}(i,j)=(-1)^{i+j}
+\;\Longrightarrow\;
+\begin{bmatrix}
++ &amp; - &amp; +\\
+- &amp; + &amp; -\\
++ &amp; - &amp; +
+\end{bmatrix}.
+\]</div>
+<div class="arithmatex">\[
+C_{11}=+M_{11}=301.518, \quad
+C_{12}=-M_{12}=6.518, \quad
+C_{13}=+M_{13}=-3.898,
+\]</div>
+<div class="arithmatex">\[
+C_{21}=-M_{21}=6.518, \quad
+C_{22}=+M_{22}=5.730, \quad
+C_{23}=-M_{23}=-850,
+\]</div>
+<div class="arithmatex">\[
+C_{31}=+M_{31}=-3.898, \quad
+C_{32}=-M_{32}=-850, \quad
+C_{33}=+M_{33}=156.
+\]</div>
+<div class="arithmatex">\[
+C=\begin{bmatrix}
+301.518 &amp; 6.518 &amp; -3.898\\
+6.518 &amp; 5.730 &amp; -850\\
+-3.898 &amp; -850 &amp; 156
+\end{bmatrix}.
+\]</div>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h3 data-lamina="Lámina 4" id="paso-3-matriz-adjunta-adjunta-transpuesta-de-cofactores">Paso 3: Matriz adjunta (adjunta = transpuesta de cofactores)</h3>
+<!-- sem4/calculo_matrices.tex · lámina 4 -->
+<div class="arithmatex">\[
+\operatorname{adj}(A) = C^\top
+=\begin{bmatrix}
+301.518 &amp; 6.518 &amp; -3.898\\
+6.518 &amp; 5.730 &amp; -850\\
+-3.898 &amp; -850 &amp; 156
+\end{bmatrix}.
+\]</div>
+<p>Como <span class="arithmatex">\(A\)</span> es simétrica, <span class="arithmatex">\(C\)</span> también resulta simétrica, así que <span class="arithmatex">\(\operatorname{adj}(A)=C\)</span> en este caso particular (esto <strong>no</strong> ocurre en general; solo porque <span class="arithmatex">\(A=X^\top X\)</span> es simétrica).</p>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h3 data-lamina="Lámina 5" id="paso-4-determinante-de-a">Paso 4: Determinante de <span class="arithmatex">\(A\)</span></h3>
+<!-- sem4/calculo_matrices.tex · lámina 5 -->
+<p>El determinante se calcula expandiendo por cofactores a lo largo de la primera fila:</p>
+<div class="arithmatex">\[
+\det(A) = a_{11}C_{11}+a_{12}C_{12}+a_{13}C_{13}
+\]</div>
+<div class="arithmatex">\[
+\det(A) = 5\times 301.518 \;+\; 67\times 6.518 \;+\; 490\times(-3.898)
+\]</div>
+<div class="arithmatex">\[
+\det(A) = 1.507.590 \;+\; 436.706 \;-\; 1.910.020
+\]</div>
+<div class="arithmatex">\[
+\boxed{\det(A) = 34.276}
+\]</div>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h3 data-lamina="Lámina 6" id="paso-5-matriz-inversa">Paso 5: Matriz inversa</h3>
+<!-- sem4/calculo_matrices.tex · lámina 6 -->
+<div class="arithmatex">\[
+A^{-1} = \frac{1}{\det(A)}\operatorname{adj}(A)
+= \frac{1}{34.276}
+\begin{bmatrix}
+301.518 &amp; 6.518 &amp; -3.898\\
+6.518 &amp; 5.730 &amp; -850\\
+-3.898 &amp; -850 &amp; 156
+\end{bmatrix}.
+\]</div>
+<p>Dividiendo cada entrada por <span class="arithmatex">\(34.276\)</span> se obtiene, en decimales:</p>
+<div class="arithmatex">\[
+A^{-1} = (X^\top X)^{-1} \approx
+\begin{bmatrix}
+8,796767 &amp; 0,190162 &amp; -0,113724\\
+0,190162 &amp; 0,167172 &amp; -0,024799\\
+-0,113724 &amp; -0,024799 &amp; 0,004551
+\end{bmatrix}.
+\]</div>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h3 data-lamina="Lámina 7" id="calculo-de-hatbetaxtop-x-1xtop-y">Cálculo de <span class="arithmatex">\(\hat\beta=(X^\top X)^{-1}X^\top y\)</span></h3>
+<!-- sem4/calculo_matrices.tex · lámina 7 -->
+<p>Como la base de datos ya incluye la variable <span class="arithmatex">\(y\)</span> (salario), es posible completar el ejercicio calculando el vector <span class="arithmatex">\(X^\top y\)</span> y luego el estimador OLS. Con <span class="arithmatex">\(y=(769,\,808,\,825,\,650,\,562)^\top\)</span>:</p>
+<div class="arithmatex">\[
+X^\top y =
+\begin{bmatrix}
+\sum y_i \\ \sum x_{1i} y_i \\ \sum x_{2i} y_i
+\end{bmatrix}
+=
+\begin{bmatrix}
+3.614\\
+49.304\\
+360.757
+\end{bmatrix}.
+\]</div>
+<p>Luego:</p>
+<div class="arithmatex">\[
+\hat\beta = A^{-1}X^\top y \approx
+\begin{bmatrix}
+140,586\\
+-16,790\\
+8,237
+\end{bmatrix}.
+\]</div>
+<p>Es decir, <span class="arithmatex">\(\hat\beta_0\approx 140,586\)</span>, <span class="arithmatex">\(\hat\beta_1\approx -16,790\)</span> y <span class="arithmatex">\(\hat\beta_2\approx 8,237\)</span>.</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>En la regresión múltiple cada <span class="arithmatex">\(\beta_j\)</span> es un efecto <strong>ceteris paribus</strong>: la pendiente del plano en la dirección de <span class="arithmatex">\(x_j\)</span>.</li>
+<li>Controlar por una variable cambia el coeficiente de interés (0.54 → 0.37 al agregar IQ), como predice la fórmula de variable omitida.</li>
+<li>En notación matricial <span class="arithmatex">\(y = X\beta + u\)</span>, con <span class="arithmatex">\(X\)</span> de dimensión <span class="arithmatex">\(n \times (k+1)\)</span>, y <span class="arithmatex">\(\hat{\beta} = (X^\top X)^{-1} X^\top y\)</span> exige <strong>rango completo</strong>.</li>
+<li>El <span class="arithmatex">\(R^2\)</span> <strong>nunca baja</strong> al agregar variables; el <span class="arithmatex">\(R^2\)</span> <strong>ajustado</strong> penaliza cada variable adicional.</li>
+</ul>
+</div>
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En salario = 0.065 + 0.37·educación + 0.20·IQ, ¿qué significa 0.37?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">Un año más de educación se asocia con 0.37 más de salario, sin importar el IQ de la persona.</button>
+<button class="econ-quiz-opt" data-correct>Un año más de educación se asocia con 0.37 más de salario esperado, manteniendo constante el IQ.</button>
+<button class="econ-quiz-opt">El 37% del salario se explica por la educación.</button>
+</div>
+<p class="econ-quiz-fb">✅ En la regresión múltiple cada coeficiente es un efecto <em>ceteris paribus</em>: la pendiente del plano en la dirección de esa variable, con las demás incluidas fijas.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con n = 100 observaciones y k = 4 variables explicativas, ¿qué dimensión tiene la matriz X?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">100 × 4</button>
+<button class="econ-quiz-opt" data-correct>100 × 5</button>
+<button class="econ-quiz-opt">5 × 100</button>
+</div>
+<p class="econ-quiz-fb">✅ X tiene una fila por observación y una columna por parámetro: la columna de unos más las 4 variables, es decir n × (k + 1) = 100 × 5.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Por qué se exige que X tenga rango completo (k + 1)?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Para que XᵀX sea invertible y exista β̂ = (XᵀX)⁻¹Xᵀy.</button>
+<button class="econ-quiz-opt">Para que el R² sea mayor que 0.5.</button>
+<button class="econ-quiz-opt">Para que los residuos sumen cero.</button>
+</div>
+<p class="econ-quiz-fb">✅ Si una columna es combinación lineal de otras (por ejemplo, dos variables idénticas), XᵀX no se puede invertir y MCO no tiene solución única. Pruébalo en la calculadora.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Agregas al modelo una variable que no tiene ninguna relación con y. ¿Qué pasa?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">El R² baja y el R² ajustado sube.</button>
+<button class="econ-quiz-opt" data-correct>El R² sube o se mantiene; el R² ajustado puede bajar.</button>
+<button class="econ-quiz-opt">Ambos quedan exactamente iguales.</button>
+</div>
+<p class="econ-quiz-fb">✅ El R² nunca baja al agregar variables; el R² ajustado penaliza con (n − 1)/(n − k − 1). Es la trampa del R² que viste en el juego.</p>
+</div>
+
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulo 3, secciones 3.1–3.2 (<em>Análisis de regresión múltiple: estimación</em>).</li>
+<li>🛠️ Esta semana es el <strong>Taller 1</strong>: repasa el ejercicio de la Parte 2 y verifica tus cálculos con la calculadora matricial.</li>
+<li>Próxima clase: <strong>Interpretación de la regresión múltiple</strong>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+    
+  </body>
+</html>

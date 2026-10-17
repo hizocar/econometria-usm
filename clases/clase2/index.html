@@ -895,6 +895,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1759,7 +1782,7 @@ salario_i = \beta_0 + \beta_1 \text{educación}_i + \epsilon_i
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Complemento · Compruébalo</p>
-<p>En el simulador <em>encuentra la recta de mínimos cuadrados</em> activa <strong>Mostrar recta MCO</strong>: verás que <span class="arithmatex">\(\sum_i \hat{u}_i = 0\)</span>, <span class="arithmatex">\(\sum_i x_i\hat{u}_i = 0\)</span> y que la recta pasa por <span class="arithmatex">\((\bar{x}, \bar{y})\)</span>, incluso si arrastras los puntos.</p>
+<p>En el simulador <em>encuentra la recta de mínimos cuadrados</em> (más arriba, junto a la lámina 14) activa <strong>Mostrar recta MCO</strong>: verás que <span class="arithmatex">\(\sum_i \hat{u}_i = 0\)</span>, <span class="arithmatex">\(\sum_i x_i\hat{u}_i = 0\)</span> y que la recta pasa por <span class="arithmatex">\((\bar{x}, \bar{y})\)</span>, incluso si arrastras los puntos.</p>
 </div>
 <div class="econ-lamina">
 <h3 data-lamina="Láminas 21–22" id="metodo-de-momentos">Método de momentos</h3>
@@ -1937,9 +1960,18 @@ Var(\hat{\beta_0}|x)={\sigma^2 \sum_{i=1}^nx_i^2\over n\sum_{i=1}^n(x_i-\bar{x})
 <div class="econ-widget" data-widget="supuestos"></div>
 
 <hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>En <span class="arithmatex">\(y = \beta_0 + \beta_1 x + u\)</span>, <span class="arithmatex">\(\beta_1\)</span> es el cambio en <span class="arithmatex">\(E[y \mid x]\)</span> por unidad de <span class="arithmatex">\(x\)</span>; es <strong>causal solo si</strong> <span class="arithmatex">\(E[u \mid x] = 0\)</span>.</li>
+<li><strong>MCO</strong> elige la recta que minimiza <span class="arithmatex">\(\sum_i \hat{u}_i^2\)</span>; por eso <span class="arithmatex">\(\sum_i \hat{u}_i = 0\)</span> y <span class="arithmatex">\(\sum_i x_i \hat{u}_i = 0\)</span>.</li>
+<li><span class="arithmatex">\(SST = SSE + SSR\)</span> y <span class="arithmatex">\(R^2 = SSE/SST\)</span> mide <strong>ajuste</strong>, no causalidad: un <span class="arithmatex">\(R^2\)</span> bajo no invalida la regresión.</li>
+<li>Con <strong>RLS 1–4</strong> MCO es <strong>insesgado</strong>; con <strong>RLS 5</strong> (homocedasticidad) vale <span class="arithmatex">\(\text{Var}(\hat{\beta}_1 \mid x) = \sigma^2 / \sum_i (x_i - \bar{x})^2\)</span>.</li>
+</ul>
+</div>
 <h2 id="autoevaluacion">✅ Autoevaluación</h2>
 <div class="econ-quiz">
-<p class="econ-quiz-q">Con los datos de EE. UU. se estimó salario = 0.095 + 0.54·educación. ¿Cuál es la interpretación correcta de 0.54?</p>
+<p class="econ-quiz-q">Con los datos de EE. UU. se estimó: salario estimado = 0.095 + 0.54·educación. ¿Cuál es la interpretación correcta de 0.54?</p>
 <div class="econ-quiz-opts">
 <button class="econ-quiz-opt">Un año más de educación causa un aumento de 0.54 dólares por hora en el salario de cada persona.</button>
 <button class="econ-quiz-opt" data-correct>Un año más de educación se asocia, en promedio, con 0.54 dólares más por hora.</button>

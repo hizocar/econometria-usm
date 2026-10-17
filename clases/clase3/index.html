@@ -18,6 +18,8 @@
         <link rel="prev" href="../clase2/">
       
       
+        <link rel="next" href="../clase4/">
+      
       
       <link rel="icon" href="../../images/usm_favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
@@ -827,6 +829,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1146,7 +1171,7 @@
 <div class="usm-session-meta">
 <span>📅 Viernes 30 de octubre de 2026</span>
 <span>⏱️ 18:40 – 21:25</span>
-<span class="usm-tag-gold">Semana 3 · Causalidad, variable omitida</span>
+<span class="usm-tag-gold">Semana 3 · Contenido 4 (cont.) · Causalidad y variable omitida</span>
 </div>
 
 <div class="admonition info">
@@ -1162,6 +1187,7 @@
 <li>Descomponer una diferencia de promedios en <strong>efecto causal + sesgo de selección</strong>.</li>
 <li>Entender por qué la <strong>aleatorización</strong> elimina el sesgo de selección.</li>
 <li>Derivar el <strong>sesgo por variable omitida</strong> y predecir su signo.</li>
+<li>Evaluar cuándo agregar controles corrige el sesgo y por qué las variables irrelevantes aumentan la varianza.</li>
 </ul>
 <h2 id="agenda-de-la-catedra-viernes-1840-2125">🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)</h2>
 <table>
@@ -1265,8 +1291,6 @@
 </li>
 </ul>
 </div>
-<div class="econ-widget" data-widget="universo"></div>
-
 <div class="econ-lamina">
 <h3 data-lamina="Lámina 3" id="el-marco-teorico-de-rubin">El marco teórico de Rubin</h3>
 <!-- sem3/Clase3.tex · lámina 3 -->
@@ -1313,6 +1337,8 @@
 </li>
 </ul>
 </div>
+<div class="econ-widget" data-widget="universo"></div>
+
 <div class="econ-lamina">
 <h3 data-lamina="Lámina 5" id="ate-y-att">ATE y ATT</h3>
 <!-- sem3/Clase3.tex · lámina 5 -->
@@ -1815,7 +1841,7 @@ y=\left(\alpha+\beta_2\delta_{0}\right)+x_{1}\left(\beta_{1}+\beta_{2} \delta_{1
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Complemento · Compruébalo con los números</p>
-<p>De <span class="arithmatex">\(\tilde{\beta}_1 = \beta_1 + \beta_2\delta_2\)</span>: <span class="arithmatex">\(-1.82 = 0.94 + 0.98\,\delta_2 \Rightarrow \delta_2 \approx -2.8 &lt; 0\)</span>. Prueba el botón <strong>Fumar y edad</strong> en el simulador de variable omitida: reproduce estas dos regresiones.</p>
+<p>Con la salida de Stata: <span class="arithmatex">\(-1.819 = 0.943 + 0.980\,\delta_2\)</span> (la lámina redondea a <span class="arithmatex">\(-1.81\)</span>) <span class="arithmatex">\(\Rightarrow \delta_2 \approx -2.8 &lt; 0\)</span>. Prueba el botón <strong>Fumar y edad</strong> en el simulador de variable omitida: reproduce estas dos regresiones.</p>
 </div>
 <div class="econ-widget" data-widget="simpson"></div>
 
@@ -1876,6 +1902,16 @@ y=\left(\alpha+\beta_2\delta_{0}\right)+x_{1}\left(\beta_{1}+\beta_{2} \delta_{1
 </ul>
 </div>
 <hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>Para cada persona solo vemos <strong>un</strong> outcome potencial: el contrafactual nunca se observa.</li>
+<li><strong>Diferencia observada = ATT + sesgo de selección</strong>; el sesgo existe si los grupos ya eran distintos sin tratamiento.</li>
+<li>La <strong>aleatorización</strong> elimina el sesgo de selección: <span class="arithmatex">\(\beta = ATE = ATT\)</span>.</li>
+<li>Omitir una variable relevante sesga: <span class="arithmatex">\(\tilde{\beta}_1 = \beta_1 + \beta_2 \delta_1\)</span>, y su signo depende de los signos de <span class="arithmatex">\(\beta_2\)</span> y <span class="arithmatex">\(\delta_1\)</span>.</li>
+<li>Controlar por la omitida corrige el sesgo <strong>si la observamos</strong>; agregar variables irrelevantes no sesga, pero <strong>aumenta la varianza</strong>.</li>
+</ul>
+</div>
 <h2 id="autoevaluacion">✅ Autoevaluación</h2>
 <div class="econ-quiz">
 <p class="econ-quiz-q">Comparas el salario de quienes hicieron un MBA con el de quienes no. ¿Qué representa el sesgo de selección?</p>
@@ -1888,13 +1924,13 @@ y=\left(\alpha+\beta_2\delta_{0}\right)+x_{1}\left(\beta_{1}+\beta_{2} \delta_{1
 </div>
 
 <div class="econ-quiz">
-<p class="econ-quiz-q">Estimas el efecto de las horas de estudio sobre la nota omitiendo las horas de trabajo remunerado. Quienes trabajan más estudian menos, y trabajar más reduce la nota. ¿Qué signo tiene el sesgo?</p>
+<p class="econ-quiz-q">Estimas el efecto de las clases particulares sobre la nota final omitiendo la nota previa. Quienes tienen peor nota previa toman más clases, y la nota previa sube la nota final. ¿Qué signo tiene el sesgo?</p>
 <div class="econ-quiz-opts">
-<button class="econ-quiz-opt" data-correct>Positivo: la regresión corta sobreestima el efecto del estudio.</button>
-<button class="econ-quiz-opt">Negativo: la regresión corta subestima el efecto del estudio.</button>
+<button class="econ-quiz-opt">Positivo: la regresión corta sobreestima el efecto de las clases.</button>
+<button class="econ-quiz-opt" data-correct>Negativo: la regresión corta subestima el efecto (incluso podría parecer que las clases bajan la nota).</button>
 <button class="econ-quiz-opt">No hay sesgo, porque la variable omitida no es la de interés.</button>
 </div>
-<p class="econ-quiz-fb">✅ δ₁ &lt; 0 (más estudio, menos trabajo) y β₂ &lt; 0 (trabajar baja la nota) ⇒ β₂·δ₁ &gt; 0: caso 2 de la tabla de signos.</p>
+<p class="econ-quiz-fb">✅ δ₁ &lt; 0 (peor nota previa, más clases) y β₂ &gt; 0 (la nota previa sube la final) ⇒ β₂·δ₁ &lt; 0: caso 3 de la tabla de signos.</p>
 </div>
 
 <div class="econ-quiz">
@@ -1904,16 +1940,16 @@ y=\left(\alpha+\beta_2\delta_{0}\right)+x_{1}\left(\beta_{1}+\beta_{2} \delta_{1
 <button class="econ-quiz-opt" data-correct>No: con aleatorización la correlación entre el tratamiento y cualquier variable omitida es 0.</button>
 <button class="econ-quiz-opt">Solo si el R² de la regresión es bajo.</button>
 </div>
-<p class="econ-quiz-fb">✅ Es la lámina <em>Sin sesgo de selección</em>: con aleatorización δ₁ = 0 para cualquier omitida, así que β₂·δ₁ = 0.</p>
+<p class="econ-quiz-fb">✅ Es la lámina <em>Sin sesgo de selección</em>: con aleatorización δ₁ = 0 <em>en la población</em> para cualquier omitida, así que β₂·δ₁ = 0. Agregar controles que sí predicen y puede, de todos modos, mejorar la precisión.</p>
 </div>
 
 <h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
 <ul>
-<li><strong>Wooldridge</strong>, capítulo 3, secciones 3.1–3.3 (<em>Análisis de regresión múltiple: estimación</em>).</li>
+<li><strong>Repaso:</strong> Wooldridge, sección 3.3 (sesgo por variable omitida). <strong>Para la próxima clase:</strong> secciones 3.1–3.2 (<em>Análisis de regresión múltiple: estimación</em>).</li>
 <li>📖 Comienza la lectura del <strong>Certamen 1</strong> (lunes 16 de noviembre): Miguel, E. y Kremer, M. (2004).
   <em>Worms: Identifying Impacts on Education and Health in the Presence of Treatment
   Externalities.</em> Econometrica, 72(1).</li>
-<li>Próxima clase: <strong>Regresión lineal múltiple y Teorema de Gauss-Markov</strong>.</li>
+<li>Próxima clase: <strong>Regresión lineal múltiple: estimación</strong>.</li>
 </ul>
 
 

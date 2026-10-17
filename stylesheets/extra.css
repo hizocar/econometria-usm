@@ -1576,3 +1576,130 @@
 @media (prefers-reduced-motion: reduce) {
   .is-live .econ-star, .econ-signo-card.is-pop, .econ-metodo.is-in { animation: none; }
 }
+
+/* ---------- Clase 4 · casos ---------- */
+.econ-plot .econ-floor { fill: var(--md-default-fg-color--lightest); stroke: var(--econ-ink-soft); stroke-width: 1; }
+.econ-plot .econ-planeq { fill: var(--econ-c1); fill-opacity: 0.18; stroke: var(--econ-c1); stroke-width: 2; }
+.econ-plot .econ-gridline { stroke: var(--econ-c1); stroke-opacity: 0.3; stroke-width: 1; }
+.econ-plot .econ-drop { stroke: var(--econ-c2); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.econ-plot .econ-trail { stroke: var(--econ-c3); stroke-width: 4; fill: none; stroke-linecap: round; }
+.econ-plot .econ-brk { fill: none; stroke: var(--md-default-fg-color); stroke-width: 2; }
+
+/* Tabla editable de la calculadora */
+.econ-datagrid { border-collapse: collapse; font-size: 0.78rem; margin: 0.3rem 0 0.6rem; }
+.econ-datagrid th { background: var(--usm-navy); color: #fff; padding: 0.35rem 0.5rem; font-weight: 600; }
+.econ-datagrid td { padding: 0.25rem 0.4rem; border-bottom: 1px solid var(--md-default-fg-color--lightest); text-align: center; font-variant-numeric: tabular-nums; }
+.econ-datagrid input {
+  width: 5rem;
+  font: inherit;
+  padding: 0.2rem 0.3rem;
+  border-radius: 6px;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  text-align: right;
+}
+.econ-datagrid input:focus-visible { outline: 2px solid var(--usm-gold); outline-offset: 1px; }
+
+/* Matrices con corchetes */
+.econ-matflow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.4rem 0;
+}
+
+.econ-matstep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  animation: econ-rise 0.35s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.econ-matstep > span { font-size: 0.72rem; font-weight: 700; }
+.econ-matarrow { font-size: 1.1rem; opacity: 0.6; }
+
+.econ-mat {
+  display: inline-block;
+  padding: 0.15rem 0.35rem;
+  border-left: 2px solid var(--md-default-fg-color);
+  border-right: 2px solid var(--md-default-fg-color);
+  border-radius: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.econ-mat table { border-collapse: collapse; font-size: 0.74rem; }
+.econ-mat td { padding: 0.08rem 0.4rem; text-align: right; }
+.econ-mat.is-result { border-color: var(--econ-c2); background: color-mix(in srgb, var(--econ-c2) 12%, transparent); font-weight: 700; }
+
+/* Variables basura */
+.econ-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.2rem 0 0.5rem; }
+.econ-chip-junk {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--econ-c3) 14%, transparent);
+  border: 1px solid var(--econ-c3);
+}
+.econ-chip-junk.is-real { background: color-mix(in srgb, var(--econ-c1) 14%, transparent); border-color: var(--econ-c1); }
+
+/* Salida de R cliqueable */
+.econ-r-out {
+  margin: 0.4rem 0;
+  padding: 0.8rem 0.9rem;
+  border-radius: 8px;
+  background: #fbfbf8;
+  color: #1a1a1a;
+  font-size: 0.72rem;
+  line-height: 1.55;
+  white-space: pre;
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+[data-md-color-scheme="slate"] .econ-r-out { background: #0d1020; color: #e6e9f5; }
+
+.econ-r-tok {
+  font: inherit;
+  white-space: pre;
+  color: inherit;
+  background: color-mix(in srgb, var(--usm-gold) 22%, transparent);
+  border: 0;
+  border-radius: 4px;
+  padding: 0 0.1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.econ-r-tok:hover { background: color-mix(in srgb, var(--usm-gold) 45%, transparent); }
+.econ-r-tok.is-on { background: var(--usm-gold); color: var(--usm-navy-dark); }
+.econ-r-tok:focus-visible { outline: 2px solid var(--usm-navy); }
+
+/* Cofactores */
+.econ-cof { display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: flex-start; margin: 0.3rem 0 0.6rem; }
+.econ-cof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(4.2rem, auto));
+  gap: 0.25rem;
+  padding: 0.3rem 0.5rem;
+  border-left: 2px solid var(--md-default-fg-color);
+  border-right: 2px solid var(--md-default-fg-color);
+  border-radius: 6px;
+}
+.econ-cof-cell {
+  padding: 0.35rem 0.5rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  border-radius: 6px;
+  transition: opacity 0.25s, background 0.25s;
+}
+.econ-cof-cell.is-out { opacity: 0.25; text-decoration: line-through; }
+.econ-cof-cell.is-keep { background: color-mix(in srgb, var(--econ-c2) 18%, transparent); font-weight: 700; }
+.econ-cof-cell.is-pulse { animation: econ-pop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.econ-cof-pick { display: grid; grid-template-columns: repeat(3, auto); gap: 0.3rem; }
+.econ-cof-btn { width: auto; padding: 0 0.6rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .econ-matstep, .econ-cof-cell.is-pulse { animation: none; }
+}

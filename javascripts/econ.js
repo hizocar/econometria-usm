@@ -105,7 +105,9 @@
 
   /* Evita mostrar "-0.000" cuando el valor es cero por redondeo. */
   const f = (v, d = 2) => (Number.isFinite(v) ? (Math.abs(v) < 0.5 * 10 ** -d ? 0 : v).toFixed(d) : "—");
-  const fBig = (v) => (Number.isFinite(v) ? Math.round(v).toLocaleString("es-CL") : "—");
+  // Miles con espacio (1 000 000): el sitio usa punto decimal, así que "1.000" sería ambiguo
+  const miles = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  const fBig = (v) => (Number.isFinite(v) ? miles(v) : "—");
 
   /* ------------------------------------------------------------------------
      Helpers de interfaz (HTML)
@@ -236,7 +238,7 @@
     return out;
   }
 
-  const tickFmt = (v) => (Math.abs(v) >= 1000 ? Math.round(v).toLocaleString("es-CL") : String(+v.toFixed(4)));
+  const tickFmt = (v) => (Math.abs(v) >= 1000 ? miles(v) : String(+v.toFixed(4)));
 
   function plot(container, w, hgt, margin) {
     const m = Object.assign({ l: 46, r: 14, t: 14, b: 38 }, margin || {});
@@ -413,7 +415,7 @@
     Object.entries(METHODS).forEach(([k, m]) => {
       mbtns[k] = btn(bwrap, m.label, () => { st.method = k; draw(); });
     });
-    btn(bwrap, "Repetir 1.000 veces (todos)", repeat, "econ-btn-gold");
+    btn(bwrap, "Repetir 1 000 veces (todos)", repeat, "econ-btn-gold");
 
     const pwrap = h("div");
     root.append(pwrap);
@@ -496,10 +498,10 @@
       }[st.method];
       let html = "<strong>" + METHODS[st.method].label + ":</strong> " + desc;
       if (st.se) {
-        html += "<br><strong>Error estándar empírico (1.000 muestras por método):</strong> " +
+        html += "<br><strong>Error estándar empírico (1 000 muestras por método):</strong> " +
           Object.entries(METHODS).map(([k, m]) => m.label + " = " + fBig(st.se[k])).join(" · ");
       } else {
-        html += "<br>Presiona <em>Repetir 1.000 veces</em> para comparar la precisión de los cuatro métodos.";
+        html += "<br>Presiona <em>Repetir 1 000 veces</em> para comparar la precisión de los cuatro métodos.";
       }
       n.innerHTML = html;
     }
@@ -661,7 +663,7 @@
     const b = buttons(root);
     btn(b, "Extraer 1 muestra", () => drawSamples(1), "econ-btn-gold");
     btn(b, "+100 muestras", () => drawSamples(100));
-    btn(b, "+1.000 muestras", () => drawSamples(1000));
+    btn(b, "+1 000 muestras", () => drawSamples(1000));
     btn(b, "Reiniciar", reset, "econ-btn-ghost");
 
     const row = h("div", { class: "econ-plot-row" });
@@ -740,7 +742,7 @@
       stats.set("se", f(se, 3));
       stats.set("mm", N ? f(mean(st.means), 3) : "—");
       stats.set("sm", N > 1 ? f(sd(st.means), 3) : "—");
-      stats.set("N", N.toLocaleString("es-CL"));
+      stats.set("N", miles(N));
       n.innerHTML = st.n >= P.need
         ? `Con n = ${st.n} ≥ ${P.need}, la distribución de x̄ es aproximadamente <strong>normal</strong>, centrada en μ y con desviación σ/√n — aunque la población no sea normal. Compara la desviación de los x̄ con σ/√n.`
         : `Regla de dedo para esta población: n ≥ ${P.need}. Con n = ${st.n} la distribución de x̄ <strong>todavía puede no ser normal</strong>. Sube n y observa cómo se vuelve simétrica y más angosta.`;
@@ -762,7 +764,7 @@
     slider(c, { label: "Tamaño muestral n", min: 4, max: 144, step: 1, value: st.n }, (v) => { st.n = v; restart(); });
     const b = buttons(root);
     btn(b, "Nuevos 100 intervalos", gen100, "econ-btn-gold");
-    btn(b, "+1.000 (solo contar)", () => {
+    btn(b, "+1 000 (solo contar)", () => {
       for (let i = 0; i < 1000; i++) count(one());
       render();
     });
@@ -814,7 +816,7 @@
       p.vline(g, MU, "mu", "μ = 200");
       const k = st.ivs.filter(covers).length;
       stats.set("these", `${k} de 100`);
-      stats.set("cum", st.tot ? f((100 * st.hit) / st.tot, 1) + "% de " + st.tot.toLocaleString("es-CL") : "—");
+      stats.set("cum", st.tot ? f((100 * st.hit) / st.tot, 1) + "% de " + miles(st.tot) : "—");
       stats.set("E", f(z * se, 1));
       stats.set("z", f(z, 3));
       n.innerHTML = `El “${Math.round(+st.lvl * 100)}%” no es la probabilidad de que μ esté en <em>un</em> intervalo ya calculado: ` +
@@ -934,7 +936,7 @@
       if (sn && M.size) {
         const nn = M.size.fn(st.vals, z, st.E, st.pstar);
         sn.innerHTML = Number.isFinite(nn) && nn > 0
-          ? `n = ${f(nn, 2)} ⇒ se necesitan <strong>${Math.ceil(nn - 1e-9).toLocaleString("es-CL")}</strong> observaciones (siempre se redondea hacia arriba).`
+          ? `n = ${f(nn, 2)} ⇒ se necesitan <strong>${miles(Math.ceil(nn - 1e-9))}</strong> observaciones (siempre se redondea hacia arriba).`
           : "Ingresa un error deseado E mayor que cero.";
       }
     }
@@ -1155,7 +1157,7 @@
     const d = wageData(11, 30);
     const st = { cy: 1, cx: 1 };
     const c = controls(root);
-    select(c, { label: "Salario (y) medido en", value: "1", options: [["1", "US$ por hora"], ["100", "centavos por hora (×100)"], ["2080", "US$ por año (×2.080 horas)"]] },
+    select(c, { label: "Salario (y) medido en", value: "1", options: [["1", "US$ por hora"], ["100", "centavos por hora (×100)"], ["2080", "US$ por año (×2 080 horas)"]] },
       (v) => { st.cy = +v; render(); });
     select(c, { label: "Educación (x) medida en", value: "1", options: [["1", "años"], ["12", "meses (×12)"]] },
       (v) => { st.cx = +v; render(); });
@@ -1171,9 +1173,11 @@
       stats.set("b0", f(o.b0, dec));
       stats.set("b1", f(o.b1, st.cx > 1 && st.cy === 1 ? 4 : dec));
       stats.set("r2", f(o.R2, 4));
-      n.innerHTML = `Multiplicar y por ${st.cy.toLocaleString("es-CL")} multiplica <strong>ambos</strong> coeficientes por ${st.cy.toLocaleString("es-CL")}; ` +
-        `multiplicar x por ${st.cx} divide la <strong>pendiente</strong> por ${st.cx} y deja el intercepto igual. ` +
-        "El R² no cambia: la bondad de ajuste no depende de las unidades.";
+      const partes = [];
+      if (st.cy !== 1) partes.push(`Multiplicar y por ${miles(st.cy)} multiplica <strong>ambos</strong> coeficientes por ${miles(st.cy)}.`);
+      if (st.cx !== 1) partes.push(`Multiplicar x por ${st.cx} divide la <strong>pendiente</strong> por ${st.cx} y deja el intercepto igual.`);
+      n.innerHTML = (partes.length ? partes.join(" ") : "Estas son las unidades originales. Cambia las unidades de y o de x y compara los coeficientes.") +
+        " El R² no cambia: la bondad de ajuste no depende de las unidades.";
     }
     render();
   };
@@ -1181,9 +1185,9 @@
   /* --- Insesgamiento y varianza de β̂₁ ------------------------------------- */
   WIDGETS.insesgado = function (root) {
     header(root, "Simulador: insesgamiento y varianza de β̂₁",
-      "Modelo poblacional: salario = −0.9 + 0.54·educ + u. Cada muestra aleatoria entrega un β̂₁ distinto. " +
+      "Modelo poblacional: salario = 0.095 + 0.54·educ + u (la estimación de la lámina 19). Cada muestra aleatoria entrega un β̂₁ distinto. " +
       "Bajo los supuestos RLS.1–RLS.4, el promedio de los β̂₁ coincide con β₁ = 0.54.");
-    const B0 = -0.9, B1 = 0.54;
+    const B0 = 0.095, B1 = 0.54;
     const st = { n: 30, su: 3, sx: 2.5, est: [], last: null, r: rng(newSeed()) };
     const c = controls(root);
     slider(c, { label: "Tamaño muestral n", min: 10, max: 300, step: 1, value: st.n }, (v) => { st.n = v; reset(); });
@@ -1256,7 +1260,7 @@
       stats.set("m", N ? f(mean(st.est), 4) : "—");
       stats.set("s", N > 1 ? f(sd(st.est), 4) : "—");
       stats.set("t", f(s, 4));
-      stats.set("N", N.toLocaleString("es-CL"));
+      stats.set("N", miles(N));
       n.innerHTML = "La línea punteada azul es la FRP (desconocida en la práctica); la roja, la FRM de la última muestra. " +
         "Var(β̂₁) = σ²/SSTₓ: <strong>más n</strong>, <strong>menos ruido σᵤ</strong> y <strong>más variabilidad en x</strong> ⇒ β̂₁ más preciso. " +
         "Ninguno de los tres mueve el centro de la distribución: el estimador sigue siendo insesgado.";
@@ -1284,7 +1288,7 @@
     toggle(b, "Modo Dios: revelar contrafactuales", false, (v) => { st.god = v; render(); });
     btn(b, "Autoselección (datos originales)", () => { st.T = SELF.slice(); st.avg = null; render(); }, "econ-btn-ghost");
     btn(b, "Sortear el tratamiento", () => { st.T = randomT(); st.avg = null; render(); });
-    btn(b, "Sortear 2.000 veces", () => {
+    btn(b, "Sortear 2 000 veces", () => {
       const diffs = [];
       for (let k = 0; k < 2000; k++) diffs.push(naive(randomT()));
       st.avg = mean(diffs);
@@ -1341,7 +1345,7 @@
         ? `<strong>${f(nv, 2)}</strong> (diferencia observada) = <strong>${f(att, 2)}</strong> (ATT) + <strong>${f(sb, 2)}</strong> (sesgo de selección).`
         : "Con los datos observados solo podemos calcular la diferencia de promedios entre tratados y no tratados. ¿Es ese el efecto causal?";
       if (st.avg !== null) {
-        html += `<br>Promedio de la diferencia observada en <strong>2.000 sorteos</strong>: <strong>${f(st.avg, 2)}</strong> ≈ ATE = ${f(ate, 2)}. ` +
+        html += `<br>Promedio de la diferencia observada en <strong>2 000 sorteos</strong>: <strong>${f(st.avg, 2)}</strong> ≈ ATE = ${f(ate, 2)}. ` +
           "Al aleatorizar, el sesgo de selección es cero <em>en promedio</em>.";
       }
       n.innerHTML = html;
@@ -1352,7 +1356,7 @@
   /* --- Autoselección vs aleatorización ------------------------------------- */
   WIDGETS.seleccion = function (root) {
     header(root, "Simulador: autoselección vs. aleatorización",
-      "Población de 4.000 personas. La habilidad a (no observada) aumenta el salario aun sin universidad y, con autoselección, " +
+      "Población de 4 000 personas. La habilidad a (no observada) aumenta el salario aun sin universidad y, con autoselección, " +
       "también la probabilidad de ir a la universidad. Compara la diferencia observada con el efecto causal.");
     const N = 4000;
     let seed = 99;
