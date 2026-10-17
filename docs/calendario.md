@@ -37,7 +37,8 @@
 <div class="econ-week is-eval" markdown>
 ### Semana 4 · 2 al 7 de noviembre <span class="econ-pill">Taller 1</span>
 - **Lunes 2** — Taller.
-- **Viernes 6** — Clase 4 · Regresión lineal múltiple (RLM) y Teorema de Gauss-Markov.
+- **Viernes 6** — [Clase 4 · Regresión lineal múltiple](clases/clase4.md): estimación MCO, notación matricial, $R^2$ y $R^2$ ajustado.
+- **Ayudantía/taller** — Ejercicio: la inversa de $X^\top X$ por cofactores ([Parte 2 de la Clase 4](clases/clase4.md)).
 </div>
 
 <div class="econ-week" markdown>

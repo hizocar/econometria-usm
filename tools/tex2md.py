@@ -79,15 +79,36 @@ def colors_to_bold(s):
             return "".join(out)
 
 
+def sections(body):
+    """Documentos tipo artículo (guías, ejercicios): cada \\section es una "lámina"."""
+    body = body.split(r"\end{document}", 1)[0]
+    body = re.sub(r"\\maketitle|\\vspace\*?\{[^}]*\}", "", body)
+    partes = re.split(r"\\section\*?\{", body)
+    res = []
+    intro = partes[0].strip()
+    if re.search(r"[A-Za-zÁÉÍÓÚáéíóú]{3,}", re.sub(r"\\[a-zA-Z]+", "", intro)):
+        res.append(("", intro))
+    for parte in partes[1:]:
+        end = match_brace("{" + parte, 0) - 1
+        res.append((parte[:end].strip(), parte[end + 1:]))
+    return res
+
+
 def frames(tex_path):
-    """Lista de (título, cuerpo LaTeX) de los frames no comentados, sin la portada."""
+    """Lista de (título, cuerpo LaTeX) de los frames no comentados, sin la portada.
+    Si el archivo no es beamer (no tiene frames), devuelve sus secciones."""
     src = strip_comments(Path(tex_path).read_text(encoding="utf-8"))
     body = src.split(r"\begin{document}", 1)[-1]
+    if r"\begin{frame}" not in body:
+        return sections(body)
     res = []
     for m in re.finditer(r"\\begin\{frame\}(.*?)\\end\{frame\}", body, re.S):
         block = m.group(1)
         if r"\titlepage" in block:
             continue
+        opt = re.match(r"\s*\[[^\]]*\]", block)  # opciones del frame, p. ej. [shrink=10]
+        if opt:
+            block = block[opt.end():]
         title = ""
         t = re.match(r"\s*(?:\[[^\]]*\])?\s*\{", block)
         if t:
@@ -103,12 +124,28 @@ def frames(tex_path):
     return res
 
 
+def unwrap(block, cmd, nargs):
+    """\\cmd{a}{b}{contenido} -> contenido (p. ej. \\resizebox, que pandoc descarta entero)."""
+    while True:
+        m = re.search(r"\\" + cmd + r"\s*\{", block)
+        if not m:
+            return block
+        i = m.end() - 1
+        for _ in range(nargs):
+            i = match_brace(block, i) + 1
+            while i < len(block) and block[i] in " \t\n%":
+                i += 1
+        end = match_brace(block, i)
+        block = block[:m.start()] + block[i + 1:end] + block[end + 1:]
+
+
 def preprocess(block, tikz_counter):
     def tikz(_m):
         tikz_counter[0] += 1
         return f"\n\nTIKZFIGURA{tikz_counter[0]}\n\n"
 
     block = re.sub(r"\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}", tikz, block, flags=re.S)
+    block = unwrap(block, "resizebox", 2)
     # figure/columns solo dan formato en beamer; sin ellos pandoc genera Markdown simple
     block = re.sub(r"\\begin\{figure\}(\[[^\]]*\])?|\\end\{figure\}|\\caption\{[^}]*\}|\\label\{[^}]*\}", "", block)
     block = re.sub(r"\\begin\{columns\}|\\end\{columns\}|\\column\{[^}]*\}", "\n\n", block)

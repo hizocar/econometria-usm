@@ -1325,7 +1325,7 @@
       { e: "⏳", n: "Experiencia laboral", rel: true, why: "A una misma edad, quien estudió más años alcanzó a trabajar menos: es una relación negativa." },
       { e: "🎯", n: "Motivación y esfuerzo", rel: true, why: "La gente más motivada suele estudiar más y también rendir más en el trabajo." },
       { e: "🍀", n: "Suerte en la búsqueda de empleo", rel: false, why: "Encontrar por suerte un buen trabajo afecta el salario, pero no depende de cuántos años estudiaste." },
-      { e: "🌦️", n: "El clima el día de la encuesta", rel: false, why: "No tiene relación con los años de educación de las personas encuestadas." },
+      { e: "📝", n: "Error al reportar el salario en la encuesta", rel: false, why: "Cambia el salario medido (está en u), pero no depende de cuántos años estudió la persona." },
     ];
     const b = buttons(root);
     const openBtn = btn(b, "Abrir la mochila 🎒", open, "econ-btn-gold");
@@ -1482,7 +1482,7 @@
   WIDGETS.cuadrados = function (root) {
     caso(root, "Pregunta clave · Mínimos cuadrados",
       "¿Por qué se elevan los residuos al cuadrado? 🟥",
-      "Una idea tentadora: “elegir la recta cuyos errores sumen cero”. El problema es que muchas rectas cumplen eso, incluso algunas pésimas. " +
+      "Una idea tentadora: “elegir la recta cuyos residuos sumen cero”. El problema es que muchas rectas cumplen eso, incluso algunas pésimas. " +
       "Compara las dos rectas y luego eleva los residuos al cuadrado.");
     const X = [1, 2, 3, 4, 5, 6, 7], Y = [2.0, 3.4, 2.5, 4.9, 4.6, 6.6, 6.0];
     const o = ols(X, Y);
@@ -1500,7 +1500,7 @@
       seg.append(segB[k]);
     });
     const b = buttons(root);
-    const sqBtn = toggleBtn(b, "Elevar al cuadrado²", (v) => { st.sq = v; render(true); });
+    const sqBtn = toggleBtn(b, "Elevar al cuadrado (ûᵢ²)", (v) => { st.sq = v; render(true); });
     const wrap = h("div");
     root.append(wrap);
     const p = plot(wrap, 600, 300, { l: 40 });
@@ -1546,16 +1546,16 @@
       });
       p.lineFn(g, fn, st.line === "a" ? "line" : "line-navy");
       X.forEach((x, i) => el("circle", { cx: p.x(x), cy: p.y(Y[i]), r: 6, class: "pt" }, g));
-      if (st.sq && st.line === "b") hand(p.svg, p.x(4.6), p.y(1.2), "¡errores grandes, cuadrados enormes!", { "text-anchor": "middle" });
+      if (st.sq && st.line === "b") hand(p.svg, p.x(4.6), p.y(1.2), "¡residuos grandes, cuadrados enormes!", { "text-anchor": "middle" });
       if (!st.sq) hand(p.svg, p.x(0.4), p.y(7.4), "los residuos + y − se compensan…", {});
       stats.set("s", f(res.reduce((s, r) => s + r, 0), 2));
       stats.set("s2", st.sq ? f(ssr, 2) : "?");
       stats.set("v", st.sq ? (st.line === "a" ? "MCO gana: es la mínima" : `Peor: ${f(ssrB / ssrA, 1)}× más que A`) : "Empate engañoso");
       nt.innerHTML = st.sq
-        ? `Al elevar al cuadrado, todos los errores suman (ninguno compensa a otro) y los grandes pesan mucho más. La recta A tiene Σûᵢ² = ${f(ssrA, 2)} y la B, ` +
+        ? `Al elevar al cuadrado, todos los residuos suman (ninguno compensa a otro) y los grandes pesan mucho más. La recta A tiene Σûᵢ² = ${f(ssrA, 2)} y la B, ` +
           `${f(ssrB, 2)}. <strong>MCO elige la recta con la menor suma de cuadrados</strong>: es la definición de la lámina.`
         : "Las dos rectas tienen residuos que <strong>suman cero</strong>: los positivos compensan a los negativos (cualquier recta que pase por el punto de promedios lo cumple). " +
-          "Por eso minimizar Σûᵢ no sirve para elegir. Prueba “Elevar al cuadrado²”.";
+          "Por eso minimizar Σûᵢ no sirve para elegir. Prueba “Elevar al cuadrado (ûᵢ²)”.";
     }
     onVisible(wrap, () => render(false));
   };
@@ -1577,7 +1577,7 @@
       { k: "a", label: "Salario predicho de Ana" },
       { k: "b", label: "Salario predicho de Bruno" },
       { k: "d", label: "Diferencia por hora", cls: "is-gold" },
-      { k: "y", label: "Diferencia al año (2.080 h)", cls: "is-red" },
+      { k: "y", label: "Diferencia al año (2 080 h)", cls: "is-red" },
     ]);
     const nt = note(root);
     let first = true;
@@ -1612,6 +1612,10 @@
       const anual = miles(Math.abs(d) * 2080);
       stats.set("y", `${d >= 0 ? "+" : "−"}US$ ${anual}`);
       const dx = st.b - st.a;
+      if (dx === 0) {
+        nt.innerHTML = "Ana y Bruno tienen los mismos años de educación: el modelo les predice el mismo salario. Mueve uno de los dos.";
+        return;
+      }
       nt.innerHTML = `Bruno tiene ${Math.abs(dx)} año(s) de educación ${dx >= 0 ? "más" : "menos"} que Ana, así que el modelo predice una diferencia de ` +
         `${Math.abs(dx)} × 0.54 = <strong>${f(Math.abs(d), 2)} dólares por hora</strong>: la pendiente β̂₁ es el cambio en el salario <em>esperado</em> por cada año adicional. ` +
         "El intercepto β̂₀ = 0.095 sería el salario con 0 años de educación: casi nadie en los datos está en ese punto, así que conviene no interpretarlo literalmente. " +
@@ -1638,16 +1642,16 @@
     const xE = Array.from({ length: 80 }, () => 8 + Math.floor(11 * r0()));
     const xZ = Array.from({ length: 80 }, () => 1 + Math.floor(12 * r0()));
     const CASOS = [
+      { t: "💼 Salario vs. años de educación", x: xE, y: sim(80, xE, 0.54, 0.165).map((v) => v + 5), xl: "años de educación", yl: "salario (US$/h)", ans: 2,
+        why: "La educación explica cerca del 16% de la variación del salario (en los datos de salarios de Wooldridge, R² ≈ 0.165). ¡El resto está en u!" },
       { t: "🌡️ Temperatura: °C vs. °F", x: xC, y: xC.map((c) => 32 + 1.8 * c), xl: "°C", yl: "°F", ans: 0,
         why: "Es una conversión exacta (°F = 32 + 1.8·°C): x explica <strong>todo</strong> y R² = 1. En economía casi nunca pasa." },
-      { t: "👨‍👦 Estatura de padres vs. hijos", x: xP, y: sim(60, xP, 0.5, 0.25).map((v) => v + 88), xl: "padre (cm)", yl: "hijo (cm)", ans: 1,
-        why: "La estatura del padre explica una parte importante, pero no todo: genes de la madre, alimentación… (ilustrativo, en el espíritu de los datos de Galton)." },
-      { t: "💼 Salario vs. años de educación", x: xE, y: sim(80, xE, 0.54, 0.165).map((v) => v - 0.9), xl: "años de educación", yl: "salario (US$/h)", ans: 2,
-        why: "La educación explica cerca del 16% de la variación del salario (en los datos de salarios de Wooldridge, R² ≈ 0.165). ¡El resto está en u!" },
       { t: "♈ Salario vs. signo zodiacal", x: xZ, y: xZ.map(() => 6 + 2.5 * gauss(r0)), xl: "signo (1 = Aries … 12 = Piscis)", yl: "salario", ans: 3,
         why: "El signo no explica nada: R² ≈ 0. Cualquier pequeño valor distinto de cero es puro azar de la muestra." },
+      { t: "👨‍👦 Estatura de padres vs. hijos", x: xP, y: sim(60, xP, 0.5, 0.25).map((v) => v + 88), xl: "padre (cm)", yl: "hijo (cm)", ans: 1,
+        why: "La estatura del padre explica una parte importante, pero no todo: genes de la madre, alimentación… (ilustrativo, en el espíritu de los datos de Galton)." },
     ];
-    const LABELS = ["Casi 1", "Medio (≈ 0.25)", "Bajo (≈ 0.15)", "Casi 0"];
+    const LABELS = ["Casi 1", "Medio (≈ 0.25)", "Bajo (≈ 0.165)", "Casi 0"];
     const grid = h("div", { class: "econ-r2-grid" });
     root.append(grid);
     CASOS.forEach((cs) => {
@@ -1677,7 +1681,7 @@
           opts.children[cs.ans].classList.add("is-right");
           fitLine.style.transition = "opacity .4s";
           fitLine.style.opacity = 1;
-          countUp(val, 0, o.R2, 800, (v) => "R² = " + f(v, 2));
+          countUp(val, 0, o.R2, 800, (v) => "R² = " + f(v, 3));
           tween(800, ease.outCubic, (q) => { bar.firstChild.style.width = `${o.R2 * q * 100}%`; });
           why.innerHTML = (k === cs.ans ? "✅ " : "❌ ") + cs.why;
         });
@@ -1700,27 +1704,27 @@
     const r0 = rng(4);
     const N = 160;
     const pts = Array.from({ length: N }, () => ({ x: 300 + 2700 * r0(), z: gauss(r0) }));
-    const yHomo = (pt) => 120 + 0.12 * pt.x + 70 * pt.z;
-    const sdH = (x) => 12 + 0.075 * x;
-    const yHet = (pt) => 120 + 0.12 * pt.x + sdH(pt.x) * pt.z;
+    const yHomo = (pt) => 200 + 0.12 * pt.x + 60 * pt.z;
+    const sdH = (x) => 10 + 0.07 * x;
+    const yHet = (pt) => 200 + 0.12 * pt.x + sdH(pt.x) * pt.z;
     const seg = h("div", { class: "econ-seg", role: "tablist" });
     root.append(seg);
     const wrap = h("div");
     root.append(wrap);
     const p = plot(wrap, 600, 300, { l: 52 });
-    p.domain([0, 3200], [-200, 1000]);
+    p.domain([0, 3200], [0, 1100]);
     const nt = note(root);
     p.axes({ xlabel: "Ingreso del hogar (miles de $ al mes)", ylabel: "Gasto en alimentación (miles de $)", nx: 6 });
     const clip = p.clipped(); // la franja y los puntos no se salen del área del gráfico
     const band = el("path", { class: "econ-band" }, clip);
     const g = el("g", {}, clip);
-    el("line", { x1: p.x(0), y1: p.y(120), x2: p.x(3200), y2: p.y(120 + 0.12 * 3200), class: "line" }, clip);
+    el("line", { x1: p.x(0), y1: p.y(200), x2: p.x(3200), y2: p.y(200 + 0.12 * 3200), class: "line" }, clip);
     const circles = pts.map(() => el("circle", { r: 3.4, class: "econ-dot", style: "fill:var(--econ-c1);fill-opacity:.75" }, g));
     const ann = el("g", {}, p.svg);
     const bandPath = (sdf) => {
       const up = [], dn = [];
       for (let i = 0; i <= 20; i++) {
-        const x = (3200 * i) / 20, m = 120 + 0.12 * x;
+        const x = (3200 * i) / 20, m = 200 + 0.12 * x;
         up.push(`${p.x(x)},${p.y(m + 2 * sdf(x))}`);
         dn.push(`${p.x(x)},${p.y(m - 2 * sdf(x))}`);
       }
@@ -1728,9 +1732,9 @@
     };
     let cur = null;
     const VIEWS = {
-      homo: { label: "Homocedasticidad", y: yHomo, sd: () => 70,
+      homo: { label: "Homocedasticidad", y: yHomo, sd: () => 60,
         txt: "La <strong>dispersión alrededor de la recta es la misma</strong> para cualquier ingreso: Var(u|x) = σ². Es el supuesto RLS 5, " +
-          "que permite usar la fórmula de la varianza de β̂₁ de la última lámina." },
+          "que permite usar la fórmula de la varianza de β̂₁ de la lámina siguiente (lámina 34)." },
       het: { label: "Heterocedasticidad", y: yHet, sd: sdH,
         txt: "Ahora la dispersión <strong>crece con el ingreso</strong> (forma de embudo): Var(u|x) cambia con x. MCO sigue siendo insesgado, " +
           "pero la fórmula de la varianza de la lámina deja de ser válida. Lo veremos en detalle en la semana 11." },
@@ -1744,17 +1748,17 @@
     function show(k) {
       const v = VIEWS[k];
       Object.entries(VIEWS).forEach(([kk, vv]) => vv.btn.setAttribute("aria-selected", String(kk === k)));
-      const from = circles.map((c) => +c.getAttribute("cy") || p.y(120));
+      const from = circles.map((c) => +c.getAttribute("cy") || p.y(200));
       const to = pts.map((pt) => p.y(v.y(pt)));
       circles.forEach((c, i) => c.setAttribute("cx", p.x(pts[i].x)));
       band.setAttribute("d", bandPath(v.sd));
       tween(cur ? 650 : 0, ease.inOutCubic, (q) => circles.forEach((c, i) => c.setAttribute("cy", from[i] + (to[i] - from[i]) * q)));
       while (ann.firstChild) ann.removeChild(ann.firstChild);
       if (k === "het") {
-        hand(ann, p.x(2450), p.y(-120), "¡embudo!", { "text-anchor": "middle" });
-        drawStroke(handArrow(ann, `M${p.x(2300)},${p.y(-90)} Q${p.x(2100)},${p.y(40)} ${p.x(2250)},${p.y(140)}`), 450, 300);
+        hand(ann, p.x(700), p.y(980), "¡embudo!", { "text-anchor": "middle" });
+        drawStroke(handArrow(ann, `M${p.x(1000)},${p.y(985)} Q${p.x(1900)},${p.y(1060)} ${p.x(2500)},${p.y(930)}`), 450, 300);
       } else {
-        hand(ann, p.x(2450), p.y(-120), "franja pareja", { "text-anchor": "middle" });
+        hand(ann, p.x(700), p.y(980), "franja pareja", { "text-anchor": "middle" });
       }
       cur = k;
       nt.innerHTML = v.txt + ' <span class="econ-fine">La franja muestra ±2 desviaciones estándar del error. Datos simulados.</span>';
@@ -1771,11 +1775,14 @@
     const r0 = rng(3);
     const CASOS = [
       {
-        t: "Caso 1", q: "Para estudiar salario y educación en Chile, encuestamos solo a ingenieros recién titulados de una universidad.", ans: 1,
-        why: "La muestra no es <strong>aleatoria</strong> ni representa a la población de interés (trabajadores de Chile): todos tienen una educación y un perfil parecidos.",
+        t: "Caso 1", q: "Para estudiar salario y educación en Chile, publicamos una encuesta en Instagram y respondió quien quiso.", ans: 1,
+        why: "Quienes responden se <strong>autoseleccionan</strong>: no es una muestra aleatoria de los trabajadores de Chile, así que no representa a la población de interés.",
         draw: (s) => {
-          for (let i = 0; i < 9; i++) person(s, 70 + i * 58, 92, { cap: true, body: ["#005f96", "#2d6f9c", "#3f86b8"][i % 3] });
-          hand(s, 300, 196, "¡solo ingenieros de una universidad!", { "text-anchor": "middle" });
+          for (let i = 0; i < 9; i++) {
+            person(s, 70 + i * 58, 92, { body: ["#005f96", "#2d6f9c", "#3f86b8"][i % 3] });
+            if (i % 2 === 0) emoji(s, 90 + i * 58, 128, "📱", 22, i * 60);
+          }
+          hand(s, 300, 196, "¡respondió quien quiso!", { "text-anchor": "middle" });
         },
       },
       {
@@ -1810,8 +1817,9 @@
         draw: (s) => {
           el("line", { x1: 60, y1: 200, x2: 560, y2: 200, stroke: "#1b2a5e", "stroke-width": 2 }, s);
           for (let i = 0; i < 60; i++) {
-            const x = 80 + 460 * r0(), sp = 6 + (x - 80) * 0.17;
-            el("circle", { cx: x, cy: 170 - (x - 80) * 0.18 + sp * gauss(r0), r: 3.5, fill: "#005f96", opacity: 0.8 }, s);
+            const x = 80 + 460 * r0(), sp = 5 + (x - 80) * 0.09;
+            const cy = Math.min(195, Math.max(20, 170 - (x - 80) * 0.18 + sp * gauss(r0)));
+            el("circle", { cx: x, cy, r: 3.5, fill: "#005f96", opacity: 0.8 }, s);
           }
           hand(s, 470, 36, "embudo", { "text-anchor": "middle" });
         },
@@ -2228,7 +2236,7 @@
       { ic: "📚", x: "horas de estudio", y: "nota", om: "horas de trabajo remunerado", d: -1, b: -1,
         why: "Quien trabaja más estudia menos (δ₁ < 0) y trabajar baja la nota (β₂ < 0): β₂·δ₁ > 0, sesgo positivo. Se sobreestima el efecto del estudio." },
       { ic: "🏫", x: "tamaño del curso", y: "puntaje en la prueba", om: "nivel socioeconómico de las familias", d: -1, b: 1,
-        why: "Los colegios con familias de más recursos suelen tener cursos más chicos (δ₁ < 0) y ese nivel sube el puntaje (β₂ > 0): sesgo negativo. Los cursos grandes parecen todavía peores de lo que son." },
+        why: "Supón que los colegios con familias de más recursos tienen cursos más chicos (δ₁ < 0) y que ese nivel sube el puntaje (β₂ > 0): sesgo negativo. Los cursos grandes parecen todavía peores de lo que son." },
       { ic: "📺", x: "gasto en publicidad del mes", y: "ventas del mes", om: "temporada alta (diciembre)", d: 1, b: 1,
         why: "Las empresas hacen más publicidad en temporada alta (δ₁ > 0) y en temporada alta se vende más de todas formas (β₂ > 0): sesgo positivo. Se sobreestima el efecto de la publicidad." },
     ];
@@ -2242,7 +2250,7 @@
       const row = (lbl, key) => {
         const wrap = h("div", { class: "econ-signo-row" }, h("span", {}, lbl));
         [["+", 1], ["−", -1]].forEach(([s, v]) => {
-          const bt = h("button", { type: "button", class: "econ-signo-btn" }, s);
+          const bt = h("button", { type: "button", class: "econ-signo-btn", "aria-label": `${key === "d" ? "δ₁" : "β₂"} ${v > 0 ? "positivo" : "negativo"}` }, s);
           bt.addEventListener("click", () => {
             pick[key] = v;
             wrap.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === bt)));
@@ -2258,7 +2266,10 @@
         if (!pick.d || !pick.b) { res.innerHTML = "Elige un signo para δ₁ y otro para β₂."; return; }
         const ok = pick.d === cs.d && pick.b === cs.b;
         const sign = cs.d * cs.b > 0 ? "positivo ⬆️" : "negativo ⬇️";
-        res.innerHTML = `${ok ? "✅" : "❌"} Sesgo <strong>${sign}</strong>. ${cs.why}`;
+        const fallas = [];
+        if (pick.d !== cs.d) fallas.push(`δ₁ es ${cs.d > 0 ? "positivo" : "negativo"}`);
+        if (pick.b !== cs.b) fallas.push(`β₂ es ${cs.b > 0 ? "positivo" : "negativo"}`);
+        res.innerHTML = `${ok ? "✅" : "❌ " + fallas.join(" y ") + "."} Sesgo <strong>${sign}</strong>. ${cs.why}`;
         card.classList.remove("is-pop"); void card.offsetWidth; card.classList.add("is-pop");
       });
       card.append(chk, res);
@@ -2327,8 +2338,8 @@
       stats.set("all", f(oAll.b1, 2));
       stats.set("g", oG.map((o) => f(o.b1, 2)).join(" · "));
       nt.innerHTML = k === "todos"
-        ? "Todos juntos, la pendiente es <strong>negativa</strong> (como el −1.81 de la lámina): parece que fumar reduce el riesgo. ¿Qué variable estamos omitiendo?"
-        : "Las personas mayores fuman menos (δ < 0) y la edad aumenta el riesgo (β₂ > 0): al omitir la edad, “fumar poco” se confunde con “ser mayor”. " +
+        ? "Todos juntos, la pendiente es <strong>negativa</strong> (parecida al −1.81 de la lámina): parece que fumar reduce el riesgo. ¿Qué variable estamos omitiendo?"
+        : "Las personas mayores fuman menos (δ₂ < 0) y la edad aumenta el riesgo (β₂ > 0): al omitir la edad, “fumar poco” se confunde con “ser mayor”. " +
           "Al comparar personas de edad parecida la pendiente es <strong>positiva</strong> (cerca del 0.94 de la lámina). Esto es la <strong>paradoja de Simpson</strong>. " +
           "En el estudio real de Whickham (Reino Unido), tras 20 años había muerto el 24% de las fumadoras y el 31% de las no fumadoras, ¡porque las no fumadoras eran mucho mayores! " +
           "<span class=\"econ-fine\">Puntos simulados con los coeficientes de las láminas.</span>";
@@ -2377,7 +2388,8 @@
       clearTimeout(timer);
       timer = setTimeout(() => {
         const ext = simulate(st.k, st.rho, 5);
-        const dom = [-0.4, 1.4];
+        const w = 4.2 * Math.max(E.sd(base), E.sd(ext)); // que ninguna distribución quede cortada
+        const dom = [0.5 - w, 0.5 + w];
         const H0 = histogram(base, dom[0], dom[1], 45), H1 = histogram(ext, dom[0], dom[1], 45);
         p.clear();
         p.domain(dom, [0, Math.max(...H0.counts, ...H1.counts) * 1.15]);
@@ -2394,12 +2406,537 @@
         stats.set("m1", f(mean(ext), 3));
         stats.set("s0", f(sd0, 3));
         stats.set("s1", f(sd1, 3));
+        if (st.k === 0) {
+          nt.innerHTML = "Sin variables extra, las dos distribuciones son la misma. Agrega variables irrelevantes con el primer deslizador.";
+          return;
+        }
         nt.innerHTML = `Las dos distribuciones siguen centradas en 0.5: agregar variables irrelevantes <strong>no sesga</strong> β̂₁. Pero la dispersión pasa de ${f(sd0, 3)} a ` +
           `<strong>${f(sd1, 3)}</strong> (${f((sd1 / sd0 - 1) * 100, 0)}% más): el estimador se vuelve <strong>menos preciso</strong>, sobre todo cuando las variables extra se parecen a x. ` +
-          "Es lo que dice la lámina: incluir variables irrelevantes incrementa la varianza de los estimadores.";
+          "Es lo que dice la lámina: incluir variables irrelevantes incrementa la varianza de los estimadores. Prueba ρ = 0: casi no cambia.";
       }, 60);
     }
     onVisible(wrap, render);
+  };
+
+  /* ========================================================================
+     CLASE 4 · Regresión lineal múltiple
+     ======================================================================== */
+
+  /* ---- Álgebra y distribuciones para la salida tipo R --------------------- */
+  function matInv(A) {
+    const n = A.length;
+    const M = A.map((r, i) => [...r, ...Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))]);
+    for (let c = 0; c < n; c++) {
+      let p = c;
+      for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+      [M[c], M[p]] = [M[p], M[c]];
+      const d = M[c][c];
+      if (Math.abs(d) < 1e-12) return null;
+      for (let q = 0; q < 2 * n; q++) M[c][q] /= d;
+      for (let r = 0; r < n; r++) {
+        if (r === c) continue;
+        const m = M[r][c];
+        for (let q = 0; q < 2 * n; q++) M[r][q] -= m * M[c][q];
+      }
+    }
+    return M.map((r) => r.slice(n));
+  }
+  const matMul = (A, B) => A.map((r) => B[0].map((_, j) => r.reduce((s, v, k) => s + v * B[k][j], 0)));
+  const tr = (A) => A[0].map((_, j) => A.map((r) => r[j]));
+
+  function lgamma(x) {
+    const c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059,
+      12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+    if (x < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * x)) - lgamma(1 - x);
+    x -= 1;
+    let a = c[0];
+    const t = x + 7.5;
+    for (let i = 1; i < 9; i++) a += c[i] / (x + i);
+    return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(a);
+  }
+  function betacf(a, b, x) {
+    let qab = a + b, qap = a + 1, qam = a - 1, c = 1, d = 1 - (qab * x) / qap;
+    d = 1 / (Math.abs(d) < 1e-30 ? 1e-30 : d);
+    let hh = d;
+    for (let m = 1; m <= 200; m++) {
+      const m2 = 2 * m;
+      let aa = (m * (b - m) * x) / ((qam + m2) * (a + m2));
+      d = 1 + aa * d; d = 1 / (Math.abs(d) < 1e-30 ? 1e-30 : d);
+      c = 1 + aa / c; if (Math.abs(c) < 1e-30) c = 1e-30;
+      hh *= d * c;
+      aa = (-(a + m) * (qab + m) * x) / ((a + m2) * (qap + m2));
+      d = 1 + aa * d; d = 1 / (Math.abs(d) < 1e-30 ? 1e-30 : d);
+      c = 1 + aa / c; if (Math.abs(c) < 1e-30) c = 1e-30;
+      const del = d * c;
+      hh *= del;
+      if (Math.abs(del - 1) < 3e-12) break;
+    }
+    return hh;
+  }
+  function ibeta(x, a, b) {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    const bt = Math.exp(lgamma(a + b) - lgamma(a) - lgamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+    return x < (a + 1) / (a + b + 2) ? (bt * betacf(a, b, x)) / a : 1 - (bt * betacf(b, a, 1 - x)) / b;
+  }
+  const pT = (t, df) => ibeta(df / (df + t * t), df / 2, 0.5);           // p-valor bilateral de la t de Student
+  const pF = (F, d1, d2) => ibeta(d2 / (d2 + d1 * F), d2 / 2, d1 / 2);    // p-valor de la F
+
+  /* Resumen tipo summary(lm()) para y ~ cols */
+  function lmSummary(cols, y) {
+    const n = y.length, k = cols.length;
+    const X = y.map((_, i) => [1, ...cols.map((c) => c[i])]);
+    const XtX = matMul(tr(X), X);
+    const inv = matInv(XtX);
+    if (!inv) return null;
+    const Xty = matMul(tr(X), y.map((v) => [v]));
+    const b = matMul(inv, Xty).map((r) => r[0]);
+    const yhat = X.map((r) => r.reduce((s, v, j) => s + v * b[j], 0));
+    const res = y.map((v, i) => v - yhat[i]);
+    const ybar = mean(y);
+    const SSR = res.reduce((s, r) => s + r * r, 0);
+    const SST = y.reduce((s, v) => s + (v - ybar) ** 2, 0);
+    const df = n - k - 1;
+    const s2 = SSR / df;
+    const se = inv.map((r, j) => Math.sqrt(s2 * r[j]));
+    const t = b.map((v, j) => v / se[j]);
+    const p = t.map((v) => pT(v, df));
+    const R2 = 1 - SSR / SST;
+    const R2a = 1 - ((n - 1) / df) * (SSR / SST);
+    const F = ((SST - SSR) / k) / s2;
+    return { X, XtX, inv, Xty: Xty.map((r) => r[0]), b, yhat, res, SSR, SST, df, se, t, p, R2, R2a, F, pF: pF(F, k, df), rse: Math.sqrt(s2), n, k };
+  }
+
+  function matHTML(M, fmt, cls) {
+    const rows = M.map((r) => `<tr>${(Array.isArray(r) ? r : [r]).map((v) => `<td>${fmt(v)}</td>`).join("")}</tr>`).join("");
+    return `<span class="econ-mat ${cls || ""}"><table>${rows}</table></span>`;
+  }
+
+  const SLIDE_DATA = [["Juan", 12, 93, 769], ["Pedro", 18, 119, 808], ["Sofía", 14, 108, 825], ["Caro", 12, 96, 650], ["Alex", 11, 74, 562]];
+
+  /* --- Visual · El plano de regresión ------------------------------------- */
+  WIDGETS.plano = function (root) {
+    caso(root, "Visual · Interpretar β en la regresión múltiple",
+      "Mover una perilla a la vez 🧊",
+      "Con dos variables, la regresión ya no es una recta: es un <strong>plano</strong>. Usamos la estimación de la lámina siguiente: " +
+      "salario = 0.065 + 0.37·educación + 0.20·IQ. Mueve una variable dejando la otra fija y mira la pendiente en esa dirección.");
+    const B = [0.065, 0.37, 0.2];
+    const E0 = [8, 20], Q0 = [80, 130];
+    const yhat = (e, q) => B[0] + B[1] * e + B[2] * q;
+    const Y0 = [yhat(E0[0], Q0[0]) - 1, yhat(E0[1], Q0[1]) + 1];
+    const st = { e: 12, q: 100 };
+    const svg = svgBox(root, 600, 320, "Plano de regresión con educación e IQ", true);
+    // proyección isométrica
+    const P = (e, q, y) => {
+      const u = (e - E0[0]) / (E0[1] - E0[0]), v = (q - Q0[0]) / (Q0[1] - Q0[0]);
+      const hgt = (y - Y0[0]) / (Y0[1] - Y0[0]);
+      return [300 + (u - v) * 220, 250 + (u + v) * 40 - hgt * 170];
+    };
+    const pts = (arr) => arr.map((a) => a.join(",")).join(" ");
+    const floor = [P(E0[0], Q0[0], Y0[0]), P(E0[1], Q0[0], Y0[0]), P(E0[1], Q0[1], Y0[0]), P(E0[0], Q0[1], Y0[0])];
+    el("polygon", { points: pts(floor), class: "econ-floor" }, svg);
+    const plane = [P(E0[0], Q0[0], yhat(E0[0], Q0[0])), P(E0[1], Q0[0], yhat(E0[1], Q0[0])), P(E0[1], Q0[1], yhat(E0[1], Q0[1])), P(E0[0], Q0[1], yhat(E0[0], Q0[1]))];
+    el("polygon", { points: pts(plane), class: "econ-planeq" }, svg);
+    for (let k = 1; k < 6; k++) {
+      const e = E0[0] + (k * (E0[1] - E0[0])) / 6, q = Q0[0] + (k * (Q0[1] - Q0[0])) / 6;
+      el("line", { x1: P(e, Q0[0], yhat(e, Q0[0]))[0], y1: P(e, Q0[0], yhat(e, Q0[0]))[1], x2: P(e, Q0[1], yhat(e, Q0[1]))[0], y2: P(e, Q0[1], yhat(e, Q0[1]))[1], class: "econ-gridline" }, svg);
+      el("line", { x1: P(E0[0], q, yhat(E0[0], q))[0], y1: P(E0[0], q, yhat(E0[0], q))[1], x2: P(E0[1], q, yhat(E0[1], q))[0], y2: P(E0[1], q, yhat(E0[1], q))[1], class: "econ-gridline" }, svg);
+    }
+    const lblE = P(E0[1], Q0[0], Y0[0]), lblQ = P(E0[0], Q0[1], Y0[0]);
+    text(svg, lblE[0] + 10, lblE[1] + 4, "educación →", { "font-weight": "700" });
+    text(svg, lblQ[0] - 10, lblQ[1] + 4, "← IQ", { "text-anchor": "end", "font-weight": "700" });
+    const drop = el("line", { class: "econ-drop" }, svg);
+    const trail = el("path", { class: "econ-trail" }, svg);
+    const dot = el("circle", { r: 8, class: "econ-dot", style: "fill:var(--econ-c2)" }, svg);
+    const lab = text(svg, 0, 0, "", { "font-weight": "700" });
+    const ann = el("g", {}, svg);
+    const c = E.controls(root);
+    const sE = E.slider(c, { label: "Años de educación", min: 8, max: 20, step: 1, value: st.e }, (v) => { st.e = v; place(); });
+    const sQ = E.slider(c, { label: "IQ", min: 80, max: 130, step: 1, value: st.q }, (v) => { st.q = v; place(); });
+    const b = buttons(root);
+    btn(b, "+1 año de educación (IQ fijo)", () => step("e"), "econ-btn-gold");
+    btn(b, "+10 puntos de IQ (educación fija)", () => step("q"));
+    const stats = statsRow(root, [
+      { k: "y", label: "Salario predicho ŷ", cls: "is-gold" },
+      { k: "d", label: "Último cambio en ŷ" },
+    ]);
+    const nt = note(root);
+    nt.innerHTML = "Cada punto del plano es un salario predicho para una combinación de educación e IQ. Prueba los botones.";
+    function place(e, q) {
+      e = e ?? st.e; q = q ?? st.q;
+      const [x, y] = P(e, q, yhat(e, q)), [fx, fy] = P(e, q, Y0[0]);
+      dot.setAttribute("cx", x); dot.setAttribute("cy", y);
+      drop.setAttribute("x1", x); drop.setAttribute("y1", y); drop.setAttribute("x2", fx); drop.setAttribute("y2", fy);
+      lab.setAttribute("x", x + 12); lab.setAttribute("y", y - 10);
+      lab.textContent = `ŷ = ${f(yhat(e, q), 2)}`;
+      stats.set("y", f(yhat(e, q), 2));
+    }
+    function step(which) {
+      const from = [st.e, st.q];
+      if (which === "e") st.e = Math.min(20, st.e + 1); else st.q = Math.min(130, st.q + 10);
+      const to = [st.e, st.q];
+      const y0 = yhat(...from), y1 = yhat(...to);
+      sE.set(st.e); sQ.set(st.q);
+      tween(520, ease.inOutCubic, (k) => place(from[0] + (to[0] - from[0]) * k, from[1] + (to[1] - from[1]) * k));
+      const a = P(from[0], from[1], y0), z = P(to[0], to[1], y1);
+      trail.setAttribute("d", `M${a[0]},${a[1]} L${z[0]},${z[1]}`);
+      drawStroke(trail, 520, 0);
+      while (ann.firstChild) ann.removeChild(ann.firstChild);
+      const msg = which === "e" ? "pendiente β₁ = 0.37 en dirección educación" : "+10 puntos de IQ: 10 × 0.20 = +2.00";
+      hand(ann, 300, 34, msg, { "text-anchor": "middle" });
+      stats.set("d", `${y1 - y0 >= 0 ? "+" : ""}${f(y1 - y0, 2)}`);
+      nt.innerHTML = which === "e"
+        ? "Subimos <strong>un año de educación sin mover el IQ</strong>: el salario predicho cambia exactamente en β̂₁ = 0.37. Eso es lo que significa " +
+          "“manteniendo todas las demás variables incluidas constantes”: es la pendiente del plano en la dirección de educación, como una <strong>derivada parcial</strong>."
+        : "Ahora movemos solo el IQ (educación fija): cada punto de IQ suma β̂₂ = 0.20, así que 10 puntos suman 2. Cada coeficiente es la pendiente del plano " +
+          "en <em>su</em> dirección.";
+    }
+    onVisible(svg, () => place());
+  };
+
+  /* --- Caso · ¿Por qué baja el coeficiente al agregar IQ? ------------------ */
+  WIDGETS["iq-control"] = function (root) {
+    caso(root, "Caso · Controlar por una variable",
+      "¿Por qué el efecto de la educación baja de 0.54 a 0.37? ⚖️",
+      "La lámina muestra dos regresiones con los mismos datos. Al agregar IQ, el coeficiente de educación se achica. Es la fórmula de variable omitida de la Clase 3, ahora con números reales.");
+    const svg = svgBox(root, 600, 240, "Descomposición del coeficiente de educación", true);
+    const base = 206, sc = 300;
+    el("line", { x1: 60, x2: 540, y1: base, y2: base, class: "ax" }, svg);
+    const bars = {
+      simple: el("rect", { x: 120, width: 120, y: base, height: 0, rx: 4, class: "econ-bar-c1" }, svg),
+      mult: el("rect", { x: 360, width: 120, y: base, height: 0, rx: 4, class: "econ-bar-c1" }, svg),
+      extra: el("rect", { x: 360, width: 120, y: base, height: 0, rx: 4, class: "econ-bar-c3", style: "opacity:0" }, svg),
+    };
+    text(svg, 180, 226, "MCO simple", { "text-anchor": "middle", class: "econ-bar-lbl" });
+    text(svg, 420, 226, "MCO múltiple (con IQ)", { "text-anchor": "middle", class: "econ-bar-lbl" });
+    const tS = text(svg, 180, base - 8, "", { "text-anchor": "middle", "font-weight": "700", class: "econ-bar-lbl" });
+    const tM = text(svg, 420, base - 8, "", { "text-anchor": "middle", "font-weight": "700", class: "econ-bar-lbl" });
+    const ann = el("g", {}, svg);
+    onVisible(svg, () => {
+      tween(650, ease.outCubic, (k) => {
+        const h1 = 0.54 * sc * k, h2 = 0.37 * sc * k;
+        bars.simple.setAttribute("y", base - h1); bars.simple.setAttribute("height", h1);
+        bars.mult.setAttribute("y", base - h2); bars.mult.setAttribute("height", h2);
+        tS.setAttribute("y", base - h1 - 8); tS.textContent = f(0.54 * k, 2);
+        tM.setAttribute("y", base - h2 - 8); tM.textContent = f(0.37 * k, 2);
+      });
+    });
+    const b = buttons(root);
+    btn(b, "¿Dónde quedó la diferencia? 🔍", reveal, "econ-btn-gold");
+    const out = h("div", { class: "econ-metodo", style: "display:none" });
+    root.append(out);
+    const nt = note(root);
+    nt.innerHTML = "En la regresión simple, un año más de educación se asocia con 0.54 más de salario; controlando por IQ, solo con 0.37.";
+    function reveal() {
+      const h2 = 0.37 * sc, h3 = 0.17 * sc;
+      bars.extra.style.opacity = 1;
+      tween(600, ease.outBack, (k) => { bars.extra.setAttribute("y", base - h2 - h3 * k); bars.extra.setAttribute("height", h3 * k); }, () => {
+        while (ann.firstChild) ann.removeChild(ann.firstChild);
+        tM.setAttribute("y", base - h2 - h3 - 8);
+        tM.textContent = "0.37 + 0.17 = 0.54";
+        hand(ann, 500, base - h2 - h3 / 2 + 6, "0.17: IQ", { });
+        hand(ann, 500, base - h2 - h3 / 2 + 28, "“disfrazado”", {});
+      });
+      out.style.display = "";
+      out.innerHTML = "Con la fórmula de variable omitida de la Clase 3 (que con MCO se cumple exactamente en la muestra):" +
+        "<div class=\"econ-decomp\">" +
+        "<div><span>β̃₁ · regresión simple</span><strong>0.54</strong></div><em>=</em>" +
+        "<div class=\"is-att\"><span>β̂₁ · educación con IQ fijo</span><strong>0.37</strong></div><em>+</em>" +
+        "<div class=\"is-bias\"><span>β̂₂ (IQ) × δ̂₁</span><strong>0.20 × δ̂₁ = 0.17</strong></div></div>" +
+        "Despejando, <strong>δ̂₁ ≈ 0.85</strong>: en estos datos, cada año adicional de educación se asocia con unos 0.85 puntos más de IQ. " +
+        "Como el IQ sube el salario (β̂₂ > 0) y se relaciona positivamente con la educación (δ̂₁ > 0), la regresión simple <strong>sobreestimaba</strong> " +
+        "el efecto de la educación: parte del 0.54 era el efecto del IQ. La regresión múltiple lo separa.";
+      out.classList.remove("is-in"); void out.offsetWidth; out.classList.add("is-in");
+    }
+  };
+
+  /* --- Visual · Armando la matriz X ---------------------------------------- */
+  WIDGETS["matriz-x"] = function (root) {
+    caso(root, "Visual · Notación matricial",
+      "Armando y = Xβ + u con la tabla de datos 🧩",
+      "Usemos los 5 individuos del ejemplo de la clase. Cada fila de la tabla es una ecuación; al apilarlas aparecen el vector y y la matriz X.");
+    const svg = svgBox(root, 600, 270, "Construcción de la matriz X a partir de la tabla de datos", true);
+    const rowsY = (i) => 78 + i * 30;
+    const head = ["", "x₁", "x₂", "y"];
+    const colX = [40, 100, 150, 200];
+    head.forEach((hh, j) => text(svg, colX[j], 50, hh, { "text-anchor": "middle", "font-weight": "700" }));
+    text(svg, 120, 26, "Tabla de datos", { "text-anchor": "middle", class: "muted" });
+    const cells = SLIDE_DATA.map(([nm, x1, x2, y], i) => {
+      text(svg, colX[0], rowsY(i), nm, { "text-anchor": "middle" });
+      return [x1, x2, y].map((v, j) => text(svg, colX[j + 1], rowsY(i), String(v), { "text-anchor": "middle", class: "econ-cellnum" }));
+    });
+    // destino: y (5x1) = X (5x3) β (3x1) + u (5x1)
+    const yX = 280, XX = [350, 395, 440], bX = 495, uX = 560;
+    const brk = (x, w, top, bottom) => {
+      el("path", { d: `M${x - w / 2 + 6},${top} L${x - w / 2},${top} L${x - w / 2},${bottom} L${x - w / 2 + 6},${bottom}`, class: "econ-brk" }, svg);
+      el("path", { d: `M${x + w / 2 - 6},${top} L${x + w / 2},${top} L${x + w / 2},${bottom} L${x + w / 2 - 6},${bottom}`, class: "econ-brk" }, svg);
+    };
+    const grp = el("g", { style: "opacity:0" }, svg);
+    const top = 60, bot = 210;
+    [[yX, 46], [395, 140], [bX, 40], [uX, 40]].forEach(([x, w]) => { const g = el("g", {}, grp); brk.call(null, x, w, x === bX ? 95 : top, x === bX ? 175 : bot); grp.append(...g.childNodes); });
+    text(grp, 318, 140, "=", { "text-anchor": "middle", style: "font-size:20px" });
+    text(grp, 530, 140, "+", { "text-anchor": "middle", style: "font-size:20px" });
+    ["β₀", "β₁", "β₂"].forEach((s, i) => text(grp, bX, 115 + i * 25, s, { "text-anchor": "middle", "font-weight": "700" }));
+    SLIDE_DATA.forEach((_, i) => text(grp, uX, rowsY(i), `u${"₁₂₃₄₅"[i]}`, { "text-anchor": "middle" }));
+    const ones = SLIDE_DATA.map((_, i) => text(svg, XX[0], rowsY(i), "1", { "text-anchor": "middle", "font-weight": "700", style: "opacity:0;fill:var(--econ-c2)" }));
+    const dims = el("g", { style: "opacity:0" }, svg);
+    [[yX, "5×1"], [395, "5×3"], [bX, "3×1"], [uX, "5×1"]].forEach(([x, s]) => text(dims, x, 236, s, { "text-anchor": "middle", class: "muted" }));
+    hand(dims, 440, 262, "n × (k + 1) con k = 2", { "text-anchor": "middle", style: "font-size:19px" });
+    const b = buttons(root);
+    let done = false;
+    btn(b, "Armar las matrices", build, "econ-btn-gold");
+    const nt = note(root);
+    nt.innerHTML = "Presiona “Armar las matrices” para apilar las 5 ecuaciones.";
+    function fly(node, tx, ty, delay, color) {
+      const sx = +node.getAttribute("x"), sy = +node.getAttribute("y");
+      const clone = text(svg, sx, sy, node.textContent, { "text-anchor": "middle", "font-weight": "700", style: `fill:${color}` });
+      setTimeout(() => tween(560, ease.inOutCubic, (k) => {
+        clone.setAttribute("x", sx + (tx - sx) * k);
+        clone.setAttribute("y", sy + (ty - sy) * k - Math.sin(Math.PI * k) * 26);
+      }), reduced() ? 0 : delay);
+    }
+    function build() {
+      if (done) return;
+      done = true;
+      grp.style.transition = "opacity .35s"; grp.style.opacity = 1;
+      cells.forEach((row, i) => fly(row[2], yX, rowsY(i), 200 + i * 60, "var(--econ-c3)"));
+      ones.forEach((o, i) => setTimeout(() => { o.style.transition = "opacity .3s"; o.style.opacity = 1; popIn(o, 0, 300); }, reduced() ? 0 : 700 + i * 60));
+      cells.forEach((row, i) => fly(row[0], XX[1], rowsY(i), 1100 + i * 60, "var(--econ-c1)"));
+      cells.forEach((row, i) => fly(row[1], XX[2], rowsY(i), 1500 + i * 60, "var(--econ-c1)"));
+      setTimeout(() => { dims.style.transition = "opacity .4s"; dims.style.opacity = 1; }, reduced() ? 0 : 2100);
+      nt.innerHTML = "La columna de <strong>y</strong> forma el vector y (5×1). La matriz <strong>X</strong> (5×3) tiene una columna de <strong>unos</strong> " +
+        "(que acompaña a β₀), la columna de experiencia y la de educación. Cada fila de X por el vector β da la parte explicada de una persona: " +
+        "por ejemplo, para Juan, β₀·1 + β₁·12 + β₂·93.";
+    }
+  };
+
+  /* --- Calculadora · β̂ = (XᵀX)⁻¹Xᵀy ---------------------------------------- */
+  WIDGETS["calc-matricial"] = function (root) {
+    caso(root, "Calculadora · El ejemplo, paso a paso",
+      "Calcula β̂ = (XᵀX)⁻¹Xᵀy con tus propios datos 🧮",
+      "Viene cargada con los datos de la lámina. Cambia cualquier valor y todo se recalcula: úsala para verificar tus cálculos a mano de la ayudantía.");
+    const data = SLIDE_DATA.map((r) => r.slice());
+    const tbl = h("table", { class: "econ-datagrid" });
+    root.append(h("div", { style: "overflow-x:auto" }, tbl));
+    const bt = buttons(root);
+    btn(bt, "Restaurar datos de la lámina", () => { SLIDE_DATA.forEach((r, i) => { data[i] = r.slice(); }); build(); render(); }, "econ-btn-ghost");
+    const out = h("div", { class: "econ-matflow" });
+    root.append(out);
+    const nt = note(root);
+    const fx = (v) => (Math.abs(v - Math.round(v)) < 1e-9 ? miles(v) : f(v, 2));
+    function build() {
+      tbl.innerHTML = "";
+      tbl.append(h("tr", {}, ["Individuo", "x₁ (experiencia)", "x₂ (educación)", "y (salario)", "ŷ", "û"].map((t) => h("th", {}, t))));
+      data.forEach((row, i) => {
+        const tr2 = h("tr", {}, h("td", {}, row[0]));
+        [1, 2, 3].forEach((j) => {
+          const inp = h("input", { type: "number", value: row[j], step: "any", "aria-label": `${row[0]} columna ${j}` });
+          inp.addEventListener("input", () => { data[i][j] = inp.value === "" ? NaN : +inp.value; render(); });
+          tr2.append(h("td", {}, inp));
+        });
+        tr2.append(h("td", { class: "econ-calc-yhat" }), h("td", { class: "econ-calc-res" }));
+        tbl.append(tr2);
+      });
+    }
+    function render() {
+      const ok = data.every((r) => [1, 2, 3].every((j) => Number.isFinite(r[j])));
+      if (!ok) { out.innerHTML = "<p>Completa todos los valores.</p>"; return; }
+      const S = lmSummary([data.map((r) => r[1]), data.map((r) => r[2])], data.map((r) => r[3]));
+      if (!S) { out.innerHTML = "<p>⚠️ XᵀX no es invertible: alguna columna es combinación lineal de otras (por ejemplo, todos con la misma experiencia). Es la condición de rango completo de la lámina.</p>"; return; }
+      [...tbl.querySelectorAll(".econ-calc-yhat")].forEach((td, i) => { td.textContent = f(S.yhat[i], 1); });
+      [...tbl.querySelectorAll(".econ-calc-res")].forEach((td, i) => { td.textContent = f(S.res[i], 1); });
+      const steps = [
+        ["XᵀX", matHTML(S.XtX, fx)],
+        ["(XᵀX)⁻¹", matHTML(S.inv, (v) => f(v, 4))],
+        ["Xᵀy", matHTML(S.Xty.map((v) => [v]), fx)],
+        ["β̂ = (XᵀX)⁻¹Xᵀy", matHTML(S.b.map((v) => [v]), (v) => f(v, 2), "is-result")],
+      ];
+      out.innerHTML = steps.map(([t, m], i) => `<div class="econ-matstep" style="animation-delay:${i * 90}ms"><span>${t}</span>${m}</div>`).join("<b class=\"econ-matarrow\">→</b>");
+      const isSlide = data.every((r, i) => r.every((v, j) => v === SLIDE_DATA[i][j]));
+      nt.innerHTML = (isSlide
+        ? "✅ Con los datos de la lámina se obtiene β̂ = (140.59 ; −16.79 ; 8.24), igual que en la lámina y en la salida de R. "
+        : "Cambiaste los datos: compara cómo se mueven XᵀX, su inversa y β̂. ") +
+        "Las columnas ŷ = Xβ̂ y û = y − ŷ de la tabla cumplen las propiedades algebraicas: Σûᵢ = " + f(S.res.reduce((s, r) => s + r, 0), 2) + ".";
+    }
+    build();
+    onVisible(out, render);
+  };
+
+  /* --- Juego · La trampa del R² --------------------------------------------- */
+  WIDGETS["r2-trampa"] = function (root) {
+    caso(root, "Juego · R² vs. R² ajustado",
+      "La trampa del R²: agrega variables basura 🗑️",
+      "Tenemos 20 personas y una regresión de salario en educación. Agrega variables que no tienen nada que ver con el salario y mira qué hacen el R² y el R² ajustado.");
+    const BASURA = ["👟 número de calzado", "♈ signo zodiacal", "📞 último dígito del celular", "🎲 resultado de un dado", "🍕 pizzas comidas el mes pasado", "🌡️ temperatura de ayer", "🚌 minutos en micro"];
+    const r0 = rng(23);
+    const N = 20;
+    const educ = Array.from({ length: N }, () => 8 + Math.floor(11 * r0()));
+    const y = educ.map((e) => 1 + 0.6 * e + 2.2 * gauss(r0));
+    const junk = BASURA.map(() => Array.from({ length: N }, () => gauss(r0)));
+    const st = { k: 0, hist: [] };
+    const chips = h("div", { class: "econ-chips" });
+    root.append(chips);
+    const svg = svgBox(root, 600, 230, "Evolución del R² y el R² ajustado", true);
+    const stats = statsRow(root, [
+      { k: "k", label: "Variables en el modelo (k)" },
+      { k: "r2", label: "R²", cls: "is-gold" },
+      { k: "r2a", label: "R² ajustado", cls: "is-red" },
+    ]);
+    const strongs = root.querySelectorAll(".econ-stat strong"); // [k, R², R² ajustado]
+    const b = buttons(root);
+    const addBtn = btn(b, "Agregar variable basura ➕", add, "econ-btn-gold");
+    btn(b, "Reiniciar", reset, "econ-btn-ghost");
+    const nt = note(root);
+    function fit() {
+      const cols = [educ, ...junk.slice(0, st.k)];
+      const S = lmSummary(cols, y);
+      return { r2: S.R2, r2a: S.R2a, k: cols.length };
+    }
+    function draw() {
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      const x0 = 70, x1 = 560, y0 = 190, y1 = 30;
+      const X = (i) => x0 + (i / BASURA.length) * (x1 - x0), Y = (v) => y0 - v * (y0 - y1);
+      [0, 0.25, 0.5, 0.75, 1].forEach((v) => {
+        el("line", { x1: x0, x2: x1, y1: Y(v), y2: Y(v), class: "grid" }, svg);
+        text(svg, x0 - 8, Y(v) + 4, f(v, 2), { "text-anchor": "end", class: "muted" });
+      });
+      for (let i = 0; i <= BASURA.length; i++) text(svg, X(i), y0 + 18, `+${i}`, { "text-anchor": "middle", class: "muted" });
+      text(svg, (x0 + x1) / 2, y0 + 36, "variables basura agregadas", { "text-anchor": "middle", class: "muted" });
+      const path = (key) => st.hist.map((p, i) => `${i ? "L" : "M"}${X(i)},${Y(p[key])}`).join(" ");
+      el("path", { d: path("r2"), style: "fill:none;stroke:var(--econ-c2);stroke-width:2.5px" }, svg);
+      el("path", { d: path("r2a"), style: "fill:none;stroke:var(--econ-c3);stroke-width:2.5px" }, svg);
+      st.hist.forEach((p, i) => {
+        el("circle", { cx: X(i), cy: Y(p.r2), r: 5, class: "econ-dot", style: "fill:var(--econ-c2)" }, svg);
+        el("circle", { cx: X(i), cy: Y(p.r2a), r: 5, class: "econ-dot", style: "fill:var(--econ-c3)" }, svg);
+      });
+      const last = st.hist[st.hist.length - 1];
+      text(svg, X(st.hist.length - 1) + 10, Y(last.r2) - 6, "R²", { style: "fill:var(--econ-c2);font-weight:700" });
+      text(svg, X(st.hist.length - 1) + 10, Y(last.r2a) + 14, "R² ajustado", { style: "fill:var(--econ-c3);font-weight:700" });
+    }
+    function update(anim) {
+      const r = fit();
+      st.hist[st.k] = r;
+      st.hist.length = st.k + 1;
+      draw();
+      stats.set("k", String(r.k));
+      const prev = st.hist[st.k - 1];
+      if (anim && prev) {
+        countUp(strongs[1], prev.r2, r.r2, 500, (v) => f(v, 3));
+        countUp(strongs[2], prev.r2a, r.r2a, 500, (v) => f(v, 3));
+      } else {
+        stats.set("r2", f(r.r2, 3));
+        stats.set("r2a", f(r.r2a, 3));
+      }
+      addBtn.disabled = st.k >= BASURA.length;
+      nt.innerHTML = st.k === 0
+        ? "Con solo educación: R² y R² ajustado son parecidos. Agrega variables basura."
+        : `Con ${st.k} variable(s) basura el R² <strong>subió</strong> de ${f(st.hist[0].r2, 3)} a ${f(r.r2, 3)}, aunque ninguna explica nada en la población. ` +
+          `El R² ajustado, en cambio, <strong>${r.r2a < st.hist[0].r2a ? "bajó" : "casi no subió"}</strong> (${f(st.hist[0].r2a, 3)} → ${f(r.r2a, 3)}): ` +
+          "su factor (n − 1)/(n − k − 1) penaliza cada variable agregada. Por eso, para comparar modelos con distinto número de variables, conviene mirar el R² ajustado.";
+    }
+    function add() {
+      if (st.k >= BASURA.length) return;
+      const chip = h("span", { class: "econ-chip-junk" }, BASURA[st.k]);
+      chips.append(chip);
+      if (!reduced() && chip.animate) {
+        chip.animate([{ transform: "scale(.6)", opacity: 0 }, { transform: "scale(1)", opacity: 1 }], { duration: 300, easing: "cubic-bezier(.175,.885,.32,1.275)" });
+      }
+      st.k++;
+      update(true);
+    }
+    function reset() { st.k = 0; chips.innerHTML = ""; chips.append(h("span", { class: "econ-chip-junk is-real" }, "🎓 educación (real)")); update(false); }
+    reset();
+  };
+
+  /* --- Lectura · La salida de R, explicada ---------------------------------- */
+  WIDGETS["salida-r"] = function (root) {
+    caso(root, "Lectura · Software",
+      "¿Qué dice cada parte de la salida de R? 🔎",
+      "Esta es la salida de la lámina, recalculada aquí mismo con los 5 datos del ejemplo. Haz clic en cada parte resaltada para ver qué significa.");
+    const S = lmSummary([SLIDE_DATA.map((r) => r[1]), SLIDE_DATA.map((r) => r[2])], SLIDE_DATA.map((r) => r[3]));
+    const pad = (s, n) => String(s).padStart(n, " ");
+    const num = (v, d) => f(v, d);
+    const EXPL = {
+      call: "La fórmula del modelo: salario en función de experiencia y educación (R agrega la constante automáticamente).",
+      res: "Los residuos ûᵢ = yᵢ − ŷᵢ de cada una de las 5 personas. Suman cero (propiedad 1).",
+      est: "<strong>Estimate</strong>: los coeficientes β̂ = (XᵀX)⁻¹Xᵀy. Son exactamente los que calculamos a mano: 140.586, −16.790 y 8.237.",
+      se: "<strong>Std. Error</strong>: la desviación estándar estimada de cada β̂ (cuánto variaría de muestra en muestra). Lo veremos en las clases de inferencia.",
+      t: "<strong>t value</strong> = Estimate / Std. Error. Sirve para contrastar si el parámetro es cero (clase de inferencia sobre un parámetro).",
+      p: "<strong>Pr(>|t|)</strong>: el p-valor de ese contraste. Con solo 5 datos, ninguno es significativo: los errores estándar son enormes.",
+      rse: `<strong>Residual standard error</strong> = √(SSR/(n − k − 1)) = √(${miles(S.SSR)}/2): el tamaño típico de un residuo. Los <strong>degrees of freedom</strong> son n − k − 1 = 5 − 2 − 1 = 2.`,
+      r2: "<strong>Multiple R-squared</strong> = 1 − SSR/SST: la regresión explica el 77.5% de la variación muestral del salario.",
+      r2a: "<strong>Adjusted R-squared</strong> = 1 − (n − 1)/(n − k − 1)·SSR/SST = 1 − (4/2)·(1 − 0.7751) = 0.5501. Con tan pocos datos y 2 variables, la penalización es grande.",
+      F: "<strong>F-statistic</strong>: contraste de que todos los coeficientes (salvo la constante) son cero a la vez. Se verá en la clase de inferencia sobre un conjunto de parámetros.",
+    };
+    const tok = (key, txt) => `<button type="button" class="econ-r-tok" data-k="${key}">${txt}</button>`;
+    const coefRow = (name, i) =>
+      `${name.padEnd(12, " ")}${tok("est", pad(num(S.b[i], 3), 9))} ${tok("se", pad(num(S.se[i], 3), 10))} ${tok("t", pad(num(S.t[i], 3), 7))} ${tok("p", pad(num(S.p[i], 3), 8))}`;
+    const pre = h("pre", { class: "econ-r-out" });
+    pre.innerHTML =
+      `${tok("call", "lm(formula = y_sal ~ experiencia + educacion)")}\n\n` +
+      `Residuals:\n${S.res.map((_, i) => pad(i + 1, 7)).join(" ")}\n${tok("res", S.res.map((r) => pad(num(r, 3), 7)).join(" "))}\n\n` +
+      `Coefficients:\n            ${"Estimate".padStart(9)} ${"Std. Error".padStart(10)} ${"t value".padStart(7)} ${"Pr(>|t|)".padStart(8)}\n` +
+      `${coefRow("(Intercept)", 0)}\n${coefRow("experiencia", 1)}\n${coefRow("educacion", 2)}\n\n` +
+      `${tok("rse", `Residual standard error: ${num(S.rse, 2)} on ${S.df} degrees of freedom`)}\n` +
+      `${tok("r2", `Multiple R-squared:  ${num(S.R2, 4)}`)},    ${tok("r2a", `Adjusted R-squared:  ${num(S.R2a, 4)}`)}\n` +
+      `${tok("F", `F-statistic: ${num(S.F, 3)} on ${S.k} and ${S.df} DF,  p-value: ${num(S.pF, 4)}`)}`;
+    root.append(h("div", { style: "overflow-x:auto" }, pre));
+    const box = h("div", { class: "econ-metodo" });
+    box.innerHTML = "👆 Haz clic en una parte resaltada de la salida.";
+    root.append(box);
+    pre.addEventListener("click", (e) => {
+      const t = e.target.closest(".econ-r-tok");
+      if (!t) return;
+      pre.querySelectorAll(".econ-r-tok").forEach((x) => x.classList.toggle("is-on", x.dataset.k === t.dataset.k));
+      box.innerHTML = EXPL[t.dataset.k];
+      box.classList.remove("is-in"); void box.offsetWidth; box.classList.add("is-in");
+    });
+    const nt = note(root);
+    nt.innerHTML = "Los números coinciden con la captura de la lámina porque se calculan con las mismas fórmulas: β̂ = (XᵀX)⁻¹Xᵀy, σ̂² = SSR/(n − k − 1) y Var(β̂) = σ̂²(XᵀX)⁻¹.";
+  };
+
+  /* --- Ayudantía · Menores y cofactores -------------------------------------- */
+  WIDGETS.cofactores = function (root) {
+    caso(root, "Ayudantía · Inversa por cofactores",
+      "¿Qué fila y qué columna se eliminan? ✖️",
+      "Elige un menor Mᵢⱼ: se tachan la fila i y la columna j de A = XᵀX, y queda la submatriz 2×2 cuyo determinante es el menor. El signo del tablero de ajedrez convierte el menor en cofactor.");
+    const A = [["5", "67", "490"], ["67", "929", "6.736"], ["490", "6.736", "49.166"]];
+    const M = {
+      "11": ["929×49.166 − 6.736×6.736", "301.518"], "12": ["67×49.166 − 6.736×490", "−6.518"], "13": ["67×6.736 − 929×490", "−3.898"],
+      "21": ["67×49.166 − 490×6.736", "−6.518"], "22": ["5×49.166 − 490×490", "5.730"], "23": ["5×6.736 − 67×490", "850"],
+      "31": ["67×6.736 − 490×929", "−3.898"], "32": ["5×6.736 − 490×67", "850"], "33": ["5×929 − 67×67", "156"],
+    };
+    const C = { "11": "301.518", "12": "6.518", "13": "−3.898", "21": "6.518", "22": "5.730", "23": "−850", "31": "−3.898", "32": "−850", "33": "156" };
+    const wrap = h("div", { class: "econ-cof" });
+    root.append(wrap);
+    const grid = h("div", { class: "econ-cof-grid" });
+    const cells = A.map((row, i) => row.map((v, j) => { const c = h("div", { class: "econ-cof-cell" }, v); grid.append(c); return c; }));
+    const picker = h("div", { class: "econ-cof-pick" });
+    const info = h("div", { class: "econ-metodo" });
+    wrap.append(h("div", {}, h("div", { class: "econ-widget-sub" }, "A = XᵀX"), grid), h("div", {}, h("div", { class: "econ-widget-sub" }, "Elige un menor"), picker));
+    root.append(info);
+    info.innerHTML = "Haz clic en un menor, por ejemplo M₁₁.";
+    const sub = (n) => String(n).replace(/[0-9]/g, (d) => "₀₁₂₃₄₅₆₇₈₉"[d]);
+    for (let i = 1; i <= 3; i++) for (let j = 1; j <= 3; j++) {
+      const bt = h("button", { type: "button", class: "econ-signo-btn econ-cof-btn" }, `M${sub(i)}${sub(j)}`);
+      bt.addEventListener("click", () => show(i, j, bt));
+      picker.append(bt);
+    }
+    function show(i, j, bt) {
+      picker.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === bt)));
+      cells.forEach((row, r) => row.forEach((c, k) => {
+        c.classList.toggle("is-out", r === i - 1 || k === j - 1);
+        c.classList.toggle("is-keep", !(r === i - 1 || k === j - 1));
+        c.classList.remove("is-pulse");
+        if (!(r === i - 1 || k === j - 1)) { void c.offsetWidth; c.classList.add("is-pulse"); }
+      }));
+      const key = `${i}${j}`;
+      const sign = (i + j) % 2 === 0 ? "+" : "−";
+      info.innerHTML = `Se eliminan la <strong>fila ${i}</strong> y la <strong>columna ${j}</strong>. ` +
+        `M${sub(i)}${sub(j)} = ${M[key][0]} = <strong>${M[key][1]}</strong>. ` +
+        `Signo del tablero (−1)<sup>${i}+${j}</sup> = <strong>${sign}</strong> ⇒ cofactor C${sub(i)}${sub(j)} = <strong>${C[key]}</strong>.` +
+        (i !== j ? ` <span class="econ-fine">Como A es simétrica, M${sub(j)}${sub(i)} da lo mismo.</span>` : "");
+    }
   };
 
   if (typeof document$ !== "undefined") document$.subscribe(E.mountAll);

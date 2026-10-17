@@ -28,6 +28,7 @@ def norm(s):
 
 def palabras_tex(block):
     b = re.sub(r"\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}", " ", block, flags=re.S)
+    b = re.sub(r"\\begin\{(tabular|array)\}\{[^}]*\}", " ", b)  # especificación de columnas, p. ej. {c|cccc}
     b = re.sub(r"\\(begin|end|color|textcolor|label|tag)\{[^}]*\}", " ", b)
     b = re.sub(r"\\'([aeiou])", r"\1", b)
     b = re.sub(r"\\(href|includegraphics)(\[[^\]]*\])?\{[^}]*\}", " ", b)

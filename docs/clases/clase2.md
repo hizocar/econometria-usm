@@ -463,7 +463,7 @@ Noten que todas estas variables están en la data. Entonces podemos obtener esto
 </div>
 
 !!! tip "Complemento · Compruébalo"
-    En el simulador *encuentra la recta de mínimos cuadrados* activa **Mostrar recta MCO**: verás que $\sum_i \hat{u}_i = 0$, $\sum_i x_i\hat{u}_i = 0$ y que la recta pasa por $(\bar{x}, \bar{y})$, incluso si arrastras los puntos.
+    En el simulador *encuentra la recta de mínimos cuadrados* (más arriba, junto a la lámina 14) activa **Mostrar recta MCO**: verás que $\sum_i \hat{u}_i = 0$, $\sum_i x_i\hat{u}_i = 0$ y que la recta pasa por $(\bar{x}, \bar{y})$, incluso si arrastras los puntos.
 
 <div class="econ-lamina" markdown>
 
@@ -702,10 +702,16 @@ $$
 
 ---
 
+!!! abstract "🧠 Ideas clave"
+    - En $y = \beta_0 + \beta_1 x + u$, $\beta_1$ es el cambio en $E[y \mid x]$ por unidad de $x$; es **causal solo si** $E[u \mid x] = 0$.
+    - **MCO** elige la recta que minimiza $\sum_i \hat{u}_i^2$; por eso $\sum_i \hat{u}_i = 0$ y $\sum_i x_i \hat{u}_i = 0$.
+    - $SST = SSE + SSR$ y $R^2 = SSE/SST$ mide **ajuste**, no causalidad: un $R^2$ bajo no invalida la regresión.
+    - Con **RLS 1–4** MCO es **insesgado**; con **RLS 5** (homocedasticidad) vale $\text{Var}(\hat{\beta}_1 \mid x) = \sigma^2 / \sum_i (x_i - \bar{x})^2$.
+
 ## ✅ Autoevaluación
 
 <div class="econ-quiz">
-<p class="econ-quiz-q">Con los datos de EE. UU. se estimó salario = 0.095 + 0.54·educación. ¿Cuál es la interpretación correcta de 0.54?</p>
+<p class="econ-quiz-q">Con los datos de EE. UU. se estimó: salario estimado = 0.095 + 0.54·educación. ¿Cuál es la interpretación correcta de 0.54?</p>
 <div class="econ-quiz-opts">
 <button class="econ-quiz-opt">Un año más de educación causa un aumento de 0.54 dólares por hora en el salario de cada persona.</button>
 <button class="econ-quiz-opt" data-correct>Un año más de educación se asocia, en promedio, con 0.54 dólares más por hora.</button>

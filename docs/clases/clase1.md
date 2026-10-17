@@ -1124,6 +1124,13 @@ Obtener un IC de 95% para la diferencia de medias.
 
 ---
 
+!!! abstract "🧠 Ideas clave"
+    - La econometría combina **teoría económica y estadística** para describir relaciones, estimar efectos causales y predecir.
+    - **Correlación no es causalidad**: un efecto causal compara situaciones *ceteris paribus* (helados, tiburones y temperatura).
+    - Los datos pueden ser **experimentales u observacionales**, y de **corte transversal, series de tiempo o panel**.
+    - Lo que hace representativa a una muestra es **cómo se elige** (aleatoriamente), no su tamaño: la sopa revuelta y el Literary Digest.
+    - *Ayudantía:* por el **TCL**, $\bar{X}$ es aproximadamente $N(\mu, \sigma^2/n)$; un **IC de 95%** atrapa a μ en el 95% de las muestras.
+
 ## ✅ Autoevaluación
 
 <div class="econ-quiz">

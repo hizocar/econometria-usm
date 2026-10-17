@@ -160,7 +160,14 @@ C1_CABECERA = """# Clase 1 · Introducción y repaso de estadística
 Las **Partes 2 y 3** (repaso de estadística) se trabajan en la **ayudantía**.
 """
 
-C1_CIERRE = """## ✅ Autoevaluación
+C1_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - La econometría combina **teoría económica y estadística** para describir relaciones, estimar efectos causales y predecir.
+    - **Correlación no es causalidad**: un efecto causal compara situaciones *ceteris paribus* (helados, tiburones y temperatura).
+    - Los datos pueden ser **experimentales u observacionales**, y de **corte transversal, series de tiempo o panel**.
+    - Lo que hace representativa a una muestra es **cómo se elige** (aleatoriamente), no su tamaño: la sopa revuelta y el Literary Digest.
+    - *Ayudantía:* por el **TCL**, $\\bar{X}$ es aproximadamente $N(\\mu, \\sigma^2/n)$; un **IC de 95%** atrapa a μ en el 95% de las muestras.
+
+## ✅ Autoevaluación
 
 """ + "\n\n".join([
     quiz("Construiste un IC de 95% para μ y obtuviste (180.4 ; 219.6). ¿Cuál interpretación es correcta?",
@@ -260,10 +267,16 @@ C2_CABECERA = """# Clase 2 · Regresión lineal simple
 | 21:05 – 21:25 | Supuestos RLS, insesgamiento y varianza de los estimadores · cierre | 27 – 34 |
 """
 
-C2_CIERRE = """## ✅ Autoevaluación
+C2_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - En $y = \\beta_0 + \\beta_1 x + u$, $\\beta_1$ es el cambio en $E[y \\mid x]$ por unidad de $x$; es **causal solo si** $E[u \\mid x] = 0$.
+    - **MCO** elige la recta que minimiza $\\sum_i \\hat{u}_i^2$; por eso $\\sum_i \\hat{u}_i = 0$ y $\\sum_i x_i \\hat{u}_i = 0$.
+    - $SST = SSE + SSR$ y $R^2 = SSE/SST$ mide **ajuste**, no causalidad: un $R^2$ bajo no invalida la regresión.
+    - Con **RLS 1–4** MCO es **insesgado**; con **RLS 5** (homocedasticidad) vale $\\text{Var}(\\hat{\\beta}_1 \\mid x) = \\sigma^2 / \\sum_i (x_i - \\bar{x})^2$.
+
+## ✅ Autoevaluación
 
 """ + "\n\n".join([
-    quiz("Con los datos de EE. UU. se estimó salario = 0.095 + 0.54·educación. ¿Cuál es la interpretación correcta de 0.54?",
+    quiz("Con los datos de EE. UU. se estimó: salario estimado = 0.095 + 0.54·educación. ¿Cuál es la interpretación correcta de 0.54?",
          ["Un año más de educación causa un aumento de 0.54 dólares por hora en el salario de cada persona.",
           "Un año más de educación se asocia, en promedio, con 0.54 dólares más por hora.",
           "El 54% de la variación del salario se explica por la educación."], 1,
@@ -293,7 +306,7 @@ C2_INSERTAR = {
     ("sem2/clase2.tex", 15): complemento("Pista para la tarea",
         "Desarrolla el producto y usa que $\\sum_{i=1}^n (x_i - \\bar{x}) = 0$ y $\\sum_{i=1}^n (y_i - \\bar{y}) = 0$."),
     ("sem2/clase2.tex", 20): complemento("Compruébalo",
-        "En el simulador *encuentra la recta de mínimos cuadrados* activa **Mostrar recta MCO**: "
+        "En el simulador *encuentra la recta de mínimos cuadrados* (más arriba, junto a la lámina 14) activa **Mostrar recta MCO**: "
         "verás que $\\sum_i \\hat{u}_i = 0$, $\\sum_i x_i\\hat{u}_i = 0$ y que la recta pasa por $(\\bar{x}, \\bar{y})$, "
         "incluso si arrastras los puntos."),
     ("sem2/clase2.tex", 25): widget("varianza") + "\n\n" + widget("r2-galeria"),
@@ -309,7 +322,7 @@ C3_CABECERA = """# Clase 3 · Causalidad y variable omitida
 <div class="usm-session-meta">
 <span>📅 Viernes 30 de octubre de 2026</span>
 <span>⏱️ 18:40 – 21:25</span>
-<span class="usm-tag-gold">Semana 3 · Causalidad, variable omitida</span>
+<span class="usm-tag-gold">Semana 3 · Contenido 4 (cont.) · Causalidad y variable omitida</span>
 </div>
 
 !!! info "Contenido oficial de la semana"
@@ -324,6 +337,7 @@ C3_CABECERA = """# Clase 3 · Causalidad y variable omitida
 - Descomponer una diferencia de promedios en **efecto causal + sesgo de selección**.
 - Entender por qué la **aleatorización** elimina el sesgo de selección.
 - Derivar el **sesgo por variable omitida** y predecir su signo.
+- Evaluar cuándo agregar controles corrige el sesgo y por qué las variables irrelevantes aumentan la varianza.
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
@@ -339,7 +353,14 @@ C3_CABECERA = """# Clase 3 · Causalidad y variable omitida
 | 21:15 – 21:25 | Conclusiones, autoevaluación y cierre | Parte 2 · 12 |
 """
 
-C3_CIERRE = """## ✅ Autoevaluación
+C3_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - Para cada persona solo vemos **un** outcome potencial: el contrafactual nunca se observa.
+    - **Diferencia observada = ATT + sesgo de selección**; el sesgo existe si los grupos ya eran distintos sin tratamiento.
+    - La **aleatorización** elimina el sesgo de selección: $\\beta = ATE = ATT$.
+    - Omitir una variable relevante sesga: $\\tilde{\\beta}_1 = \\beta_1 + \\beta_2 \\delta_1$, y su signo depende de los signos de $\\beta_2$ y $\\delta_1$.
+    - Controlar por la omitida corrige el sesgo **si la observamos**; agregar variables irrelevantes no sesga, pero **aumenta la varianza**.
+
+## ✅ Autoevaluación
 
 """ + "\n\n".join([
     quiz("Comparas el salario de quienes hicieron un MBA con el de quienes no. ¿Qué representa el sesgo de selección?",
@@ -347,29 +368,29 @@ C3_CIERRE = """## ✅ Autoevaluación
           "La diferencia de salario que habría existido entre ambos grupos aun si nadie hubiera hecho el MBA.",
           "El error de muestreo de la diferencia de promedios."], 1,
          "Sesgo de selección = E[Yᴺᵀ | T=1] − E[Yᴺᵀ | T=0]. La primera opción es el ATT; la tercera es variabilidad muestral."),
-    quiz("Estimas el efecto de las horas de estudio sobre la nota omitiendo las horas de trabajo remunerado. Quienes trabajan más estudian menos, y trabajar más reduce la nota. ¿Qué signo tiene el sesgo?",
-         ["Positivo: la regresión corta sobreestima el efecto del estudio.",
-          "Negativo: la regresión corta subestima el efecto del estudio.",
-          "No hay sesgo, porque la variable omitida no es la de interés."], 0,
-         "δ₁ &lt; 0 (más estudio, menos trabajo) y β₂ &lt; 0 (trabajar baja la nota) ⇒ β₂·δ₁ &gt; 0: caso 2 de la tabla de signos."),
+    quiz("Estimas el efecto de las clases particulares sobre la nota final omitiendo la nota previa. Quienes tienen peor nota previa toman más clases, y la nota previa sube la nota final. ¿Qué signo tiene el sesgo?",
+         ["Positivo: la regresión corta sobreestima el efecto de las clases.",
+          "Negativo: la regresión corta subestima el efecto (incluso podría parecer que las clases bajan la nota).",
+          "No hay sesgo, porque la variable omitida no es la de interés."], 1,
+         "δ₁ &lt; 0 (peor nota previa, más clases) y β₂ &gt; 0 (la nota previa sube la final) ⇒ β₂·δ₁ &lt; 0: caso 3 de la tabla de signos."),
     quiz("Un programa de capacitación se asignó por sorteo. ¿Es necesario agregar controles para obtener un estimador insesgado del efecto?",
          ["Sí, siempre hay que controlar por todas las características observables.",
           "No: con aleatorización la correlación entre el tratamiento y cualquier variable omitida es 0.",
           "Solo si el R² de la regresión es bajo."], 1,
-         "Es la lámina <em>Sin sesgo de selección</em>: con aleatorización δ₁ = 0 para cualquier omitida, así que β₂·δ₁ = 0."),
+         "Es la lámina <em>Sin sesgo de selección</em>: con aleatorización δ₁ = 0 <em>en la población</em> para cualquier omitida, así que β₂·δ₁ = 0. Agregar controles que sí predicen y puede, de todos modos, mejorar la precisión."),
 ]) + """
 
 ## 📚 Para la próxima clase
 
-- **Wooldridge**, capítulo 3, secciones 3.1–3.3 (*Análisis de regresión múltiple: estimación*).
+- **Repaso:** Wooldridge, sección 3.3 (sesgo por variable omitida). **Para la próxima clase:** secciones 3.1–3.2 (*Análisis de regresión múltiple: estimación*).
 - 📖 Comienza la lectura del **Certamen 1** (lunes 16 de noviembre): Miguel, E. y Kremer, M. (2004).
   *Worms: Identifying Impacts on Education and Health in the Presence of Treatment
   Externalities.* Econometrica, 72(1).
-- Próxima clase: **Regresión lineal múltiple y Teorema de Gauss-Markov**.
+- Próxima clase: **Regresión lineal múltiple: estimación**.
 """
 
 C3_INSERTAR = {
-    ("sem3/Clase3.tex", 2): widget("universo"),
+    ("sem3/Clase3.tex", 4): widget("universo"),
     ("sem3/Clase3.tex", 6): widget("po"),
     ("sem3/Clase3.tex", 8): widget("gemelos"),
     ("sem3/Clase3.tex", 12): widget("hospital"),
@@ -382,8 +403,97 @@ C3_INSERTAR = {
     ("sem3/Clase4.tex", 6): widget("ovb") + "\n\n" + widget("signo-sesgo"),
     ("sem3/Clase4.tex", 10): widget("mas-controles"),
     ("sem3/Clase4.tex", 9): complemento("Compruébalo con los números",
-        "De $\\tilde{\\beta}_1 = \\beta_1 + \\beta_2\\delta_2$: $-1.82 = 0.94 + 0.98\\,\\delta_2 \\Rightarrow \\delta_2 \\approx -2.8 < 0$. "
+        "Con la salida de Stata: $-1.819 = 0.943 + 0.980\\,\\delta_2$ (la lámina redondea a $-1.81$) $\\Rightarrow \\delta_2 \\approx -2.8 < 0$. "
         "Prueba el botón **Fumar y edad** en el simulador de variable omitida: reproduce estas dos regresiones.") + "\n\n" + widget("simpson"),
+}
+
+# --------------------------------------------------------------------------------------------
+# Clase 4 · Semana 4
+# --------------------------------------------------------------------------------------------
+C4_CABECERA = """# Clase 4 · Regresión lineal múltiple
+
+<div class="usm-session-meta">
+<span>📅 Viernes 6 de noviembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 4 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">🛠️ Semana del Taller 1</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegros y en orden** los materiales de la semana 4 (`sem4/`).
+    **Cátedra del viernes:** Parte 1 (`Clase5.tex`, 25 láminas). **Ayudantía/taller:** Parte 2
+    (`calculo_matrices.tex`, ejercicio de la inversa de $X^\\top X$). Los bloques **Interactivo**, los casos
+    y las preguntas de autoevaluación son material adicional para estudiar.
+
+## 🎯 Objetivos de la sesión
+
+**Cátedra (viernes)**
+
+- Pasar del modelo simple al **modelo de regresión lineal múltiple** e interpretar cada $\\beta_j$ *ceteris paribus*.
+- Plantear la estimación por MCO con $k$ variables y escribir el modelo en **notación matricial**, $y = X\\beta + u$.
+- Derivar $\\hat{\\beta} = (X^\\top X)^{-1} X^\\top y$ y reconocer sus propiedades algebraicas.
+- Distinguir entre $R^2$ y $R^2$ ajustado, y leer la salida de una regresión en R.
+
+**Ayudantía**
+
+- Calcular a mano $(X^\\top X)^{-1}$ por cofactores y obtener $\\hat{\\beta}$ con los datos del ejemplo.
+
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+
+| Hora | Bloque | Láminas |
+|---|---|---|
+| 18:40 – 19:05 | Del modelo simple al múltiple: motivación e interpretación *ceteris paribus* | 1 – 3 |
+| 19:05 – 19:25 | Estimación por MCO con $k$ variables: residuos y condiciones de primer orden | 4 – 5 |
+| 19:25 – 19:55 | Notación matricial: $y = X\\beta + u$ | 6 – 9 |
+| 19:55 – 20:05 | *Receso* | |
+| 20:05 – 20:35 | Derivación de $\\hat{\\beta} = (X^\\top X)^{-1}X^\\top y$ y propiedades algebraicas | 10 – 12 |
+| 20:35 – 20:55 | $R^2$ y $R^2$ ajustado | 13 – 14 |
+| 20:55 – 21:20 | Ejemplo numérico paso a paso y salida en R | 15 – 25 |
+| 21:20 – 21:25 | Autoevaluación y cierre | |
+
+La **Parte 2** (ejercicio de cálculo matricial) se trabaja en la **ayudantía/taller** de la semana.
+"""
+
+C4_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - En la regresión múltiple cada $\\beta_j$ es un efecto **ceteris paribus**: la pendiente del plano en la dirección de $x_j$.
+    - Controlar por una variable cambia el coeficiente de interés (0.54 → 0.37 al agregar IQ), como predice la fórmula de variable omitida.
+    - En notación matricial $y = X\\beta + u$, con $X$ de dimensión $n \\times (k+1)$, y $\\hat{\\beta} = (X^\\top X)^{-1} X^\\top y$ exige **rango completo**.
+    - El $R^2$ **nunca baja** al agregar variables; el $R^2$ **ajustado** penaliza cada variable adicional.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("En salario = 0.065 + 0.37·educación + 0.20·IQ, ¿qué significa 0.37?",
+         ["Un año más de educación se asocia con 0.37 más de salario, sin importar el IQ de la persona.",
+          "Un año más de educación se asocia con 0.37 más de salario esperado, manteniendo constante el IQ.",
+          "El 37% del salario se explica por la educación."], 1,
+         "En la regresión múltiple cada coeficiente es un efecto <em>ceteris paribus</em>: la pendiente del plano en la dirección de esa variable, con las demás incluidas fijas."),
+    quiz("Con n = 100 observaciones y k = 4 variables explicativas, ¿qué dimensión tiene la matriz X?",
+         ["100 × 4", "100 × 5", "5 × 100"], 1,
+         "X tiene una fila por observación y una columna por parámetro: la columna de unos más las 4 variables, es decir n × (k + 1) = 100 × 5."),
+    quiz("¿Por qué se exige que X tenga rango completo (k + 1)?",
+         ["Para que XᵀX sea invertible y exista β̂ = (XᵀX)⁻¹Xᵀy.", "Para que el R² sea mayor que 0.5.", "Para que los residuos sumen cero."], 0,
+         "Si una columna es combinación lineal de otras (por ejemplo, dos variables idénticas), XᵀX no se puede invertir y MCO no tiene solución única. Pruébalo en la calculadora."),
+    quiz("Agregas al modelo una variable que no tiene ninguna relación con y. ¿Qué pasa?",
+         ["El R² baja y el R² ajustado sube.", "El R² sube o se mantiene; el R² ajustado puede bajar.", "Ambos quedan exactamente iguales."], 1,
+         "El R² nunca baja al agregar variables; el R² ajustado penaliza con (n − 1)/(n − k − 1). Es la trampa del R² que viste en el juego."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulo 3, secciones 3.1–3.2 (*Análisis de regresión múltiple: estimación*).
+- 🛠️ Esta semana es el **Taller 1**: repasa el ejercicio de la Parte 2 y verifica tus cálculos con la calculadora matricial.
+- Próxima clase: **Interpretación de la regresión múltiple**.
+"""
+
+C4_INSERTAR = {
+    ("sem4/Clase5.tex", 2): widget("plano"),
+    ("sem4/Clase5.tex", 3): widget("iq-control"),
+    ("sem4/Clase5.tex", 8): widget("matriz-x"),
+    ("sem4/Clase5.tex", 14): widget("r2-trampa"),
+    ("sem4/Clase5.tex", 22): widget("calc-matricial"),
+    ("sem4/Clase5.tex", 25): widget("salida-r"),
+    ("sem4/calculo_matrices.tex", 2): widget("cofactores"),
 }
 
 CLASES = {
@@ -401,6 +511,13 @@ CLASES = {
             fuentes=[("sem3/Clase3.tex", "Parte 1 · Causalidad y sesgo de selección"),
                      ("sem3/Clase4.tex", "Parte 2 · Sesgo por variable omitida")],
             insertar=C3_INSERTAR, plegar={}),
+    4: dict(out="docs/clases/clase4.md", cabecera=C4_CABECERA, cierre=C4_CIERRE,
+            fuentes=[("sem4/Clase5.tex", "Parte 1 · Regresión lineal múltiple: estimación"),
+                     ("sem4/calculo_matrices.tex", "Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores",
+                      '!!! note "Material de ayudantía/taller"\n'
+                      '    Este ejercicio no se ve en la cátedra del viernes: se trabaja en la **ayudantía/taller** de la semana. '
+                      'Mantiene el formato numérico del documento original (punto para los miles, coma decimal).')],
+            insertar=C4_INSERTAR, plegar={}, pasos={("sem4/Clase5.tex", 15): 22}),
 }
 
 
@@ -449,7 +566,9 @@ def generar(n):
         eyebrow = f"{parte} · {tipo}" if parte else tipo
         partes.append(f"## {nombre} " + atributos(cls="econ-parte" + (" is-ayudantia" if ayud else ""),
                                                   data_eyebrow=eyebrow, data_toc_label=titulo))
-        partes.append(f'<p class="econ-source">📄 Diapositivas: <code>{tex}</code> · {len(fr)} láminas</p>')
+        es_doc = r"\begin{frame}" not in (SLIDES / tex).read_text(encoding="utf-8")
+        partes.append(f'<p class="econ-source">📄 {"Documento" if es_doc else "Diapositivas"}: <code>{tex}</code> · '
+                      f'{len(fr)} {"secciones" if es_doc else "láminas"}</p>')
         if extra:
             partes.append(extra[0])
 
@@ -463,11 +582,23 @@ def generar(n):
                 grupos.append({"t": t or "(continuación)", "laminas": [(i, cuerpo)]})
 
         clase_card = "econ-lamina" + (" is-ayudantia" if ayud else "")
+        pasos = cfg.get("pasos", {})
         for g in grupos:
             primera, ultima = g["laminas"][0][0], g["laminas"][-1][0]
             attrs = atributos(data_lamina=rango(primera, ultima),
                               data_toc_label=toc_plano(g["t"]) if "$" in g["t"] else "")
             bloques = [f'<div class="{clase_card}" markdown>', f"### {g['t']} {attrs}"]
+            if pasos.get((tex, primera)) == ultima:
+                # Lámina que en beamer se construye en varios pasos: una pestaña por paso (contenido íntegro)
+                bloques.append('<p class="econ-lamina-cont">Lámina progresiva · recórrela paso a paso, como en la presentación</p>')
+                for k, (i, cuerpo) in enumerate(g["laminas"], 1):
+                    txt = f"<!-- {tex} · lámina {i} -->\n\n{cuerpo}"
+                    bloques.append(f'=== "Paso {k}"\n\n' + "\n".join("    " + l if l.strip() else "" for l in txt.split("\n")))
+                bloques.append("</div>")
+                partes.append("\n\n".join(bloques))
+                if (tex, ultima) in cfg["insertar"]:
+                    partes.append(cfg["insertar"][(tex, ultima)])
+                continue
             for i, cuerpo in g["laminas"]:
                 for (src, k), html in TIKZ.items():
                     if src == tex:

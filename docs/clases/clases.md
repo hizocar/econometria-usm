@@ -44,6 +44,16 @@ complementan con el **taller de los lunes** (Iván). El detalle de fechas está 
 [Ir a la clase →](clase3.md)
 </div>
 
+<div class="usm-card" markdown>
+### 4️⃣ Regresión lineal múltiple
+**Viernes 6 de noviembre** · Cátedra: interpretación *ceteris paribus* · MCO con k variables · Notación matricial · R² ajustado<br>
+**Ayudantía/taller:** inversa de XᵀX por cofactores
+
+🧮 7 casos interactivos (plano 3D, calculadora matricial, la trampa del R², la salida de R explicada…) · 🛠️ Semana del Taller 1
+
+[Ir a la clase →](clase4.md)
 </div>
 
-> 🚧 Las clases 4 en adelante se irán publicando aquí a medida que avanza el trimestre.
+</div>
+
+> 🚧 Las clases 5 en adelante se irán publicando aquí a medida que avanza el trimestre.
