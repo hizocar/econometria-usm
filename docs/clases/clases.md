@@ -39,7 +39,7 @@ complementan con el **taller de los lunes** (Iván). El detalle de fechas está 
 ### 3️⃣ Causalidad y variable omitida
 **Viernes 30 de octubre** · Outcomes potenciales · ATE y ATT · Sesgo de selección · Sesgo por variable omitida
 
-🧪 3 simuladores
+🧪 3 simuladores · 🏥 8 casos ilustrados (gemelos de Twinsburg, ¿el hospital enferma?, test A/B de Obama, paradoja de Simpson…)
 
 [Ir a la clase →](clase3.md)
 </div>

@@ -314,8 +314,8 @@ C3_CABECERA = """# Clase 3 · Causalidad y variable omitida
 
 !!! info "Contenido oficial de la semana"
     Esta página reproduce **íntegras y en orden** las diapositivas de la semana 3 (`sem3/`):
-    `Clase3.tex` y `Clase4.tex`. Los bloques **Interactivo**, **Complemento** y las preguntas de
-    autoevaluación son material adicional para estudiar.
+    `Clase3.tex` (Parte 1) y `Clase4.tex` (Parte 2), ambas de la **cátedra del viernes**. Los bloques
+    **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para estudiar.
 
 ## 🎯 Objetivos de la sesión
 
@@ -325,17 +325,18 @@ C3_CABECERA = """# Clase 3 · Causalidad y variable omitida
 - Entender por qué la **aleatorización** elimina el sesgo de selección.
 - Derivar el **sesgo por variable omitida** y predecir su signo.
 
-## 🗓️ Agenda
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque |
-|---|---|
-| 18:40 – 19:20 | **Parte 1** · Esperanza condicional vs. causalidad, contrafactual, modelo de Rubin, ATE y ATT |
-| 19:20 – 19:55 | **Parte 1** · ATT y sesgo de selección; ejemplo de las alarmas |
-| 19:55 – 20:05 | *Receso* |
-| 20:05 – 20:20 | **Parte 1** · Aleatorización |
-| 20:20 – 21:00 | **Parte 2** · Sesgo de selección y MCO; sesgo por omisión de variable y su signo |
-| 21:00 – 21:20 | **Parte 2** · Controles, ejemplos (fumar y edad), ¿más es mejor?, conclusiones |
-| 21:20 – 21:25 | Autoevaluación y cierre |
+| Hora | Bloque | Láminas |
+|---|---|---|
+| 18:40 – 19:00 | Esperanza condicional vs. causalidad y el contrafactual | Parte 1 · 1 – 2 |
+| 19:00 – 19:30 | Modelo de outcomes potenciales de Rubin: ATE, ATT y lo que no observamos | Parte 1 · 3 – 8 |
+| 19:30 – 19:55 | ATT y sesgo de selección; ejemplo de las alarmas | Parte 1 · 9 – 14 |
+| 19:55 – 20:05 | *Receso* | |
+| 20:05 – 20:20 | Aleatorización | Parte 1 · 15 – 16 |
+| 20:20 – 20:55 | Sesgo de selección y MCO; sesgo por variable omitida: derivación y signo | Parte 2 · 1 – 6 |
+| 20:55 – 21:15 | Controles, ejemplo de fumar y edad, ¿más es mejor?, sin sesgo de selección | Parte 2 · 7 – 11 |
+| 21:15 – 21:25 | Conclusiones, autoevaluación y cierre | Parte 2 · 12 |
 """
 
 C3_CIERRE = """## ✅ Autoevaluación
@@ -368,12 +369,21 @@ C3_CIERRE = """## ✅ Autoevaluación
 """
 
 C3_INSERTAR = {
+    ("sem3/Clase3.tex", 2): widget("universo"),
     ("sem3/Clase3.tex", 6): widget("po"),
-    ("sem3/Clase3.tex", 16): widget("seleccion"),
-    ("sem3/Clase4.tex", 6): widget("ovb"),
+    ("sem3/Clase3.tex", 8): widget("gemelos"),
+    ("sem3/Clase3.tex", 12): widget("hospital"),
+    ("sem3/Clase3.tex", 14): widget("alarmas"),
+    ("sem3/Clase3.tex", 16): widget("seleccion") + "\n\n" + widget("ab-test"),
+    ("sem3/Clase4.tex", 2): complemento("Ya lo vimos en la Clase 1",
+        "Este es exactamente el problema que resolvió el estudio de **Bloom y coautores** sobre consultoría en India: como las empresas que contratan "
+        "consultoras son distintas (más grandes, más ricas), los investigadores **sortearon** quién recibía la consultoría. Así el tamaño de la empresa "
+        "deja de relacionarse con $x$ y desaparece el sesgo."),
+    ("sem3/Clase4.tex", 6): widget("ovb") + "\n\n" + widget("signo-sesgo"),
+    ("sem3/Clase4.tex", 10): widget("mas-controles"),
     ("sem3/Clase4.tex", 9): complemento("Compruébalo con los números",
         "De $\\tilde{\\beta}_1 = \\beta_1 + \\beta_2\\delta_2$: $-1.82 = 0.94 + 0.98\\,\\delta_2 \\Rightarrow \\delta_2 \\approx -2.8 < 0$. "
-        "Prueba el botón **Fumar y edad** en el simulador de variable omitida: reproduce estas dos regresiones."),
+        "Prueba el botón **Fumar y edad** en el simulador de variable omitida: reproduce estas dos regresiones.") + "\n\n" + widget("simpson"),
 }
 
 CLASES = {
