@@ -1284,6 +1284,576 @@
     onVisible(svg, () => throwRings(20));
   };
 
+  /* ========================================================================
+     CLASE 2 · Regresión lineal simple
+     ======================================================================== */
+
+  function mochila(parent, x, y, s) {
+    const g = el("g", { transform: `translate(${x},${y}) scale(${s || 1})` }, parent);
+    el("path", { d: "M-24,-34 Q0,-62 24,-34", fill: "none", stroke: "#1b2a5e", "stroke-width": 5, "stroke-linecap": "round" }, g);
+    el("rect", { x: -38, y: -36, width: 76, height: 88, rx: 18, fill: "#c28000", stroke: "#1b2a5e", "stroke-width": 3 }, g);
+    const flap = el("path", { d: "M-38,-14 Q0,10 38,-14 L38,-24 Q0,-2 -38,-24 Z", fill: "#8a5a00" }, g);
+    el("rect", { x: -14, y: 14, width: 28, height: 22, rx: 5, fill: "#e5b300", stroke: "#1b2a5e", "stroke-width": 2 }, g);
+    text(g, 0, 31, "u", { "text-anchor": "middle", style: "font-size:18px;font-weight:700" });
+    return { g, flap };
+  }
+
+  /* --- Caso · ¿Qué hay en la mochila de u? ------------------------------- */
+  WIDGETS["mochila-u"] = function (root) {
+    caso(root, "Caso · El término de error",
+      "¿Qué hay en la mochila de u? 🎒",
+      "En salario = β₀ + β₁·educación + u, todo lo que afecta el salario y no es la educación viaja escondido en u. " +
+      "Abre la mochila y, para cada factor, decide si se relaciona con los años de educación. Esa es justamente la pregunta de la lámina.");
+    const scene = svgBox(root, 600, 160, "Ecuación del salario con una mochila que representa el término de error u");
+    el("rect", { x: 0, y: 0, width: 600, height: 160, rx: 14, class: "econ-scene-bg" }, scene);
+    text(scene, 245, 92, "salario = β₀ + β₁·educación +", { "text-anchor": "middle", style: "font-size:22px;font-weight:700" });
+    const bag = mochila(scene, 495, 86);
+    const burst = el("g", {}, scene);
+    hand(scene, 432, 140, "lo que no observamos →", { "text-anchor": "end", style: "font-size:19px" });
+
+    const ITEMS = [
+      { e: "💡", n: "Habilidad", rel: true, why: "Las personas más hábiles tienden a estudiar más años, y la habilidad también sube el salario." },
+      { e: "👪", n: "Ingreso y educación de los padres", rel: true, why: "Las familias con más recursos financian más años de estudio a sus hijos." },
+      { e: "⏳", n: "Experiencia laboral", rel: true, why: "A una misma edad, quien estudió más años alcanzó a trabajar menos: es una relación negativa." },
+      { e: "🎯", n: "Motivación y esfuerzo", rel: true, why: "La gente más motivada suele estudiar más y también rendir más en el trabajo." },
+      { e: "🍀", n: "Suerte en la búsqueda de empleo", rel: false, why: "Encontrar por suerte un buen trabajo afecta el salario, pero no depende de cuántos años estudiaste." },
+      { e: "🌦️", n: "El clima el día de la encuesta", rel: false, why: "No tiene relación con los años de educación de las personas encuestadas." },
+    ];
+    const b = buttons(root);
+    const openBtn = btn(b, "Abrir la mochila 🎒", open, "econ-btn-gold");
+    const grid = h("div", { class: "econ-cards6" });
+    root.append(grid);
+    const nt = note(root);
+    nt.innerHTML = "Abre la mochila para ver qué factores se esconden en u.";
+    let answered = 0, right = 0, opened = false;
+
+    function open() {
+      if (opened) return;
+      opened = true;
+      openBtn.disabled = true;
+      tween(320, ease.outBack, (k) => bag.flap.setAttribute("transform", `translate(0,${-12 * k})`));
+      ITEMS.forEach((it, i) => {
+        const t = text(burst, 495, 70, it.e, { "text-anchor": "middle", style: "font-size:26px" });
+        const tx = 310 + i * 52, ty = 30 + (i % 2) * 18;
+        setTimeout(() => tween(520, ease.outCubic, (k) => {
+          t.setAttribute("x", 495 + (tx - 495) * k);
+          t.setAttribute("y", 70 + (ty - 70) * k - Math.sin(Math.PI * k) * 30);
+        }), reduced() ? 0 : i * 90);
+      });
+      ITEMS.forEach((it, i) => {
+        const fb = h("p", { class: "econ-card6-fb" });
+        const yes = h("button", { type: "button", class: "econ-quiz-opt" }, "Sí se relaciona");
+        const no = h("button", { type: "button", class: "econ-quiz-opt" }, "No se relaciona");
+        const card = h("div", { class: "econ-card6" },
+          h("div", { class: "econ-card6-e" }, it.e),
+          h("strong", {}, it.n),
+          h("div", { class: "econ-card6-opts" }, yes, no), fb);
+        const pick = (saysRel, btnEl) => {
+          if (card.dataset.done) return;
+          card.dataset.done = "1";
+          const ok = saysRel === it.rel;
+          btnEl.classList.add(ok ? "is-right" : "is-wrong");
+          (it.rel ? yes : no).classList.add("is-right");
+          fb.innerHTML = (ok ? "✅ " : "❌ ") + it.why;
+          answered++;
+          if (ok) right++;
+          if (answered === ITEMS.length) {
+            nt.innerHTML = `Acertaste <strong>${right} de ${ITEMS.length}</strong>. Si <em>algún</em> factor de u se relaciona con la educación, ` +
+              "no se cumple E[u|x] = 0 y β̂₁ ya no mide el efecto <em>ceteris paribus</em> de la educación: también captura el efecto de esos factores. " +
+              "Esta idea es el corazón de la Clase 3 (sesgo por variable omitida).";
+          }
+        };
+        yes.addEventListener("click", () => pick(true, yes));
+        no.addEventListener("click", () => pick(false, no));
+        grid.append(card);
+        card.style.opacity = reduced() ? 1 : 0;
+        setTimeout(() => {
+          tween(380, ease.outBack, (k) => { card.style.opacity = Math.min(1, k * 1.4); card.style.transform = `translateY(${10 * (1 - k)}px)`; });
+        }, reduced() ? 0 : 500 + i * 70);
+      });
+      nt.innerHTML = "Clasifica los 6 factores. Pregunta guía: ¿quienes estudian más años tienen, en promedio, más (o menos) de este factor?";
+    }
+  };
+
+  /* --- Visual · La regresión es un promedio por grupos -------------------- */
+  WIDGETS["esperanza-cond"] = function (root) {
+    caso(root, "Visual · Esperanza condicional",
+      "La regresión es un promedio por grupos 📊",
+      "E[Y | X = x] es el promedio de Y entre quienes tienen el mismo valor de X. Primero con los 4 datos de la lámina; " +
+      "después con 400 personas, donde se ve que la recta de regresión pasa casi exactamente por esos promedios.");
+    const seg = h("div", { class: "econ-seg", role: "tablist" });
+    root.append(seg);
+    const wrap = h("div");
+    root.append(wrap);
+    const p = plot(wrap, 600, 300, { l: 52, b: 40 });
+    const nt = note(root);
+    const PEOPLE = [["María", 5, 120], ["Juan", 5, 100], ["Pedro", 4, 80], ["Catalina", 2, 50]];
+    const r0 = rng(12);
+    const BIG = Array.from({ length: 400 }, () => {
+      const e = 8 + Math.floor(r0() * 11);
+      return [e, 150 + 62 * e + 170 * gauss(r0)];
+    });
+    let timers = [];
+    const later = (fn, ms) => timers.push(setTimeout(fn, reduced() ? 0 : ms));
+    const VIEWS = {
+      cuatro: {
+        label: "1 · Los 4 de la lámina",
+        draw: () => {
+          p.domain([0, 7], [0, 140]);
+          p.axes({ xlabel: "Años de educación (X)", ylabel: "Ingreso (Y)", nx: 7 });
+          const g = p.clipped();
+          el("line", { x1: p.x(0), x2: p.x(7), y1: p.y(87.5), y2: p.y(87.5), class: "line-gold line-dash" }, g);
+          text(p.svg, p.x(6.95), p.y(87.5) - 6, "E[Y] = 87.5", { "text-anchor": "end", "font-weight": "700" });
+          PEOPLE.forEach(([nm, x, y], i) => {
+            const c = el("circle", { cx: p.x(x), cy: p.y(140), r: 7, class: "econ-dot", style: "fill:var(--econ-c1)" }, g);
+            const t = text(p.svg, p.x(x) + 11, p.y(y) + 4, nm, { style: "opacity:0" });
+            later(() => tween(520, ease.outBack, (k) => { c.setAttribute("cy", p.y(140) + (p.y(y) - p.y(140)) * k); }, () => { t.style.opacity = 1; }), 150 + i * 160);
+          });
+          [[5, 110], [4, 80], [2, 50]].forEach(([x, m], i) => {
+            later(() => {
+              const d = el("path", { d: `M${p.x(x) - 9},${p.y(m)} l9,-9 l9,9 l-9,9 z`, style: "fill:var(--econ-c2)" }, p.svg);
+              popIn(d, 0, 360);
+              hand(p.svg, p.x(x) - 14, p.y(m) + (x === 5 ? -14 : 24), `E[Y|X=${x}] = ${m}`, { "text-anchor": "end", style: "font-size:19px" });
+            }, 1000 + i * 260);
+          });
+        },
+        txt: "María y Juan tienen 5 años de educación: el promedio de su grupo es (120 + 100)/2 = <strong>110</strong>. Pedro (4 años) y Catalina (2 años) " +
+          "están solos en su grupo. Los rombos son la <strong>función de esperanza condicional</strong>; la línea punteada es el promedio general E[Y] = 87.5, " +
+          "que ignora la educación.",
+      },
+      muchos: {
+        label: "2 · Con 400 personas",
+        draw: () => {
+          p.domain([7, 19], [0, 1800]);
+          p.axes({ xlabel: "Años de educación (X)", ylabel: "Ingreso (miles de $)", nx: 6 });
+          const g = p.clipped();
+          BIG.forEach(([x, y], i) => {
+            const c = el("circle", { cx: p.x(x + (r0() - 0.5) * 0.5), cy: p.y(y), r: 2.6, style: "fill:var(--econ-c1);opacity:0" }, g);
+            later(() => { c.style.transition = "opacity .3s"; c.style.opacity = 0.35; }, i);
+          });
+          const means = [];
+          for (let e = 8; e <= 18; e++) {
+            const ys = BIG.filter(([x]) => x === e).map(([, y]) => y);
+            means.push([e, mean(ys)]);
+          }
+          means.forEach(([x, m], i) => later(() => {
+            const d = el("path", { d: `M${p.x(x) - 7},${p.y(m)} l7,-7 l7,7 l-7,7 z`, style: "fill:var(--econ-c2);stroke:var(--md-default-bg-color);stroke-width:1.5" }, p.svg);
+            popIn(d, 0, 320);
+          }, 600 + i * 45));
+          later(() => {
+            const o = ols(BIG.map((d) => d[0]), BIG.map((d) => d[1]));
+            const ln = el("path", { d: `M${p.x(7.5)},${p.y(o.b0 + o.b1 * 7.5)} L${p.x(18.5)},${p.y(o.b0 + o.b1 * 18.5)}`, class: "line" }, p.svg);
+            drawStroke(ln, 600, 0);
+            hand(p.svg, p.x(9.4), p.y(1500), "la recta pasa (casi)", {});
+            hand(p.svg, p.x(9.4), p.y(1380), "por los promedios (rombos)", {});
+          }, 1300);
+        },
+        txt: "Con muchas personas hay muchos ingresos distintos para cada nivel de educación. Los <strong>rombos</strong> son los promedios de cada grupo, " +
+          "E[Y|X = x], y la recta roja es la regresión: <strong>la regresión lineal aproxima la esperanza condicional</strong>, que es lo que dice la lámina " +
+          "“el MRS aproxima la esperanza condicional de y”. <span class=\"econ-fine\">Datos simulados con fines ilustrativos.</span>",
+      },
+    };
+    const btns = {};
+    Object.entries(VIEWS).forEach(([k, v]) => {
+      btns[k] = h("button", { type: "button", class: "econ-seg-btn", role: "tab" }, v.label);
+      btns[k].addEventListener("click", () => show(k));
+      seg.append(btns[k]);
+    });
+    function show(k) {
+      timers.forEach(clearTimeout);
+      timers = [];
+      Object.entries(btns).forEach(([kk, b]) => b.setAttribute("aria-selected", String(kk === k)));
+      p.clear();
+      VIEWS[k].draw();
+      nt.innerHTML = VIEWS[k].txt;
+    }
+    onVisible(wrap, () => show("cuatro"));
+  };
+
+  /* --- Pregunta clave · ¿Por qué al cuadrado? ----------------------------- */
+  WIDGETS.cuadrados = function (root) {
+    caso(root, "Pregunta clave · Mínimos cuadrados",
+      "¿Por qué se elevan los residuos al cuadrado? 🟥",
+      "Una idea tentadora: “elegir la recta cuyos errores sumen cero”. El problema es que muchas rectas cumplen eso, incluso algunas pésimas. " +
+      "Compara las dos rectas y luego eleva los residuos al cuadrado.");
+    const X = [1, 2, 3, 4, 5, 6, 7], Y = [2.0, 3.4, 2.5, 4.9, 4.6, 6.6, 6.0];
+    const o = ols(X, Y);
+    const LINES = {
+      a: { label: "Recta A · la de MCO", f: (x) => o.b0 + o.b1 * x },
+      b: { label: "Recta B · horizontal en ȳ", f: () => o.my },
+    };
+    const st = { line: "a", sq: false };
+    const seg = h("div", { class: "econ-seg", role: "tablist" });
+    root.append(seg);
+    const segB = {};
+    Object.entries(LINES).forEach(([k, v]) => {
+      segB[k] = h("button", { type: "button", class: "econ-seg-btn", role: "tab" }, v.label);
+      segB[k].addEventListener("click", () => { st.line = k; render(true); });
+      seg.append(segB[k]);
+    });
+    const b = buttons(root);
+    const sqBtn = toggleBtn(b, "Elevar al cuadrado²", (v) => { st.sq = v; render(true); });
+    const wrap = h("div");
+    root.append(wrap);
+    const p = plot(wrap, 600, 300, { l: 40 });
+    const stats = statsRow(root, [
+      { k: "s", label: "Suma de residuos Σûᵢ" },
+      { k: "s2", label: "Suma de cuadrados Σûᵢ²", cls: "is-red" },
+      { k: "v", label: "Veredicto", cls: "is-gold" },
+    ]);
+    const nt = note(root);
+
+    function toggleBtn(parent, label, onChange) {
+      const bt = btn(parent, label, () => {
+        const v = bt.getAttribute("aria-pressed") !== "true";
+        bt.setAttribute("aria-pressed", String(v));
+        onChange(v);
+      }, "econ-btn-gold");
+      bt.setAttribute("aria-pressed", "false");
+      return bt;
+    }
+
+    function render(animate) {
+      Object.entries(segB).forEach(([k, bt]) => bt.setAttribute("aria-selected", String(k === st.line)));
+      const fn = LINES[st.line].f;
+      const res = X.map((x, i) => Y[i] - fn(x));
+      const ssr = res.reduce((s, r) => s + r * r, 0);
+      const ssrA = X.reduce((s, x, i) => s + (Y[i] - LINES.a.f(x)) ** 2, 0);
+      const ssrB = X.reduce((s, x, i) => s + (Y[i] - LINES.b.f(x)) ** 2, 0);
+      p.clear();
+      p.domain([0, 8], [0, 8]);
+      p.axes({ xlabel: "x", ylabel: "y", nx: 8 });
+      const g = p.clipped();
+      X.forEach((x, i) => {
+        const y1 = p.y(Y[i]), y2 = p.y(fn(x));
+        if (st.sq) {
+          const side = Math.abs(y1 - y2);
+          const sq = el("rect", { x: p.x(x), y: Math.min(y1, y2), width: 0, height: 0, class: "sq", style: "fill-opacity:.16;stroke-opacity:.55" }, g);
+          setTimeout(() => tween(animate ? 420 : 0, ease.outBack, (k) => {
+            sq.setAttribute("width", Math.max(0, side * k));
+            sq.setAttribute("height", Math.max(0, side * k));
+          }), reduced() || !animate ? 0 : i * 60);
+        }
+        el("line", { x1: p.x(x), x2: p.x(x), y1, y2, class: "resid", style: "stroke-width:2px;stroke-opacity:.8" }, g);
+      });
+      p.lineFn(g, fn, st.line === "a" ? "line" : "line-navy");
+      X.forEach((x, i) => el("circle", { cx: p.x(x), cy: p.y(Y[i]), r: 6, class: "pt" }, g));
+      if (st.sq && st.line === "b") hand(p.svg, p.x(4.6), p.y(1.2), "¡errores grandes, cuadrados enormes!", { "text-anchor": "middle" });
+      if (!st.sq) hand(p.svg, p.x(0.4), p.y(7.4), "los residuos + y − se compensan…", {});
+      stats.set("s", f(res.reduce((s, r) => s + r, 0), 2));
+      stats.set("s2", st.sq ? f(ssr, 2) : "?");
+      stats.set("v", st.sq ? (st.line === "a" ? "MCO gana: es la mínima" : `Peor: ${f(ssrB / ssrA, 1)}× más que A`) : "Empate engañoso");
+      nt.innerHTML = st.sq
+        ? `Al elevar al cuadrado, todos los errores suman (ninguno compensa a otro) y los grandes pesan mucho más. La recta A tiene Σûᵢ² = ${f(ssrA, 2)} y la B, ` +
+          `${f(ssrB, 2)}. <strong>MCO elige la recta con la menor suma de cuadrados</strong>: es la definición de la lámina.`
+        : "Las dos rectas tienen residuos que <strong>suman cero</strong>: los positivos compensan a los negativos (cualquier recta que pase por el punto de promedios lo cumple). " +
+          "Por eso minimizar Σûᵢ no sirve para elegir. Prueba “Elevar al cuadrado²”.";
+    }
+    onVisible(wrap, () => render(false));
+  };
+
+  /* --- Aplicación · Interpretar la recta estimada ------------------------- */
+  WIDGETS.prediccion = function (root) {
+    caso(root, "Aplicación · Interpretar los coeficientes",
+      "¿Cuánto más gana alguien que estudia 4 años más? 💼",
+      "Usemos la estimación de la lámina: salario = 0.095 + 0.54·educación (dólares por hora, EE. UU.). Mueve los años de educación de Ana y de Bruno.");
+    const B0 = 0.095, B1 = 0.54;
+    const st = { a: 12, b: 16 };
+    const c = E.controls(root);
+    E.slider(c, { label: "Ana: años de educación", min: 0, max: 20, step: 1, value: st.a }, (v) => { st.a = v; render(); });
+    E.slider(c, { label: "Bruno: años de educación", min: 0, max: 20, step: 1, value: st.b }, (v) => { st.b = v; render(); });
+    const wrap = h("div");
+    root.append(wrap);
+    const p = plot(wrap, 600, 300, { l: 46 });
+    const stats = statsRow(root, [
+      { k: "a", label: "Salario predicho de Ana" },
+      { k: "b", label: "Salario predicho de Bruno" },
+      { k: "d", label: "Diferencia por hora", cls: "is-gold" },
+      { k: "y", label: "Diferencia al año (2.080 h)", cls: "is-red" },
+    ]);
+    const nt = note(root);
+    let first = true;
+    function render() {
+      const yA = B0 + B1 * st.a, yB = B0 + B1 * st.b, d = yB - yA;
+      p.clear();
+      p.domain([0, 20], [0, 12]);
+      p.axes({ xlabel: "Años de educación", ylabel: "Salario por hora (US$)", nx: 10 });
+      const g = p.clipped();
+      const ln = el("path", { d: `M${p.x(0)},${p.y(B0)} L${p.x(20)},${p.y(B0 + B1 * 20)}`, class: "line" }, g);
+      if (first) { drawStroke(ln, 700, 0); first = false; }
+      [[st.a, yA, "Ana", "var(--econ-c1)"], [st.b, yB, "Bruno", "var(--econ-c2)"]].forEach(([x, y, nm, col]) => {
+        el("line", { x1: p.x(x), x2: p.x(x), y1: p.y(0), y2: p.y(y), style: `stroke:${col};stroke-dasharray:4 4;stroke-width:1.5px` }, g);
+        el("line", { x1: p.x(0), x2: p.x(x), y1: p.y(y), y2: p.y(y), style: `stroke:${col};stroke-dasharray:4 4;stroke-width:1.5px` }, g);
+        el("circle", { cx: p.x(x), cy: p.y(y), r: 7, class: "econ-dot", style: `fill:${col}` }, g);
+        text(p.svg, p.x(x) + 10, p.y(y) - 8, nm, { "font-weight": "700" });
+      });
+      el("circle", { cx: p.x(0), cy: p.y(B0), r: 5, class: "pt-red" }, g);
+      hand(p.svg, p.x(0.6), p.y(1.6), "β̂₀ = 0.095: ¿0 años de educación?", {});
+      if (st.a !== st.b) {
+        // La llave va a la derecha del punto más alto; si no cabe, a la izquierda del más bajo
+        const derecha = Math.max(st.a, st.b) <= 13;
+        const xr = derecha ? Math.max(st.a, st.b) + 0.8 : Math.min(st.a, st.b) - 0.8;
+        const s6 = derecha ? 6 : -6;
+        el("path", { d: `M${p.x(xr)},${p.y(yA)} L${p.x(xr) + s6},${p.y(yA)} L${p.x(xr) + s6},${p.y(yB)} L${p.x(xr)},${p.y(yB)}`, fill: "none", class: "econ-hand-stroke" }, p.svg);
+        hand(p.svg, p.x(xr) + 2 * s6, (p.y(yA) + p.y(yB)) / 2 + 6, `${d >= 0 ? "+" : "−"}${f(Math.abs(d), 2)} US$/h`, { "text-anchor": derecha ? "start" : "end" });
+      }
+      stats.set("a", `US$ ${f(yA, 2)}`);
+      stats.set("b", `US$ ${f(yB, 2)}`);
+      stats.set("d", `${d >= 0 ? "+" : "−"}US$ ${f(Math.abs(d), 2)}`);
+      // Separador de miles con espacio: con punto se confundiría con el punto decimal de 2.16
+      const anual = String(Math.round(Math.abs(d) * 2080)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      stats.set("y", `${d >= 0 ? "+" : "−"}US$ ${anual}`);
+      const dx = st.b - st.a;
+      nt.innerHTML = `Bruno tiene ${Math.abs(dx)} año(s) de educación ${dx >= 0 ? "más" : "menos"} que Ana, así que el modelo predice una diferencia de ` +
+        `${Math.abs(dx)} × 0.54 = <strong>${f(Math.abs(d), 2)} dólares por hora</strong>: la pendiente β̂₁ es el cambio en el salario <em>esperado</em> por cada año adicional. ` +
+        "El intercepto β̂₀ = 0.095 sería el salario con 0 años de educación: casi nadie en los datos está en ese punto, así que conviene no interpretarlo literalmente. " +
+        "Y ojo: es una <strong>asociación</strong>; que sea causal depende de E[u|x] = 0 (¡la mochila de u!).";
+    }
+    onVisible(wrap, render);
+  };
+
+  /* --- Galería · R² en la vida real ---------------------------------------- */
+  WIDGETS["r2-galeria"] = function (root) {
+    caso(root, "Galería · Bondad de ajuste",
+      "R² en la vida real: ¿cuánto de y explica x? 🎯",
+      "Cuatro relaciones con R² muy distintos. Mira cada nube de puntos, adivina su R² y luego revélalo.");
+    const r0 = rng(8);
+    // Simula y = bt·x + ruido y reescala los residuos para que el R² muestral sea exactamente r2
+    const sim = (n, xs, bt, r2) => {
+      const y0 = xs.map((x) => bt * x + gauss(r0));
+      const o0 = ols(xs, y0);
+      const k = Math.sqrt((o0.SSE * (1 - r2)) / (r2 * o0.SSR));
+      return xs.map((x, i) => o0.yhat[i] + k * o0.resid[i]);
+    };
+    const xC = Array.from({ length: 40 }, () => -5 + 40 * r0());
+    const xP = Array.from({ length: 60 }, () => 160 + 30 * r0());
+    const xE = Array.from({ length: 80 }, () => 8 + Math.floor(11 * r0()));
+    const xZ = Array.from({ length: 80 }, () => 1 + Math.floor(12 * r0()));
+    const CASOS = [
+      { t: "🌡️ Temperatura: °C vs. °F", x: xC, y: xC.map((c) => 32 + 1.8 * c), xl: "°C", yl: "°F", ans: 0,
+        why: "Es una conversión exacta (°F = 32 + 1.8·°C): x explica <strong>todo</strong> y R² = 1. En economía casi nunca pasa." },
+      { t: "👨‍👦 Estatura de padres vs. hijos", x: xP, y: sim(60, xP, 0.5, 0.25).map((v) => v + 88), xl: "padre (cm)", yl: "hijo (cm)", ans: 1,
+        why: "La estatura del padre explica una parte importante, pero no todo: genes de la madre, alimentación… (ilustrativo, en el espíritu de los datos de Galton)." },
+      { t: "💼 Salario vs. años de educación", x: xE, y: sim(80, xE, 0.54, 0.165).map((v) => v - 0.9), xl: "años de educación", yl: "salario (US$/h)", ans: 2,
+        why: "La educación explica cerca del 16% de la variación del salario (en los datos de salarios de Wooldridge, R² ≈ 0.165). ¡El resto está en u!" },
+      { t: "♈ Salario vs. signo zodiacal", x: xZ, y: xZ.map(() => 6 + 2.5 * gauss(r0)), xl: "signo (1 = Aries … 12 = Piscis)", yl: "salario", ans: 3,
+        why: "El signo no explica nada: R² ≈ 0. Cualquier pequeño valor distinto de cero es puro azar de la muestra." },
+    ];
+    const LABELS = ["Casi 1", "Medio (≈ 0.25)", "Bajo (≈ 0.15)", "Casi 0"];
+    const grid = h("div", { class: "econ-r2-grid" });
+    root.append(grid);
+    CASOS.forEach((cs) => {
+      const o = ols(cs.x, cs.y);
+      const card = h("div", { class: "econ-r2-card" });
+      card.append(h("strong", {}, cs.t));
+      const pw = h("div");
+      card.append(pw);
+      const p = plot(pw, 300, 200, { l: 34, b: 34, t: 10, r: 10 });
+      const xs = [Math.min(...cs.x), Math.max(...cs.x)], ys = [Math.min(...cs.y), Math.max(...cs.y)];
+      const px = (xs[1] - xs[0]) * 0.06, py = (ys[1] - ys[0]) * 0.08 || 1;
+      p.domain([xs[0] - px, xs[1] + px], [ys[0] - py, ys[1] + py]);
+      p.axes({ xlabel: cs.xl, nx: 4, ny: 4 });
+      const g = p.clipped();
+      cs.x.forEach((x, i) => el("circle", { cx: p.x(x), cy: p.y(cs.y[i]), r: 3, style: "fill:var(--econ-c1);fill-opacity:.6" }, g));
+      const fitLine = el("line", { x1: p.x(xs[0]), y1: p.y(o.b0 + o.b1 * xs[0]), x2: p.x(xs[1]), y2: p.y(o.b0 + o.b1 * xs[1]), class: "line", style: "opacity:0" }, g);
+      const opts = h("div", { class: "econ-r2-opts" });
+      const bar = h("div", { class: "econ-r2-bar" }, h("span"));
+      const val = h("div", { class: "econ-r2-val" }, "R² = ?");
+      const why = h("p", { class: "econ-card6-fb" });
+      LABELS.forEach((lb, k) => {
+        const bt = h("button", { type: "button", class: "econ-quiz-opt" }, lb);
+        bt.addEventListener("click", () => {
+          if (card.dataset.done) return;
+          card.dataset.done = "1";
+          bt.classList.add(k === cs.ans ? "is-right" : "is-wrong");
+          opts.children[cs.ans].classList.add("is-right");
+          fitLine.style.transition = "opacity .4s";
+          fitLine.style.opacity = 1;
+          countUp(val, 0, o.R2, 800, (v) => "R² = " + f(v, 2));
+          tween(800, ease.outCubic, (q) => { bar.firstChild.style.width = `${o.R2 * q * 100}%`; });
+          why.innerHTML = (k === cs.ans ? "✅ " : "❌ ") + cs.why;
+        });
+        opts.append(bt);
+      });
+      card.append(opts, val, bar, why);
+      grid.append(card);
+    });
+    const nt = note(root);
+    nt.innerHTML = "Un <strong>R² bajo no significa que la regresión sea inútil</strong>: la educación sí se asocia con el salario, aunque explique solo una parte " +
+      "de su variación porque muchos otros factores importan. Y un R² alto no garantiza causalidad. <span class=\"econ-fine\">Nubes simuladas con fines ilustrativos.</span>";
+  };
+
+  /* --- Visual · Homocedasticidad vs. heterocedasticidad ------------------- */
+  WIDGETS.homocedasticidad = function (root) {
+    caso(root, "Visual · Supuesto RLS 5",
+      "¿El ruido es parejo? Homocedasticidad 📏",
+      "Ejemplo clásico: gasto en alimentación vs. ingreso del hogar. Los hogares de ingresos bajos gastan parecido; " +
+      "los de ingresos altos pueden gastar muy poco… o muchísimo. Cambia entre los dos mundos.");
+    const r0 = rng(4);
+    const N = 160;
+    const pts = Array.from({ length: N }, () => ({ x: 300 + 2700 * r0(), z: gauss(r0) }));
+    const yHomo = (pt) => 120 + 0.12 * pt.x + 70 * pt.z;
+    const sdH = (x) => 12 + 0.075 * x;
+    const yHet = (pt) => 120 + 0.12 * pt.x + sdH(pt.x) * pt.z;
+    const seg = h("div", { class: "econ-seg", role: "tablist" });
+    root.append(seg);
+    const wrap = h("div");
+    root.append(wrap);
+    const p = plot(wrap, 600, 300, { l: 52 });
+    p.domain([0, 3200], [-200, 1000]);
+    const nt = note(root);
+    p.axes({ xlabel: "Ingreso del hogar (miles de $ al mes)", ylabel: "Gasto en alimentación (miles de $)", nx: 6 });
+    const clip = p.clipped(); // la franja y los puntos no se salen del área del gráfico
+    const band = el("path", { class: "econ-band" }, clip);
+    const g = el("g", {}, clip);
+    el("line", { x1: p.x(0), y1: p.y(120), x2: p.x(3200), y2: p.y(120 + 0.12 * 3200), class: "line" }, clip);
+    const circles = pts.map(() => el("circle", { r: 3.4, class: "econ-dot", style: "fill:var(--econ-c1);fill-opacity:.75" }, g));
+    const ann = el("g", {}, p.svg);
+    const bandPath = (sdf) => {
+      const up = [], dn = [];
+      for (let i = 0; i <= 20; i++) {
+        const x = (3200 * i) / 20, m = 120 + 0.12 * x;
+        up.push(`${p.x(x)},${p.y(m + 2 * sdf(x))}`);
+        dn.push(`${p.x(x)},${p.y(m - 2 * sdf(x))}`);
+      }
+      return "M" + up.join(" L") + " L" + dn.reverse().join(" L") + " Z";
+    };
+    let cur = null;
+    const VIEWS = {
+      homo: { label: "Homocedasticidad", y: yHomo, sd: () => 70,
+        txt: "La <strong>dispersión alrededor de la recta es la misma</strong> para cualquier ingreso: Var(u|x) = σ². Es el supuesto RLS 5, " +
+          "que permite usar la fórmula de la varianza de β̂₁ de la última lámina." },
+      het: { label: "Heterocedasticidad", y: yHet, sd: sdH,
+        txt: "Ahora la dispersión <strong>crece con el ingreso</strong> (forma de embudo): Var(u|x) cambia con x. MCO sigue siendo insesgado, " +
+          "pero la fórmula de la varianza de la lámina deja de ser válida. Lo veremos en detalle en la semana 11." },
+    };
+    Object.entries(VIEWS).forEach(([k, v]) => {
+      const bt = h("button", { type: "button", class: "econ-seg-btn", role: "tab" }, v.label);
+      bt.addEventListener("click", () => show(k));
+      seg.append(bt);
+      v.btn = bt;
+    });
+    function show(k) {
+      const v = VIEWS[k];
+      Object.entries(VIEWS).forEach(([kk, vv]) => vv.btn.setAttribute("aria-selected", String(kk === k)));
+      const from = circles.map((c) => +c.getAttribute("cy") || p.y(120));
+      const to = pts.map((pt) => p.y(v.y(pt)));
+      circles.forEach((c, i) => c.setAttribute("cx", p.x(pts[i].x)));
+      band.setAttribute("d", bandPath(v.sd));
+      tween(cur ? 650 : 0, ease.inOutCubic, (q) => circles.forEach((c, i) => c.setAttribute("cy", from[i] + (to[i] - from[i]) * q)));
+      while (ann.firstChild) ann.removeChild(ann.firstChild);
+      if (k === "het") {
+        hand(ann, p.x(2450), p.y(-120), "¡embudo!", { "text-anchor": "middle" });
+        drawStroke(handArrow(ann, `M${p.x(2300)},${p.y(-90)} Q${p.x(2100)},${p.y(40)} ${p.x(2250)},${p.y(140)}`), 450, 300);
+      } else {
+        hand(ann, p.x(2450), p.y(-120), "franja pareja", { "text-anchor": "middle" });
+      }
+      cur = k;
+      nt.innerHTML = v.txt + ' <span class="econ-fine">La franja muestra ±2 desviaciones estándar del error. Datos simulados.</span>';
+    }
+    onVisible(wrap, () => show("homo"));
+  };
+
+  /* --- Detective · ¿Qué supuesto falla? ------------------------------------ */
+  WIDGETS.supuestos = function (root) {
+    caso(root, "Detective · Supuestos RLS",
+      "¿Qué supuesto falla? 🕵️",
+      "Cuatro estudios sobre salario y educación, cada uno con un problema. Elige un caso y descubre qué supuesto RLS no se cumple.");
+    const OPCIONES = ["RLS 1 · Linealidad", "RLS 2 · Muestra aleatoria", "RLS 3 · Variación en x", "RLS 4 · E(u|x) = 0", "RLS 5 · Homocedasticidad"];
+    const r0 = rng(3);
+    const CASOS = [
+      {
+        t: "Caso 1", q: "Para estudiar salario y educación en Chile, encuestamos solo a ingenieros recién titulados de una universidad.", ans: 1,
+        why: "La muestra no es <strong>aleatoria</strong> ni representa a la población de interés (trabajadores de Chile): todos tienen una educación y un perfil parecidos.",
+        draw: (s) => {
+          for (let i = 0; i < 9; i++) person(s, 70 + i * 58, 92, { cap: true, body: ["#005f96", "#2d6f9c", "#3f86b8"][i % 3] });
+          hand(s, 300, 196, "¡solo ingenieros de una universidad!", { "text-anchor": "middle" });
+        },
+      },
+      {
+        t: "Caso 2", q: "En nuestra muestra, todas las personas tienen exactamente 12 años de educación.", ans: 2,
+        why: "Sin <strong>variación en x</strong>, Σ(xᵢ − x̄)² = 0 y la fórmula de β̂₁ divide por cero: no hay forma de saber cómo cambia el salario con la educación.",
+        draw: (s) => {
+          el("line", { x1: 60, y1: 200, x2: 560, y2: 200, stroke: "#1b2a5e", "stroke-width": 2 }, s);
+          for (let i = 0; i < 14; i++) el("circle", { cx: 300 + (r0() - 0.5) * 4, cy: 60 + r0() * 130, r: 5, fill: "#005f96" }, s);
+          const ln = el("line", { x1: 180, y1: 125, x2: 420, y2: 125, class: "econ-swing", stroke: "#b30828", "stroke-width": 3 }, s);
+          text(s, 300, 218, "12 años", { "text-anchor": "middle", "font-weight": "700" });
+          hand(s, 470, 60, "β̂₁ = ? / 0", { "text-anchor": "middle", style: "font-size:28px" });
+          s.classList.add("is-live");
+        },
+      },
+      {
+        t: "Caso 3", q: "La habilidad aumenta el salario, y las personas más hábiles estudian más años. No observamos la habilidad.", ans: 3,
+        why: "La habilidad está en u y se relaciona con la educación: <strong>E(u|x) ≠ 0</strong>. β̂₁ mezcla el efecto de la educación con el de la habilidad (Clase 3).",
+        draw: (s) => {
+          mochila(s, 150, 120);
+          text(s, 150, 196, "u", { "text-anchor": "middle", "font-weight": "700" });
+          emoji(s, 150, 52, "💡", 34, 0);
+          const g = el("g", {}, s);
+          el("rect", { x: 360, y: 96, width: 170, height: 46, rx: 23, class: "econ-badge-bg" }, g);
+          text(g, 445, 125, "🎓 educación (x)", { "text-anchor": "middle", "font-weight": "700" });
+          drawStroke(handArrow(s, "M200,110 Q280,80 352,112"), 500, 300);
+          hand(s, 280, 74, "se relacionan", { "text-anchor": "middle" });
+        },
+      },
+      {
+        t: "Caso 4", q: "Entre las personas con más educación, los salarios son mucho más dispersos que entre las de menos educación.", ans: 4,
+        why: "La varianza del error cambia con x: hay <strong>heterocedasticidad</strong>. β̂₁ sigue siendo insesgado, pero su varianza no es la de la lámina.",
+        draw: (s) => {
+          el("line", { x1: 60, y1: 200, x2: 560, y2: 200, stroke: "#1b2a5e", "stroke-width": 2 }, s);
+          for (let i = 0; i < 60; i++) {
+            const x = 80 + 460 * r0(), sp = 6 + (x - 80) * 0.17;
+            el("circle", { cx: x, cy: 170 - (x - 80) * 0.18 + sp * gauss(r0), r: 3.5, fill: "#005f96", opacity: 0.8 }, s);
+          }
+          hand(s, 470, 36, "embudo", { "text-anchor": "middle" });
+        },
+      },
+    ];
+    const tabs = h("div", { class: "econ-seg", role: "tablist" });
+    root.append(tabs);
+    const svg = svgBox(root, 600, 230, "Escena del caso");
+    const qEl = h("p", { class: "econ-quiz-q" });
+    const opts = h("div", { class: "econ-quiz-opts" });
+    const fb = h("p", { class: "econ-card6-fb" });
+    root.append(h("div", { class: "econ-metodo" }, qEl, opts, fb));
+    const done = {};
+    const tb = CASOS.map((cs, i) => {
+      const bt = h("button", { type: "button", class: "econ-seg-btn", role: "tab" }, cs.t);
+      bt.addEventListener("click", () => show(i));
+      tabs.append(bt);
+      return bt;
+    });
+    function show(i) {
+      const cs = CASOS[i];
+      tb.forEach((bt, k) => bt.setAttribute("aria-selected", String(k === i)));
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      svg.classList.remove("is-live");
+      el("rect", { x: 0, y: 0, width: 600, height: 230, rx: 14, class: "econ-scene-bg" }, svg);
+      cs.draw(svg);
+      qEl.textContent = cs.q;
+      opts.innerHTML = "";
+      fb.innerHTML = done[i] ? done[i] : "";
+      OPCIONES.forEach((lb, k) => {
+        const bt = h("button", { type: "button", class: "econ-quiz-opt" }, lb);
+        bt.addEventListener("click", () => {
+          if (opts.dataset.lock === String(i)) return;
+          bt.classList.add(k === cs.ans ? "is-right" : "is-wrong");
+          if (k === cs.ans) {
+            opts.dataset.lock = String(i);
+            done[i] = "✅ " + cs.why;
+            fb.innerHTML = done[i];
+            tb[i].textContent = cs.t + " ✓";
+          } else {
+            fb.innerHTML = "❌ No exactamente: vuelve a leer el caso y piensa qué condición de los supuestos se rompe.";
+          }
+        });
+        opts.append(bt);
+      });
+      if (done[i]) { opts.dataset.lock = String(i); opts.children[cs.ans].classList.add("is-right"); } else delete opts.dataset.lock;
+    }
+    onVisible(svg, () => show(0));
+  };
+
   if (typeof document$ !== "undefined") document$.subscribe(E.mountAll);
   E.mountAll();
 })();
