@@ -1906,6 +1906,242 @@
     }, () => node.removeAttribute("transform"));
   }
 
+  /* --- Outcomes potenciales: la tabla de la lámina 6 en cuatro pasos ------- */
+  WIDGETS.po = function (root) {
+    caso(root, "Interactivo · La lámina 6 paso a paso",
+      "Outcomes potenciales: lo que vemos y lo que no 🔍",
+      "Las cinco personas de la tabla de la lámina 6. Los salarios <strong>observados</strong> son los de la lámina; " +
+      "los contrafactuales (<strong>??</strong>) los inventamos para este ejercicio, para poder mirar “con los ojos de Dios”. " +
+      "Recorre los cuatro pasos en orden.");
+    // nt = Yᴺᵀ (sin universidad), t = Yᵀ (con universidad); T = tratamiento de la lámina
+    const P = [
+      { n: "Sofía", T: 1, nt: 75, t: 100 },
+      { n: "Paula", T: 0, nt: 40, t: 55 },
+      { n: "Ezequiel", T: 1, nt: 60, t: 80 },
+      { n: "Juan", T: 0, nt: 20, t: 30 },
+      { n: "Caro", T: 1, nt: 45, t: 60 },
+    ];
+    const T0 = P.map((p) => p.T);
+    const st = { step: 0, T: T0.slice(), draws: [], all: false };
+    const avg = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+    const fmt = (v) => (Number.isInteger(v) ? String(v) : f(v, 2));
+    const obs = (T) => P.map((p, i) => (T[i] ? p.t : p.nt));
+    const diffObs = (T) => avg(P.filter((_, i) => T[i]).map((p) => p.t)) - avg(P.filter((_, i) => !T[i]).map((p) => p.nt));
+    const ATE = avg(P.map((p) => p.t - p.nt));
+    // Todas las formas de elegir 3 tratados entre 5 personas (10 sorteos posibles)
+    const COMBOS = [];
+    for (let a = 0; a < 5; a++) for (let b = a + 1; b < 5; b++) for (let c = b + 1; c < 5; c++) {
+      COMBOS.push(P.map((_, i) => (i === a || i === b || i === c ? 1 : 0)));
+    }
+    const comboDiffs = COMBOS.map(diffObs);
+
+    const PASOS = ["Lo que vemos", "Modo Dios", "¿De dónde sale el 50?", "¿Y si sorteamos?"];
+    const nav = h("div", { class: "econ-po-steps", role: "tablist", "aria-label": "Pasos" });
+    const navBtns = PASOS.map((t, i) => {
+      const b = h("button", { type: "button", class: "econ-po-step", role: "tab" }, h("span", {}, String(i + 1)), t);
+      b.addEventListener("click", () => go(i));
+      nav.append(b);
+      return b;
+    });
+    root.append(nav);
+
+    root.append(h("p", { class: "econ-po-legend" },
+      h("span", {}, "🎓 Yᵀ = salario con universidad"), h("span", {}, "🏠 Yᴺᵀ = salario sin universidad"),
+      h("span", { class: "is-cf" }, "?? = contrafactual (no se observa)")));
+    const grid = h("div", { class: "econ-po-grid" });
+    root.append(grid);
+    const box = (lbl) => {
+      const v = h("strong", {});
+      const node = h("div", { class: "econ-po-box" }, h("span", {}, lbl), v);
+      return { node, v };
+    };
+    const cards = P.map((p) => {
+      const badge = h("span", { class: "econ-po-badge" });
+      const bT = box("🎓 Yᵀ");
+      const bN = box("🏠 Yᴺᵀ");
+      const fx = h("div", { class: "econ-po-fx" });
+      const card = h("div", { class: "econ-po-card" },
+        h("div", { class: "econ-po-who" }, h("span", { class: "econ-po-av", "aria-hidden": "true" }, p.n[0]), h("strong", {}, p.n)),
+        badge, bT.node, bN.node, fx);
+      grid.append(card);
+      return { card, badge, bT, bN, fx };
+    });
+
+    const panel = h("div", { class: "econ-po-panel", "aria-live": "polite" });
+    root.append(panel);
+
+    // Paso 3: barra "diferencia observada = ATT + sesgo"
+    const barWrap = h("div", { class: "econ-po-extra" });
+    root.append(barWrap);
+    const bar = svgBox(barWrap, 600, 96, "La diferencia observada de 50 se descompone en ATT 20 más sesgo de selección 30");
+
+    // Paso 4: sorteos
+    const drawWrap = h("div", { class: "econ-po-extra" });
+    root.append(drawWrap);
+    const bd = buttons(drawWrap);
+    const same = (A, B) => A.every((v, i) => v === B[i]);
+    btn(bd, "🎲 Sortear: 3 de 5 van a la universidad", () => {
+      // Nunca repite el sorteo anterior: si saliera igual, el botón parecería no funcionar
+      const otros = COMBOS.filter((C) => !same(C, st.T));
+      st.T = otros[Math.floor(Math.random() * otros.length)].slice();
+      st.draws.push(diffObs(st.T));
+      render(true);
+    }, "econ-btn-gold");
+    const allBtn = btn(bd, "Ver los 10 sorteos posibles", () => {
+      st.all = !st.all;
+      allBtn.setAttribute("aria-pressed", String(st.all));
+      allBtn.textContent = st.all ? "Ocultar los 10 sorteos posibles" : "Ver los 10 sorteos posibles";
+      render();
+    }, "econ-btn-ghost");
+    allBtn.setAttribute("aria-pressed", "false");
+    const backBtn = btn(bd, "Volver a los datos de la lámina", () => { st.T = T0.slice(); render(true); }, "econ-btn-ghost");
+    const dp = plot(drawWrap, 600, 170, { l: 14, r: 14, t: 26, b: 36 });
+    const dstats = statsRow(drawWrap, [
+      { k: "este", label: "Diferencia en este sorteo", cls: "is-gold" },
+      { k: "prom", label: "Promedio de tus sorteos" },
+      { k: "ate", label: "ATE (efecto causal promedio)" },
+    ]);
+
+    const navB = buttons(root);
+    navB.classList.add("econ-po-nav");
+    const prev = btn(navB, "← Anterior", () => go(st.step - 1), "econ-btn-ghost");
+    const next = btn(navB, "Siguiente →", () => go(st.step + 1));
+
+    function go(i) {
+      st.step = Math.max(0, Math.min(PASOS.length - 1, i));
+      if (st.step < 3) st.T = T0.slice();
+      render(true);
+    }
+
+    function renderCards(dios, focusNT, animate) {
+      P.forEach((p, i) => {
+        const c = cards[i];
+        const T = st.T[i];
+        c.badge.textContent = T ? "Tᵢ = 1 · fue" : "Tᵢ = 0 · no fue";
+        c.badge.className = "econ-po-badge " + (T ? "is-t" : "is-nt");
+        c.card.classList.toggle("is-treated", !!T);
+        [[c.bT, p.t, !!T], [c.bN, p.nt, !T]].forEach(([b, val, seen]) => {
+          const shown = seen || dios;
+          b.node.className = "econ-po-box" + (seen ? " is-obs" : shown ? " is-cf-shown" : " is-cf") +
+            (focusNT && b === c.bN ? " is-focus" : "") + (animate && !seen && shown ? " is-flip" : "");
+          b.v.textContent = shown ? String(val) : "??";
+        });
+        c.fx.textContent = dios ? `Efecto = ${p.t} − ${p.nt} = +${p.t - p.nt}` : "";
+        c.fx.classList.toggle("is-on", dios);
+        if (animate && st.step === 3) {
+          c.badge.classList.remove("is-pop");
+          void c.badge.offsetWidth; // reinicia la animación del distintivo
+          c.badge.classList.add("is-pop");
+        }
+      });
+    }
+
+    function drawBar() {
+      while (bar.firstChild) bar.removeChild(bar.firstChild);
+      const x0 = 20, W = 560, total = 50;
+      const wAtt = (W * 20) / total;
+      text(bar, x0, 18, "Diferencia observada = 50", { "font-weight": "700" });
+      const rA = el("rect", { x: x0, y: 28, width: 0, height: 34, rx: 4, style: "fill:var(--econ-c1)" }, bar);
+      const rS = el("rect", { x: x0 + wAtt, y: 28, width: 0, height: 34, rx: 4, style: "fill:var(--econ-c3)" }, bar);
+      const lA = text(bar, x0 + wAtt / 2, 50, "", { "text-anchor": "middle", style: "fill:#fff;font-weight:700" });
+      const lS = text(bar, x0 + wAtt + (W - wAtt) / 2, 50, "", { "text-anchor": "middle", style: "fill:#fff;font-weight:700" });
+      text(bar, x0, 84, "ATT: efecto causal en los tratados", { class: "muted" });
+      text(bar, x0 + W, 84, "Sesgo de selección: ya eran distintos", { class: "muted", "text-anchor": "end" });
+      tween(600, ease.outCubic, (k) => { rA.setAttribute("width", wAtt * k); }, () => {
+        lA.textContent = "ATT = 20";
+        tween(700, ease.outCubic, (k) => { rS.setAttribute("width", (W - wAtt) * k); }, () => { lS.textContent = "Sesgo = 30"; });
+      });
+    }
+
+    function drawDots() {
+      dp.clear();
+      const lo = Math.floor(Math.min(...comboDiffs) / 5) * 5 - 5, hi = Math.ceil(Math.max(...comboDiffs) / 5) * 5 + 5;
+      dp.domain([lo, hi], [0, 6]);
+      dp.axes({ noY: true, grid: false, xlabel: "Diferencia observada (tratados − no tratados)" });
+      const g = el("g", {}, dp.svg);
+      el("line", { x1: dp.x(ATE), x2: dp.x(ATE), y1: 18, y2: dp.y(0), style: "stroke:var(--econ-c2);stroke-width:2.5" }, g);
+      text(g, dp.x(ATE), 13, "ATE = 17", { "text-anchor": "middle", "font-weight": "700" });
+      el("line", { x1: dp.x(50), x2: dp.x(50), y1: 18, y2: dp.y(0), style: "stroke:var(--econ-c3);stroke-width:1.5;stroke-dasharray:4 3" }, g);
+      text(g, dp.x(50), 13, "lámina: 50", { "text-anchor": "middle", style: "fill:var(--econ-c3)" });
+      const stack = {};
+      const dot = (v, filled) => {
+        const k = (stack[v] = (stack[v] || 0) + 1);
+        return el("circle", { cx: dp.x(v), cy: dp.y(k - 0.5) - 2, r: 6, style: `fill:${filled ? "var(--econ-c1)" : "none"};stroke:var(--econ-c1);stroke-width:1.6` }, g);
+      };
+      if (st.all) comboDiffs.forEach((v) => dot(v, false));
+      st.draws.slice(-24).forEach((v, i, a) => {
+        const c = dot(v, true);
+        if (i === a.length - 1) popIn(c, 0, 320);
+      });
+      if (st.all) {
+        const m = avg(comboDiffs);
+        text(g, dp.x(hi) - 4, 32, `Promedio de los 10 sorteos = ${fmt(m)}`, { "text-anchor": "end", "font-weight": "700", style: "fill:var(--econ-c2)" });
+      }
+      const d = diffObs(st.T);
+      backBtn.disabled = same(st.T, T0);
+      dstats.set("este", fmt(d));
+      dstats.set("prom", st.draws.length ? `${fmt(avg(st.draws))} (${st.draws.length})` : "—");
+      dstats.set("ate", fmt(ATE));
+    }
+
+    const sum = (vals) => vals.join(" + ");
+    function render(animate) {
+      navBtns.forEach((b, i) => {
+        b.classList.toggle("is-active", i === st.step);
+        b.classList.toggle("is-done", i < st.step);
+        b.setAttribute("aria-selected", String(i === st.step));
+      });
+      prev.disabled = st.step === 0;
+      next.disabled = st.step === PASOS.length - 1;
+      next.textContent = st.step === PASOS.length - 1 ? "Fin del recorrido ✓" : `Siguiente: ${PASOS[st.step + 1]} →`;
+      barWrap.hidden = st.step !== 2;
+      drawWrap.hidden = st.step !== 3;
+      const tr = P.filter((_, i) => st.T[i]), co = P.filter((_, i) => !st.T[i]);
+      const y = obs(st.T);
+      if (st.step === 0) {
+        renderCards(false, false, false);
+        panel.innerHTML =
+          "<p><strong>Paso 1 · Lo que vemos.</strong> Cada persona vive en <em>un solo</em> mundo: si fue a la universidad vemos Yᵀ; si no, Yᴺᵀ. " +
+          "El otro valor (??) es su <strong>contrafactual</strong>. Con los datos solo podemos comparar promedios de grupos:</p>" +
+          `<p class="econ-po-eq">Fueron: (${sum(tr.map((p) => p.t))}) / ${tr.length} = <b>${fmt(avg(tr.map((p) => p.t)))}</b>` +
+          ` &nbsp;·&nbsp; No fueron: (${sum(co.map((p) => p.nt))}) / ${co.length} = <b>${fmt(avg(co.map((p) => p.nt)))}</b></p>` +
+          `<p class="econ-po-eq is-big">Diferencia observada = <b>${fmt(diffObs(st.T))}</b></p>` +
+          "<p>Es lo mismo que entrega MCO al regresar Y en T (lámina 9). ¿Es 50 el efecto de la universidad? Para saberlo necesitamos los ??.</p>";
+      } else if (st.step === 1) {
+        renderCards(true, false, animate);
+        const ef = P.map((p) => p.t - p.nt);
+        const efT = P.filter((p) => p.T).map((p) => p.t - p.nt);
+        panel.innerHTML =
+          "<p><strong>Paso 2 · Modo Dios.</strong> Ahora vemos los dos outcomes de cada persona (en rojo, los contrafactuales). " +
+          "El efecto individual es Yᵀ − Yᴺᵀ, y con él podemos calcular los dos promedios de la lámina 5:</p>" +
+          `<p class="econ-po-eq"><b>ATE</b> = promedio de los 5 efectos = (${sum(ef)}) / 5 = <b>${fmt(ATE)}</b></p>` +
+          `<p class="econ-po-eq"><b>ATT</b> = promedio solo entre quienes fueron (Sofía, Ezequiel y Caro) = (${sum(efT)}) / 3 = <b>${fmt(avg(efT))}</b></p>` +
+          "<p>La universidad sí sube el salario, pero <strong>bastante menos que 50</strong>. En la vida real nunca tenemos este modo: por eso el ATE y el ATT no son observables.</p>";
+      } else if (st.step === 2) {
+        renderCards(true, true, false);
+        const ntT = P.filter((p) => p.T).map((p) => p.nt), ntC = P.filter((p) => !p.T).map((p) => p.nt);
+        panel.innerHTML =
+          "<p><strong>Paso 3 · El sesgo de selección.</strong> Mira solo los recuadros <em>Sin universidad</em> (marcados): " +
+          "aun sin ir a la universidad, Sofía, Ezequiel y Caro habrían ganado más que Paula y Juan. Los grupos ya eran distintos.</p>" +
+          `<p class="econ-po-eq">E[Yᴺᵀ | T = 1] = (${sum(ntT)}) / 3 = <b>${fmt(avg(ntT))}</b> &nbsp;vs.&nbsp; E[Yᴺᵀ | T = 0] = (${sum(ntC)}) / 2 = <b>${fmt(avg(ntC))}</b>` +
+          ` &nbsp;⇒&nbsp; sesgo = <b>${fmt(avg(ntT) - avg(ntC))}</b></p>` +
+          "<p>Es la descomposición de la lámina 11: <strong>diferencia observada = ATT + sesgo de selección</strong>.</p>";
+        drawBar();
+      } else {
+        renderCards(false, false, animate);
+        panel.innerHTML =
+          "<p><strong>Paso 4 · ¿Y si sorteamos?</strong> Ahora un sorteo decide quién va a la universidad (3 de 5). " +
+          `En este sorteo: ${tr.map((p) => p.n).join(", ")} van; la diferencia observada es <b>${fmt(diffObs(st.T))}</b> ` +
+          `(salarios observados: ${y.join(", ")}).</p>` +
+          "<p>Sortea varias veces. Cada sorteo da otra diferencia, porque con 5 personas el azar pesa mucho, pero el promedio de " +
+          "<strong>todos</strong> los sorteos posibles es exactamente el <strong>ATE = 17</strong>: con aleatorización el sesgo de selección " +
+          "es cero <em>en promedio</em> (láminas 15–16). Con miles de personas, cada sorteo queda muy cerca del ATE (simulador más abajo).</p>";
+        drawDots();
+      }
+    }
+    render(false);
+  };
+
   /* --- Caso · El contrafactual: dos universos ------------------------------ */
   WIDGETS.universo = function (root) {
     caso(root, "Caso · El contrafactual",

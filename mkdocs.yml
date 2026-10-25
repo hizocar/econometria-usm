@@ -64,6 +64,7 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
   - javascripts/econ.js
   - javascripts/casos.js
+  - javascripts/r-run.js
 
 # Customization
 extra:

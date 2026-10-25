@@ -1272,86 +1272,7 @@
      CLASE 3 · Causalidad, sesgo de selección y variable omitida
      ======================================================================== */
 
-  /* --- Outcomes potenciales ------------------------------------------------ */
-  WIDGETS.po = function (root) {
-    header(root, "Outcomes potenciales: lo que vemos y lo que no",
-      "Cada persona tiene dos outcomes potenciales (salario con y sin universidad), pero solo observamos el que corresponde " +
-      "a su decisión. Activa el “modo Dios” para ver los contrafactuales y calcular ATE, ATT y el sesgo de selección.");
-    const P = [
-      ["Sofía", 70, 100], ["Paula", 40, 55], ["Ezequiel", 60, 80], ["Juan", 20, 35],
-      ["Carolina", 45, 60], ["Diego", 30, 50], ["Valentina", 55, 75], ["Matías", 25, 40],
-    ];
-    const SELF = [1, 0, 1, 0, 1, 0, 1, 0];
-    const st = { T: SELF.slice(), god: false, avg: null, r: rng(newSeed()) };
-
-    const b = buttons(root);
-    toggle(b, "Modo Dios: revelar contrafactuales", false, (v) => { st.god = v; render(); });
-    btn(b, "Autoselección (datos originales)", () => { st.T = SELF.slice(); st.avg = null; render(); }, "econ-btn-ghost");
-    btn(b, "Sortear el tratamiento", () => { st.T = randomT(); st.avg = null; render(); });
-    btn(b, "Sortear 2 000 veces", () => {
-      const diffs = [];
-      for (let k = 0; k < 2000; k++) diffs.push(naive(randomT()));
-      st.avg = mean(diffs);
-      render();
-    }, "econ-btn-gold");
-
-    const tbl = h("table", { class: "econ-po-table" });
-    root.append(h("div", { style: "overflow-x:auto" }, tbl));
-    const stats = statsRow(root, [
-      { k: "nv", label: "Diferencia observada", cls: "is-gold" },
-      { k: "att", label: "ATT" },
-      { k: "ate", label: "ATE" },
-      { k: "sb", label: "Sesgo de selección", cls: "is-red" },
-    ]);
-    const n = note(root);
-
-    function randomT() {
-      const idx = shuffle([0, 1, 2, 3, 4, 5, 6, 7], st.r).slice(0, 4);
-      return P.map((_, i) => (idx.includes(i) ? 1 : 0));
-    }
-    function naive(T) {
-      const t = P.filter((_, i) => T[i]).map((p) => p[2]);
-      const c = P.filter((_, i) => !T[i]).map((p) => p[1]);
-      return mean(t) - mean(c);
-    }
-
-    function render() {
-      tbl.innerHTML = "";
-      tbl.append(h("tr", {}, ["Persona", "Tᵢ", "Yᵢ observado", "Yᵢᴺᵀ", "Yᵢᵀ", "Yᵢᵀ − Yᵢᴺᵀ"].map((t) => h("th", {}, t))));
-      P.forEach(([name, ynt, yt], i) => {
-        const T = st.T[i];
-        const cell = (v, observed) => observed
-          ? h("td", {}, String(v))
-          : st.god ? h("td", { class: "revealed-po" }, String(v)) : h("td", { class: "hidden-po" }, "??");
-        tbl.append(h("tr", {},
-          h("td", {}, name),
-          h("td", {}, String(T)),
-          h("td", { style: "font-weight:700" }, String(T ? yt : ynt)),
-          cell(ynt, !T),
-          cell(yt, !!T),
-          st.god ? h("td", { class: "revealed-po" }, String(yt - ynt)) : h("td", { class: "hidden-po" }, "??")));
-      });
-      const nv = naive(st.T);
-      const tr = P.filter((_, i) => st.T[i]);
-      const co = P.filter((_, i) => !st.T[i]);
-      const att = mean(tr.map((p) => p[2] - p[1]));
-      const ate = mean(P.map((p) => p[2] - p[1]));
-      const sb = mean(tr.map((p) => p[1])) - mean(co.map((p) => p[1]));
-      stats.set("nv", f(nv, 2));
-      stats.set("att", st.god ? f(att, 2) : "?");
-      stats.set("ate", st.god ? f(ate, 2) : "?");
-      stats.set("sb", st.god ? f(sb, 2) : "?");
-      let html = st.god
-        ? `<strong>${f(nv, 2)}</strong> (diferencia observada) = <strong>${f(att, 2)}</strong> (ATT) + <strong>${f(sb, 2)}</strong> (sesgo de selección).`
-        : "Con los datos observados solo podemos calcular la diferencia de promedios entre tratados y no tratados. ¿Es ese el efecto causal?";
-      if (st.avg !== null) {
-        html += `<br>Promedio de la diferencia observada en <strong>2 000 sorteos</strong>: <strong>${f(st.avg, 2)}</strong> ≈ ATE = ${f(ate, 2)}. ` +
-          "Al aleatorizar, el sesgo de selección es cero <em>en promedio</em>.";
-      }
-      n.innerHTML = html;
-    }
-    render();
-  };
+  /* Outcomes potenciales (WIDGETS.po): recorrido guiado en casos.js */
 
   /* --- Autoselección vs aleatorización ------------------------------------- */
   WIDGETS.seleccion = function (root) {
@@ -1471,11 +1392,14 @@
       ["Sin sesgo: β₂ = 0", 0.5, 0, 0.6],
     ];
     const b = buttons(root);
-    PRESETS.forEach(([label, b1, b2, d1]) => btn(b, label, () => {
+    // El ejemplo cargado queda marcado (aria-pressed); si mueves un deslizador deja de coincidir
+    const presetBtns = PRESETS.map(([label, b1, b2, d1]) => btn(b, label, () => {
       st.b1 = b1; st.b2 = b2; st.d1 = d1;
       s1.set(b1); s2.set(b2); s3.set(d1);
       render();
     }, "econ-btn-ghost"));
+    const markPreset = () => PRESETS.forEach(([, b1, b2, d1], i) =>
+      presetBtns[i].setAttribute("aria-pressed", String(st.b1 === b1 && st.b2 === b2 && st.d1 === d1)));
     const c = controls(root);
     const s1 = slider(c, { label: "β₁ (efecto causal de x₁)", min: -2, max: 2, step: 0.01, value: st.b1, fmt: (v) => f(v, 2) }, (v) => { st.b1 = v; render(); });
     const s2 = slider(c, { label: "β₂ (efecto de x₂ en y)", min: -2, max: 2, step: 0.01, value: st.b2, fmt: (v) => f(v, 2) }, (v) => { st.b2 = v; render(); });
@@ -1502,6 +1426,7 @@
     const n = note(root);
 
     function render() {
+      markPreset();
       const D = base.slice(0, st.n);
       const x1 = D.map((d) => d.x1);
       // v y u se ortogonalizan respecto de los regresores en la muestra: así la regresión corta
@@ -1594,17 +1519,62 @@
     q.dataset.mounted = "1";
     const opts = q.querySelectorAll(".econ-quiz-opt");
     const fb = q.querySelector(".econ-quiz-fb");
+    // Explicación de cada alternativa incorrecta (data-why): se muestra al elegirla
+    const why = h("p", { class: "econ-quiz-why", "aria-live": "polite" });
+    q.querySelector(".econ-quiz-opts").after(why);
     opts.forEach((o) => {
       o.type = "button";
       o.addEventListener("click", () => {
         const ok = o.hasAttribute("data-correct");
         o.classList.add(ok ? "is-right" : "is-wrong");
+        if (!q.dataset.first) q.dataset.first = ok ? "right" : "wrong";
         if (ok) {
           opts.forEach((x) => { x.disabled = true; });
+          why.textContent = "";
           if (fb) fb.classList.add("is-visible");
+          q.dataset.done = "1";
+          const set = q.closest(".econ-practica");
+          if (set) scorePractica(set);
+        } else {
+          why.textContent = "❌ " + (o.dataset.why || "No es esta. Vuelve a intentarlo.");
+          o.disabled = true;
         }
       });
     });
+  }
+
+  /* Bloque "Practica" al final de cada tema: puntaje y botón para reintentar */
+  function scorePractica(set) {
+    const qs = [...set.querySelectorAll(".econ-quiz")];
+    const done = qs.filter((q) => q.dataset.done).length;
+    const right = qs.filter((q) => q.dataset.first === "right").length;
+    const out = set.querySelector(".econ-practica-score");
+    if (!out) return;
+    out.textContent = done < qs.length
+      ? `${done} de ${qs.length} respondidas`
+      : `${right} de ${qs.length} correctas a la primera ${right === qs.length ? "🎉" : "· revisa las explicaciones"}`;
+    out.classList.toggle("is-complete", done === qs.length);
+  }
+
+  function mountPractica(set) {
+    if (set.dataset.mounted) return;
+    set.dataset.mounted = "1";
+    const head = set.querySelector(".econ-practica-t");
+    if (!head) return;
+    head.append(h("span", { class: "econ-practica-score" }));
+    const reset = btn(head, "↺ Reintentar", () => {
+      set.querySelectorAll(".econ-quiz").forEach((q) => {
+        delete q.dataset.first;
+        delete q.dataset.done;
+        q.querySelectorAll(".econ-quiz-opt").forEach((o) => { o.disabled = false; o.classList.remove("is-right", "is-wrong"); });
+        q.querySelector(".econ-quiz-fb")?.classList.remove("is-visible");
+        const w = q.querySelector(".econ-quiz-why");
+        if (w) w.textContent = "";
+      });
+      scorePractica(set);
+    }, "econ-btn-ghost econ-btn-sm");
+    reset.setAttribute("aria-label", "Reintentar las preguntas de este tema");
+    scorePractica(set);
   }
 
   function mountAll() {
@@ -1621,6 +1591,7 @@
       }
     });
     document.querySelectorAll(".econ-quiz").forEach(mountQuiz);
+    document.querySelectorAll(".econ-practica").forEach(mountPractica);
   }
 
   // API compartida con casos.js (ilustraciones y casos de cada clase)

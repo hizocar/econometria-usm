@@ -13,6 +13,7 @@ define, por clase:
 Los números de lámina son los del inventario (python3 tools/clases.py --inventario).
 No edites a mano los .md generados: cambia este archivo o los .tex y vuelve a generar.
 """
+import html
 import re
 import sys
 from pathlib import Path
@@ -29,10 +30,13 @@ def widget(name):
 
 
 def quiz(pregunta, opciones, correcta, feedback):
-    ops = "\n".join(
-        f'<button class="econ-quiz-opt"{" data-correct" if i == correcta else ""}>{o}</button>'
-        for i, o in enumerate(opciones)
-    )
+    """Pregunta de selección múltiple. Cada opción es un texto o (texto, por qué es incorrecta)."""
+    ops = []
+    for i, o in enumerate(opciones):
+        txt, why = o if isinstance(o, tuple) else (o, "")
+        attrs = (" data-correct" if i == correcta else "") + (f' data-why="{html.escape(why)}"' if why else "")
+        ops.append(f'<button class="econ-quiz-opt"{attrs}>{txt}</button>')
+    ops = "\n".join(ops)
     return (f'<div class="econ-quiz">\n<p class="econ-quiz-q">{pregunta}</p>\n'
             f'<div class="econ-quiz-opts">\n{ops}\n</div>\n<p class="econ-quiz-fb">✅ {feedback}</p>\n</div>')
 
@@ -46,6 +50,53 @@ def complemento(titulo, cuerpo):
 def ar(tex):
     """Fórmula inline dentro de HTML crudo (MathJax procesa la clase arithmatex)."""
     return f'<span class="arithmatex">\\({tex}\\)</span>'
+
+
+# --------------------------------------------------------------------------------------------
+# Temas: la clase se recorre en temas (grupos de láminas consecutivas). Cada tema abre con un
+# encabezado y una pregunta guía, y cierra con preguntas de práctica y un ejercicio de R.
+# --------------------------------------------------------------------------------------------
+def tema_encabezado(t):
+    attrs = (f'{{ #tema-{t["n"]} .econ-tema data-num="{t["n"]}" data-laminas="{t["laminas"]}" '
+             f'data-toc-label="Tema {t["n"]} · {t["corto"]}" }}')
+    return f'### {t["titulo"]} {attrs}\n\n<p class="econ-tema-q">{t["pregunta"]}</p>'
+
+
+def practica(t):
+    qs = "\n".join(quiz(*q) for q in t["quiz"])
+    return (f'<div class="econ-practica" id="practica-{t["n"]}">\n'
+            f'<p class="econ-practica-t"><span>✍️ Practica · Tema {t["n"]}</span></p>\n{qs}\n</div>')
+
+
+def r_ejercicio(t):
+    titulo, enunciado, codigo, reto = t["r"]
+    return (f'<div class="econ-r" markdown>\n\n<p class="econ-r-t">🧪 Practica en R · {titulo}</p>\n\n{enunciado}\n\n'
+            f'```r\n{codigo.strip()}\n```\n\n**🎯 Reto:** {reto}\n{{: .econ-r-reto }}\n\n</div>')
+
+
+def ruta(temas, receso_tras, cierre):
+    """Agenda visual: un paso por tema, con enlace, láminas y lo que trae para practicar."""
+    filas = []
+    for t in temas:
+        extra = f'✍️ {len(t["quiz"])} preguntas' + (" · 🧪 R" if t.get("r") else "")
+        filas.append(f'<li><span class="econ-ruta-h">{t["hora"]}</span><a class="econ-ruta-a" href="#tema-{t["n"]}">'
+                     f'<span class="econ-ruta-n">{t["n"]}</span><span class="econ-ruta-t">{t["titulo"]}</span>'
+                     f'<span class="econ-ruta-l">{t["laminas"]} · {extra}</span></a></li>')
+        if t["n"] == receso_tras[0]:
+            filas.append(f'<li class="is-break"><span class="econ-ruta-h">{receso_tras[1]}</span><span class="econ-ruta-t">☕ Receso</span></li>')
+    filas.append(f'<li class="is-break"><span class="econ-ruta-h">{cierre[0]}</span><span class="econ-ruta-t">{cierre[1]}</span></li>')
+    return '<ol class="econ-ruta">\n' + "\n".join(filas) + "\n</ol>"
+
+
+def script_r(temas, titulo):
+    partes = [f"# {titulo}\n# Ejercicios de R de la página de la clase (Econometría ICS-294, USM).\n"
+              "# Solo usan R base: funcionan en RStudio y en https://webr.r-wasm.org/latest/\n"]
+    for t in temas:
+        if t.get("r"):
+            nombre, _, codigo, reto = t["r"]
+            reto_txt = reto.replace("`", "")
+            partes.append(f"# {'=' * 76}\n# Tema {t['n']} · {nombre}\n# {'=' * 76}\n{codigo.strip()}\n\n# Reto: {reto_txt}\n")
+    return "\n".join(partes)
 
 
 # --------------------------------------------------------------------------------------------
@@ -328,7 +379,13 @@ C3_CABECERA = """# Clase 3 · Causalidad y variable omitida
 !!! info "Contenido oficial de la semana"
     Esta página reproduce **íntegras y en orden** las diapositivas de la semana 3 (`sem3/`):
     `Clase3.tex` (Parte 1) y `Clase4.tex` (Parte 2), ambas de la **cátedra del viernes**. Los bloques
-    **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para estudiar.
+    **Interactivo**, los casos y las preguntas son material adicional para estudiar.
+
+!!! example "Cómo estudiar esta clase"
+    La clase está ordenada en **8 temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas
+    y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica
+    por qué no lo es) y un **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada.
+    Todos los ejercicios de R en un solo archivo: [📥 clase3.R](../r/clase3.R).
 
 ## 🎯 Objetivos de la sesión
 
@@ -341,16 +398,7 @@ C3_CABECERA = """# Clase 3 · Causalidad y variable omitida
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque | Láminas |
-|---|---|---|
-| 18:40 – 19:00 | Esperanza condicional vs. causalidad y el contrafactual | Parte 1 · 1 – 2 |
-| 19:00 – 19:30 | Modelo de outcomes potenciales de Rubin: ATE, ATT y lo que no observamos | Parte 1 · 3 – 8 |
-| 19:30 – 19:55 | ATT y sesgo de selección; ejemplo de las alarmas | Parte 1 · 9 – 14 |
-| 19:55 – 20:05 | *Receso* | |
-| 20:05 – 20:20 | Aleatorización | Parte 1 · 15 – 16 |
-| 20:20 – 20:55 | Sesgo de selección y MCO; sesgo por variable omitida: derivación y signo | Parte 2 · 1 – 6 |
-| 20:55 – 21:15 | Controles, ejemplo de fumar y edad, ¿más es mejor?, sin sesgo de selección | Parte 2 · 7 – 11 |
-| 21:15 – 21:25 | Conclusiones, autoevaluación y cierre | Parte 2 · 12 |
+Haz clic en un tema para ir directo a él.
 """
 
 C3_CIERRE = """!!! abstract "🧠 Ideas clave"
@@ -406,6 +454,299 @@ C3_INSERTAR = {
         "Con la salida de Stata: $-1.819 = 0.943 + 0.980\\,\\delta_2$ (la lámina redondea a $-1.81$) $\\Rightarrow \\delta_2 \\approx -2.8 < 0$. "
         "Prueba el botón **Fumar y edad** en el simulador de variable omitida: reproduce estas dos regresiones.") + "\n\n" + widget("simpson"),
 }
+
+# --------------------------------------------------------------------------------------------
+# Clase 3 · temas (agenda, preguntas de práctica y ejercicios de R)
+# --------------------------------------------------------------------------------------------
+P1, P2 = "sem3/Clase3.tex", "sem3/Clase4.tex"
+
+R_T2 = r'''
+# Tabla de la lámina 6 con los contrafactuales "revelados" (los ?? son inventados)
+datos <- data.frame(
+  nombre = c("Sofía", "Paula", "Ezequiel", "Juan", "Caro"),
+  T      = c(1, 0, 1, 0, 1),         # 1 = fue a la universidad
+  Y_NT   = c(75, 40, 60, 20, 45),    # salario SIN universidad
+  Y_T    = c(100, 55, 80, 30, 60)    # salario CON universidad
+)
+# Efecto individual: en la vida real nunca se observa
+datos$efecto <- datos$Y_T - datos$Y_NT
+datos
+
+ATE <- mean(datos$efecto)                 # las 5 personas
+ATT <- mean(datos$efecto[datos$T == 1])   # solo quienes fueron
+c(ATE = ATE, ATT = ATT)
+'''
+
+R_T3 = r'''
+datos <- data.frame(
+  T    = c(1, 0, 1, 0, 1),
+  Y_NT = c(75, 40, 60, 20, 45),
+  Y_T  = c(100, 55, 80, 30, 60)
+)
+# Lo único que vemos: el outcome del mundo en que vivió cada uno
+datos$Y <- ifelse(datos$T == 1, datos$Y_T, datos$Y_NT)
+
+dif_obs <- mean(datos$Y[datos$T == 1]) - mean(datos$Y[datos$T == 0])
+ATT     <- mean(datos$Y_T[datos$T == 1] - datos$Y_NT[datos$T == 1])
+sesgo   <- mean(datos$Y_NT[datos$T == 1]) - mean(datos$Y_NT[datos$T == 0])
+c(diferencia = dif_obs, ATT = ATT, sesgo = sesgo,
+  ATT_mas_sesgo = ATT + sesgo)
+
+# MCO de Y sobre T da justo la diferencia observada (lámina 9)
+coef(lm(Y ~ T, data = datos))
+'''
+
+R_T4 = r'''
+set.seed(2026)
+n <- 10000
+habilidad <- rnorm(n)                          # no la observamos
+Y_NT <- 100 + 15 * habilidad + rnorm(n, sd = 8)
+Y_T  <- Y_NT + 10                      # efecto causal: +10
+
+# 1) Autoselección: los más hábiles van más a la universidad
+T_auto <- rbinom(n, 1, plogis(2 * habilidad))
+Y_auto <- ifelse(T_auto == 1, Y_T, Y_NT)
+coef(lm(Y_auto ~ T_auto))["T_auto"]
+
+# 2) Aleatorización: una moneda decide quién va
+T_azar <- rbinom(n, 1, 0.5)
+Y_azar <- ifelse(T_azar == 1, Y_T, Y_NT)
+coef(lm(Y_azar ~ T_azar))["T_azar"]
+
+# ¿Por qué? Habilidad promedio de no tratados (0) y tratados (1)
+tapply(habilidad, T_auto, mean)
+tapply(habilidad, T_azar, mean)
+'''
+
+R_T5 = r'''
+set.seed(3)
+n  <- 5000
+x1 <- rnorm(n)
+x2 <- 0.5 * x1 + rnorm(n)              # (B): delta1 = 0.5
+y  <- 1 + 2 * x1 + 3 * x2 + rnorm(n)   # (A): beta1 = 2, beta2 = 3
+
+corta <- lm(y ~ x1)            # (C): omite x2
+larga <- lm(y ~ x1 + x2)       # (A): el modelo verdadero
+aux   <- lm(x2 ~ x1)           # (B): la regresión auxiliar
+
+coef(corta)["x1"]          # beta1 tilde (≈ 3.5)
+# beta1 + beta2 * delta1 con los coeficientes estimados: ¡idéntico!
+coef(larga)["x1"] + coef(larga)["x2"] * coef(aux)["x1"]
+'''
+
+R_T6 = r'''
+# Sesgo de la regresión corta (beta1 tilde − beta1), lámina 6
+sesgo_corta <- function(delta1, beta2, n = 5000) {
+  x1 <- rnorm(n)
+  x2 <- delta1 * x1 + rnorm(n)
+  y  <- 1 + 2 * x1 + beta2 * x2 + rnorm(n)      # beta1 = 2
+  unname(round(coef(lm(y ~ x1))["x1"] - 2, 2))
+}
+set.seed(6)
+casos <- expand.grid(delta1 = c(0.8, -0.8), beta2 = c(2, -2))
+casos$sesgo <- mapply(sesgo_corta, casos$delta1, casos$beta2)
+casos$signo_predicho <- sign(casos$delta1 * casos$beta2)
+casos
+'''
+
+R_T7 = r'''
+# Datos simulados que imitan las láminas 8 y 9 (n = 100)
+set.seed(2026)
+n     <- 100
+edad  <- runif(n, 20, 80)
+fumar <- 30 - 0.3 * edad + rnorm(n, sd = 2.3)  # mayores fuman menos
+y     <- 13 + 0.94 * fumar + 0.98 * edad + rnorm(n)
+
+corta <- lm(y ~ fumar)            # como "reg y smoke"
+larga <- lm(y ~ fumar + edad)     # como "reg y smoke age"
+round(coef(corta), 3)
+round(coef(larga), 3)
+
+delta2 <- coef(lm(edad ~ fumar))["fumar"]          # ¿qué signo tiene?
+delta2
+# beta1 + beta2 * delta2 = coeficiente de la regresión corta
+coef(larga)["fumar"] + coef(larga)["edad"] * delta2
+
+# Dentro de cada grupo de edad, la pendiente es positiva; juntos, negativa
+plot(fumar, y, pch = 19, col = ifelse(edad > 50, "firebrick", "steelblue"),
+     main = "Rojo: mayores de 50 · Azul: 50 o menos")
+abline(corta, lwd = 2)
+'''
+
+R_T8 = r'''
+set.seed(10)
+sim <- replicate(2000, {
+  n  <- 50
+  x1 <- rnorm(n)
+  x3 <- 0.9 * x1 + rnorm(n, sd = 0.45)   # correlacionada con x1…
+  y  <- 1 + 2 * x1 + rnorm(n)            # …pero irrelevante para y
+  c(sin_x3 = unname(coef(lm(y ~ x1))["x1"]),
+    con_x3 = unname(coef(lm(y ~ x1 + x3))["x1"]))
+})
+rowMeans(sim)        # ambos ≈ 2: incluir x3 no sesga
+apply(sim, 1, sd)    # pero con x3 la dispersión es mucho mayor
+boxplot(t(sim), col = c("steelblue", "goldenrod"), ylab = "beta1 estimado",
+        main = "2 000 muestras: sin y con la variable irrelevante")
+abline(h = 2, lty = 2)
+'''
+
+C3_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(P1, 1), fin=(P1, 2), laminas="Parte 1 · láminas 1–2",
+         titulo="¿Correlación o causalidad?", corto="Correlación o causalidad",
+         pregunta="¿Ganan más quienes estudian más <em>porque</em> estudian, o por otros motivos?",
+         quiz=[
+             ("Una regresión muestra que quienes estudiaron Economía ganan, en promedio, 20% más que el resto. ¿Qué podemos concluir?",
+              [("Que estudiar Economía causa un sueldo 20% mayor.", "Eso exigiría comparar a las mismas personas con y sin Economía: su contrafactual."),
+               "Que estudiar Economía está asociado con un sueldo 20% mayor; todavía no sabemos si es causal.",
+               ("Que no hay relación causal entre carrera y sueldo.", "Una asociación no prueba causalidad, pero tampoco la descarta.")], 1,
+              "La regresión entrega la esperanza condicional E[y|x]: describe una realidad, pero no dice por qué ocurre (lámina 1)."),
+             ("Ana fue a la universidad y hoy gana $1 200 000. ¿Cuál es su contrafactual?",
+              [("El sueldo promedio de quienes no fueron a la universidad.", "Ese es un grupo de comparación, y puede ser muy distinto de Ana."),
+               "El sueldo que Ana tendría hoy si no hubiera ido a la universidad.",
+               ("El sueldo de Ana antes de entrar a la universidad.", "Entre antes y después cambian muchas cosas además de la universidad: edad, experiencia, la economía.")], 1,
+              "Es la definición de la lámina 2: el resultado que los mismos participantes habrían obtenido sin participar. Nunca lo observamos."),
+         ]),
+    dict(n=2, hora="19:00", inicio=(P1, 3), fin=(P1, 8), laminas="Parte 1 · láminas 3–8",
+         titulo="Outcomes potenciales: ATE y ATT", corto="Outcomes potenciales: ATE y ATT",
+         pregunta="¿Cómo se define un efecto causal si nunca vemos a la misma persona en los dos mundos?",
+         quiz=[
+             ("En la tabla de la lámina 6, Paula no fue tratada e Yᵢ = 40. ¿Qué dato suyo falta?",
+              ["Yᵢᵀ: su salario si hubiera ido a la universidad.",
+               ("Yᵢᴺᵀ: su salario sin universidad.", "Ese sí lo vemos: como no fue tratada, Yᵢ = Yᵢᴺᵀ = 40."),
+               ("Ninguno: de Paula conocemos sus dos outcomes.", "Nunca vemos los dos outcomes de una misma persona (lámina 4).")], 0,
+              "Para los no tratados falta Yᵀ; para los tratados, Yᴺᵀ. Siempre falta la mitad de la tabla."),
+             ("¿Qué diferencia al ATT del ATE?",
+              ["El ATT promedia el efecto solo entre los tratados; el ATE, en toda la población.",
+               ("El ATT se puede observar y el ATE no.", "Ninguno es observable: el ATT necesita E[Yᴺᵀ | T = 1], que no vemos (lámina 5)."),
+               ("Son siempre iguales.", "Solo coinciden si el efecto promedio es igual entre tratados y no tratados.")], 0,
+              "ATE = E[Yᵀ − Yᴺᵀ]; ATT = E[Yᵀ − Yᴺᵀ | T = 1]."),
+             ("En el paso 2 del simulador, los efectos de Sofía, Ezequiel y Caro (los tratados) son 25, 20 y 15. ¿Cuánto vale el ATT?",
+              [("17", "17 es el ATE: también incluye a Paula y Juan, que no fueron tratados."),
+               "20",
+               ("50", "50 es la diferencia observada de promedios, que mezcla el efecto con el sesgo de selección.")], 1,
+              "ATT = (25 + 20 + 15) / 3 = 20."),
+         ],
+         r=("La tabla de la lámina 6",
+            "Reproduce el **modo Dios** del simulador: arma la tabla con los dos outcomes potenciales de cada persona y calcula el ATE y el ATT.",
+            R_T2, "cambia el `Y_T` de Juan de 30 a 60. ¿Cambia el ATT? ¿Y el ATE? ¿Por qué?")),
+    dict(n=3, hora="19:30", inicio=(P1, 9), fin=(P1, 14), laminas="Parte 1 · láminas 9–14",
+         titulo="La trampa de comparar: sesgo de selección", corto="Sesgo de selección",
+         pregunta="¿Por qué comparar a quienes recibieron un tratamiento con quienes no puede engañarnos?",
+         quiz=[
+             ("En el simulador, la diferencia observada es 50 y el ATT es 20. ¿Cuánto vale el sesgo de selección?",
+              [("70", "Revisa la descomposición: diferencia = ATT + sesgo, no ATT − sesgo."),
+               "30",
+               ("No se puede calcular.", "Con la descomposición de la lámina 11 basta restar: sesgo = diferencia − ATT.")], 1,
+              "β₁ = ATT + sesgo ⇒ 50 = 20 + 30. Los tratados habrían ganado 30 más aun sin universidad."),
+             ("Comparas las notas de quienes asisten a un preuniversitario pagado con las de quienes no asisten. ¿Qué signo esperas en el sesgo de selección?",
+              ["Positivo: quienes pagan un preuniversitario suelen tener más recursos y apoyo, y les habría ido mejor igual.",
+               ("Negativo, porque el preuniversitario es caro.", "El precio no define el signo; importa cómo les habría ido a los asistentes SIN preuniversitario."),
+               ("Cero, porque todos rinden la misma prueba.", "Rendir la misma prueba no hace comparables a los grupos.")], 0,
+              "Sesgo = E[Yᴺᵀ | T = 1] − E[Yᴺᵀ | T = 0] &gt; 0: la comparación simple sobreestima el efecto del preuniversitario."),
+             ("Las casas con alarma registran más robos que las casas sin alarma. ¿Qué lectura es consistente con la lámina 14?",
+              ["Quienes instalan alarmas suelen vivir donde hay más delitos: el sesgo de selección puede ocultar que la alarma sí protege.",
+               ("Las alarmas atraen a los ladrones.", "Podría ser, pero la comparación simple no permite distinguirlo del sesgo de selección."),
+               ("No hay sesgo, porque cada dueño decide libremente.", "Justamente porque cada uno decide, los grupos pueden ser distintos desde antes.")], 0,
+              "Sin alarma, las casas que la instalaron igual habrían tenido más robos: la diferencia observada mezcla ese sesgo con el efecto."),
+         ],
+         r=("Diferencia observada = ATT + sesgo",
+            "Con la misma tabla, calcula lo que **sí** vemos en los datos y comprueba la descomposición de la lámina 11. Fíjate en que `lm()` entrega exactamente la diferencia de promedios.",
+            R_T3, "¿qué valores de `Y_NT` tendrían que tener Sofía, Ezequiel y Caro para que el sesgo fuera cero? Pruébalo: ¿qué pasa con la diferencia observada?")),
+    dict(n=4, hora="20:05", inicio=(P1, 15), fin=(P1, 16), laminas="Parte 1 · láminas 15–16",
+         titulo="Aleatorizar: dejar que decida una moneda", corto="Aleatorización",
+         pregunta="¿Qué cambia cuando es una moneda, y no la persona, la que decide quién recibe el tratamiento?",
+         quiz=[
+             ("¿Qué garantiza la aleatorización?",
+              ["Que E[Yᴺᵀ | T = 1] = E[Yᴺᵀ | T = 0]: sin tratamiento, ambos grupos serían iguales en promedio.",
+               ("Que el tratamiento tenga el mismo efecto en todas las personas.", "Los efectos pueden variar entre personas; el sorteo solo hace comparables a los grupos."),
+               ("Que la diferencia observada sea exactamente el ATE en cada muestra.", "Lo es en promedio. En un sorteo particular hay error por azar: míralo en el paso 4 del simulador.")], 0,
+              "Es la condición de la lámina 15. Con ella el sesgo de selección es cero y β = ATE = ATT (lámina 16)."),
+             ("Una app sortea a qué usuarios les muestra un botón nuevo (test A/B). Quienes vieron el botón compran 3% más. ¿Qué mide esa diferencia?",
+              ["El efecto causal promedio del botón, salvo error muestral.",
+               ("Solo una correlación, porque no se controló por nada.", "Con sorteo no hace falta controlar: β = ATE = ATT."),
+               ("El efecto solo en los usuarios más activos.", "El sorteo reparte a usuarios activos y pasivos por igual en ambos grupos.")], 0,
+              "La aleatorización hace que los grupos sean comparables: la diferencia de promedios estima el efecto causal."),
+         ],
+         r=("Autoselección versus sorteo",
+            "Simula 10 000 personas en que la universidad sube el salario en **exactamente 10**. Compara lo que estima MCO cuando cada persona elige y cuando decide una moneda.",
+            R_T4, "cambia el `2` de `plogis(2 * habilidad)` por `0`. ¿Qué pasa con el sesgo? ¿Y si pones `-2`?")),
+    dict(n=5, hora="20:20", inicio=(P2, 1), fin=(P2, 4), laminas="Parte 2 · láminas 1–4",
+         titulo="Del sesgo de selección a la variable omitida", corto="De la selección a la variable omitida",
+         pregunta="¿Qué le pasa a MCO cuando una variable importante queda escondida en el error?",
+         quiz=[
+             ("En productividad = α + β·consultoría + ε, el tamaño de la empresa queda en ε. ¿Por qué β̂ estaría sesgado?",
+              ["Porque el tamaño se relaciona con recibir consultoría, así que E[ε | x] ≠ 0.",
+               ("Porque el tamaño no afecta la productividad.", "Si no la afectara (β₂ = 0), omitirlo no generaría sesgo."),
+               ("Porque la muestra es pequeña.", "El sesgo no desaparece con más datos: depende de qué hay en el error.")], 0,
+              "Es el ejemplo de la lámina 2: solo las empresas grandes pueden pagar consultoría, y el tamaño también afecta la productividad."),
+             ("La población sigue y = 1 + 2x₁ + 3x₂ + u, con x₂ = 0.5x₁ + v. Si omites x₂, ¿cuánto vale β̃₁?",
+              [("2", "2 es el efecto causal β₁; la regresión corta además captura β₂δ₁."),
+               "3.5",
+               ("5", "No se suman β₁ y β₂: el sesgo es β₂·δ₁ = 3 · 0.5.")], 1,
+              "β̃₁ = β₁ + β₂δ₁ = 2 + 3 · 0.5 = 3.5. Compruébalo en el ejercicio de R de abajo."),
+         ],
+         r=("La fórmula del sesgo, número a número",
+            "Simula los datos de la pregunta anterior y verifica que el coeficiente de la regresión corta es **exactamente** β̂₁ + β̂₂·δ̂₁ (lámina 4).",
+            R_T5, "cambia `0.5` por `0` en la línea de `x2`. ¿Cuánto vale ahora el sesgo? ¿Qué caso de la lámina 5 es?")),
+    dict(n=6, hora="20:40", inicio=(P2, 5), fin=(P2, 6), laminas="Parte 2 · láminas 5–6",
+         titulo="El signo del sesgo", corto="El signo del sesgo",
+         pregunta="¿Cómo predecir si la regresión corta sobreestima o subestima el efecto?",
+         quiz=[
+             ("¿En cuál de los diagramas de la lámina 5 omitir X2 sesga el coeficiente de X1?",
+              [("(1): X2 solo afecta a Y.", "Si X2 no se relaciona con X1, δ₁ = 0 y β₂δ₁ = 0."),
+               ("(2): X2 solo se relaciona con X1.", "Si X2 no afecta a Y, β₂ = 0 y β₂δ₁ = 0."),
+               "(3): X2 se relaciona con X1 y afecta a Y."], 2,
+              "Solo hay sesgo cuando la omitida afecta a Y (β₂ ≠ 0) y se relaciona con X1 (δ₁ ≠ 0)."),
+             ("Estimas el efecto de un subsidio de salud sobre un índice de salud omitiendo la pobreza. Los hogares más pobres reciben más subsidio (δ₁ &gt; 0) y la pobreza empeora la salud (β₂ &lt; 0). La regresión corta…",
+              ["…subestima el efecto del subsidio: hasta podría parecer que empeora la salud.",
+               ("…sobreestima el efecto del subsidio.", "β₂δ₁ es negativo por positivo: el sesgo empuja el coeficiente hacia abajo."),
+               ("…no tiene sesgo, porque el subsidio se entrega con reglas.", "Las reglas usan la pobreza, que también afecta la salud: eso es justamente δ₁ ≠ 0.")], 0,
+              "Caso 4 de la lámina 6: δ₁ &gt; 0 y β₂ &lt; 0 ⇒ sesgo negativo."),
+         ],
+         r=("Los cuatro casos de signos",
+            "Simula los cuatro casos de la lámina 6 y compara el sesgo obtenido con el signo que predice β₂·δ₁.",
+            R_T6, "agrega el caso δ₁ = 0 cambiando `c(0.8, -0.8)` por `c(0.8, 0, -0.8)`. ¿Qué sesgo obtienes?")),
+    dict(n=7, hora="20:55", inicio=(P2, 7), fin=(P2, 9), laminas="Parte 2 · láminas 7–9",
+         titulo="Controles: el ejemplo de fumar y la edad", corto="Controles: fumar y edad",
+         pregunta="¿Basta con agregar la variable omitida como control?",
+         quiz=[
+             ("En el ejemplo, el coeficiente de fumar es −1.81 sin edad y 0.94 con edad. ¿Qué ocurrió?",
+              ["Omitir la edad generaba un sesgo negativo tan grande que invertía el signo del efecto de fumar.",
+               ("Agregar la edad generó un sesgo.", "Si el modelo con edad es el verdadero, el sesgo estaba en la regresión corta."),
+               ("El efecto de fumar cambió en la población.", "La población es la misma; cambió la comparación que hace la regresión.")], 0,
+              "−1.81 = 0.94 + 0.98 · δ₂ con δ₂ ≈ −2.8: los mayores fuman menos, y la edad aumenta y."),
+             ("¿Cuándo basta con agregar un control para eliminar el sesgo?",
+              ["Cuando es la única variable omitida relevante: conocemos el modelo verdadero.",
+               ("Siempre que el R² aumente.", "El R² mide ajuste, no ausencia de sesgo."),
+               ("Cuando el control tiene muchas observaciones.", "El tamaño muestral no resuelve el sesgo por omisión.")], 0,
+              "Es la advertencia de la lámina 7: muchas veces no alcanza, porque hay otras variables omitidas."),
+         ],
+         r=("Fumar, edad y un cambio de signo",
+            "Datos simulados que imitan las dos salidas de Stata de las láminas 8 y 9. Estima ambas regresiones, obtén δ₂ con la regresión auxiliar y mira el gráfico.",
+            R_T7, "cambia `- 0.3 * edad` por `+ 0.3 * edad` (los mayores fuman más). Antes de ejecutar, predice el signo del sesgo.")),
+    dict(n=8, hora="21:10", inicio=(P2, 10), fin=(P2, 12), laminas="Parte 2 · láminas 10–12",
+         titulo="¿Más es mejor? Controles irrelevantes y conclusiones", corto="¿Más es mejor? Conclusiones",
+         pregunta="Si omitir variables sesga, ¿conviene agregar todas las que tengamos?",
+         quiz=[
+             ("Agregas al modelo una variable irrelevante (su β poblacional es 0) que está muy correlacionada con x₁. ¿Qué le pasa a β̂₁?",
+              ["Sigue siendo insesgado, pero su varianza aumenta.",
+               ("Queda sesgado.", "Incluir variables irrelevantes no afecta el insesgamiento (lámina 10)."),
+               ("Se vuelve más preciso.", "Al revés: la variable irrelevante compite con x₁ y aumenta la varianza.")], 0,
+              "Es la lámina 10. El ejercicio de R de abajo lo muestra con 2 000 muestras."),
+             ("¿Por qué es poco probable que agregar controles permita una interpretación causal con datos observacionales?",
+              ["Porque rara vez observamos TODAS las variables que determinan quién recibe el tratamiento.",
+               ("Porque los controles siempre aumentan el sesgo.", "Un control relevante reduce el sesgo; el problema es que faltan otros."),
+               ("Porque MCO no admite más de dos variables.", "MCO admite muchas variables: lo veremos en la regresión múltiple.")], 0,
+              "Es la última conclusión de la lámina 12."),
+         ],
+         r=("¿Agregar una variable irrelevante?",
+            "Repite 2 000 veces el experimento: estima β₁ sin y con una variable irrelevante correlacionada con x₁, y compara el promedio y la dispersión.",
+            R_T8, "cambia `0.9 * x1` por `0 * x1` (irrelevante y no correlacionada). ¿Sigue aumentando la dispersión?")),
+]
+
+
+C3_AGENDA = "\n" + ruta(C3_TEMAS, (3, "19:55"), ("21:25", "✅ Ideas clave, autoevaluación y cierre"))
+
 
 # --------------------------------------------------------------------------------------------
 # Clase 4 · Semana 4
@@ -507,10 +848,10 @@ CLASES = {
     2: dict(out="docs/clases/clase2.md", cabecera=C2_CABECERA, cierre=C2_CIERRE,
             fuentes=[("sem2/clase2.tex", "Parte 1 · Regresión lineal simple")],
             insertar=C2_INSERTAR, plegar={}),
-    3: dict(out="docs/clases/clase3.md", cabecera=C3_CABECERA, cierre=C3_CIERRE,
+    3: dict(out="docs/clases/clase3.md", cabecera=C3_CABECERA + C3_AGENDA, cierre=C3_CIERRE,
             fuentes=[("sem3/Clase3.tex", "Parte 1 · Causalidad y sesgo de selección"),
                      ("sem3/Clase4.tex", "Parte 2 · Sesgo por variable omitida")],
-            insertar=C3_INSERTAR, plegar={}),
+            insertar=C3_INSERTAR, plegar={}, temas=C3_TEMAS),
     4: dict(out="docs/clases/clase4.md", cabecera=C4_CABECERA, cierre=C4_CIERRE,
             fuentes=[("sem4/Clase5.tex", "Parte 1 · Regresión lineal múltiple: estimación"),
                      ("sem4/calculo_matrices.tex", "Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores",
@@ -556,6 +897,15 @@ def rango(a, b):
 def generar(n):
     cfg = CLASES[n]
     partes = [cfg["cabecera"].strip()]
+    temas = cfg.get("temas", [])
+    # Con temas, las láminas bajan un nivel (h4) para que el índice muestre Parte > Tema > Lámina
+    hx = "####" if temas else "###"
+    insertar = dict(cfg["insertar"])
+    antes = {}
+    for t in temas:
+        antes[t["inicio"]] = tema_encabezado(t)
+        fin = [insertar[t["fin"]]] if t["fin"] in insertar else []
+        insertar[t["fin"]] = "\n\n".join(fin + [practica(t)] + ([r_ejercicio(t)] if t.get("r") else []))
     for tex, titulo, *extra in cfg["fuentes"]:
         fr = convert(SLIDES / tex, REPO, SLIDES)
         ayud = "Ayudantía" in titulo
@@ -583,11 +933,17 @@ def generar(n):
 
         clase_card = "econ-lamina" + (" is-ayudantia" if ayud else "")
         pasos = cfg.get("pasos", {})
+        inicios = {(tex, g["laminas"][0][0]) for g in grupos}
+        for clave in antes:
+            if clave[0] == tex and clave not in inicios:
+                raise SystemExit(f"{clave}: un tema debe empezar en la primera lámina de una tarjeta")
         for g in grupos:
             primera, ultima = g["laminas"][0][0], g["laminas"][-1][0]
+            if (tex, primera) in antes:
+                partes.append(antes[(tex, primera)])
             attrs = atributos(data_lamina=rango(primera, ultima),
                               data_toc_label=toc_plano(g["t"]) if "$" in g["t"] else "")
-            bloques = [f'<div class="{clase_card}" markdown>', f"### {g['t']} {attrs}"]
+            bloques = [f'<div class="{clase_card}" markdown>', f"{hx} {g['t']} {attrs}"]
             if pasos.get((tex, primera)) == ultima:
                 # Lámina que en beamer se construye en varios pasos: una pestaña por paso (contenido íntegro)
                 bloques.append('<p class="econ-lamina-cont">Lámina progresiva · recórrela paso a paso, como en la presentación</p>')
@@ -596,8 +952,8 @@ def generar(n):
                     bloques.append(f'=== "Paso {k}"\n\n' + "\n".join("    " + l if l.strip() else "" for l in txt.split("\n")))
                 bloques.append("</div>")
                 partes.append("\n\n".join(bloques))
-                if (tex, ultima) in cfg["insertar"]:
-                    partes.append(cfg["insertar"][(tex, ultima)])
+                if (tex, ultima) in insertar:
+                    partes.append(insertar[(tex, ultima)])
                 continue
             for i, cuerpo in g["laminas"]:
                 for (src, k), html in TIKZ.items():
@@ -608,11 +964,11 @@ def generar(n):
                 if (tex, i) in cfg["plegar"]:
                     cuerpo = plegar(cfg["plegar"][(tex, i)], cuerpo)
                 bloques.append(f"<!-- {tex} · lámina {i} -->\n\n{cuerpo}")
-                if (tex, i) in cfg["insertar"]:
+                if (tex, i) in insertar:
                     # El material interactivo va fuera de la tarjeta de la lámina
                     bloques.append("</div>")
                     partes.append("\n\n".join(bloques))
-                    partes.append(cfg["insertar"][(tex, i)])
+                    partes.append(insertar[(tex, i)])
                     bloques = []
                     if i != ultima:
                         bloques = [f'<div class="{clase_card}" markdown>',
@@ -625,6 +981,11 @@ def generar(n):
              "No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->\n\n")
     (REPO / cfg["out"]).write_text(aviso + "\n\n".join(partes) + "\n", encoding="utf-8")
     print(f"✓ {cfg['out']}")
+    if any(t.get("r") for t in temas):
+        out_r = REPO / "docs" / "r" / f"clase{n}.R"
+        out_r.parent.mkdir(exist_ok=True)
+        out_r.write_text(script_r(temas, cfg["cabecera"].strip().split("\n")[0].lstrip("# ")), encoding="utf-8")
+        print(f"✓ {out_r.relative_to(REPO)}")
 
 
 def inventario():
