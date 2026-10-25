@@ -16,8 +16,8 @@
 !!! example "Cómo estudiar esta clase"
     La clase está ordenada en **8 temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas
     y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica
-    por qué no lo es) y un **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada.
-    Todos los ejercicios de R en un solo archivo: [📥 clase3.R](../r/clase3.R).
+    por qué no lo es) y, en casi todos, un **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada.
+    Los 7 ejercicios de R en un solo archivo: [📥 clase3.R](../r/clase3.R).
 
 ## 🎯 Objetivos de la sesión
 

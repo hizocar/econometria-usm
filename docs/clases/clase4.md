@@ -15,6 +15,12 @@
     (`calculo_matrices.tex`, ejercicio de la inversa de $X^\top X$). Los bloques **Interactivo**, los casos
     y las preguntas de autoevaluación son material adicional para estudiar.
 
+!!! example "Cómo estudiar esta clase"
+    La clase está ordenada en **7 temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas
+    y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica
+    por qué no lo es) y un **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada.
+    Los 7 ejercicios de R en un solo archivo: [📥 clase4.R](../r/clase4.R).
+
 ## 🎯 Objetivos de la sesión
 
 **Cátedra (viernes)**
@@ -30,26 +36,35 @@
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque | Láminas |
-|---|---|---|
-| 18:40 – 19:05 | Del modelo simple al múltiple: motivación e interpretación *ceteris paribus* | 1 – 3 |
-| 19:05 – 19:25 | Estimación por MCO con $k$ variables: residuos y condiciones de primer orden | 4 – 5 |
-| 19:25 – 19:55 | Notación matricial: $y = X\beta + u$ | 6 – 9 |
-| 19:55 – 20:05 | *Receso* | |
-| 20:05 – 20:35 | Derivación de $\hat{\beta} = (X^\top X)^{-1}X^\top y$ y propiedades algebraicas | 10 – 12 |
-| 20:35 – 20:55 | $R^2$ y $R^2$ ajustado | 13 – 14 |
-| 20:55 – 21:20 | Ejemplo numérico paso a paso y salida en R | 15 – 25 |
-| 21:20 – 21:25 | Autoevaluación y cierre | |
+Haz clic en un tema para ir directo a él.
 
-La **Parte 2** (ejercicio de cálculo matricial) se trabaja en la **ayudantía/taller** de la semana.
+<ol class="econ-ruta">
+<li><span class="econ-ruta-h">18:40</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Del modelo simple al múltiple</span><span class="econ-ruta-l">Parte 1 · láminas 1–3 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:05</span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">MCO con k variables</span><span class="econ-ruta-l">Parte 1 · láminas 4–5 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:25</span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">Notación matricial</span><span class="econ-ruta-l">Parte 1 · láminas 6–9 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">19:55</span><span class="econ-ruta-t">☕ Receso</span></li>
+<li><span class="econ-ruta-h">20:05</span><a class="econ-ruta-a" href="#tema-4"><span class="econ-ruta-n">4</span><span class="econ-ruta-t">La fórmula de MCO y sus propiedades</span><span class="econ-ruta-l">Parte 1 · láminas 10–12 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">20:35</span><a class="econ-ruta-a" href="#tema-5"><span class="econ-ruta-n">5</span><span class="econ-ruta-t">R² y R² ajustado</span><span class="econ-ruta-l">Parte 1 · láminas 13–14 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">20:55</span><a class="econ-ruta-a" href="#tema-6"><span class="econ-ruta-n">6</span><span class="econ-ruta-t">El ejemplo numérico y la salida en R</span><span class="econ-ruta-l">Parte 1 · láminas 15–25 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">21:20</span><span class="econ-ruta-t">✅ Ideas clave, autoevaluación y cierre</span></li>
+</ol>
+
+<p class="econ-ruta-sub">📘 <strong>Ayudantía</strong> · se trabaja otro día de la semana, no en la cátedra del viernes</p>
+<ol class="econ-ruta is-ayudantia">
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-7"><span class="econ-ruta-n">7</span><span class="econ-ruta-t">La inversa de XᵀX por cofactores</span><span class="econ-ruta-l">Parte 2 · Ayudantía · secciones 1–7 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+</ol>
 
 ## Regresión lineal múltiple: estimación { .econ-parte data-eyebrow="Parte 1 · Cátedra" data-toc-label="Parte 1 · Regresión lineal múltiple: estimación" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem4/Clase5.tex</code> · 25 láminas</p>
 
+### Del modelo simple al múltiple { #tema-1 .econ-tema data-num="1" data-laminas="Parte 1 · láminas 1–3" data-toc-label="Tema 1 · Del simple al múltiple" }
+
+<p class="econ-tema-q">¿Cómo medir el efecto de la educación dejando fija la inteligencia?</p>
+
 <div class="econ-lamina" markdown>
 
-### Modelo de Regresión Múltiple: Introducción { data-lamina="Lámina 1" }
+#### Modelo de Regresión Múltiple: Introducción { data-lamina="Lámina 1" }
 
 <!-- sem4/Clase5.tex · lámina 1 -->
 
@@ -69,7 +84,7 @@ La **Parte 2** (ejercicio de cálculo matricial) se trabaja en la **ayudantía/t
 
 <div class="econ-lamina" markdown>
 
-### Modelo de Regresión Lineal Múltiple { data-lamina="Lámina 2" }
+#### Modelo de Regresión Lineal Múltiple { data-lamina="Lámina 2" }
 
 <!-- sem4/Clase5.tex · lámina 2 -->
 
@@ -100,7 +115,7 @@ La **Parte 2** (ejercicio de cálculo matricial) se trabaja en la **ayudantía/t
 
 <div class="econ-lamina" markdown>
 
-### Modelo de Regresión Múltiple: Estimación MCO { data-lamina="Lámina 3" }
+#### Modelo de Regresión Múltiple: Estimación MCO { data-lamina="Lámina 3" }
 
 <!-- sem4/Clase5.tex · lámina 3 -->
 
@@ -122,9 +137,57 @@ La **Parte 2** (ejercicio de cálculo matricial) se trabaja en la **ayudantía/t
 
 <div class="econ-widget" data-widget="iq-control"></div>
 
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con salario = 0.065 + 0.37·educación + 0.20·IQ, dos personas tienen el mismo IQ y una tiene un año más de educación. ¿Cuánto difiere su salario esperado?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>0.37</button>
+<button class="econ-quiz-opt" data-why="Ese es el coeficiente de la regresión simple, que no deja fijo el IQ.">0.54</button>
+<button class="econ-quiz-opt" data-why="No se suman los coeficientes: el IQ está fijo.">0.57</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 2: cada β es una derivada parcial, con las demás variables incluidas constantes.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Por qué el coeficiente de educación baja de 0.54 a 0.37 al agregar el IQ?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Porque en la regresión simple la educación captaba también parte del efecto del IQ.</button>
+<button class="econ-quiz-opt" data-why="Pueden subir, bajar o quedar igual: depende de β₂ y δ₁.">Porque agregar variables siempre achica los coeficientes.</button>
+<button class="econ-quiz-opt" data-why="Comparar 0.37 con 0.20 no dice eso: las variables están en unidades distintas.">Porque el IQ importa más que la educación.</button>
+</div>
+<p class="econ-quiz-fb">✅ Es el sesgo por variable omitida de la Clase 3: β̃₁ = β₁ + β₂δ₁ con β₂ &gt; 0 y δ₁ &gt; 0.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Simple contra múltiple</p>
+
+Simula educación, IQ y salario. Compara el coeficiente de educación sin y con el IQ en la regresión.
+
+```r
+set.seed(1)
+n         <- 1000
+IQ        <- rnorm(n, 100, 15)
+educacion <- 12 + 0.1 * (IQ - 100) + rnorm(n, sd = 2)   # más IQ, más educación
+salario   <- 1 + 0.37 * educacion + 0.05 * IQ + rnorm(n, sd = 2)
+
+coef(lm(salario ~ educacion))        # simple: mezcla educación e IQ
+coef(lm(salario ~ educacion + IQ))   # múltiple: educación con IQ fijo
+```
+
+**🎯 Reto:** cambia `0.1 * (IQ - 100)` por `0 * (IQ - 100)`. ¿Siguen siendo distintos los dos coeficientes?
+{: .econ-r-reto }
+
+</div>
+
+### MCO con k variables { #tema-2 .econ-tema data-num="2" data-laminas="Parte 1 · láminas 4–5" data-toc-label="Tema 2 · MCO con k variables" }
+
+<p class="econ-tema-q">¿Qué cambia en MCO cuando hay más de una variable explicativa?</p>
+
 <div class="econ-lamina" markdown>
 
-### Modelo de Regresión Lineal Múltiple: Estimación { data-lamina="Lámina 4" }
+#### Modelo de Regresión Lineal Múltiple: Estimación { data-lamina="Lámina 4" }
 
 <!-- sem4/Clase5.tex · lámina 4 -->
 
@@ -148,7 +211,7 @@ $$
 
 <div class="econ-lamina" markdown>
 
-### MCO para el Modelo Lineal Múltiple { data-lamina="Lámina 5" }
+#### MCO para el Modelo Lineal Múltiple { data-lamina="Lámina 5" }
 
 <!-- sem4/Clase5.tex · lámina 5 -->
 
@@ -183,9 +246,61 @@ Existen $k + 1$ condiciones de primer orden para $k + 1$ incógnitas.
 
 </div>
 
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con k variables explicativas, ¿cuántas condiciones de primer orden tiene MCO?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-why="Falta la condición del intercepto.">k</button>
+<button class="econ-quiz-opt" data-correct>k + 1</button>
+<button class="econ-quiz-opt" data-why="Hay una por parámetro, no una por observación.">n</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 5: una ecuación por cada β̂, incluido β̂₀.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Las condiciones de primer orden implican que los residuos…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…suman cero y no están correlacionados con ninguna x incluida.</button>
+<button class="econ-quiz-opt" data-why="Los residuos individuales no son cero; lo son sus sumas ponderadas.">…son todos iguales a cero.</button>
+<button class="econ-quiz-opt" data-why="Las condiciones de primer orden no dicen nada sobre la distribución.">…tienen distribución normal.</button>
+</div>
+<p class="econ-quiz-fb">✅ Son las mismas propiedades de la regresión simple, ahora para cada xⱼ.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Las k + 1 condiciones</p>
+
+Estima un modelo con tres variables y comprueba que se cumplen las cuatro condiciones de primer orden.
+
+```r
+set.seed(2)
+n  <- 200
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+x3 <- rnorm(n)
+y  <- 1 + 2 * x1 - 1 * x2 + 0.5 * x3 + rnorm(n)
+
+m <- lm(y ~ x1 + x2 + x3)
+coef(m)
+u <- resid(m)
+# Las k + 1 = 4 condiciones de primer orden: Σû = 0 y Σ xj û = 0
+round(c(sum(u), sum(x1 * u), sum(x2 * u), sum(x3 * u)), 10)
+```
+
+**🎯 Reto:** agrega una cuarta variable `x4 <- rnorm(n)` al modelo. ¿Cuántas condiciones hay que verificar ahora?
+{: .econ-r-reto }
+
+</div>
+
+### Notación matricial { #tema-3 .econ-tema data-num="3" data-laminas="Parte 1 · láminas 6–9" data-toc-label="Tema 3 · Notación matricial" }
+
+<p class="econ-tema-q">¿Cómo escribir n ecuaciones en una sola línea?</p>
+
 <div class="econ-lamina" markdown>
 
-### Notación matricial modelo poblacional { data-lamina="Lámina 6" }
+#### Notación matricial modelo poblacional { data-lamina="Lámina 6" }
 
 <!-- sem4/Clase5.tex · lámina 6 -->
 
@@ -224,7 +339,7 @@ Existen $k + 1$ condiciones de primer orden para $k + 1$ incógnitas.
 
 <div class="econ-lamina" markdown>
 
-### Notación { data-lamina="Lámina 7" }
+#### Notación { data-lamina="Lámina 7" }
 
 <!-- sem4/Clase5.tex · lámina 7 -->
 
@@ -262,7 +377,7 @@ Existen $k + 1$ condiciones de primer orden para $k + 1$ incógnitas.
 
 <div class="econ-lamina" markdown>
 
-### Ejemplo: $n=5$, dos variables: $x_1$, $x_2$ { data-lamina="Lámina 8" data-toc-label="Ejemplo: n=5, dos variables: x1, x2" }
+#### Ejemplo: $n=5$, dos variables: $x_1$, $x_2$ { data-lamina="Lámina 8" data-toc-label="Ejemplo: n=5, dos variables: x1, x2" }
 
 <!-- sem4/Clase5.tex · lámina 8 -->
 
@@ -346,7 +461,7 @@ $$
 
 <div class="econ-lamina" markdown>
 
-### Mínimos Cuadrados Ordinarios (MRL Múltiple) { data-lamina="Lámina 9" }
+#### Mínimos Cuadrados Ordinarios (MRL Múltiple) { data-lamina="Lámina 9" }
 
 <!-- sem4/Clase5.tex · lámina 9 -->
 
@@ -364,9 +479,60 @@ $$
 
 </div>
 
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En y = Xβ + u, con n = 5 y dos variables explicativas, ¿qué dimensión tiene β?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>3 × 1</button>
+<button class="econ-quiz-opt" data-why="Falta β₀: la columna de unos también tiene su parámetro.">2 × 1</button>
+<button class="econ-quiz-opt" data-why="Esa es la dimensión de y y de u.">5 × 1</button>
+</div>
+<p class="econ-quiz-fb">✅ β tiene un elemento por parámetro: k + 1 = 3.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Para qué sirve la columna de unos en X?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Para que el modelo tenga intercepto, β₀.</button>
+<button class="econ-quiz-opt" data-why="Los unos no cambian las variables: acompañan a β₀.">Para normalizar las variables.</button>
+<button class="econ-quiz-opt" data-why="XᵀX es simétrica siempre, tenga o no la columna de unos.">Para que XᵀX sea simétrica.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 7–8: la primera columna de X es de unos.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Arma X con los datos de la lámina</p>
+
+Construye la matriz X del ejemplo de la lámina 8 y calcula XᵀX y Xᵀy. Compara Xᵀy con la lámina 22.
+
+```r
+# Datos de la lámina 8 (y del ejercicio de la ayudantía)
+experiencia <- c(12, 18, 14, 12, 11)
+educacion   <- c(93, 119, 108, 96, 74)
+salario     <- c(769, 808, 825, 650, 562)
+
+X <- cbind(unos = 1, experiencia, educacion)   # n × (k + 1)
+y <- salario
+X
+dim(X)
+t(X) %*% X        # XᵀX: (k + 1) × (k + 1)
+t(X) %*% y        # Xᵀy
+```
+
+**🎯 Reto:** agrega una tercera variable, por ejemplo `edad <- c(30, 41, 35, 29, 26)`, a X. ¿Qué dimensión tiene ahora XᵀX?
+{: .econ-r-reto }
+
+</div>
+
+### La fórmula de MCO y sus propiedades { #tema-4 .econ-tema data-num="4" data-laminas="Parte 1 · láminas 10–12" data-toc-label="Tema 4 · β̂ = (XᵀX)⁻¹Xᵀy" }
+
+<p class="econ-tema-q">¿De dónde sale β̂ = (XᵀX)⁻¹Xᵀy?</p>
+
 <div class="econ-lamina" markdown>
 
-### Recordar { data-lamina="Lámina 10" }
+#### Recordar { data-lamina="Lámina 10" }
 
 <!-- sem4/Clase5.tex · lámina 10 -->
 
@@ -390,7 +556,7 @@ $$
 
 <div class="econ-lamina" markdown>
 
-### Mínimos Cuadrados Ordinarios (MRL Múltiple) { data-lamina="Lámina 11" }
+#### Mínimos Cuadrados Ordinarios (MRL Múltiple) { data-lamina="Lámina 11" }
 
 <!-- sem4/Clase5.tex · lámina 11 -->
 
@@ -428,7 +594,7 @@ $$
 
 <div class="econ-lamina" markdown>
 
-### Propiedades algebraicas { data-lamina="Lámina 12" }
+#### Propiedades algebraicas { data-lamina="Lámina 12" }
 
 <!-- sem4/Clase5.tex · lámina 12 -->
 
@@ -466,9 +632,61 @@ $$
 
 </div>
 
+<div class="econ-practica" id="practica-4">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 4</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si X es n × (k + 1), ¿qué dimensión tiene XᵀX?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>(k + 1) × (k + 1)</button>
+<button class="econ-quiz-opt" data-why="Ese sería XXᵀ.">n × n</button>
+<button class="econ-quiz-opt" data-why="Esa es la dimensión de X.">n × (k + 1)</button>
+</div>
+<p class="econ-quiz-fb">✅ XᵀX es cuadrada, del tamaño del número de parámetros.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">La condición Xᵀû = 0 significa que…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…los residuos son ortogonales a cada columna de X, incluida la de unos.</button>
+<button class="econ-quiz-opt" data-why="Cada residuo puede ser distinto de cero.">…todos los residuos son cero.</button>
+<button class="econ-quiz-opt" data-why="Xᵀû = 0 vale siempre en MCO; es XᵀX la que debe ser invertible.">…X no tiene inversa.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 12: propiedades algebraicas de MCO en forma matricial.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · La fórmula en R</p>
+
+Calcula β̂ = (XᵀX)⁻¹Xᵀy con matrices, compáralo con `lm()` y verifica que Xᵀû = 0.
+
+```r
+experiencia <- c(12, 18, 14, 12, 11)
+educacion   <- c(93, 119, 108, 96, 74)
+salario     <- c(769, 808, 825, 650, 562)
+X <- cbind(1, experiencia, educacion)
+y <- salario
+
+beta <- solve(t(X) %*% X) %*% t(X) %*% y     # (XᵀX)⁻¹ Xᵀy
+beta
+coef(lm(salario ~ experiencia + educacion))  # lo mismo
+
+u_hat <- y - X %*% beta
+round(t(X) %*% u_hat, 8)                     # Xᵀû = 0
+```
+
+**🎯 Reto:** duplica una columna: usa `X <- cbind(1, experiencia, experiencia)`. ¿Qué error da `solve()` y por qué?
+{: .econ-r-reto }
+
+</div>
+
+### R² y R² ajustado { #tema-5 .econ-tema data-num="5" data-laminas="Parte 1 · láminas 13–14" data-toc-label="Tema 5 · R² y R² ajustado" }
+
+<p class="econ-tema-q">¿Mejora el modelo cada vez que agregamos una variable?</p>
+
 <div class="econ-lamina" markdown>
 
-### Bondad de Ajuste: $R^2$ { data-lamina="Lámina 13" data-toc-label="Bondad de Ajuste: R²" }
+#### Bondad de Ajuste: $R^2$ { data-lamina="Lámina 13" data-toc-label="Bondad de Ajuste: R²" }
 
 <!-- sem4/Clase5.tex · lámina 13 -->
 
@@ -490,7 +708,7 @@ $$
 
 <div class="econ-lamina" markdown>
 
-### Bondad de Ajuste: $R^2$ ajustado { data-lamina="Lámina 14" data-toc-label="Bondad de Ajuste: R² ajustado" }
+#### Bondad de Ajuste: $R^2$ ajustado { data-lamina="Lámina 14" data-toc-label="Bondad de Ajuste: R² ajustado" }
 
 <!-- sem4/Clase5.tex · lámina 14 -->
 
@@ -508,9 +726,58 @@ $$
 
 <div class="econ-widget" data-widget="r2-trampa"></div>
 
+<div class="econ-practica" id="practica-5">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 5</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con n = 5, k = 2 y R² = 0.7751, ¿cuánto vale el R² ajustado?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>0.5501</button>
+<button class="econ-quiz-opt" data-why="Ese es el R² sin ajustar.">0.7751</button>
+<button class="econ-quiz-opt" data-why="El R² ajustado nunca supera al R².">0.8876</button>
+</div>
+<p class="econ-quiz-fb">✅ 1 − (4/2)·(1 − 0.7751) = 0.5501, como en la salida de R de la lámina 25.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Puede el R² ajustado ser negativo?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Sí, cuando el modelo explica muy poco y tiene muchas variables respecto de n.</button>
+<button class="econ-quiz-opt" data-why="Eso vale para el R²; el ajustado puede quedar bajo cero.">No, siempre está entre 0 y 1.</button>
+</div>
+<p class="econ-quiz-fb">✅ La penalización (n − 1)/(n − k − 1) puede superar lo que explica el modelo.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · La trampa del R²</p>
+
+Agrega 10 variables sin ninguna relación con y y compara el R² con el R² ajustado.
+
+```r
+set.seed(5)
+n <- 30
+x <- rnorm(n)
+y <- 1 + 2 * x + rnorm(n, sd = 2)
+r2 <- function(m) c(R2 = summary(m)$r.squared,
+                    R2_ajustado = summary(m)$adj.r.squared)
+
+basura <- matrix(rnorm(n * 10), n, 10)  # 10 variables sin relación con y
+rbind(solo_x     = r2(lm(y ~ x)),
+      x_y_basura = r2(lm(y ~ x + basura)))
+```
+
+**🎯 Reto:** agrega 20 variables basura (cambia los dos `10` por `20`). ¿Qué pasa con el R² ajustado?
+{: .econ-r-reto }
+
+</div>
+
+### El ejemplo numérico y la salida en R { #tema-6 .econ-tema data-num="6" data-laminas="Parte 1 · láminas 15–25" data-toc-label="Tema 6 · Ejemplo y salida en R" }
+
+<p class="econ-tema-q">¿Cómo se ven todos estos cálculos en una salida de R?</p>
+
 <div class="econ-lamina" markdown>
 
-### Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$ { data-lamina="Láminas 15–22" data-toc-label="Ejemplo: obtener hatβ = (X^top X)^-1X^top y" }
+#### Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$ { data-lamina="Láminas 15–22" data-toc-label="Ejemplo: obtener hatβ = (X^top X)^-1X^top y" }
 
 <p class="econ-lamina-cont">Lámina progresiva · recórrela paso a paso, como en la presentación</p>
 
@@ -755,7 +1022,7 @@ $$
 
 <div class="econ-lamina" markdown>
 
-### En general { data-lamina="Lámina 23" }
+#### En general { data-lamina="Lámina 23" }
 
 <!-- sem4/Clase5.tex · lámina 23 -->
 
@@ -783,7 +1050,7 @@ $$
 
 <div class="econ-lamina" markdown>
 
-### En R { data-lamina="Lámina 24" }
+#### En R { data-lamina="Lámina 24" }
 
 <!-- sem4/Clase5.tex · lámina 24 -->
 
@@ -793,7 +1060,7 @@ $$
 
 <div class="econ-lamina" markdown>
 
-### Regresión { data-lamina="Lámina 25" }
+#### Regresión { data-lamina="Lámina 25" }
 
 <!-- sem4/Clase5.tex · lámina 25 -->
 
@@ -803,6 +1070,54 @@ $$
 
 <div class="econ-widget" data-widget="salida-r"></div>
 
+<div class="econ-practica" id="practica-6">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 6</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En la lámina 25, el coeficiente de experiencia es −16.79 con p-valor 0.642. ¿Qué indica?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Que con 5 datos la estimación es muy imprecisa: no hay evidencia de un efecto de la experiencia.</button>
+<button class="econ-quiz-opt" data-why="El p-valor alto indica justamente que la estimación es muy incierta.">Que un año más de experiencia baja el salario en 16.79, con certeza.</button>
+<button class="econ-quiz-opt" data-why="Con tan pocos datos un signo inesperado es posible: el cálculo es correcto.">Que hay un error de cálculo.</button>
+</div>
+<p class="econ-quiz-fb">✅ Con n = 5 y 3 parámetros quedan 2 grados de libertad: los errores estándar son enormes.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Una vez calculado β̂, ¿cómo se obtienen las predicciones ŷ?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>ŷ = Xβ̂</button>
+<button class="econ-quiz-opt" data-why="Esa matriz, multiplicada por y, da β̂, no ŷ.">ŷ = (XᵀX)⁻¹Xᵀ</button>
+<button class="econ-quiz-opt" data-why="Xᵀy es un vector de k + 1 sumas, no de n predicciones.">ŷ = Xᵀy</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 22.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · La salida de la lámina 25</p>
+
+Reproduce la regresión de la lámina 25 con los 5 datos y calcula el R² ajustado a mano.
+
+```r
+datos <- data.frame(
+  experiencia = c(12, 18, 14, 12, 11),
+  educacion   = c(93, 119, 108, 96, 74),
+  y_sal       = c(769, 808, 825, 650, 562)
+)
+m <- lm(y_sal ~ experiencia + educacion, data = datos)
+summary(m)                 # compárala con la lámina 25
+
+# R² ajustado a mano, con n = 5 y k = 2
+R2 <- summary(m)$r.squared
+1 - (5 - 1) / (5 - 2 - 1) * (1 - R2)
+fitted(m)                  # ŷ = X beta gorro
+```
+
+**🎯 Reto:** agrega un sexto individuo a los datos (por ejemplo, 15, 100 y 700). ¿Cómo cambian los errores estándar?
+{: .econ-r-reto }
+
+</div>
+
 ## Ejercicio: la inversa de XᵀX por cofactores { .econ-parte .is-ayudantia data-eyebrow="Parte 2 · Ayudantía" data-toc-label="Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores" }
 
 <p class="econ-source">📄 Documento: <code>sem4/calculo_matrices.tex</code> · 7 secciones</p>
@@ -810,9 +1125,13 @@ $$
 !!! note "Material de ayudantía/taller"
     Este ejercicio no se ve en la cátedra del viernes: se trabaja en la **ayudantía/taller** de la semana. Mantiene el formato numérico del documento original (punto para los miles, coma decimal).
 
+### La inversa de XᵀX por cofactores { #tema-7 .econ-tema .is-ayudantia data-num="7" data-laminas="Parte 2 · Ayudantía · secciones 1–7" data-toc-label="Tema 7 · Inversa por cofactores" }
+
+<p class="econ-tema-q">¿Cómo se invierte a mano una matriz de 3 × 3?</p>
+
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Modelo y datos { data-lamina="Lámina 1" }
+#### Modelo y datos { data-lamina="Lámina 1" }
 
 <!-- sem4/calculo_matrices.tex · lámina 1 -->
 
@@ -875,7 +1194,7 @@ donde $C$ es la matriz de cofactores de $A$.
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Paso 1: Matriz de menores { data-lamina="Lámina 2" }
+#### Paso 1: Matriz de menores { data-lamina="Lámina 2" }
 
 <!-- sem4/calculo_matrices.tex · lámina 2 -->
 
@@ -953,7 +1272,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Paso 2: Matriz de cofactores { data-lamina="Lámina 3" }
+#### Paso 2: Matriz de cofactores { data-lamina="Lámina 3" }
 
 <!-- sem4/calculo_matrices.tex · lámina 3 -->
 
@@ -999,7 +1318,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Paso 3: Matriz adjunta (adjunta = transpuesta de cofactores) { data-lamina="Lámina 4" }
+#### Paso 3: Matriz adjunta (adjunta = transpuesta de cofactores) { data-lamina="Lámina 4" }
 
 <!-- sem4/calculo_matrices.tex · lámina 4 -->
 
@@ -1018,7 +1337,7 @@ Como $A$ es simétrica, $C$ también resulta simétrica, así que $\operatorname
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Paso 4: Determinante de $A$ { data-lamina="Lámina 5" data-toc-label="Paso 4: Determinante de A" }
+#### Paso 4: Determinante de $A$ { data-lamina="Lámina 5" data-toc-label="Paso 4: Determinante de A" }
 
 <!-- sem4/calculo_matrices.tex · lámina 5 -->
 
@@ -1044,7 +1363,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Paso 5: Matriz inversa { data-lamina="Lámina 6" }
+#### Paso 5: Matriz inversa { data-lamina="Lámina 6" }
 
 <!-- sem4/calculo_matrices.tex · lámina 6 -->
 
@@ -1073,7 +1392,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Cálculo de $\hat\beta=(X^\top X)^{-1}X^\top y$ { data-lamina="Lámina 7" data-toc-label="Cálculo de hatβ=(X^top X)^-1X^top y" }
+#### Cálculo de $\hat\beta=(X^\top X)^{-1}X^\top y$ { data-lamina="Lámina 7" data-toc-label="Cálculo de hatβ=(X^top X)^-1X^top y" }
 
 <!-- sem4/calculo_matrices.tex · lámina 7 -->
 
@@ -1104,6 +1423,57 @@ $$
 $$
 
 Es decir, $\hat\beta_0\approx 140,586$, $\hat\beta_1\approx -16,790$ y $\hat\beta_2\approx 8,237$.
+
+</div>
+
+<div class="econ-practica" id="practica-7">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 7</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Cuándo existe la inversa de A = XᵀX?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Cuando det(A) ≠ 0.</button>
+<button class="econ-quiz-opt" data-why="Una matriz cuadrada con determinante cero no tiene inversa.">Siempre que A sea cuadrada.</button>
+<button class="econ-quiz-opt" data-why="El signo de los elementos no importa: importa el determinante.">Cuando todos sus elementos son positivos.</button>
+</div>
+<p class="econ-quiz-fb">✅ A⁻¹ = adj(A)/det(A): con det(A) = 0 habría que dividir por cero.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">La matriz adjunta es…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…la transpuesta de la matriz de cofactores.</button>
+<button class="econ-quiz-opt" data-why="Los menores son el paso 1; luego se les aplica el signo (cofactores) y se transpone.">…la matriz de menores.</button>
+<button class="econ-quiz-opt" data-why="A⁻¹ = adj(A)/det(A).">…la inversa de A.</button>
+</div>
+<p class="econ-quiz-fb">✅ Paso 3 del documento.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Cofactores en R</p>
+
+Repite los 5 pasos del documento: determinante, cofactores, adjunta e inversa, y compara con `solve()`.
+
+```r
+experiencia <- c(12, 18, 14, 12, 11)
+educacion   <- c(93, 119, 108, 96, 74)
+X <- cbind(1, experiencia, educacion)
+A <- t(X) %*% X
+det(A)
+
+# Cofactor (i, j) = (−1)^(i + j) · determinante del menor sin fila i ni columna j
+cof <- matrix(0, 3, 3)
+for (i in 1:3) for (j in 1:3) cof[i, j] <- (-1)^(i + j) * det(A[-i, -j])
+adjunta <- t(cof)
+inversa <- adjunta / det(A)
+
+round(inversa, 4)
+round(solve(A), 4)          # la inversa que calcula R: igual
+round(A %*% inversa, 10)    # la identidad
+```
+
+**🎯 Reto:** calcula β̂ con tu inversa: `inversa %*% t(X) %*% c(769, 808, 825, 650, 562)`.
+{: .econ-r-reto }
 
 </div>
 

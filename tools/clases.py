@@ -57,7 +57,8 @@ def ar(tex):
 # encabezado y una pregunta guía, y cierra con preguntas de práctica y un ejercicio de R.
 # --------------------------------------------------------------------------------------------
 def tema_encabezado(t):
-    attrs = (f'{{ #tema-{t["n"]} .econ-tema data-num="{t["n"]}" data-laminas="{t["laminas"]}" '
+    ayud = " .is-ayudantia" if t.get("ayudantia") else ""
+    attrs = (f'{{ #tema-{t["n"]} .econ-tema{ayud} data-num="{t["n"]}" data-laminas="{t["laminas"]}" '
              f'data-toc-label="Tema {t["n"]} · {t["corto"]}" }}')
     return f'### {t["titulo"]} {attrs}\n\n<p class="econ-tema-q">{t["pregunta"]}</p>'
 
@@ -74,18 +75,37 @@ def r_ejercicio(t):
             f'```r\n{codigo.strip()}\n```\n\n**🎯 Reto:** {reto}\n{{: .econ-r-reto }}\n\n</div>')
 
 
-def ruta(temas, receso_tras, cierre):
-    """Agenda visual: un paso por tema, con enlace, láminas y lo que trae para practicar."""
-    filas = []
-    for t in temas:
+def ruta(temas, receso_tras, cierre, previo=None):
+    """Agenda visual de la cátedra: un paso por tema, con enlace, láminas y lo que trae para practicar.
+    Los temas de ayudantía van en una lista aparte, sin horario (se ven otro día)."""
+    def fila(t, hora):
         extra = f'✍️ {len(t["quiz"])} preguntas' + (" · 🧪 R" if t.get("r") else "")
-        filas.append(f'<li><span class="econ-ruta-h">{t["hora"]}</span><a class="econ-ruta-a" href="#tema-{t["n"]}">'
-                     f'<span class="econ-ruta-n">{t["n"]}</span><span class="econ-ruta-t">{t["titulo"]}</span>'
-                     f'<span class="econ-ruta-l">{t["laminas"]} · {extra}</span></a></li>')
+        return (f'<li><span class="econ-ruta-h">{hora}</span><a class="econ-ruta-a" href="#tema-{t["n"]}">'
+                f'<span class="econ-ruta-n">{t["n"]}</span><span class="econ-ruta-t">{t["titulo"]}</span>'
+                f'<span class="econ-ruta-l">{t["laminas"]} · {extra}</span></a></li>')
+    pausa = lambda h, txt: f'<li class="is-break"><span class="econ-ruta-h">{h}</span><span class="econ-ruta-t">{txt}</span></li>'
+    filas = [pausa(*previo)] if previo else []
+    for t in (t for t in temas if not t.get("ayudantia")):
+        filas.append(fila(t, t["hora"]))
         if t["n"] == receso_tras[0]:
-            filas.append(f'<li class="is-break"><span class="econ-ruta-h">{receso_tras[1]}</span><span class="econ-ruta-t">☕ Receso</span></li>')
-    filas.append(f'<li class="is-break"><span class="econ-ruta-h">{cierre[0]}</span><span class="econ-ruta-t">{cierre[1]}</span></li>')
-    return '<ol class="econ-ruta">\n' + "\n".join(filas) + "\n</ol>"
+            filas.append(pausa(receso_tras[1], "☕ Receso"))
+    filas.append(pausa(*cierre))
+    out = '<ol class="econ-ruta">\n' + "\n".join(filas) + "\n</ol>"
+    ayud = [t for t in temas if t.get("ayudantia")]
+    if ayud:
+        out += ('\n\n<p class="econ-ruta-sub">📘 <strong>Ayudantía</strong> · se trabaja otro día de la semana, no en la cátedra del viernes</p>\n'
+                '<ol class="econ-ruta is-ayudantia">\n' + "\n".join(fila(t, "") for t in ayud) + "\n</ol>")
+    return out
+
+
+def como_estudiar(n, temas):
+    """Recuadro inicial que explica la estructura por temas de la clase."""
+    nr = sum(1 for t in temas if t.get("r"))
+    return ('!!! example "Cómo estudiar esta clase"\n'
+            f'    La clase está ordenada en **{len(temas)} temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas\n'
+            '    y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica\n'
+            f'    por qué no lo es){(" y un" if nr == len(temas) else " y, en casi todos, un") + " **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada" if nr else ""}.\n'
+            + (f'    Los {nr} ejercicios de R en un solo archivo: [📥 clase{n}.R](../r/clase{n}.R).\n' if nr else ""))
 
 
 def script_r(temas, titulo):
@@ -182,6 +202,8 @@ C1_CABECERA = """# Clase 1 · Introducción y repaso de estadística
     **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para
     estudiar; las soluciones de los ejemplos aparecen plegadas para que intentes resolverlos antes.
 
+<!--COMO-ESTUDIAR-->
+
 ## 🎯 Objetivos de la sesión
 
 **Cátedra (viernes)**
@@ -197,18 +219,7 @@ C1_CABECERA = """# Clase 1 · Introducción y repaso de estadística
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque | Láminas |
-|---|---|---|
-| 18:40 – 19:00 | Presentación del curso: programa, evaluaciones, cátedra + ayudantía, trabajo práctico | — |
-| 19:00 – 19:25 | ¿Qué es la econometría?, econometría moderna y método econométrico | 1 – 3 |
-| 19:25 – 19:55 | Causalidad y correlación: caso de los helados y los tiburones; ejemplo de la universidad | 4 – 6 |
-| 19:55 – 20:05 | *Receso* | |
-| 20:05 – 20:25 | Econometría como herramienta aplicada: Worms y consultorías | 7 |
-| 20:25 – 20:50 | Tipos de datos | 8 – 11 |
-| 20:50 – 21:15 | Muestreo: población y muestra, métodos aleatorios y no probabilísticos | 12 – 19 |
-| 21:15 – 21:25 | Estadística descriptiva vs. inferencial y cierre | 20 |
-
-Las **Partes 2 y 3** (repaso de estadística) se trabajan en la **ayudantía**.
+Haz clic en un tema para ir directo a él.
 """
 
 C1_CIERRE = """!!! abstract "🧠 Ideas clave"
@@ -251,18 +262,8 @@ C1_INSERTAR = {
     ("sem1/repaso_ayudantia.tex", 4): widget("bar-gates"),
     ("sem1/repaso_estadistica.tex", 2): widget("aro"),
     ("sem1/repaso_estadistica.tex", 3): widget("galton"),
-    ("sem1/clase1.tex", 11): "\n\n".join([widget("tipos-datos"),
-        quiz("Tienes el PIB trimestral de Chile, Perú y Colombia entre 2000 y 2024. ¿Qué tipo de datos son?",
-             ["Corte transversal", "Series de tiempo", "Datos de panel"], 2,
-             "Es un <strong>panel</strong>: las mismas unidades (3 países) observadas en muchos períodos. Solo Chile sería una serie de tiempo; solo el año 2024 para muchos países, un corte transversal."),
-        quiz("Una empresa sortea qué sucursales reciben un nuevo sistema de incentivos y compara las ventas. ¿Qué tipo de datos genera?",
-             ["Experimentales", "Pseudo-experimentales", "Observacionales"], 0,
-             "La exposición la asigna el investigador <strong>en forma aleatoria</strong>: es un experimento. Si el gerente eligiera las sucursales, sería pseudo-experimental; si cada sucursal decidiera adoptarlo, observacional."),
-    ]),
-    ("sem1/clase1.tex", 18): widget("muestreo") + "\n\n" + quiz(
-        "Quieres estimar el ingreso promedio en Santiago y la población se divide en comunas muy distintas entre sí, pero cada una bastante homogénea por dentro. ¿Qué método da estimaciones más precisas para un mismo n?",
-        ["Estratificado por comuna", "Por conglomerados (sortear algunas comunas)", "No probabilístico, en lugares concurridos"], 0,
-        "Grupos homogéneos por dentro y distintos entre sí funcionan como <strong>estratos</strong>: muestrear en todos reduce la varianza del estimador."),
+    ("sem1/clase1.tex", 11): widget("tipos-datos"),
+    ("sem1/clase1.tex", 18): widget("muestreo"),
     ("sem1/repaso_ayudantia.tex", 10): widget("descriptiva"),
     ("sem1/repaso_estadistica.tex", 4): widget("tcl"),
     ("sem1/repaso_estadistica.tex", 13): widget("ic-cobertura"),
@@ -296,6 +297,8 @@ C2_CABECERA = """# Clase 2 · Regresión lineal simple
     (`sem2/clase2.tex`, 34 láminas), todas de la **cátedra del viernes**. Los bloques
     **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para estudiar.
 
+<!--COMO-ESTUDIAR-->
+
 ## 🎯 Objetivos de la sesión
 
 - Plantear el modelo de regresión lineal simple (RLS) e interpretar sus parámetros.
@@ -306,16 +309,7 @@ C2_CABECERA = """# Clase 2 · Regresión lineal simple
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque | Láminas |
-|---|---|---|
-| 18:40 – 19:05 | El modelo de regresión lineal simple, terminología y término de error | 1 – 4 |
-| 19:05 – 19:30 | El supuesto $E[u \\mid x] = 0$, ¿qué hay en u?, regresión poblacional y esperanza condicional | 5 – 11 |
-| 19:30 – 19:55 | Estimación por Mínimos Cuadrados Ordinarios y condiciones de primer orden | 12 – 15 |
-| 19:55 – 20:05 | *Receso* | |
-| 20:05 – 20:30 | Regresión muestral, ejemplo educación–sueldos y propiedades aritméticas | 16 – 20 |
-| 20:30 – 20:45 | Método de momentos | 21 – 23 |
-| 20:45 – 21:05 | Descomposición de la varianza, $R^2$ y cambio de unidades | 24 – 26 |
-| 21:05 – 21:25 | Supuestos RLS, insesgamiento y varianza de los estimadores · cierre | 27 – 34 |
+Haz clic en un tema para ir directo a él.
 """
 
 C2_CIERRE = """!!! abstract "🧠 Ideas clave"
@@ -381,11 +375,7 @@ C3_CABECERA = """# Clase 3 · Causalidad y variable omitida
     `Clase3.tex` (Parte 1) y `Clase4.tex` (Parte 2), ambas de la **cátedra del viernes**. Los bloques
     **Interactivo**, los casos y las preguntas son material adicional para estudiar.
 
-!!! example "Cómo estudiar esta clase"
-    La clase está ordenada en **8 temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas
-    y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica
-    por qué no lo es) y un **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada.
-    Todos los ejercicios de R en un solo archivo: [📥 clase3.R](../r/clase3.R).
+<!--COMO-ESTUDIAR-->
 
 ## 🎯 Objetivos de la sesión
 
@@ -766,6 +756,8 @@ C4_CABECERA = """# Clase 4 · Regresión lineal múltiple
     (`calculo_matrices.tex`, ejercicio de la inversa de $X^\\top X$). Los bloques **Interactivo**, los casos
     y las preguntas de autoevaluación son material adicional para estudiar.
 
+<!--COMO-ESTUDIAR-->
+
 ## 🎯 Objetivos de la sesión
 
 **Cátedra (viernes)**
@@ -781,18 +773,7 @@ C4_CABECERA = """# Clase 4 · Regresión lineal múltiple
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque | Láminas |
-|---|---|---|
-| 18:40 – 19:05 | Del modelo simple al múltiple: motivación e interpretación *ceteris paribus* | 1 – 3 |
-| 19:05 – 19:25 | Estimación por MCO con $k$ variables: residuos y condiciones de primer orden | 4 – 5 |
-| 19:25 – 19:55 | Notación matricial: $y = X\\beta + u$ | 6 – 9 |
-| 19:55 – 20:05 | *Receso* | |
-| 20:05 – 20:35 | Derivación de $\\hat{\\beta} = (X^\\top X)^{-1}X^\\top y$ y propiedades algebraicas | 10 – 12 |
-| 20:35 – 20:55 | $R^2$ y $R^2$ ajustado | 13 – 14 |
-| 20:55 – 21:20 | Ejemplo numérico paso a paso y salida en R | 15 – 25 |
-| 21:20 – 21:25 | Autoevaluación y cierre | |
-
-La **Parte 2** (ejercicio de cálculo matricial) se trabaja en la **ayudantía/taller** de la semana.
+Haz clic en un tema para ir directo a él.
 """
 
 C4_CIERRE = """!!! abstract "🧠 Ideas clave"
@@ -837,22 +818,852 @@ C4_INSERTAR = {
     ("sem4/calculo_matrices.tex", 2): widget("cofactores"),
 }
 
+# --------------------------------------------------------------------------------------------
+# Clase 1 · temas
+# --------------------------------------------------------------------------------------------
+S1, S1A, S1E = "sem1/clase1.tex", "sem1/repaso_ayudantia.tex", "sem1/repaso_estadistica.tex"
+
+R_C1_T2 = r'''
+# Un día caluroso hace que se vendan más helados Y que más gente se bañe en el mar
+set.seed(1)
+dias        <- 200
+temperatura <- runif(dias, 10, 35)
+helados     <- 20 + 3 * temperatura + rnorm(dias, sd = 8)
+ataques     <- 0.1 * temperatura + rnorm(dias, sd = 0.5)  # sin helados
+
+cor(helados, ataques)                        # correlación alta…
+coef(lm(ataques ~ helados))["helados"]       # …y pendiente positiva
+coef(lm(ataques ~ helados + temperatura))    # con temperatura fija: ≈ 0
+
+plot(helados, ataques, pch = 19, col = "steelblue",
+     main = "¿Los helados provocan ataques de tiburón?")
+'''
+
+R_C1_T4 = r'''
+set.seed(4)
+# Corte transversal: muchas unidades en un mismo momento
+corte <- data.frame(persona = c("Ana", "Beto", "Carla"),
+                    salario = c(850, 620, 1100), anio = 2024)
+# Serie de tiempo: una unidad a lo largo del tiempo
+serie <- data.frame(anio = 2020:2024,
+                    dolar = c(792, 759, 873, 840, 944))  # promedio anual aprox.
+# Panel: las MISMAS unidades en varios momentos
+panel <- expand.grid(persona = c("Ana", "Beto", "Carla"), anio = 2022:2024)
+panel$salario <- round(700 + 60 * (panel$anio - 2022) + rnorm(9, sd = 40))
+
+corte
+serie
+panel
+table(panel$persona)   # cada persona aparece una vez por año
+'''
+
+R_C1_T5 = r'''
+set.seed(1936)
+N <- 100000
+# Población: quienes tienen teléfono (más ricos) prefieren más al candidato A
+telefono <- rbinom(N, 1, 0.35)
+vota_A   <- rbinom(N, 1, ifelse(telefono == 1, 0.60, 0.30))
+mean(vota_A)                 # parámetro (en la práctica, desconocido)
+
+grande_sesgada <- sample(which(telefono == 1), 20000)  # solo con teléfono
+pequena_azar   <- sample(N, 1000)                      # aleatoria simple
+c(sesgada_n20000 = mean(vota_A[grande_sesgada]),
+  azar_n1000     = mean(vota_A[pequena_azar]))
+'''
+
+R_C1_T6 = r'''
+set.seed(18)
+# Ingresos en 3 comunas muy distintas entre sí, pero parecidas por dentro
+comuna  <- rep(c("A", "B", "C"), each = 2000)
+ingreso <- c(rnorm(2000, 500, 50), rnorm(2000, 900, 60),
+             rnorm(2000, 1600, 80))
+mean(ingreso)                                  # parámetro
+
+simple <- replicate(2000, mean(sample(ingreso, 60)))
+estratificado <- replicate(2000, mean(c(
+  sample(ingreso[comuna == "A"], 20),
+  sample(ingreso[comuna == "B"], 20),
+  sample(ingreso[comuna == "C"], 20))))
+c(simple = sd(simple), estratificado = sd(estratificado))  # error típico
+
+boxplot(list(Simple = simple, Estratificado = estratificado),
+        ylab = "Promedio estimado (n = 60)")
+abline(h = mean(ingreso), lty = 2)
+'''
+
+R_C1_T7 = r'''
+set.seed(7)
+ventas <- round(rnorm(36, mean = 200, sd = 60))   # 36 meses de ventas
+
+# Descriptiva: resume ESTA muestra
+summary(ventas)
+sd(ventas)
+
+# Inferencial: dice algo de la POBLACIÓN (la media μ, que no conocemos)
+mean(ventas) + c(-1, 1) * 1.96 * 60 / sqrt(36)    # IC 95%, σ = 60 conocido
+'''
+
+R_C1_A1 = r'''
+# 15 sueldos en miles de pesos; el último es un atípico (10 millones)
+sueldos <- c(520, 610, 580, 700, 650, 590, 720, 680, 560, 630,
+             600, 750, 640, 610, 10000)
+c(media = mean(sueldos), mediana = median(sueldos))
+c(desv_estandar = sd(sueldos), rango_intercuartil = IQR(sueldos))
+quantile(sueldos)              # cuartiles: q1, mediana y q3
+
+par(mfrow = c(1, 2))
+hist(sueldos[-15], main = "Histograma (sin el atípico)", xlab = "miles de $")
+boxplot(sueldos, main = "Boxplot: el atípico aparte")
+par(mfrow = c(1, 1))
+'''
+
+R_C1_A2 = r'''
+# TCL: la población es muy asimétrica, pero el promedio de 36 datos no
+set.seed(36)
+promedios <- replicate(5000, mean(rexp(36, rate = 1 / 200)))  # μ = σ = 200
+hist(promedios, breaks = 40, main = "5 000 promedios de n = 36",
+     xlab = "x barra")
+c(media = mean(promedios), sd = sd(promedios), sd_teorica = 200 / 6)
+
+# IC de 95% de la lámina 5: x barra = 200, σ = 60, n = 36
+200 + c(-1, 1) * qnorm(0.975) * 60 / sqrt(36)
+
+# ¿Qué significa el 95%? El intervalo atrapa a μ en ~95% de las muestras
+cubre <- replicate(5000, {
+  x <- rnorm(36, mean = 200, sd = 60)
+  abs(mean(x) - 200) <= 1.96 * 60 / sqrt(36)
+})
+mean(cubre)
+'''
+
+R_C1_A3 = r'''
+# Lámina 20: 19 defectuosos en 200 unidades
+x <- 19
+n <- 200
+p <- x / n
+p + c(-1, 1) * qnorm(0.975) * sqrt(p * (1 - p) / n)  # (0.0543; 0.1356)
+
+# Tamaño muestral para un error E = 0.03 con p* = 0.5 (peor escenario)
+E <- 0.03
+ceiling(qnorm(0.975)^2 * 0.5 * (1 - 0.5) / E^2)
+'''
+
+R_C1_A4 = r'''
+# Lámina 32: salarios de egresados de ingeniería (X) y arquitectura (Y)
+xbar <- 800000; ybar <- 680000
+nx   <- 144;    ny   <- 121
+sx   <- 60000;  sy   <- 50000
+
+ee <- sqrt(sx^2 / nx + sy^2 / ny)               # error estándar
+(xbar - ybar) + c(-1, 1) * qnorm(0.975) * ee    # (106 756; 133 244)
+'''
+
+C1_TEMAS = [
+    dict(n=1, hora="19:00", inicio=(S1, 1), fin=(S1, 3), laminas="Parte 1 · láminas 1–3",
+         titulo="¿Qué es la econometría?", corto="¿Qué es la econometría?",
+         pregunta="¿Qué tipo de preguntas podemos responder combinando teoría económica, estadística y datos?",
+         quiz=[
+             ("¿Cuál de estas preguntas es de <strong>predicción</strong>, uno de los tres tipos de la lámina 2?",
+              [("¿Cuánto aumenta el salario por terminar la universidad?", "Esa es una pregunta de impacto causal."),
+               "¿Cuál será la inflación en Chile el próximo año?",
+               ("¿Cómo cambia el salario promedio según los años de educación?", "Esa describe una esperanza condicional.")], 1,
+              "Lámina 2: la econometría moderna estima esperanzas condicionales, impactos causales y predicciones."),
+             ("En y = f(x₁, …, xₖ) + u, ¿por qué aparece el término u?",
+              ["Porque las variables económicas son aleatorias: hay factores que el modelo no captura.",
+               ("Porque los datos siempre tienen errores de digitación.", "u puede incluir errores de medición, pero sobre todo reúne los factores que no están en f."),
+               ("Para que el modelo sea lineal.", "u aparece aunque f no sea lineal; por ejemplo, en la función de producción.")], 0,
+              "Lámina 3: el modelo econométrico agrega un término de error al modelo económico."),
+         ]),
+    dict(n=2, hora="19:25", inicio=(S1, 4), fin=(S1, 6), laminas="Parte 1 · láminas 4–6",
+         titulo="Correlación no es causalidad", corto="Correlación y causalidad",
+         pregunta="Si dos variables se mueven juntas, ¿una causa la otra?",
+         quiz=[
+             ("En los días con más venta de helados hay más ataques de tiburón. ¿Qué lo explica mejor?",
+              [("Los helados atraen a los tiburones.", "No hay un mecanismo lógico: es una correlación espuria."),
+               "Un tercer factor, la temperatura, aumenta ambas cosas.",
+               ("Es causal, porque la correlación es muy alta.", "Una correlación alta no implica causalidad.")], 1,
+              "El calor lleva a comprar helados y a bañarse en el mar. Manteniendo la temperatura constante (ceteris paribus), la relación desaparece."),
+             ("Las personas de 35 años que terminaron la universidad ganan 30% más. ¿Qué haría falta para afirmar que la universidad <em>causa</em> ese 30%?",
+              ["Comparar ceteris paribus: personas iguales en habilidad, ingreso de los padres, etc., que solo difieren en la universidad.",
+               ("Una muestra más grande.", "Más datos no eliminan las diferencias entre quienes terminan la universidad y quienes no."),
+               ("Que la diferencia fuera mayor a 30%.", "El tamaño de la diferencia no dice nada sobre su causa.")], 0,
+              "Es la respuesta de la lámina 6: ir a la universidad está asociado con otras características que también afectan el ingreso."),
+         ],
+         r=("Helados, tiburones y temperatura",
+            "Simula 200 días en que la temperatura aumenta las ventas de helados y los ataques de tiburón, pero los helados **no** afectan los ataques. Compara la regresión con y sin la temperatura.",
+            R_C1_T2, "cambia `0.1 * temperatura` por `0 * temperatura`. ¿Qué pasa con la correlación entre helados y ataques?")),
+    dict(n=3, hora="20:05", inicio=(S1, 7), fin=(S1, 7), laminas="Parte 1 · lámina 7",
+         titulo="La econometría en acción", corto="Econometría aplicada",
+         pregunta="¿Cómo ayuda la econometría a decidir qué políticas funcionan?",
+         quiz=[
+             ("Según Miguel y Kremer (2004), ¿qué pasó al repartir pastillas antiparasitarias en colegios?",
+              ["Mejoró la salud y bajó el ausentismo escolar, no solo de los tratados sino también de sus vecinos.",
+               ("Solo mejoró la salud de quienes tomaron la pastilla.", "El estudio encontró efectos también en los vecinos de los tratados: externalidades."),
+               ("No tuvo efectos medibles.", "La lámina 7 resume efectos en salud y asistencia que impulsaron la iniciativa Deworm the World.")], 0,
+              "Por eso el título habla de <em>Treatment Externalities</em>: el tratamiento también beneficia a quienes no lo recibieron."),
+             ("¿Qué tienen en común el estudio de Worms y el de consultorías en India (Bloom et al.)?",
+              ["En ambos, el tratamiento se asignó por sorteo para medir su efecto causal.",
+               ("Ambos usan solo series de tiempo.", "Ambos comparan grupos de colegios o empresas, no una sola serie en el tiempo."),
+               ("Ambos miden solo correlaciones.", "Justamente, al sortear el tratamiento pueden interpretar la diferencia como causal.")], 0,
+              "Son experimentos aleatorizados: la herramienta que veremos en la Clase 3 para eliminar el sesgo de selección."),
+         ]),
+    dict(n=4, hora="20:25", inicio=(S1, 8), fin=(S1, 11), laminas="Parte 1 · láminas 8–11",
+         titulo="Tipos de datos", corto="Tipos de datos",
+         pregunta="¿De dónde vienen los datos y qué forma tienen?",
+         quiz=[
+             ("Tienes el PIB trimestral de Chile, Perú y Colombia entre 2000 y 2024. ¿Qué tipo de datos son?",
+              [("Corte transversal", "Sería corte transversal si fuera un solo período para muchos países."),
+               ("Series de tiempo", "Sería una serie de tiempo si fuera un solo país."),
+               "Datos de panel"], 2,
+              "Es un <strong>panel</strong>: las mismas unidades (3 países) observadas en muchos períodos."),
+             ("Una empresa sortea qué sucursales reciben un nuevo sistema de incentivos y compara las ventas. ¿Qué tipo de datos genera?",
+              ["Experimentales",
+               ("Pseudo-experimentales", "Serían pseudo-experimentales si el gerente eligiera las sucursales sin sorteo."),
+               ("Observacionales", "Serían observacionales si cada sucursal decidiera si adoptarlo.")], 0,
+              "La exposición la asigna el investigador <strong>en forma aleatoria</strong>: es un experimento (lámina 8)."),
+         ],
+         r=("Tres formas de datos",
+            "Arma un ejemplo pequeño de cada tipo de datos de las láminas 9 a 11 y fíjate en qué cambia: las unidades, los períodos o ambos.",
+            R_C1_T4, "agrega el año 2025 al panel (cambia `2022:2024` por `2022:2025` y `9` por `12`). ¿Cuántas filas tiene ahora?")),
+    dict(n=5, hora="20:50", inicio=(S1, 12), fin=(S1, 15), laminas="Parte 1 · láminas 12–15",
+         titulo="Población, muestra y parámetros", corto="Población y muestra",
+         pregunta="¿Cómo podemos conocer a toda una población mirando solo una parte?",
+         quiz=[
+             ("El ingreso promedio de <em>todos</em> los hogares de Chile es un…",
+              ["Parámetro",
+               ("Estadístico", "Un estadístico se calcula sobre una muestra."),
+               ("Variable", "La variable es el ingreso; su promedio en toda la población es el parámetro.")], 0,
+              "Lámina 15: los parámetros describen a la población y normalmente se estiman con estadísticos muestrales."),
+             ("Una fábrica de ampolletas quiere saber cuántas horas duran. ¿Por qué no las prueba todas?",
+              ["Porque probarlas implica gastarlas: revisar toda la población es imposible en la práctica.",
+               ("Porque una muestra siempre es más exacta que la población.", "Un censo perfecto sería exacto; se muestrea por costo o imposibilidad."),
+               ("Porque la estadística lo prohíbe.", "No hay tal regla: se muestrea por razones prácticas.")], 0,
+              "Lámina 14: imposibilidad física, costo y resultados que normalmente son adecuados."),
+         ],
+         r=("Muestra grande pero sesgada",
+            "Una población de 100 000 votantes. Compara una muestra enorme tomada solo entre quienes tienen teléfono con una pequeña muestra aleatoria.",
+            R_C1_T5, "aumenta la muestra sesgada de `20000` a `30000`. ¿Se acerca al parámetro?")),
+    dict(n=6, hora="21:00", inicio=(S1, 16), fin=(S1, 19), laminas="Parte 1 · láminas 16–19",
+         titulo="Métodos de muestreo", corto="Métodos de muestreo",
+         pregunta="¿Cuál es la mejor manera de elegir la muestra?",
+         quiz=[
+             ("Sorteas uno de los primeros 10 clientes de una lista y luego eliges a cada décimo cliente. ¿Qué método es?",
+              [("Aleatorio simple", "En el simple todas las muestras posibles tienen la misma probabilidad; aquí solo se sortea el punto de inicio."),
+               "Aleatorio sistemático",
+               ("Por conglomerados", "No se eligen grupos completos.")], 1,
+              "Lámina 16: se ordena la población, se elige un inicio al azar y luego cada k-ésimo elemento."),
+             ("Quieres estimar el ingreso promedio en Santiago. Las comunas son muy distintas entre sí, pero bastante homogéneas por dentro. ¿Qué método es más preciso para un mismo n?",
+              ["Estratificado por comuna",
+               ("Por conglomerados (sortear algunas comunas)", "Los conglomerados funcionan bien cuando cada grupo es heterogéneo, como un mini reflejo de la población."),
+               ("No probabilístico, en lugares concurridos", "Sin selección aleatoria, la muestra no es representativa.")], 0,
+              "Grupos homogéneos por dentro y distintos entre sí funcionan como <strong>estratos</strong>: muestrear en todos reduce la varianza (lámina 18)."),
+             ("El Literary Digest encuestó a más de 2 millones de personas y se equivocó. ¿Por qué?",
+              ["La muestra no era representativa: muchas personas no podían aparecer en ella.",
+               ("La muestra era demasiado pequeña.", "Era gigantesca; el tamaño no corrige un mal método de selección."),
+               ("Los encuestados mintieron.", "El problema principal fue quién podía ser encuestado.")], 0,
+              "Lámina 13: una muestra es representativa si toda unidad puede aparecer con una probabilidad conocida."),
+         ],
+         r=("Estratificado contra aleatorio simple",
+            "Simula tres comunas con ingresos muy distintos y compara 2 000 muestras de cada método: ¿cuál se equivoca menos?",
+            R_C1_T6, "haz que las comunas se parezcan (cambia `500` y `1600` por `900`). ¿Sigue ganando el estratificado?")),
+    dict(n=7, hora="21:15", inicio=(S1, 20), fin=(S1, 20), laminas="Parte 1 · lámina 20",
+         titulo="Estadística descriptiva e inferencial", corto="Descriptiva e inferencial",
+         pregunta="¿Cuándo una conclusión vale solo para los datos y cuándo para toda la población?",
+         quiz=[
+             ("Un profesor calcula el promedio de notas de <em>su</em> curso para informárselo al curso. ¿Qué estadística usa?",
+              ["Descriptiva: la conclusión vale solo para ese curso.",
+               ("Inferencial", "Sería inferencial si usara su curso para concluir algo sobre todos los estudiantes del país.")], 0,
+              "Lámina 20: la estadística descriptiva saca conclusiones válidas solo para la muestra analizada."),
+             ("Con una encuesta a 1 000 personas estimas la tasa de desempleo del país y su intervalo de confianza. ¿Qué estadística usas?",
+              ["Inferencial",
+               ("Descriptiva", "Estás generalizando de la muestra a toda la población.")], 0,
+              "Generalizar a la población con un margen de error es inferencia: es lo que repasa la ayudantía."),
+         ],
+         r=("Describir e inferir",
+            "Con 36 meses de ventas, primero describe la muestra y luego infiere la media poblacional, como en el ejemplo de la ayudantía.",
+            R_C1_T7, "cambia los dos `36` por `144`. ¿Qué pasa con el ancho del intervalo?")),
+    dict(n=8, ayudantia=True, inicio=(S1A, 1), fin=(S1A, 10), laminas="Parte 2 · Ayudantía · láminas 1–10",
+         titulo="Estadística descriptiva", corto="Estadística descriptiva",
+         pregunta="¿Cómo resumir muchos datos en pocos números y gráficos?",
+         quiz=[
+             ("En un boxplot, ¿qué representa la caja?",
+              ["El 50% central de los datos, entre el primer y el tercer cuartil.",
+               ("El rango completo de los datos.", "El rango completo lo marcan los bigotes y los atípicos, no la caja."),
+               ("La media ± una desviación estándar.", "El boxplot se construye con cuartiles, no con la media ni la desviación estándar.")], 0,
+              "Láminas 9–10: la caja va de q₁ a q₃ y la línea interior es la mediana."),
+             ("Dos cursos tienen promedio 5.0. En el A las notas van de 4.8 a 5.2; en el B, de 2.0 a 7.0. ¿Qué estadístico los distingue?",
+              ["La desviación estándar.",
+               ("La media.", "Ambas medias son 5.0."),
+               ("La mediana.", "Mide la posición central, que puede ser igual en ambos; aquí lo que cambia es la dispersión.")], 0,
+              "Láminas 6–7: los estadísticos de dispersión miden cuán alejados están los datos de su centro."),
+         ],
+         r=("Media, mediana y un atípico",
+            "Calcula los estadísticos de localización y dispersión de 15 sueldos con un valor atípico, y dibuja su histograma y su boxplot.",
+            R_C1_A1, "elimina el `10000` del vector. ¿Cuánto cambia la media? ¿Y la mediana?")),
+    dict(n=9, ayudantia=True, inicio=(S1E, 1), fin=(S1E, 14), laminas="Parte 3 · Ayudantía · láminas 1–14",
+         titulo="TCL e intervalos de confianza para la media", corto="TCL e IC para la media",
+         pregunta="¿Cuánto podemos confiar en un promedio calculado con una muestra?",
+         quiz=[
+             ("¿Qué dice el Teorema Central del Límite?",
+              ["Con n grande, X̄ es aproximadamente normal, aunque la población no lo sea.",
+               ("Con n grande, los datos de la población se vuelven normales.", "La población no cambia: lo que se vuelve normal es la distribución de X̄."),
+               ("X̄ siempre es igual a μ.", "X̄ varía de muestra en muestra alrededor de μ, con varianza σ²/n.")], 0,
+              "Láminas 3–4: X̄ ≈ N(μ, σ²/n) si n ≥ 30, o para cualquier n si la población es normal."),
+             ("Con x̄ = 200, σ = 60 y n = 36, ¿cuál es el IC de 99% para μ?",
+              [("(180.4; 219.6)", "Ese es el IC de 95% (z = 1.96)."),
+               "(174.2; 225.8)",
+               ("(183.6; 216.4)", "Ese es el de 90% (z = 1.645): más confianza exige un intervalo más ancho.")], 1,
+              "200 ± 2.576 · 60/√36 = 200 ± 25.8. Pruébalo en la calculadora de intervalos."),
+         ],
+         r=("El TCL y el 95%",
+            "Comprueba el TCL con una población muy asimétrica, reproduce el IC de la lámina 5 y verifica qué significa el 95%.",
+            R_C1_A2, "cambia `0.975` por `0.995` en el IC. ¿El intervalo de 99% es más ancho o más angosto?")),
+    dict(n=10, ayudantia=True, inicio=(S1E, 15), fin=(S1E, 24), laminas="Parte 3 · Ayudantía · láminas 15–24",
+         titulo="Intervalos de confianza para proporciones", corto="IC para proporciones",
+         pregunta="¿Cómo estimar un porcentaje, como la tasa de productos defectuosos?",
+         quiz=[
+             ("Con 19 defectuosos en 200 unidades, el IC de 95% es (0.054; 0.136). El proveedor dice que p = 0.05. ¿Qué concluyes?",
+              ["Los datos no son coherentes con lo que afirma el proveedor: 0.05 queda fuera del intervalo.",
+               ("El proveedor tiene razón, porque 0.05 está cerca de 0.054.", "Lo que importa es si el valor queda dentro o fuera del intervalo."),
+               ("Con 200 unidades no se puede concluir nada.", "El intervalo ya incorpora la incertidumbre de usar 200 unidades.")], 0,
+              "Es la conclusión de la lámina 21."),
+             ("Sin información previa sobre p, ¿qué p* conviene usar para calcular el tamaño muestral?",
+              ["0.5, porque maximiza p*(1 − p*) y da el n más conservador.",
+               ("0.05", "Daría un n demasiado chico si en realidad p estuviera cerca de 0.5."),
+               ("1", "Con p* = 1, p*(1 − p*) = 0 y el n calculado sería 0.")], 0,
+              "Lámina 22: p* = 0.5 es el peor escenario."),
+         ],
+         r=("Productos defectuosos",
+            "Reproduce el intervalo de la lámina 21 y calcula cuántas unidades harían falta para un error de ±3 puntos porcentuales.",
+            R_C1_A3, "usa `p* = 0.095` en vez de `0.5` en el tamaño muestral. ¿Cuántas unidades necesitas ahora?")),
+    dict(n=11, ayudantia=True, inicio=(S1E, 25), fin=(S1E, 34), laminas="Parte 3 · Ayudantía · láminas 25–34",
+         titulo="Intervalos para la diferencia de medias", corto="IC para diferencia de medias",
+         pregunta="¿Ganan distinto, en promedio, los egresados de dos carreras?",
+         quiz=[
+             ("El IC de 95% para μₓ − μᵧ es (106 756; 133 244). ¿Qué significa que no contenga al cero?",
+              ["Que hay evidencia de que los salarios promedio de ambas carreras son distintos.",
+               ("Que todos los ingenieros ganan más que todos los arquitectos.", "El intervalo se refiere a las medias, no a cada persona."),
+               ("Que la diferencia es exactamente 120 000.", "120 000 es la estimación puntual; el intervalo da un rango de valores plausibles.")], 0,
+              "Es la conclusión de la lámina 34."),
+             ("Si aumentas nₓ y nᵧ (y lo demás no cambia), el intervalo para μₓ − μᵧ…",
+              ["…se angosta.",
+               ("…se ensancha.", "El error estándar √(σₓ²/nₓ + σᵧ²/nᵧ) baja al crecer las muestras."),
+               ("…no cambia.", "El error estándar depende de los tamaños muestrales.")], 0,
+              "Más datos, menos incertidumbre: el error estándar disminuye."),
+         ],
+         r=("Ingeniería contra arquitectura",
+            "Reproduce el intervalo de la lámina 33 para la diferencia de salarios promedio.",
+            R_C1_A4, "¿cuánto tendría que valer `ybar` para que el intervalo contuviera al cero? Pruébalo.")),
+]
+
+# --------------------------------------------------------------------------------------------
+# Clase 2 · temas
+# --------------------------------------------------------------------------------------------
+S2 = "sem2/clase2.tex"
+
+R_C2_T1 = r'''
+set.seed(1)
+n <- 100
+educacion <- sample(8:20, n, replace = TRUE)
+u <- rnorm(n, sd = 3)                    # todo lo demás que afecta el salario
+salario <- 0.1 + 0.55 * educacion + u    # beta0 = 0.1, beta1 = 0.55
+
+plot(educacion, salario, pch = 19, col = "steelblue",
+     main = "Cada punto se aleja de la recta en su u")
+abline(a = 0.1, b = 0.55, lwd = 2)       # la FRP: E[salario | educacion]
+'''
+
+R_C2_T2 = r'''
+set.seed(2)
+n <- 5000
+habilidad <- rnorm(n)                     # está en u: no la observamos
+
+# Caso 1: la educación no depende de la habilidad -> E[u | x] = 0
+educ1 <- rnorm(n, 12, 2)
+sal1  <- 1 + 0.5 * educ1 + 2 * habilidad + rnorm(n)
+
+# Caso 2: los más hábiles estudian más -> E[u | x] cambia con x
+educ2 <- 12 + 1.5 * habilidad + rnorm(n)
+sal2  <- 1 + 0.5 * educ2 + 2 * habilidad + rnorm(n)
+
+c(caso1 = unname(coef(lm(sal1 ~ educ1))[2]),
+  caso2 = unname(coef(lm(sal2 ~ educ2))[2]))   # verdadero: 0.5
+
+# Promedio de u por tramos de educación en el caso 2: ¡no es cero!
+tapply(2 * habilidad, cut(educ2, 4), mean)
+'''
+
+R_C2_T3 = r'''
+set.seed(3)
+x <- runif(50, 8, 20)
+y <- 0.1 + 0.55 * x + rnorm(50, sd = 3)
+
+b1 <- sum((x - mean(x)) * (y - mean(y))) / sum((x - mean(x))^2)
+b0 <- mean(y) - b1 * mean(x)
+c(b0 = b0, b1 = b1)
+coef(lm(y ~ x))                        # lo mismo
+
+# MCO = la recta con la menor suma de residuos al cuadrado
+ssr <- function(b) sum((y - b[1] - b[2] * x)^2)
+optim(c(0, 0), ssr)$par                # búsqueda numérica del mínimo
+c(MCO = ssr(c(b0, b1)), otra_recta = ssr(c(b0, b1 + 0.1)))
+'''
+
+R_C2_T4 = r'''
+set.seed(4)
+educacion <- sample(8:20, 200, replace = TRUE)
+salario   <- 0.1 + 0.55 * educacion + rnorm(200, sd = 3)
+m     <- lm(salario ~ educacion)
+u_hat <- resid(m)
+y_hat <- fitted(m)
+
+# Propiedades aritméticas (lámina 20)
+round(c(suma_residuos = sum(u_hat),
+        suma_x_por_residuo = sum(educacion * u_hat),
+        media_y = mean(salario), media_y_hat = mean(y_hat)), 6)
+round(unname(coef(m)[1] + coef(m)[2] * mean(educacion) - mean(salario)), 10)  # = 0
+
+# Predicción para 12 años con la recta de la lámina 19 y con la nuestra
+0.095 + 0.54 * 12
+predict(m, newdata = data.frame(educacion = 12))
+'''
+
+R_C2_T5 = r'''
+set.seed(5)
+x <- runif(80, 8, 20)
+y <- 0.1 + 0.55 * x + rnorm(80, sd = 3)
+
+# Análogos muestrales: (1/n) Σ u = 0 y (1/n) Σ x u = 0, con u = y − b0 − b1 x
+# Es un sistema lineal en (b0, b1):  A b = c
+A <- rbind(c(1,       mean(x)),
+           c(mean(x), mean(x^2)))
+c_vec <- c(mean(y), mean(x * y))
+solve(A, c_vec)          # estimadores de momentos
+coef(lm(y ~ x))          # = MCO
+'''
+
+R_C2_T6 = r'''
+set.seed(6)
+ingreso <- runif(150, 300000, 2000000)          # en pesos
+gasto   <- 50000 + 0.6 * ingreso + rnorm(150, sd = 150000)
+m <- lm(gasto ~ ingreso)
+
+SST <- sum((gasto - mean(gasto))^2)
+SSE <- sum((fitted(m) - mean(gasto))^2)
+SSR <- sum(resid(m)^2)
+c(SST = SST, SSE_mas_SSR = SSE + SSR)           # iguales
+c(R2_a_mano = SSE / SST, R2_lm = summary(m)$r.squared)
+
+# Cambio de unidades: ingreso en miles de pesos
+ingreso_miles <- ingreso / 1000
+m2 <- lm(gasto ~ ingreso_miles)
+rbind(pesos = coef(m), miles = coef(m2))  # pendiente × 1 000
+summary(m2)$r.squared                     # el R² no cambia
+'''
+
+R_C2_T7 = r'''
+set.seed(7)
+n <- 50
+sigma <- 3
+x <- runif(n, 8, 20)                    # x fija entre muestras
+b1 <- replicate(5000, {
+  y <- 0.1 + 0.55 * x + rnorm(n, sd = sigma)
+  coef(lm(y ~ x))[2]
+})
+mean(b1)                                # ≈ 0.55: insesgado
+c(var_simulada = var(b1),
+  var_formula = sigma^2 / sum((x - mean(x))^2))
+
+hist(b1, breaks = 40, main = "5 000 estimaciones de beta1",
+     xlab = "beta1 gorro")
+abline(v = 0.55, lwd = 2)
+'''
+
+C2_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S2, 1), fin=(S2, 4), laminas="láminas 1–4",
+         titulo="El modelo de regresión lineal simple", corto="El modelo RLS",
+         pregunta="¿Cómo escribir que el salario depende de la educación… y de todo lo demás?",
+         quiz=[
+             ("En salario = β₀ + β₁·educación + u, ¿qué es u?",
+              ["Todos los factores que afectan el salario y no están en el modelo: habilidad, experiencia, suerte…",
+               ("El error de la estimación por MCO.", "Ese es el residuo û, que se calcula con la muestra; u es poblacional y no se observa."),
+               ("Un número fijo que se suma al salario.", "Ese papel lo cumple β₀.")], 0,
+              "Láminas 3–4: el término de error reúne todo lo que afecta a y además de x."),
+             ("En y = β₀ + β₁x + u, ¿cómo se llama y?",
+              ["Variable dependiente (o explicada)",
+               ("Variable independiente", "Esa es x, la variable explicativa."),
+               ("Término de error", "Ese es u.")], 0,
+              "Lámina 2: terminología del modelo de regresión simple."),
+         ],
+         r=("La función de regresión poblacional",
+            "Simula 100 personas con un modelo conocido y dibuja la FRP. Cada punto se aleja de la recta en su propio u.",
+            R_C2_T1, "cambia `sd = 3` por `sd = 0.5`. ¿Qué pasa con la nube de puntos?")),
+    dict(n=2, hora="19:05", inicio=(S2, 5), fin=(S2, 11), laminas="láminas 5–11",
+         titulo="El supuesto clave y la regresión poblacional", corto="E[u|x] = 0 y la FRP",
+         pregunta="¿Qué tiene que cumplir u para que β₁ mida el efecto de x?",
+         quiz=[
+             ("Si u incluye la habilidad, y las personas más hábiles estudian más, ¿qué supuesto falla?",
+              ["E[u | x] = 0: el promedio de u cambia con la educación.",
+               ("E[u] = 0", "Ese se cumple siempre que el modelo tenga intercepto; el problema es que u dependa de x."),
+               ("Ninguno: la habilidad no está en el modelo.", "Justamente por no estar en el modelo, la habilidad queda en u.")], 0,
+              "Láminas 6–7: si la habilidad está en u y se relaciona con la educación, E[u | x] ≠ 0."),
+             ("La función de regresión poblacional E[y | x] = β₀ + β₁x describe…",
+              ["…cómo cambia el valor promedio de y según x.",
+               ("…el valor exacto de y de cada persona.", "Cada persona se aleja del promedio en su u."),
+               ("…la recta estimada con la muestra.", "Esa es la regresión muestral (FRM), con β̂.")], 0,
+              "Láminas 8–10: la FRP es una esperanza condicional."),
+         ],
+         r=("Cuando E[u | x] no es cero",
+            "Compara dos mundos: uno en que la habilidad no se relaciona con la educación y otro en que los más hábiles estudian más. El verdadero β₁ es 0.5 en ambos.",
+            R_C2_T2, "cambia `1.5 * habilidad` por `-1.5 * habilidad`. ¿Hacia dónde se mueve la estimación del caso 2?")),
+    dict(n=3, hora="19:30", inicio=(S2, 12), fin=(S2, 15), laminas="láminas 12–15",
+         titulo="Estimar por mínimos cuadrados ordinarios", corto="MCO",
+         pregunta="De todas las rectas posibles, ¿cuál elegimos?",
+         quiz=[
+             ("¿Qué minimiza MCO?",
+              ["La suma de los residuos al cuadrado, Σûᵢ².",
+               ("La suma de los residuos, Σûᵢ.", "Muchas rectas tienen Σûᵢ = 0 (los errores se cancelan); por eso se elevan al cuadrado."),
+               ("La distancia horizontal entre los puntos y la recta.", "MCO mide distancias verticales, en y.")], 0,
+              "Lámina 13. Juégalo en el simulador de cuadrados."),
+             ("β̂₁ = Σ(xᵢ − x̄)(yᵢ − ȳ) / Σ(xᵢ − x̄)². ¿Qué pasa si todas las x son iguales?",
+              ["No se puede calcular: el denominador es cero.",
+               ("β̂₁ = 0", "No es cero: es una división por cero. Sin variación en x no se puede estimar la pendiente."),
+               ("β̂₁ = ȳ", "ȳ sería el intercepto de un modelo sin x.")], 0,
+              "Por eso se necesita variación en x (supuesto RLS 3)."),
+         ],
+         r=("MCO a mano",
+            "Calcula β̂₀ y β̂₁ con las fórmulas de la lámina 14, compáralos con `lm()` y comprueba que ninguna otra recta tiene menor suma de residuos al cuadrado.",
+            R_C2_T3, "prueba otra recta en la última línea, por ejemplo `c(b0 + 1, b1)`. ¿Su SSR es mayor o menor?")),
+    dict(n=4, hora="20:05", inicio=(S2, 16), fin=(S2, 20), laminas="láminas 16–20",
+         titulo="La regresión muestral y sus propiedades", corto="Regresión muestral",
+         pregunta="Una vez estimada la recta, ¿qué propiedades cumple siempre?",
+         quiz=[
+             ("Con salario estimado = 0.095 + 0.54·educación, ¿cuál es el salario predicho para 12 años de educación?",
+              ["6.58 dólares por hora",
+               ("6.48 dólares por hora", "Falta sumar el intercepto 0.095."),
+               ("0.54 dólares por hora", "0.54 es la pendiente: el cambio por cada año adicional.")], 0,
+              "0.095 + 0.54 · 12 = 6.575. Pruébalo en el simulador de predicción."),
+             ("¿Cuál de estas afirmaciones NO se cumple siempre en MCO con intercepto?",
+              [("Σûᵢ = 0", "Se cumple siempre: es la primera condición de primer orden."),
+               ("La recta pasa por (x̄, ȳ).", "Se cumple siempre: es la propiedad 4 de la lámina 20."),
+               "Todos los residuos ûᵢ son pequeños."], 2,
+              "Las propiedades de la lámina 20 son algebraicas; cada residuo puede ser grande."),
+         ],
+         r=("Las propiedades, número a número",
+            "Estima una regresión y verifica las cuatro propiedades aritméticas de la lámina 20. Después predice el salario para 12 años de educación.",
+            R_C2_T4, "predice el salario para 16 años de educación con `predict()`.")),
+    dict(n=5, hora="20:30", inicio=(S2, 21), fin=(S2, 23), laminas="láminas 21–23",
+         titulo="Método de momentos", corto="Método de momentos",
+         pregunta="¿Hay otra forma de llegar a los mismos estimadores?",
+         quiz=[
+             ("El método de momentos reemplaza E[u] = 0 y E[xu] = 0 por…",
+              ["…sus análogos muestrales: (1/n)Σûᵢ = 0 y (1/n)Σxᵢûᵢ = 0.",
+               ("…la condición de que el R² sea máximo.", "El método usa las condiciones de momentos, no el R²."),
+               ("…un supuesto de normalidad.", "No se necesita normalidad.")], 0,
+              "Láminas 21–22."),
+             ("En la regresión simple, ¿qué relación hay entre los estimadores de momentos y los de MCO?",
+              ["Son idénticos.",
+               ("Los de momentos son siempre más precisos.", "Son exactamente los mismos números."),
+               ("Solo coinciden si n > 30.", "Coinciden para cualquier n: las ecuaciones son las mismas que las condiciones de primer orden de MCO.")], 0,
+              "Lámina 23: las condiciones de primer orden de MCO son las mismas ecuaciones."),
+         ],
+         r=("Resolver los momentos",
+            "Escribe las dos condiciones de momentos como un sistema lineal, resuélvelo con `solve()` y compara con MCO.",
+            R_C2_T5, "cambia el tamaño de la muestra de `80` a `8` (en las dos líneas). ¿Siguen coincidiendo?")),
+    dict(n=6, hora="20:45", inicio=(S2, 24), fin=(S2, 26), laminas="láminas 24–26",
+         titulo="Bondad de ajuste y unidades de medida", corto="R² y unidades",
+         pregunta="¿Qué tan bien explica x la variación de y?",
+         quiz=[
+             ("Si R² = 0.30, ¿qué significa?",
+              ["Que el 30% de la variación muestral de y se explica por x.",
+               ("Que x causa el 30% de y.", "El R² mide ajuste, no causalidad."),
+               ("Que el modelo está mal especificado.", "Un R² bajo es común con datos individuales y no invalida la regresión.")], 0,
+              "Lámina 25: R² = SSE/SST."),
+             ("Si la variable x pasa de pesos a miles de pesos (se divide por 1 000), ¿qué pasa?",
+              ["β̂₁ se multiplica por 1 000 y el R² no cambia.",
+               ("β̂₁ se divide por 1 000 y el R² no cambia.", "Si x se divide por c, la pendiente se multiplica por c (lámina 26)."),
+               ("Cambian β̂₁ y el R².", "El R² no depende de las unidades de medida.")], 0,
+              "Lámina 26. Pruébalo en el simulador de unidades."),
+         ],
+         r=("SST = SSE + SSR",
+            "Verifica la descomposición de la varianza, calcula el R² a mano y cambia las unidades de x.",
+            R_C2_T6, "en vez de dividir el ingreso, divide el gasto por 1 000. ¿Qué coeficientes cambian?")),
+    dict(n=7, hora="21:05", inicio=(S2, 27), fin=(S2, 34), laminas="láminas 27–34",
+         titulo="Supuestos, insesgamiento y varianza", corto="Supuestos y propiedades",
+         pregunta="¿Cuándo podemos confiar en que MCO acierta en promedio, y con cuánta precisión?",
+         quiz=[
+             ("¿Qué supuesto exige que no todos los valores muestrales de x sean iguales?",
+              ["RLS 3",
+               ("RLS 2", "RLS 2 es el muestreo aleatorio."),
+               ("RLS 5", "RLS 5 es la homocedasticidad: Var(u | x) = σ².")], 0,
+              "Lámina 29: sin variación en x no se puede calcular β̂₁."),
+             ("Que β̂₁ sea insesgado significa que…",
+              ["…en promedio sobre muchas muestras, β̂₁ es igual a β₁.",
+               ("…en cada muestra, β̂₁ = β₁.", "Cada muestra da un β̂₁ distinto; el insesgamiento habla del promedio."),
+               ("…β̂₁ tiene varianza cero.", "La varianza la mide la fórmula de la lámina 34, y no es cero.")], 0,
+              "Láminas 31–32: con RLS 1–4, E[β̂₁] = β₁."),
+         ],
+         r=("Insesgamiento y varianza por simulación",
+            "Repite 5 000 veces la muestra: el promedio de β̂₁ debería ser el β₁ verdadero, y su varianza, la de la fórmula de la lámina 34.",
+            R_C2_T7, "cambia `sd = sigma` por `sd = 0.3 * x` (el error crece con x). ¿Sigue siendo insesgado? ¿Coincide la fórmula?")),
+]
+
+# --------------------------------------------------------------------------------------------
+# Clase 4 · temas
+# --------------------------------------------------------------------------------------------
+S4, S4A = "sem4/Clase5.tex", "sem4/calculo_matrices.tex"
+
+R_C4_DATOS = '''experiencia <- c(12, 18, 14, 12, 11)
+educacion   <- c(93, 119, 108, 96, 74)
+salario     <- c(769, 808, 825, 650, 562)'''
+
+R_C4_T1 = r'''
+set.seed(1)
+n         <- 1000
+IQ        <- rnorm(n, 100, 15)
+educacion <- 12 + 0.1 * (IQ - 100) + rnorm(n, sd = 2)   # más IQ, más educación
+salario   <- 1 + 0.37 * educacion + 0.05 * IQ + rnorm(n, sd = 2)
+
+coef(lm(salario ~ educacion))        # simple: mezcla educación e IQ
+coef(lm(salario ~ educacion + IQ))   # múltiple: educación con IQ fijo
+'''
+
+R_C4_T2 = r'''
+set.seed(2)
+n  <- 200
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+x3 <- rnorm(n)
+y  <- 1 + 2 * x1 - 1 * x2 + 0.5 * x3 + rnorm(n)
+
+m <- lm(y ~ x1 + x2 + x3)
+coef(m)
+u <- resid(m)
+# Las k + 1 = 4 condiciones de primer orden: Σû = 0 y Σ xj û = 0
+round(c(sum(u), sum(x1 * u), sum(x2 * u), sum(x3 * u)), 10)
+'''
+
+R_C4_T3 = r'''
+# Datos de la lámina 8 (y del ejercicio de la ayudantía)
+''' + R_C4_DATOS + r'''
+
+X <- cbind(unos = 1, experiencia, educacion)   # n × (k + 1)
+y <- salario
+X
+dim(X)
+t(X) %*% X        # XᵀX: (k + 1) × (k + 1)
+t(X) %*% y        # Xᵀy
+'''
+
+R_C4_T4 = R_C4_DATOS + r'''
+X <- cbind(1, experiencia, educacion)
+y <- salario
+
+beta <- solve(t(X) %*% X) %*% t(X) %*% y     # (XᵀX)⁻¹ Xᵀy
+beta
+coef(lm(salario ~ experiencia + educacion))  # lo mismo
+
+u_hat <- y - X %*% beta
+round(t(X) %*% u_hat, 8)                     # Xᵀû = 0
+'''
+
+R_C4_T5 = r'''
+set.seed(5)
+n <- 30
+x <- rnorm(n)
+y <- 1 + 2 * x + rnorm(n, sd = 2)
+r2 <- function(m) c(R2 = summary(m)$r.squared,
+                    R2_ajustado = summary(m)$adj.r.squared)
+
+basura <- matrix(rnorm(n * 10), n, 10)  # 10 variables sin relación con y
+rbind(solo_x     = r2(lm(y ~ x)),
+      x_y_basura = r2(lm(y ~ x + basura)))
+'''
+
+R_C4_T6 = r'''
+datos <- data.frame(
+  experiencia = c(12, 18, 14, 12, 11),
+  educacion   = c(93, 119, 108, 96, 74),
+  y_sal       = c(769, 808, 825, 650, 562)
+)
+m <- lm(y_sal ~ experiencia + educacion, data = datos)
+summary(m)                 # compárala con la lámina 25
+
+# R² ajustado a mano, con n = 5 y k = 2
+R2 <- summary(m)$r.squared
+1 - (5 - 1) / (5 - 2 - 1) * (1 - R2)
+fitted(m)                  # ŷ = X beta gorro
+'''
+
+R_C4_A = r'''
+experiencia <- c(12, 18, 14, 12, 11)
+educacion   <- c(93, 119, 108, 96, 74)
+X <- cbind(1, experiencia, educacion)
+A <- t(X) %*% X
+det(A)
+
+# Cofactor (i, j) = (−1)^(i + j) · determinante del menor sin fila i ni columna j
+cof <- matrix(0, 3, 3)
+for (i in 1:3) for (j in 1:3) cof[i, j] <- (-1)^(i + j) * det(A[-i, -j])
+adjunta <- t(cof)
+inversa <- adjunta / det(A)
+
+round(inversa, 4)
+round(solve(A), 4)          # la inversa que calcula R: igual
+round(A %*% inversa, 10)    # la identidad
+'''
+
+C4_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S4, 1), fin=(S4, 3), laminas="Parte 1 · láminas 1–3",
+         titulo="Del modelo simple al múltiple", corto="Del simple al múltiple",
+         pregunta="¿Cómo medir el efecto de la educación dejando fija la inteligencia?",
+         quiz=[
+             ("Con salario = 0.065 + 0.37·educación + 0.20·IQ, dos personas tienen el mismo IQ y una tiene un año más de educación. ¿Cuánto difiere su salario esperado?",
+              ["0.37",
+               ("0.54", "Ese es el coeficiente de la regresión simple, que no deja fijo el IQ."),
+               ("0.57", "No se suman los coeficientes: el IQ está fijo.")], 0,
+              "Lámina 2: cada β es una derivada parcial, con las demás variables incluidas constantes."),
+             ("¿Por qué el coeficiente de educación baja de 0.54 a 0.37 al agregar el IQ?",
+              ["Porque en la regresión simple la educación captaba también parte del efecto del IQ.",
+               ("Porque agregar variables siempre achica los coeficientes.", "Pueden subir, bajar o quedar igual: depende de β₂ y δ₁."),
+               ("Porque el IQ importa más que la educación.", "Comparar 0.37 con 0.20 no dice eso: las variables están en unidades distintas.")], 0,
+              "Es el sesgo por variable omitida de la Clase 3: β̃₁ = β₁ + β₂δ₁ con β₂ &gt; 0 y δ₁ &gt; 0."),
+         ],
+         r=("Simple contra múltiple",
+            "Simula educación, IQ y salario. Compara el coeficiente de educación sin y con el IQ en la regresión.",
+            R_C4_T1, "cambia `0.1 * (IQ - 100)` por `0 * (IQ - 100)`. ¿Siguen siendo distintos los dos coeficientes?")),
+    dict(n=2, hora="19:05", inicio=(S4, 4), fin=(S4, 5), laminas="Parte 1 · láminas 4–5",
+         titulo="MCO con k variables", corto="MCO con k variables",
+         pregunta="¿Qué cambia en MCO cuando hay más de una variable explicativa?",
+         quiz=[
+             ("Con k variables explicativas, ¿cuántas condiciones de primer orden tiene MCO?",
+              [("k", "Falta la condición del intercepto."),
+               "k + 1",
+               ("n", "Hay una por parámetro, no una por observación.")], 1,
+              "Lámina 5: una ecuación por cada β̂, incluido β̂₀."),
+             ("Las condiciones de primer orden implican que los residuos…",
+              ["…suman cero y no están correlacionados con ninguna x incluida.",
+               ("…son todos iguales a cero.", "Los residuos individuales no son cero; lo son sus sumas ponderadas."),
+               ("…tienen distribución normal.", "Las condiciones de primer orden no dicen nada sobre la distribución.")], 0,
+              "Son las mismas propiedades de la regresión simple, ahora para cada xⱼ."),
+         ],
+         r=("Las k + 1 condiciones",
+            "Estima un modelo con tres variables y comprueba que se cumplen las cuatro condiciones de primer orden.",
+            R_C4_T2, "agrega una cuarta variable `x4 <- rnorm(n)` al modelo. ¿Cuántas condiciones hay que verificar ahora?")),
+    dict(n=3, hora="19:25", inicio=(S4, 6), fin=(S4, 9), laminas="Parte 1 · láminas 6–9",
+         titulo="Notación matricial", corto="Notación matricial",
+         pregunta="¿Cómo escribir n ecuaciones en una sola línea?",
+         quiz=[
+             ("En y = Xβ + u, con n = 5 y dos variables explicativas, ¿qué dimensión tiene β?",
+              ["3 × 1",
+               ("2 × 1", "Falta β₀: la columna de unos también tiene su parámetro."),
+               ("5 × 1", "Esa es la dimensión de y y de u.")], 0,
+              "β tiene un elemento por parámetro: k + 1 = 3."),
+             ("¿Para qué sirve la columna de unos en X?",
+              ["Para que el modelo tenga intercepto, β₀.",
+               ("Para normalizar las variables.", "Los unos no cambian las variables: acompañan a β₀."),
+               ("Para que XᵀX sea simétrica.", "XᵀX es simétrica siempre, tenga o no la columna de unos.")], 0,
+              "Láminas 7–8: la primera columna de X es de unos."),
+         ],
+         r=("Arma X con los datos de la lámina",
+            "Construye la matriz X del ejemplo de la lámina 8 y calcula XᵀX y Xᵀy. Compara Xᵀy con la lámina 22.",
+            R_C4_T3, "agrega una tercera variable, por ejemplo `edad <- c(30, 41, 35, 29, 26)`, a X. ¿Qué dimensión tiene ahora XᵀX?")),
+    dict(n=4, hora="20:05", inicio=(S4, 10), fin=(S4, 12), laminas="Parte 1 · láminas 10–12",
+         titulo="La fórmula de MCO y sus propiedades", corto="β̂ = (XᵀX)⁻¹Xᵀy",
+         pregunta="¿De dónde sale β̂ = (XᵀX)⁻¹Xᵀy?",
+         quiz=[
+             ("Si X es n × (k + 1), ¿qué dimensión tiene XᵀX?",
+              ["(k + 1) × (k + 1)",
+               ("n × n", "Ese sería XXᵀ."),
+               ("n × (k + 1)", "Esa es la dimensión de X.")], 0,
+              "XᵀX es cuadrada, del tamaño del número de parámetros."),
+             ("La condición Xᵀû = 0 significa que…",
+              ["…los residuos son ortogonales a cada columna de X, incluida la de unos.",
+               ("…todos los residuos son cero.", "Cada residuo puede ser distinto de cero."),
+               ("…X no tiene inversa.", "Xᵀû = 0 vale siempre en MCO; es XᵀX la que debe ser invertible.")], 0,
+              "Lámina 12: propiedades algebraicas de MCO en forma matricial."),
+         ],
+         r=("La fórmula en R",
+            "Calcula β̂ = (XᵀX)⁻¹Xᵀy con matrices, compáralo con `lm()` y verifica que Xᵀû = 0.",
+            R_C4_T4, "duplica una columna: usa `X <- cbind(1, experiencia, experiencia)`. ¿Qué error da `solve()` y por qué?")),
+    dict(n=5, hora="20:35", inicio=(S4, 13), fin=(S4, 14), laminas="Parte 1 · láminas 13–14",
+         titulo="R² y R² ajustado", corto="R² y R² ajustado",
+         pregunta="¿Mejora el modelo cada vez que agregamos una variable?",
+         quiz=[
+             ("Con n = 5, k = 2 y R² = 0.7751, ¿cuánto vale el R² ajustado?",
+              ["0.5501",
+               ("0.7751", "Ese es el R² sin ajustar."),
+               ("0.8876", "El R² ajustado nunca supera al R².")], 0,
+              "1 − (4/2)·(1 − 0.7751) = 0.5501, como en la salida de R de la lámina 25."),
+             ("¿Puede el R² ajustado ser negativo?",
+              ["Sí, cuando el modelo explica muy poco y tiene muchas variables respecto de n.",
+               ("No, siempre está entre 0 y 1.", "Eso vale para el R²; el ajustado puede quedar bajo cero.")], 0,
+              "La penalización (n − 1)/(n − k − 1) puede superar lo que explica el modelo."),
+         ],
+         r=("La trampa del R²",
+            "Agrega 10 variables sin ninguna relación con y y compara el R² con el R² ajustado.",
+            R_C4_T5, "agrega 20 variables basura (cambia los dos `10` por `20`). ¿Qué pasa con el R² ajustado?")),
+    dict(n=6, hora="20:55", inicio=(S4, 15), fin=(S4, 25), laminas="Parte 1 · láminas 15–25",
+         titulo="El ejemplo numérico y la salida en R", corto="Ejemplo y salida en R",
+         pregunta="¿Cómo se ven todos estos cálculos en una salida de R?",
+         quiz=[
+             ("En la lámina 25, el coeficiente de experiencia es −16.79 con p-valor 0.642. ¿Qué indica?",
+              ["Que con 5 datos la estimación es muy imprecisa: no hay evidencia de un efecto de la experiencia.",
+               ("Que un año más de experiencia baja el salario en 16.79, con certeza.", "El p-valor alto indica justamente que la estimación es muy incierta."),
+               ("Que hay un error de cálculo.", "Con tan pocos datos un signo inesperado es posible: el cálculo es correcto.")], 0,
+              "Con n = 5 y 3 parámetros quedan 2 grados de libertad: los errores estándar son enormes."),
+             ("Una vez calculado β̂, ¿cómo se obtienen las predicciones ŷ?",
+              ["ŷ = Xβ̂",
+               ("ŷ = (XᵀX)⁻¹Xᵀ", "Esa matriz, multiplicada por y, da β̂, no ŷ."),
+               ("ŷ = Xᵀy", "Xᵀy es un vector de k + 1 sumas, no de n predicciones.")], 0,
+              "Lámina 22."),
+         ],
+         r=("La salida de la lámina 25",
+            "Reproduce la regresión de la lámina 25 con los 5 datos y calcula el R² ajustado a mano.",
+            R_C4_T6, "agrega un sexto individuo a los datos (por ejemplo, 15, 100 y 700). ¿Cómo cambian los errores estándar?")),
+    dict(n=7, ayudantia=True, inicio=(S4A, 1), fin=(S4A, 7), laminas="Parte 2 · Ayudantía · secciones 1–7",
+         titulo="La inversa de XᵀX por cofactores", corto="Inversa por cofactores",
+         pregunta="¿Cómo se invierte a mano una matriz de 3 × 3?",
+         quiz=[
+             ("¿Cuándo existe la inversa de A = XᵀX?",
+              ["Cuando det(A) ≠ 0.",
+               ("Siempre que A sea cuadrada.", "Una matriz cuadrada con determinante cero no tiene inversa."),
+               ("Cuando todos sus elementos son positivos.", "El signo de los elementos no importa: importa el determinante.")], 0,
+              "A⁻¹ = adj(A)/det(A): con det(A) = 0 habría que dividir por cero."),
+             ("La matriz adjunta es…",
+              ["…la transpuesta de la matriz de cofactores.",
+               ("…la matriz de menores.", "Los menores son el paso 1; luego se les aplica el signo (cofactores) y se transpone."),
+               ("…la inversa de A.", "A⁻¹ = adj(A)/det(A).")], 0,
+              "Paso 3 del documento."),
+         ],
+         r=("Cofactores en R",
+            "Repite los 5 pasos del documento: determinante, cofactores, adjunta e inversa, y compara con `solve()`.",
+            R_C4_A, "calcula β̂ con tu inversa: `inversa %*% t(X) %*% c(769, 808, 825, 650, 562)`.")),
+]
+
+
+C1_AGENDA = "\n" + ruta(C1_TEMAS, (2, "19:55"), ("21:25", "✅ Ideas clave, autoevaluación y cierre"),
+                      previo=("18:40", "🎓 Presentación del curso: programa, evaluaciones, cátedra + ayudantía y trabajo práctico"))
+C2_AGENDA = "\n" + ruta(C2_TEMAS, (3, "19:55"), ("21:25", "✅ Ideas clave, autoevaluación y cierre"))
+C4_AGENDA = "\n" + ruta(C4_TEMAS, (3, "19:55"), ("21:20", "✅ Ideas clave, autoevaluación y cierre"))
+
+
 CLASES = {
-    1: dict(out="docs/clases/clase1.md", cabecera=C1_CABECERA, cierre=C1_CIERRE,
+    1: dict(out="docs/clases/clase1.md", cabecera=C1_CABECERA + C1_AGENDA, cierre=C1_CIERRE, temas=C1_TEMAS,
             fuentes=[("sem1/clase1.tex", "Parte 1 · Introducción a la econometría"),
                      ("sem1/repaso_ayudantia.tex", "Parte 2 · Ayudantía · Repaso de estadística descriptiva",
                       '!!! note "Material de ayudantía"\n'
                       '    Las Partes 2 y 3 no se ven en la cátedra del viernes: se trabajan en la **ayudantía** de la semana.'),
                      ("sem1/repaso_estadistica.tex", "Parte 3 · Ayudantía · Repaso de estadística inferencial")],
             insertar=C1_INSERTAR, plegar=C1_PLEGAR),
-    2: dict(out="docs/clases/clase2.md", cabecera=C2_CABECERA, cierre=C2_CIERRE,
+    2: dict(out="docs/clases/clase2.md", cabecera=C2_CABECERA + C2_AGENDA, cierre=C2_CIERRE, temas=C2_TEMAS,
             fuentes=[("sem2/clase2.tex", "Parte 1 · Regresión lineal simple")],
             insertar=C2_INSERTAR, plegar={}),
     3: dict(out="docs/clases/clase3.md", cabecera=C3_CABECERA + C3_AGENDA, cierre=C3_CIERRE,
             fuentes=[("sem3/Clase3.tex", "Parte 1 · Causalidad y sesgo de selección"),
                      ("sem3/Clase4.tex", "Parte 2 · Sesgo por variable omitida")],
             insertar=C3_INSERTAR, plegar={}, temas=C3_TEMAS),
-    4: dict(out="docs/clases/clase4.md", cabecera=C4_CABECERA, cierre=C4_CIERRE,
+    4: dict(out="docs/clases/clase4.md", cabecera=C4_CABECERA + C4_AGENDA, cierre=C4_CIERRE, temas=C4_TEMAS,
             fuentes=[("sem4/Clase5.tex", "Parte 1 · Regresión lineal múltiple: estimación"),
                      ("sem4/calculo_matrices.tex", "Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores",
                       '!!! note "Material de ayudantía/taller"\n'
@@ -896,8 +1707,8 @@ def rango(a, b):
 
 def generar(n):
     cfg = CLASES[n]
-    partes = [cfg["cabecera"].strip()]
     temas = cfg.get("temas", [])
+    partes = [cfg["cabecera"].strip().replace("<!--COMO-ESTUDIAR-->\n", como_estudiar(n, temas) if temas else "")]
     # Con temas, las láminas bajan un nivel (h4) para que el índice muestre Parte > Tema > Lámina
     hx = "####" if temas else "###"
     insertar = dict(cfg["insertar"])

@@ -15,6 +15,12 @@
     **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para
     estudiar; las soluciones de los ejemplos aparecen plegadas para que intentes resolverlos antes.
 
+!!! example "Cómo estudiar esta clase"
+    La clase está ordenada en **11 temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas
+    y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica
+    por qué no lo es) y, en casi todos, un **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada.
+    Los 9 ejercicios de R en un solo archivo: [📥 clase1.R](../r/clase1.R).
+
 ## 🎯 Objetivos de la sesión
 
 **Cátedra (viernes)**
@@ -30,26 +36,40 @@
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
-| Hora | Bloque | Láminas |
-|---|---|---|
-| 18:40 – 19:00 | Presentación del curso: programa, evaluaciones, cátedra + ayudantía, trabajo práctico | — |
-| 19:00 – 19:25 | ¿Qué es la econometría?, econometría moderna y método econométrico | 1 – 3 |
-| 19:25 – 19:55 | Causalidad y correlación: caso de los helados y los tiburones; ejemplo de la universidad | 4 – 6 |
-| 19:55 – 20:05 | *Receso* | |
-| 20:05 – 20:25 | Econometría como herramienta aplicada: Worms y consultorías | 7 |
-| 20:25 – 20:50 | Tipos de datos | 8 – 11 |
-| 20:50 – 21:15 | Muestreo: población y muestra, métodos aleatorios y no probabilísticos | 12 – 19 |
-| 21:15 – 21:25 | Estadística descriptiva vs. inferencial y cierre | 20 |
+Haz clic en un tema para ir directo a él.
 
-Las **Partes 2 y 3** (repaso de estadística) se trabajan en la **ayudantía**.
+<ol class="econ-ruta">
+<li class="is-break"><span class="econ-ruta-h">18:40</span><span class="econ-ruta-t">🎓 Presentación del curso: programa, evaluaciones, cátedra + ayudantía y trabajo práctico</span></li>
+<li><span class="econ-ruta-h">19:00</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">¿Qué es la econometría?</span><span class="econ-ruta-l">Parte 1 · láminas 1–3 · ✍️ 2 preguntas</span></a></li>
+<li><span class="econ-ruta-h">19:25</span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">Correlación no es causalidad</span><span class="econ-ruta-l">Parte 1 · láminas 4–6 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">19:55</span><span class="econ-ruta-t">☕ Receso</span></li>
+<li><span class="econ-ruta-h">20:05</span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">La econometría en acción</span><span class="econ-ruta-l">Parte 1 · lámina 7 · ✍️ 2 preguntas</span></a></li>
+<li><span class="econ-ruta-h">20:25</span><a class="econ-ruta-a" href="#tema-4"><span class="econ-ruta-n">4</span><span class="econ-ruta-t">Tipos de datos</span><span class="econ-ruta-l">Parte 1 · láminas 8–11 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">20:50</span><a class="econ-ruta-a" href="#tema-5"><span class="econ-ruta-n">5</span><span class="econ-ruta-t">Población, muestra y parámetros</span><span class="econ-ruta-l">Parte 1 · láminas 12–15 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">21:00</span><a class="econ-ruta-a" href="#tema-6"><span class="econ-ruta-n">6</span><span class="econ-ruta-t">Métodos de muestreo</span><span class="econ-ruta-l">Parte 1 · láminas 16–19 · ✍️ 3 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">21:15</span><a class="econ-ruta-a" href="#tema-7"><span class="econ-ruta-n">7</span><span class="econ-ruta-t">Estadística descriptiva e inferencial</span><span class="econ-ruta-l">Parte 1 · lámina 20 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">21:25</span><span class="econ-ruta-t">✅ Ideas clave, autoevaluación y cierre</span></li>
+</ol>
+
+<p class="econ-ruta-sub">📘 <strong>Ayudantía</strong> · se trabaja otro día de la semana, no en la cátedra del viernes</p>
+<ol class="econ-ruta is-ayudantia">
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-8"><span class="econ-ruta-n">8</span><span class="econ-ruta-t">Estadística descriptiva</span><span class="econ-ruta-l">Parte 2 · Ayudantía · láminas 1–10 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-9"><span class="econ-ruta-n">9</span><span class="econ-ruta-t">TCL e intervalos de confianza para la media</span><span class="econ-ruta-l">Parte 3 · Ayudantía · láminas 1–14 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-10"><span class="econ-ruta-n">10</span><span class="econ-ruta-t">Intervalos de confianza para proporciones</span><span class="econ-ruta-l">Parte 3 · Ayudantía · láminas 15–24 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-11"><span class="econ-ruta-n">11</span><span class="econ-ruta-t">Intervalos para la diferencia de medias</span><span class="econ-ruta-l">Parte 3 · Ayudantía · láminas 25–34 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+</ol>
 
 ## Introducción a la econometría { .econ-parte data-eyebrow="Parte 1 · Cátedra" data-toc-label="Parte 1 · Introducción a la econometría" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem1/clase1.tex</code> · 20 láminas</p>
 
+### ¿Qué es la econometría? { #tema-1 .econ-tema data-num="1" data-laminas="Parte 1 · láminas 1–3" data-toc-label="Tema 1 · ¿Qué es la econometría?" }
+
+<p class="econ-tema-q">¿Qué tipo de preguntas podemos responder combinando teoría económica, estadística y datos?</p>
+
 <div class="econ-lamina" markdown>
 
-### ¿Qué es econometría? { data-lamina="Lámina 1" }
+#### ¿Qué es econometría? { data-lamina="Lámina 1" }
 
 <!-- sem1/clase1.tex · lámina 1 -->
 
@@ -67,7 +87,7 @@ Las **Partes 2 y 3** (repaso de estadística) se trabajan en la **ayudantía**.
 
 <div class="econ-lamina" markdown>
 
-### Econometría moderna { data-lamina="Lámina 2" }
+#### Econometría moderna { data-lamina="Lámina 2" }
 
 <!-- sem1/clase1.tex · lámina 2 -->
 
@@ -83,7 +103,7 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 <div class="econ-lamina" markdown>
 
-### Método econométrico { data-lamina="Lámina 3" }
+#### Método econométrico { data-lamina="Lámina 3" }
 
 <!-- sem1/clase1.tex · lámina 3 -->
 
@@ -108,9 +128,35 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 </div>
 
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Cuál de estas preguntas es de <strong>predicción</strong>, uno de los tres tipos de la lámina 2?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-why="Esa es una pregunta de impacto causal.">¿Cuánto aumenta el salario por terminar la universidad?</button>
+<button class="econ-quiz-opt" data-correct>¿Cuál será la inflación en Chile el próximo año?</button>
+<button class="econ-quiz-opt" data-why="Esa describe una esperanza condicional.">¿Cómo cambia el salario promedio según los años de educación?</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 2: la econometría moderna estima esperanzas condicionales, impactos causales y predicciones.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En y = f(x₁, …, xₖ) + u, ¿por qué aparece el término u?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Porque las variables económicas son aleatorias: hay factores que el modelo no captura.</button>
+<button class="econ-quiz-opt" data-why="u puede incluir errores de medición, pero sobre todo reúne los factores que no están en f.">Porque los datos siempre tienen errores de digitación.</button>
+<button class="econ-quiz-opt" data-why="u aparece aunque f no sea lineal; por ejemplo, en la función de producción.">Para que el modelo sea lineal.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 3: el modelo econométrico agrega un término de error al modelo económico.</p>
+</div>
+</div>
+
+### Correlación no es causalidad { #tema-2 .econ-tema data-num="2" data-laminas="Parte 1 · láminas 4–6" data-toc-label="Tema 2 · Correlación y causalidad" }
+
+<p class="econ-tema-q">Si dos variables se mueven juntas, ¿una causa la otra?</p>
+
 <div class="econ-lamina" markdown>
 
-### Causalidad y correlación { data-lamina="Lámina 4" }
+#### Causalidad y correlación { data-lamina="Lámina 4" }
 
 <!-- sem1/clase1.tex · lámina 4 -->
 
@@ -130,7 +176,7 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 <div class="econ-lamina" markdown>
 
-### Ejemplo { data-lamina="Láminas 5–6" }
+#### Ejemplo { data-lamina="Láminas 5–6" }
 
 <!-- sem1/clase1.tex · lámina 5 -->
 
@@ -151,9 +197,62 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 <div class="econ-widget" data-widget="confusores"></div>
 
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En los días con más venta de helados hay más ataques de tiburón. ¿Qué lo explica mejor?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-why="No hay un mecanismo lógico: es una correlación espuria.">Los helados atraen a los tiburones.</button>
+<button class="econ-quiz-opt" data-correct>Un tercer factor, la temperatura, aumenta ambas cosas.</button>
+<button class="econ-quiz-opt" data-why="Una correlación alta no implica causalidad.">Es causal, porque la correlación es muy alta.</button>
+</div>
+<p class="econ-quiz-fb">✅ El calor lleva a comprar helados y a bañarse en el mar. Manteniendo la temperatura constante (ceteris paribus), la relación desaparece.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Las personas de 35 años que terminaron la universidad ganan 30% más. ¿Qué haría falta para afirmar que la universidad <em>causa</em> ese 30%?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Comparar ceteris paribus: personas iguales en habilidad, ingreso de los padres, etc., que solo difieren en la universidad.</button>
+<button class="econ-quiz-opt" data-why="Más datos no eliminan las diferencias entre quienes terminan la universidad y quienes no.">Una muestra más grande.</button>
+<button class="econ-quiz-opt" data-why="El tamaño de la diferencia no dice nada sobre su causa.">Que la diferencia fuera mayor a 30%.</button>
+</div>
+<p class="econ-quiz-fb">✅ Es la respuesta de la lámina 6: ir a la universidad está asociado con otras características que también afectan el ingreso.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Helados, tiburones y temperatura</p>
+
+Simula 200 días en que la temperatura aumenta las ventas de helados y los ataques de tiburón, pero los helados **no** afectan los ataques. Compara la regresión con y sin la temperatura.
+
+```r
+# Un día caluroso hace que se vendan más helados Y que más gente se bañe en el mar
+set.seed(1)
+dias        <- 200
+temperatura <- runif(dias, 10, 35)
+helados     <- 20 + 3 * temperatura + rnorm(dias, sd = 8)
+ataques     <- 0.1 * temperatura + rnorm(dias, sd = 0.5)  # sin helados
+
+cor(helados, ataques)                        # correlación alta…
+coef(lm(ataques ~ helados))["helados"]       # …y pendiente positiva
+coef(lm(ataques ~ helados + temperatura))    # con temperatura fija: ≈ 0
+
+plot(helados, ataques, pch = 19, col = "steelblue",
+     main = "¿Los helados provocan ataques de tiburón?")
+```
+
+**🎯 Reto:** cambia `0.1 * temperatura` por `0 * temperatura`. ¿Qué pasa con la correlación entre helados y ataques?
+{: .econ-r-reto }
+
+</div>
+
+### La econometría en acción { #tema-3 .econ-tema data-num="3" data-laminas="Parte 1 · lámina 7" data-toc-label="Tema 3 · Econometría aplicada" }
+
+<p class="econ-tema-q">¿Cómo ayuda la econometría a decidir qué políticas funcionan?</p>
+
 <div class="econ-lamina" markdown>
 
-### Econometría como herramienta aplicada { data-lamina="Lámina 7" }
+#### Econometría como herramienta aplicada { data-lamina="Lámina 7" }
 
 <!-- sem1/clase1.tex · lámina 7 -->
 
@@ -170,9 +269,35 @@ La econometría moderna se enfoca en contestar 3 tipos de preguntas:
 
 <div class="econ-widget" data-widget="casos-reales"></div>
 
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Según Miguel y Kremer (2004), ¿qué pasó al repartir pastillas antiparasitarias en colegios?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Mejoró la salud y bajó el ausentismo escolar, no solo de los tratados sino también de sus vecinos.</button>
+<button class="econ-quiz-opt" data-why="El estudio encontró efectos también en los vecinos de los tratados: externalidades.">Solo mejoró la salud de quienes tomaron la pastilla.</button>
+<button class="econ-quiz-opt" data-why="La lámina 7 resume efectos en salud y asistencia que impulsaron la iniciativa Deworm the World.">No tuvo efectos medibles.</button>
+</div>
+<p class="econ-quiz-fb">✅ Por eso el título habla de <em>Treatment Externalities</em>: el tratamiento también beneficia a quienes no lo recibieron.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué tienen en común el estudio de Worms y el de consultorías en India (Bloom et al.)?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>En ambos, el tratamiento se asignó por sorteo para medir su efecto causal.</button>
+<button class="econ-quiz-opt" data-why="Ambos comparan grupos de colegios o empresas, no una sola serie en el tiempo.">Ambos usan solo series de tiempo.</button>
+<button class="econ-quiz-opt" data-why="Justamente, al sortear el tratamiento pueden interpretar la diferencia como causal.">Ambos miden solo correlaciones.</button>
+</div>
+<p class="econ-quiz-fb">✅ Son experimentos aleatorizados: la herramienta que veremos en la Clase 3 para eliminar el sesgo de selección.</p>
+</div>
+</div>
+
+### Tipos de datos { #tema-4 .econ-tema data-num="4" data-laminas="Parte 1 · láminas 8–11" data-toc-label="Tema 4 · Tipos de datos" }
+
+<p class="econ-tema-q">¿De dónde vienen los datos y qué forma tienen?</p>
+
 <div class="econ-lamina" markdown>
 
-### Tipos de Datos { data-lamina="Láminas 8–11" }
+#### Tipos de Datos { data-lamina="Láminas 8–11" }
 
 <!-- sem1/clase1.tex · lámina 8 -->
 
@@ -202,29 +327,64 @@ Varias ventajas: Control de ciertas características no observadas de individuos
 
 <div class="econ-widget" data-widget="tipos-datos"></div>
 
+<div class="econ-practica" id="practica-4">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 4</span></p>
 <div class="econ-quiz">
 <p class="econ-quiz-q">Tienes el PIB trimestral de Chile, Perú y Colombia entre 2000 y 2024. ¿Qué tipo de datos son?</p>
 <div class="econ-quiz-opts">
-<button class="econ-quiz-opt">Corte transversal</button>
-<button class="econ-quiz-opt">Series de tiempo</button>
+<button class="econ-quiz-opt" data-why="Sería corte transversal si fuera un solo período para muchos países.">Corte transversal</button>
+<button class="econ-quiz-opt" data-why="Sería una serie de tiempo si fuera un solo país.">Series de tiempo</button>
 <button class="econ-quiz-opt" data-correct>Datos de panel</button>
 </div>
-<p class="econ-quiz-fb">✅ Es un <strong>panel</strong>: las mismas unidades (3 países) observadas en muchos períodos. Solo Chile sería una serie de tiempo; solo el año 2024 para muchos países, un corte transversal.</p>
+<p class="econ-quiz-fb">✅ Es un <strong>panel</strong>: las mismas unidades (3 países) observadas en muchos períodos.</p>
 </div>
-
 <div class="econ-quiz">
 <p class="econ-quiz-q">Una empresa sortea qué sucursales reciben un nuevo sistema de incentivos y compara las ventas. ¿Qué tipo de datos genera?</p>
 <div class="econ-quiz-opts">
 <button class="econ-quiz-opt" data-correct>Experimentales</button>
-<button class="econ-quiz-opt">Pseudo-experimentales</button>
-<button class="econ-quiz-opt">Observacionales</button>
+<button class="econ-quiz-opt" data-why="Serían pseudo-experimentales si el gerente eligiera las sucursales sin sorteo.">Pseudo-experimentales</button>
+<button class="econ-quiz-opt" data-why="Serían observacionales si cada sucursal decidiera si adoptarlo.">Observacionales</button>
 </div>
-<p class="econ-quiz-fb">✅ La exposición la asigna el investigador <strong>en forma aleatoria</strong>: es un experimento. Si el gerente eligiera las sucursales, sería pseudo-experimental; si cada sucursal decidiera adoptarlo, observacional.</p>
+<p class="econ-quiz-fb">✅ La exposición la asigna el investigador <strong>en forma aleatoria</strong>: es un experimento (lámina 8).</p>
 </div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Tres formas de datos</p>
+
+Arma un ejemplo pequeño de cada tipo de datos de las láminas 9 a 11 y fíjate en qué cambia: las unidades, los períodos o ambos.
+
+```r
+set.seed(4)
+# Corte transversal: muchas unidades en un mismo momento
+corte <- data.frame(persona = c("Ana", "Beto", "Carla"),
+                    salario = c(850, 620, 1100), anio = 2024)
+# Serie de tiempo: una unidad a lo largo del tiempo
+serie <- data.frame(anio = 2020:2024,
+                    dolar = c(792, 759, 873, 840, 944))  # promedio anual aprox.
+# Panel: las MISMAS unidades en varios momentos
+panel <- expand.grid(persona = c("Ana", "Beto", "Carla"), anio = 2022:2024)
+panel$salario <- round(700 + 60 * (panel$anio - 2022) + rnorm(9, sd = 40))
+
+corte
+serie
+panel
+table(panel$persona)   # cada persona aparece una vez por año
+```
+
+**🎯 Reto:** agrega el año 2025 al panel (cambia `2022:2024` por `2022:2025` y `9` por `12`). ¿Cuántas filas tiene ahora?
+{: .econ-r-reto }
+
+</div>
+
+### Población, muestra y parámetros { #tema-5 .econ-tema data-num="5" data-laminas="Parte 1 · láminas 12–15" data-toc-label="Tema 5 · Población y muestra" }
+
+<p class="econ-tema-q">¿Cómo podemos conocer a toda una población mirando solo una parte?</p>
 
 <div class="econ-lamina" markdown>
 
-### Muestreo { data-lamina="Láminas 12–13" }
+#### Muestreo { data-lamina="Láminas 12–13" }
 
 <!-- sem1/clase1.tex · lámina 12 -->
 
@@ -246,7 +406,7 @@ Se dice que una muestra es representativa de una población si toda unidad de ob
 
 <div class="econ-lamina" markdown>
 
-### ¿Por qué muestrear la población? { data-lamina="Lámina 14" }
+#### ¿Por qué muestrear la población? { data-lamina="Lámina 14" }
 
 <!-- sem1/clase1.tex · lámina 14 -->
 
@@ -260,7 +420,7 @@ Se dice que una muestra es representativa de una población si toda unidad de ob
 
 <div class="econ-lamina" markdown>
 
-### Objetivos del muestreo { data-lamina="Lámina 15" }
+#### Objetivos del muestreo { data-lamina="Lámina 15" }
 
 <!-- sem1/clase1.tex · lámina 15 -->
 
@@ -276,9 +436,60 @@ Se dice que una muestra es representativa de una población si toda unidad de ob
 
 </div>
 
+<div class="econ-practica" id="practica-5">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 5</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">El ingreso promedio de <em>todos</em> los hogares de Chile es un…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Parámetro</button>
+<button class="econ-quiz-opt" data-why="Un estadístico se calcula sobre una muestra.">Estadístico</button>
+<button class="econ-quiz-opt" data-why="La variable es el ingreso; su promedio en toda la población es el parámetro.">Variable</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 15: los parámetros describen a la población y normalmente se estiman con estadísticos muestrales.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Una fábrica de ampolletas quiere saber cuántas horas duran. ¿Por qué no las prueba todas?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Porque probarlas implica gastarlas: revisar toda la población es imposible en la práctica.</button>
+<button class="econ-quiz-opt" data-why="Un censo perfecto sería exacto; se muestrea por costo o imposibilidad.">Porque una muestra siempre es más exacta que la población.</button>
+<button class="econ-quiz-opt" data-why="No hay tal regla: se muestrea por razones prácticas.">Porque la estadística lo prohíbe.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 14: imposibilidad física, costo y resultados que normalmente son adecuados.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Muestra grande pero sesgada</p>
+
+Una población de 100 000 votantes. Compara una muestra enorme tomada solo entre quienes tienen teléfono con una pequeña muestra aleatoria.
+
+```r
+set.seed(1936)
+N <- 100000
+# Población: quienes tienen teléfono (más ricos) prefieren más al candidato A
+telefono <- rbinom(N, 1, 0.35)
+vota_A   <- rbinom(N, 1, ifelse(telefono == 1, 0.60, 0.30))
+mean(vota_A)                 # parámetro (en la práctica, desconocido)
+
+grande_sesgada <- sample(which(telefono == 1), 20000)  # solo con teléfono
+pequena_azar   <- sample(N, 1000)                      # aleatoria simple
+c(sesgada_n20000 = mean(vota_A[grande_sesgada]),
+  azar_n1000     = mean(vota_A[pequena_azar]))
+```
+
+**🎯 Reto:** aumenta la muestra sesgada de `20000` a `30000`. ¿Se acerca al parámetro?
+{: .econ-r-reto }
+
+</div>
+
+### Métodos de muestreo { #tema-6 .econ-tema data-num="6" data-laminas="Parte 1 · láminas 16–19" data-toc-label="Tema 6 · Métodos de muestreo" }
+
+<p class="econ-tema-q">¿Cuál es la mejor manera de elegir la muestra?</p>
+
 <div class="econ-lamina" markdown>
 
-### Muestreo aleatorio { data-lamina="Láminas 16–17" }
+#### Muestreo aleatorio { data-lamina="Láminas 16–17" }
 
 <!-- sem1/clase1.tex · lámina 16 -->
 
@@ -298,7 +509,7 @@ Se dice que una muestra es representativa de una población si toda unidad de ob
 
 <div class="econ-lamina" markdown>
 
-### Muestreo Estratificado vs. Muestreo por Conglomerados { data-lamina="Lámina 18" }
+#### Muestreo Estratificado vs. Muestreo por Conglomerados { data-lamina="Lámina 18" }
 
 <!-- sem1/clase1.tex · lámina 18 -->
 
@@ -320,19 +531,9 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 
 <div class="econ-widget" data-widget="muestreo"></div>
 
-<div class="econ-quiz">
-<p class="econ-quiz-q">Quieres estimar el ingreso promedio en Santiago y la población se divide en comunas muy distintas entre sí, pero cada una bastante homogénea por dentro. ¿Qué método da estimaciones más precisas para un mismo n?</p>
-<div class="econ-quiz-opts">
-<button class="econ-quiz-opt" data-correct>Estratificado por comuna</button>
-<button class="econ-quiz-opt">Por conglomerados (sortear algunas comunas)</button>
-<button class="econ-quiz-opt">No probabilístico, en lugares concurridos</button>
-</div>
-<p class="econ-quiz-fb">✅ Grupos homogéneos por dentro y distintos entre sí funcionan como <strong>estratos</strong>: muestrear en todos reduce la varianza del estimador.</p>
-</div>
-
 <div class="econ-lamina" markdown>
 
-### Muestreo no probabilístico { data-lamina="Lámina 19" }
+#### Muestreo no probabilístico { data-lamina="Lámina 19" }
 
 <!-- sem1/clase1.tex · lámina 19 -->
 
@@ -344,9 +545,75 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 
 <div class="econ-widget" data-widget="digest"></div>
 
+<div class="econ-practica" id="practica-6">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 6</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Sorteas uno de los primeros 10 clientes de una lista y luego eliges a cada décimo cliente. ¿Qué método es?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-why="En el simple todas las muestras posibles tienen la misma probabilidad; aquí solo se sortea el punto de inicio.">Aleatorio simple</button>
+<button class="econ-quiz-opt" data-correct>Aleatorio sistemático</button>
+<button class="econ-quiz-opt" data-why="No se eligen grupos completos.">Por conglomerados</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 16: se ordena la población, se elige un inicio al azar y luego cada k-ésimo elemento.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Quieres estimar el ingreso promedio en Santiago. Las comunas son muy distintas entre sí, pero bastante homogéneas por dentro. ¿Qué método es más preciso para un mismo n?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Estratificado por comuna</button>
+<button class="econ-quiz-opt" data-why="Los conglomerados funcionan bien cuando cada grupo es heterogéneo, como un mini reflejo de la población.">Por conglomerados (sortear algunas comunas)</button>
+<button class="econ-quiz-opt" data-why="Sin selección aleatoria, la muestra no es representativa.">No probabilístico, en lugares concurridos</button>
+</div>
+<p class="econ-quiz-fb">✅ Grupos homogéneos por dentro y distintos entre sí funcionan como <strong>estratos</strong>: muestrear en todos reduce la varianza (lámina 18).</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">El Literary Digest encuestó a más de 2 millones de personas y se equivocó. ¿Por qué?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>La muestra no era representativa: muchas personas no podían aparecer en ella.</button>
+<button class="econ-quiz-opt" data-why="Era gigantesca; el tamaño no corrige un mal método de selección.">La muestra era demasiado pequeña.</button>
+<button class="econ-quiz-opt" data-why="El problema principal fue quién podía ser encuestado.">Los encuestados mintieron.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 13: una muestra es representativa si toda unidad puede aparecer con una probabilidad conocida.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Estratificado contra aleatorio simple</p>
+
+Simula tres comunas con ingresos muy distintos y compara 2 000 muestras de cada método: ¿cuál se equivoca menos?
+
+```r
+set.seed(18)
+# Ingresos en 3 comunas muy distintas entre sí, pero parecidas por dentro
+comuna  <- rep(c("A", "B", "C"), each = 2000)
+ingreso <- c(rnorm(2000, 500, 50), rnorm(2000, 900, 60),
+             rnorm(2000, 1600, 80))
+mean(ingreso)                                  # parámetro
+
+simple <- replicate(2000, mean(sample(ingreso, 60)))
+estratificado <- replicate(2000, mean(c(
+  sample(ingreso[comuna == "A"], 20),
+  sample(ingreso[comuna == "B"], 20),
+  sample(ingreso[comuna == "C"], 20))))
+c(simple = sd(simple), estratificado = sd(estratificado))  # error típico
+
+boxplot(list(Simple = simple, Estratificado = estratificado),
+        ylab = "Promedio estimado (n = 60)")
+abline(h = mean(ingreso), lty = 2)
+```
+
+**🎯 Reto:** haz que las comunas se parezcan (cambia `500` y `1600` por `900`). ¿Sigue ganando el estratificado?
+{: .econ-r-reto }
+
+</div>
+
+### Estadística descriptiva e inferencial { #tema-7 .econ-tema data-num="7" data-laminas="Parte 1 · lámina 20" data-toc-label="Tema 7 · Descriptiva e inferencial" }
+
+<p class="econ-tema-q">¿Cuándo una conclusión vale solo para los datos y cuándo para toda la población?</p>
+
 <div class="econ-lamina" markdown>
 
-### Estadística descriptiva e inferencial { data-lamina="Lámina 20" }
+#### Estadística descriptiva e inferencial { data-lamina="Lámina 20" }
 
 <!-- sem1/clase1.tex · lámina 20 -->
 
@@ -360,6 +627,49 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 
 </div>
 
+<div class="econ-practica" id="practica-7">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 7</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Un profesor calcula el promedio de notas de <em>su</em> curso para informárselo al curso. ¿Qué estadística usa?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Descriptiva: la conclusión vale solo para ese curso.</button>
+<button class="econ-quiz-opt" data-why="Sería inferencial si usara su curso para concluir algo sobre todos los estudiantes del país.">Inferencial</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 20: la estadística descriptiva saca conclusiones válidas solo para la muestra analizada.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con una encuesta a 1 000 personas estimas la tasa de desempleo del país y su intervalo de confianza. ¿Qué estadística usas?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Inferencial</button>
+<button class="econ-quiz-opt" data-why="Estás generalizando de la muestra a toda la población.">Descriptiva</button>
+</div>
+<p class="econ-quiz-fb">✅ Generalizar a la población con un margen de error es inferencia: es lo que repasa la ayudantía.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Describir e inferir</p>
+
+Con 36 meses de ventas, primero describe la muestra y luego infiere la media poblacional, como en el ejemplo de la ayudantía.
+
+```r
+set.seed(7)
+ventas <- round(rnorm(36, mean = 200, sd = 60))   # 36 meses de ventas
+
+# Descriptiva: resume ESTA muestra
+summary(ventas)
+sd(ventas)
+
+# Inferencial: dice algo de la POBLACIÓN (la media μ, que no conocemos)
+mean(ventas) + c(-1, 1) * 1.96 * 60 / sqrt(36)    # IC 95%, σ = 60 conocido
+```
+
+**🎯 Reto:** cambia los dos `36` por `144`. ¿Qué pasa con el ancho del intervalo?
+{: .econ-r-reto }
+
+</div>
+
 ## Repaso de estadística descriptiva { .econ-parte .is-ayudantia data-eyebrow="Parte 2 · Ayudantía" data-toc-label="Parte 2 · Ayudantía · Repaso de estadística descriptiva" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem1/repaso_ayudantia.tex</code> · 10 láminas</p>
@@ -367,9 +677,13 @@ Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
 !!! note "Material de ayudantía"
     Las Partes 2 y 3 no se ven en la cátedra del viernes: se trabajan en la **ayudantía** de la semana.
 
+### Estadística descriptiva { #tema-8 .econ-tema .is-ayudantia data-num="8" data-laminas="Parte 2 · Ayudantía · láminas 1–10" data-toc-label="Tema 8 · Estadística descriptiva" }
+
+<p class="econ-tema-q">¿Cómo resumir muchos datos en pocos números y gráficos?</p>
+
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Ramas de la Estadística { data-lamina="Lámina 1" }
+#### Ramas de la Estadística { data-lamina="Lámina 1" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 1 -->
 
@@ -383,7 +697,7 @@ La Estadística se divide en dos áreas:
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Estadística Descriptiva { data-lamina="Lámina 2" }
+#### Estadística Descriptiva { data-lamina="Lámina 2" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 2 -->
 
@@ -401,7 +715,7 @@ La Estadística se divide en dos áreas:
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Estadísticos de Localización Central { data-lamina="Láminas 3–4" }
+#### Estadísticos de Localización Central { data-lamina="Láminas 3–4" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 3 -->
 
@@ -442,7 +756,7 @@ La Estadística se divide en dos áreas:
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Estadísticos de Localización { data-lamina="Lámina 5" }
+#### Estadísticos de Localización { data-lamina="Lámina 5" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 5 -->
 
@@ -456,7 +770,7 @@ La Estadística se divide en dos áreas:
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Estadísticos de dispersión { data-lamina="Láminas 6–7" }
+#### Estadísticos de dispersión { data-lamina="Láminas 6–7" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 6 -->
 
@@ -484,7 +798,7 @@ La Estadística se divide en dos áreas:
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Histograma { data-lamina="Lámina 8" }
+#### Histograma { data-lamina="Lámina 8" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 8 -->
 
@@ -498,7 +812,7 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Gráfico de caja - Boxplot { data-lamina="Láminas 9–10" }
+#### Gráfico de caja - Boxplot { data-lamina="Láminas 9–10" }
 
 <!-- sem1/repaso_ayudantia.tex · lámina 9 -->
 
@@ -524,13 +838,64 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 <div class="econ-widget" data-widget="descriptiva"></div>
 
+<div class="econ-practica" id="practica-8">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 8</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En un boxplot, ¿qué representa la caja?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>El 50% central de los datos, entre el primer y el tercer cuartil.</button>
+<button class="econ-quiz-opt" data-why="El rango completo lo marcan los bigotes y los atípicos, no la caja.">El rango completo de los datos.</button>
+<button class="econ-quiz-opt" data-why="El boxplot se construye con cuartiles, no con la media ni la desviación estándar.">La media ± una desviación estándar.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 9–10: la caja va de q₁ a q₃ y la línea interior es la mediana.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Dos cursos tienen promedio 5.0. En el A las notas van de 4.8 a 5.2; en el B, de 2.0 a 7.0. ¿Qué estadístico los distingue?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>La desviación estándar.</button>
+<button class="econ-quiz-opt" data-why="Ambas medias son 5.0.">La media.</button>
+<button class="econ-quiz-opt" data-why="Mide la posición central, que puede ser igual en ambos; aquí lo que cambia es la dispersión.">La mediana.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 6–7: los estadísticos de dispersión miden cuán alejados están los datos de su centro.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Media, mediana y un atípico</p>
+
+Calcula los estadísticos de localización y dispersión de 15 sueldos con un valor atípico, y dibuja su histograma y su boxplot.
+
+```r
+# 15 sueldos en miles de pesos; el último es un atípico (10 millones)
+sueldos <- c(520, 610, 580, 700, 650, 590, 720, 680, 560, 630,
+             600, 750, 640, 610, 10000)
+c(media = mean(sueldos), mediana = median(sueldos))
+c(desv_estandar = sd(sueldos), rango_intercuartil = IQR(sueldos))
+quantile(sueldos)              # cuartiles: q1, mediana y q3
+
+par(mfrow = c(1, 2))
+hist(sueldos[-15], main = "Histograma (sin el atípico)", xlab = "miles de $")
+boxplot(sueldos, main = "Boxplot: el atípico aparte")
+par(mfrow = c(1, 1))
+```
+
+**🎯 Reto:** elimina el `10000` del vector. ¿Cuánto cambia la media? ¿Y la mediana?
+{: .econ-r-reto }
+
+</div>
+
 ## Repaso de estadística inferencial { .econ-parte .is-ayudantia data-eyebrow="Parte 3 · Ayudantía" data-toc-label="Parte 3 · Ayudantía · Repaso de estadística inferencial" }
 
 <p class="econ-source">📄 Diapositivas: <code>sem1/repaso_estadistica.tex</code> · 34 láminas</p>
 
+### TCL e intervalos de confianza para la media { #tema-9 .econ-tema .is-ayudantia data-num="9" data-laminas="Parte 3 · Ayudantía · láminas 1–14" data-toc-label="Tema 9 · TCL e IC para la media" }
+
+<p class="econ-tema-q">¿Cuánto podemos confiar en un promedio calculado con una muestra?</p>
+
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Estadística Inferencial { data-lamina="Lámina 1" }
+#### Estadística Inferencial { data-lamina="Lámina 1" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 1 -->
 
@@ -542,7 +907,7 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Intervalos de confianza (IC) { data-lamina="Lámina 2" }
+#### Intervalos de confianza (IC) { data-lamina="Lámina 2" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 2 -->
 
@@ -560,7 +925,7 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Teorema central del límite { data-lamina="Lámina 3" }
+#### Teorema central del límite { data-lamina="Lámina 3" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 3 -->
 
@@ -576,7 +941,7 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Supuestos TCL { data-lamina="Lámina 4" }
+#### Supuestos TCL { data-lamina="Lámina 4" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 4 -->
 
@@ -602,7 +967,7 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### IC. ejemplo1 { data-lamina="Láminas 5–7" }
+#### IC. ejemplo1 { data-lamina="Láminas 5–7" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 5 -->
 
@@ -662,7 +1027,7 @@ El histograma resume los datos dentro de algunos rangos y se cuenta el número d
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Intervalo de confianza de 95% { data-lamina="Lámina 8" }
+#### Intervalo de confianza de 95% { data-lamina="Lámina 8" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 8 -->
 
@@ -680,7 +1045,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Otros niveles de confianza { data-lamina="Láminas 9–10" }
+#### Otros niveles de confianza { data-lamina="Láminas 9–10" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 9 -->
 
@@ -722,7 +1087,7 @@ Haz clic: [Excel](https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgj
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Comparación de IC con distintos niveles de confianza. { data-lamina="Lámina 11" }
+#### Comparación de IC con distintos niveles de confianza. { data-lamina="Lámina 11" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 11 -->
 
@@ -736,7 +1101,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Intervalos de confianza: nivel de confianza y precisión { data-lamina="Lámina 12" }
+#### Intervalos de confianza: nivel de confianza y precisión { data-lamina="Lámina 12" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 12 -->
 
@@ -760,7 +1125,7 @@ Si tomamos como estimador puntual $\bar{X}$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Nivel de confianza y precisión. { data-lamina="Lámina 13" }
+#### Nivel de confianza y precisión. { data-lamina="Lámina 13" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 13 -->
 
@@ -786,7 +1151,7 @@ Si tomamos como estimador puntual $\bar{X}$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Intervalos de confianza: determinación del tamaño muestral { data-lamina="Lámina 14" }
+#### Intervalos de confianza: determinación del tamaño muestral { data-lamina="Lámina 14" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 14 -->
 
@@ -808,9 +1173,65 @@ Si tomamos como estimador puntual $\bar{X}$
 
 </div>
 
+<div class="econ-practica" id="practica-9">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 9</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué dice el Teorema Central del Límite?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Con n grande, X̄ es aproximadamente normal, aunque la población no lo sea.</button>
+<button class="econ-quiz-opt" data-why="La población no cambia: lo que se vuelve normal es la distribución de X̄.">Con n grande, los datos de la población se vuelven normales.</button>
+<button class="econ-quiz-opt" data-why="X̄ varía de muestra en muestra alrededor de μ, con varianza σ²/n.">X̄ siempre es igual a μ.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 3–4: X̄ ≈ N(μ, σ²/n) si n ≥ 30, o para cualquier n si la población es normal.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con x̄ = 200, σ = 60 y n = 36, ¿cuál es el IC de 99% para μ?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-why="Ese es el IC de 95% (z = 1.96).">(180.4; 219.6)</button>
+<button class="econ-quiz-opt" data-correct>(174.2; 225.8)</button>
+<button class="econ-quiz-opt" data-why="Ese es el de 90% (z = 1.645): más confianza exige un intervalo más ancho.">(183.6; 216.4)</button>
+</div>
+<p class="econ-quiz-fb">✅ 200 ± 2.576 · 60/√36 = 200 ± 25.8. Pruébalo en la calculadora de intervalos.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · El TCL y el 95%</p>
+
+Comprueba el TCL con una población muy asimétrica, reproduce el IC de la lámina 5 y verifica qué significa el 95%.
+
+```r
+# TCL: la población es muy asimétrica, pero el promedio de 36 datos no
+set.seed(36)
+promedios <- replicate(5000, mean(rexp(36, rate = 1 / 200)))  # μ = σ = 200
+hist(promedios, breaks = 40, main = "5 000 promedios de n = 36",
+     xlab = "x barra")
+c(media = mean(promedios), sd = sd(promedios), sd_teorica = 200 / 6)
+
+# IC de 95% de la lámina 5: x barra = 200, σ = 60, n = 36
+200 + c(-1, 1) * qnorm(0.975) * 60 / sqrt(36)
+
+# ¿Qué significa el 95%? El intervalo atrapa a μ en ~95% de las muestras
+cubre <- replicate(5000, {
+  x <- rnorm(36, mean = 200, sd = 60)
+  abs(mean(x) - 200) <= 1.96 * 60 / sqrt(36)
+})
+mean(cubre)
+```
+
+**🎯 Reto:** cambia `0.975` por `0.995` en el IC. ¿El intervalo de 99% es más ancho o más angosto?
+{: .econ-r-reto }
+
+</div>
+
+### Intervalos de confianza para proporciones { #tema-10 .econ-tema .is-ayudantia data-num="10" data-laminas="Parte 3 · Ayudantía · láminas 15–24" data-toc-label="Tema 10 · IC para proporciones" }
+
+<p class="econ-tema-q">¿Cómo estimar un porcentaje, como la tasa de productos defectuosos?</p>
+
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Intervalos de confianza para las proporciones { data-lamina="Láminas 15–19" }
+#### Intervalos de confianza para las proporciones { data-lamina="Láminas 15–19" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 15 -->
 
@@ -890,7 +1311,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### IC para las proporciones: ejemplo { data-lamina="Lámina 20" }
+#### IC para las proporciones: ejemplo { data-lamina="Lámina 20" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 20 -->
 
@@ -900,7 +1321,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### IC para las proporciones. respuesta de ejemplo { data-lamina="Lámina 21" }
+#### IC para las proporciones. respuesta de ejemplo { data-lamina="Lámina 21" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 21 -->
 
@@ -929,7 +1350,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### IC para las proporciones: determinación del tamaño muestral { data-lamina="Lámina 22" }
+#### IC para las proporciones: determinación del tamaño muestral { data-lamina="Lámina 22" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 22 -->
 
@@ -955,7 +1376,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### IC para las proporciones { data-lamina="Láminas 23–24" }
+#### IC para las proporciones { data-lamina="Láminas 23–24" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 23 -->
 
@@ -978,9 +1399,58 @@ $$
 
 </div>
 
+<div class="econ-practica" id="practica-10">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 10</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con 19 defectuosos en 200 unidades, el IC de 95% es (0.054; 0.136). El proveedor dice que p = 0.05. ¿Qué concluyes?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Los datos no son coherentes con lo que afirma el proveedor: 0.05 queda fuera del intervalo.</button>
+<button class="econ-quiz-opt" data-why="Lo que importa es si el valor queda dentro o fuera del intervalo.">El proveedor tiene razón, porque 0.05 está cerca de 0.054.</button>
+<button class="econ-quiz-opt" data-why="El intervalo ya incorpora la incertidumbre de usar 200 unidades.">Con 200 unidades no se puede concluir nada.</button>
+</div>
+<p class="econ-quiz-fb">✅ Es la conclusión de la lámina 21.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Sin información previa sobre p, ¿qué p* conviene usar para calcular el tamaño muestral?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>0.5, porque maximiza p*(1 − p*) y da el n más conservador.</button>
+<button class="econ-quiz-opt" data-why="Daría un n demasiado chico si en realidad p estuviera cerca de 0.5.">0.05</button>
+<button class="econ-quiz-opt" data-why="Con p* = 1, p*(1 − p*) = 0 y el n calculado sería 0.">1</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 22: p* = 0.5 es el peor escenario.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Productos defectuosos</p>
+
+Reproduce el intervalo de la lámina 21 y calcula cuántas unidades harían falta para un error de ±3 puntos porcentuales.
+
+```r
+# Lámina 20: 19 defectuosos en 200 unidades
+x <- 19
+n <- 200
+p <- x / n
+p + c(-1, 1) * qnorm(0.975) * sqrt(p * (1 - p) / n)  # (0.0543; 0.1356)
+
+# Tamaño muestral para un error E = 0.03 con p* = 0.5 (peor escenario)
+E <- 0.03
+ceiling(qnorm(0.975)^2 * 0.5 * (1 - 0.5) / E^2)
+```
+
+**🎯 Reto:** usa `p* = 0.095` en vez de `0.5` en el tamaño muestral. ¿Cuántas unidades necesitas ahora?
+{: .econ-r-reto }
+
+</div>
+
+### Intervalos para la diferencia de medias { #tema-11 .econ-tema .is-ayudantia data-num="11" data-laminas="Parte 3 · Ayudantía · láminas 25–34" data-toc-label="Tema 11 · IC para diferencia de medias" }
+
+<p class="econ-tema-q">¿Ganan distinto, en promedio, los egresados de dos carreras?</p>
+
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Intervalos de confianza diferencia de media de dos poblaciones { data-lamina="Lámina 25" }
+#### Intervalos de confianza diferencia de media de dos poblaciones { data-lamina="Lámina 25" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 25 -->
 
@@ -996,7 +1466,7 @@ Se cree que el salario promedio de recién egresados de la carrera de ingenierí
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Diferencia de media de dos poblaciones { data-lamina="Láminas 26–27" }
+#### Diferencia de media de dos poblaciones { data-lamina="Láminas 26–27" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 26 -->
 
@@ -1022,7 +1492,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Caso $\sigma_x^2$ y $\sigma_y^2$ conocidos, con $n_x$ y $n_y$ grandes { data-lamina="Láminas 28–31" data-toc-label="Caso σx² y σy² conocidos, con nx y ny grandes" }
+#### Caso $\sigma_x^2$ y $\sigma_y^2$ conocidos, con $n_x$ y $n_y$ grandes { data-lamina="Láminas 28–31" data-toc-label="Caso σx² y σy² conocidos, con nx y ny grandes" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 28 -->
 
@@ -1070,7 +1540,7 @@ $$
 
 <div class="econ-lamina is-ayudantia" markdown>
 
-### Ejemplo { data-lamina="Láminas 32–34" }
+#### Ejemplo { data-lamina="Láminas 32–34" }
 
 <!-- sem1/repaso_estadistica.tex · lámina 32 -->
 
@@ -1121,6 +1591,49 @@ Obtener un IC de 95% para la diferencia de medias.
 </div>
 
 <div class="econ-widget" data-widget="ic-calc"></div>
+
+<div class="econ-practica" id="practica-11">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 11</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">El IC de 95% para μₓ − μᵧ es (106 756; 133 244). ¿Qué significa que no contenga al cero?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Que hay evidencia de que los salarios promedio de ambas carreras son distintos.</button>
+<button class="econ-quiz-opt" data-why="El intervalo se refiere a las medias, no a cada persona.">Que todos los ingenieros ganan más que todos los arquitectos.</button>
+<button class="econ-quiz-opt" data-why="120 000 es la estimación puntual; el intervalo da un rango de valores plausibles.">Que la diferencia es exactamente 120 000.</button>
+</div>
+<p class="econ-quiz-fb">✅ Es la conclusión de la lámina 34.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si aumentas nₓ y nᵧ (y lo demás no cambia), el intervalo para μₓ − μᵧ…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…se angosta.</button>
+<button class="econ-quiz-opt" data-why="El error estándar √(σₓ²/nₓ + σᵧ²/nᵧ) baja al crecer las muestras.">…se ensancha.</button>
+<button class="econ-quiz-opt" data-why="El error estándar depende de los tamaños muestrales.">…no cambia.</button>
+</div>
+<p class="econ-quiz-fb">✅ Más datos, menos incertidumbre: el error estándar disminuye.</p>
+</div>
+</div>
+
+<div class="econ-r" markdown>
+
+<p class="econ-r-t">🧪 Practica en R · Ingeniería contra arquitectura</p>
+
+Reproduce el intervalo de la lámina 33 para la diferencia de salarios promedio.
+
+```r
+# Lámina 32: salarios de egresados de ingeniería (X) y arquitectura (Y)
+xbar <- 800000; ybar <- 680000
+nx   <- 144;    ny   <- 121
+sx   <- 60000;  sy   <- 50000
+
+ee <- sqrt(sx^2 / nx + sy^2 / ny)               # error estándar
+(xbar - ybar) + c(-1, 1) * qnorm(0.975) * ee    # (106 756; 133 244)
+```
+
+**🎯 Reto:** ¿cuánto tendría que valer `ybar` para que el intervalo contuviera al cero? Pruébalo.
+{: .econ-r-reto }
+
+</div>
 
 ---
 

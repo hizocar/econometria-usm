@@ -2086,3 +2086,10 @@
   .econ-po-box.is-flip, .econ-po-badge.is-pop { animation: none; }
   .md-typeset a.econ-ruta-a:hover { transform: none; }
 }
+
+/* Ruta y temas de ayudantía (se ven otro día: sin horario, en azul) */
+.md-typeset p.econ-ruta-sub { margin: 1.2rem 0 0.4rem; font-size: 0.78rem; color: var(--md-default-fg-color--light); }
+.md-typeset ol.econ-ruta.is-ayudantia::before { background: var(--usm-blue); }
+.md-typeset ol.econ-ruta.is-ayudantia .econ-ruta-n { background: var(--usm-blue); }
+.md-typeset h3.econ-tema.is-ayudantia::before { background: var(--usm-blue); color: #fff; }
+.md-typeset h3.econ-tema.is-ayudantia + p.econ-tema-q { background: color-mix(in srgb, var(--usm-blue) 10%, transparent); }
