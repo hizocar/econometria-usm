@@ -1,0 +1,2010 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase6/">
+      
+      
+        <link rel="prev" href="../clase5/">
+      
+      
+        <link rel="next" href="../clase7/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-6-interpretacion-logaritmos-cuadraticas-e-interacciones" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ayudantias/" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpretacion-no-linealidades-interacciones-y-escala" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Interpretación: no linealidades, interacciones y escala
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Interpretación: no linealidades, interacciones y escala">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Logaritmos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Logaritmos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#incorporacion-de-no-linealidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Incorporación de no-linealidades
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-en-logaritmo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables en logaritmo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-en-logaritmo-caso-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables en logaritmo: Caso 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-en-logaritmo-caso-2-elasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables en logaritmo: Caso 2 - Elasticidad
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Formas cuadráticas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Formas cuadráticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formas-cuadraticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formas cuadráticas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-efecto-de-experiencia-en-salario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: efecto de experiencia en salario
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-experiencia-y-salario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: experiencia y salario
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Interacciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Interacciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminos-de-interaccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Términos de interacción
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Reescalar y resumen
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Reescalar y resumen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reescalando-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reescalando variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-reescalando-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: reescalando Y
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reescalando-un-regresor-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reescalando un regresor X
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-resumen" class="md-nav__link">
+    <span class="md-ellipsis">
+      En resumen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpretacion-no-linealidades-interacciones-y-escala" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Interpretación: no linealidades, interacciones y escala
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Interpretación: no linealidades, interacciones y escala">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Logaritmos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Logaritmos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#incorporacion-de-no-linealidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Incorporación de no-linealidades
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-en-logaritmo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables en logaritmo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-en-logaritmo-caso-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables en logaritmo: Caso 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-en-logaritmo-caso-2-elasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables en logaritmo: Caso 2 - Elasticidad
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Formas cuadráticas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Formas cuadráticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formas-cuadraticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formas cuadráticas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-efecto-de-experiencia-en-salario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: efecto de experiencia en salario
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-experiencia-y-salario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: experiencia y salario
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Interacciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Interacciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminos-de-interaccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Términos de interacción
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Reescalar y resumen
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Reescalar y resumen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reescalando-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reescalando variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-reescalando-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: reescalando Y
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reescalando-un-regresor-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reescalando un regresor X
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-resumen" class="md-nav__link">
+    <span class="md-ellipsis">
+      En resumen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="clase-6-interpretacion-logaritmos-cuadraticas-e-interacciones">Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones</h1>
+<div class="usm-session-meta">
+<span>📅 Viernes 20 de noviembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 6 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">📝 Semana del Certamen 1 (lunes 16)</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la semana</p>
+<p>Esta página reproduce <strong>íntegras y en orden</strong> las diapositivas de la cátedra del viernes de la
+semana 6 (<code>sem6/clase7.tex</code>, 13 láminas). Los bloques <strong>Interactivo</strong>, los casos y las preguntas
+son material adicional para estudiar.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Cómo estudiar esta página</p>
+<p>La clase está ordenada en <strong>4 temas</strong>. Cada tema parte con una <strong>pregunta guía</strong>, sigue con las láminas
+y los simuladores, y termina con <strong>✍️ preguntas de selección múltiple</strong> (cada alternativa incorrecta explica
+por qué no lo es) y un <strong>🧪 ejercicio de R</strong> que puedes editar y ejecutar aquí mismo, sin instalar nada.
+Los 4 ejercicios de R en un solo archivo: <a href="../../r/clase6.R">📥 clase6.R</a>.</p>
+</div>
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<ul>
+<li>Interpretar coeficientes en modelos <strong>nivel-nivel, log-nivel, nivel-log y log-log</strong>, incluida la elasticidad.</li>
+<li>Usar <strong>formas cuadráticas</strong> para efectos parciales que cambian con el nivel de <span class="arithmatex">\(x\)</span>, y encontrar su punto de inflexión.</li>
+<li>Interpretar <strong>términos de interacción</strong> y evaluarlos en valores relevantes.</li>
+<li>Predecir cómo cambian los coeficientes, sus errores estándar y los tests al <strong>reescalar</strong> variables.</li>
+</ul>
+<h2 id="agenda-de-la-catedra-viernes-1840-2125">🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)</h2>
+<p>Haz clic en un tema para ir directo a él.</p>
+<ol class="econ-ruta">
+<li><span class="econ-ruta-h">18:40</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Logaritmos: porcentajes y elasticidades</span><span class="econ-ruta-l">láminas 1–4 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:20</span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">Formas cuadráticas</span><span class="econ-ruta-l">láminas 5–7 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">19:55</span><span class="econ-ruta-t">☕ Receso</span></li>
+<li><span class="econ-ruta-h">20:05</span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">Términos de interacción</span><span class="econ-ruta-l">láminas 8–9 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">20:40</span><a class="econ-ruta-a" href="#tema-4"><span class="econ-ruta-n">4</span><span class="econ-ruta-t">Reescalar variables y resumen</span><span class="econ-ruta-l">láminas 10–13 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">21:15</span><span class="econ-ruta-t">✅ Ideas clave, autoevaluación y cierre</span></li>
+</ol>
+
+<h2 class="econ-parte" data-eyebrow="Parte 1 · Cátedra" id="interpretacion-no-linealidades-interacciones-y-escala">Interpretación: no linealidades, interacciones y escala</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem6/clase7.tex</code> · 13 láminas</p>
+
+<h3 class="econ-tema" data-laminas="láminas 1–4" data-num="1" id="tema-1">Logaritmos: porcentajes y elasticidades</h3>
+<p class="econ-tema-q">¿Cómo cambia la lectura de β cuando hay logaritmos en el modelo?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="incorporacion-de-no-linealidades">Incorporación de no-linealidades</h4>
+<!-- sem6/clase7.tex · lámina 1 -->
+<ol>
+<li>
+<p><strong>Variable dependiente e independiente en niveles:</strong></p>
+<p><span class="arithmatex">\(E(y_i \mid x_{1,i}, \ldots) = \beta_0 + \beta_1 x_{1,i} + \ldots\)</span></p>
+<ul>
+<li>
+<p>→ <strong>Ejemplo:</strong> <span class="arithmatex">\(E(salario_i \mid educ_i) = \beta_0 + \beta_1 educ_i\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_1 = \dfrac{\Delta E(y \mid x_{1})}{\Delta x_1}\)</span></p>
+</li>
+<li>
+<p>Por cada año más de educación se obtiene, en promedio, <span class="arithmatex">\(\beta_1\)</span> dólares más de salario.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Variable dependiente en log e independiente en niveles:</strong></p>
+<p><span class="arithmatex">\(E(\log(y_i) \mid x_{1,i}, \ldots) = \beta_0 + \beta_1 x_{1,i} + \ldots\)</span></p>
+<ul>
+<li>
+<p>→ <strong>Ejemplo:</strong> <span class="arithmatex">\(E(\log(salario_i) \mid educ_i) = \beta_0 + \beta_1 educ_i\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_1 = \dfrac{\Delta E(\log(y) \mid x_{1})}{\Delta x_1}\approx \dfrac{\Delta \% y}{100\Delta x_1}\)</span></p>
+</li>
+<li>
+<p>Por cada año más de educación se obtiene, en promedio, un aumento de <span class="arithmatex">\(100 \cdot \beta_1 \%\)</span> del salario, manteniendo todas las demás variables constantes.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Variable dependiente e independiente en logs:</strong></p>
+<p><span class="arithmatex">\(E(\log(y_i) \mid x_{1,i}, \ldots) = \beta_0 + \beta_1 \log(x_{1,i}) + \ldots\)</span></p>
+<ul>
+<li>
+<p>→ <strong>Ejemplo:</strong> <span class="arithmatex">\(E(\log(salario_i) \mid educ_i) = \beta_0 + \beta_1 \log(educ_i)\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_1 = \dfrac{\Delta E(\log(y) \mid x_{1})}{\Delta \log x_1}\approx \dfrac{\Delta\% y}{ \Delta\% x_1}\)</span></p>
+</li>
+<li>
+<p>Un aumento de 1% de los años de educación implica, en promedio, un aumento de <span class="arithmatex">\(\beta_1 \%\)</span> del salario manteniendo todas las demás variables constantes. Es decir, representa una <strong>elasticidad</strong>.</p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="variables-en-logaritmo">Variables en logaritmo</h4>
+<!-- sem6/clase7.tex · lámina 2 -->
+<ul>
+<li>
+<p>Diferencias logarítmicas:</p>
+<div class="arithmatex">\[
+\Delta \log(X)= \log(X_1)-\log(X_0)= \log\left (\frac{ X_1}{X_0}\right )=\log\left(1+{\Delta X\over X_0} \right)
+\]</div>
+</li>
+<li>
+<p>Recuerde que en nuestro curso y en el libro <span class="arithmatex">\(log(X)=ln(X)\)</span>.</p>
+</li>
+<li>
+<p>Sabemos que[^1]:</p>
+<div class="arithmatex">\[
+\log(1+x) \approx x
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 3" id="variables-en-logaritmo-caso-1">Variables en logaritmo: Caso 1</h4>
+<!-- sem6/clase7.tex · lámina 3 -->
+<div class="arithmatex">\[
+\hat{\log(salario)} = 0{,}584 + 0{,}083 \cdot educ
+\]</div>
+<ul>
+<li>
+<p>Cada año adicional de educación se asocia con un incremento de <span class="arithmatex">\(8{,}3\,\%\)</span> del salario.</p>
+</li>
+<li>
+<p>Como el cambio porcentual es el mismo por cada año adicional de educación, el cambio en el salario en dólares (<span class="arithmatex">\(e^{\log(salario)}\)</span>) por un año más de educación aumenta a medida que la educación lo hace.</p>
+</li>
+</ul>
+<p><svg class="econ-tikz-svg econ-tikz-plot" viewBox="0 0 300 210" role="img" aria-label="Gráfico de log(salario) contra educacion"><text x="150.0" y="16" text-anchor="middle" font-weight="700" fill="currentColor">log(salario)</text><line x1="40" x2="290.0" y1="176.0" y2="176.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="179.0" text-anchor="end" font-size="9" fill="currentColor">0</text><line x1="40" x2="290.0" y1="151.0" y2="151.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="154.0" text-anchor="end" font-size="9" fill="currentColor">0.5</text><line x1="40" x2="290.0" y1="126.0" y2="126.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="129.0" text-anchor="end" font-size="9" fill="currentColor">1</text><line x1="40" x2="290.0" y1="101.0" y2="101.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="104.0" text-anchor="end" font-size="9" fill="currentColor">1.5</text><line x1="40" x2="290.0" y1="76.0" y2="76.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="79.0" text-anchor="end" font-size="9" fill="currentColor">2</text><line x1="40" x2="290.0" y1="51.0" y2="51.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="54.0" text-anchor="end" font-size="9" fill="currentColor">2.5</text><line x1="40" x2="290.0" y1="26.0" y2="26.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="29.0" text-anchor="end" font-size="9" fill="currentColor">3</text><text x="49.6" y="188" text-anchor="middle" font-size="9" fill="currentColor">1</text><text x="68.8" y="188" text-anchor="middle" font-size="9" fill="currentColor">3</text><text x="88.1" y="188" text-anchor="middle" font-size="9" fill="currentColor">5</text><text x="107.3" y="188" text-anchor="middle" font-size="9" fill="currentColor">7</text><text x="126.5" y="188" text-anchor="middle" font-size="9" fill="currentColor">9</text><text x="145.8" y="188" text-anchor="middle" font-size="9" fill="currentColor">11</text><text x="165.0" y="188" text-anchor="middle" font-size="9" fill="currentColor">13</text><text x="184.2" y="188" text-anchor="middle" font-size="9" fill="currentColor">15</text><text x="203.5" y="188" text-anchor="middle" font-size="9" fill="currentColor">17</text><text x="222.7" y="188" text-anchor="middle" font-size="9" fill="currentColor">19</text><text x="241.9" y="188" text-anchor="middle" font-size="9" fill="currentColor">21</text><text x="261.2" y="188" text-anchor="middle" font-size="9" fill="currentColor">23</text><text x="280.4" y="188" text-anchor="middle" font-size="9" fill="currentColor">25</text><text x="165.0" y="204" text-anchor="middle" font-size="10" fill="currentColor">educacion</text><text transform="translate(11,101.0) rotate(-90)" text-anchor="middle" font-size="10" fill="currentColor">log(salario)</text><line x1="40" y1="176" x2="294.8" y2="176" stroke="currentColor" stroke-opacity="0.5"/><line x1="40" y1="176" x2="40" y2="22" stroke="currentColor" stroke-opacity="0.5"/><path d="M49.6,142.7 L280.4,43.1" fill="none" stroke="#1d4ed8" stroke-width="2.4"/><text x="198.7" y="98.5" font-size="10" fill="currentColor">pendiente: 0.083</text></svg>
+<svg class="econ-tikz-svg econ-tikz-plot" viewBox="0 0 300 210" role="img" aria-label="Gráfico de salario contra educacion"><text x="150.0" y="16" text-anchor="middle" font-weight="700" fill="currentColor">salario</text><line x1="40" x2="290.0" y1="176.0" y2="176.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="179.0" text-anchor="end" font-size="9" fill="currentColor">0</text><line x1="40" x2="290.0" y1="154.6" y2="154.6" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="157.6" text-anchor="end" font-size="9" fill="currentColor">2</text><line x1="40" x2="290.0" y1="133.1" y2="133.1" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="136.1" text-anchor="end" font-size="9" fill="currentColor">4</text><line x1="40" x2="290.0" y1="111.7" y2="111.7" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="114.7" text-anchor="end" font-size="9" fill="currentColor">6</text><line x1="40" x2="290.0" y1="90.3" y2="90.3" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="93.3" text-anchor="end" font-size="9" fill="currentColor">8</text><line x1="40" x2="290.0" y1="68.9" y2="68.9" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="71.9" text-anchor="end" font-size="9" fill="currentColor">10</text><line x1="40" x2="290.0" y1="47.4" y2="47.4" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="50.4" text-anchor="end" font-size="9" fill="currentColor">12</text><line x1="40" x2="290.0" y1="26.0" y2="26.0" stroke="currentColor" stroke-opacity="0.15"/><text x="36" y="29.0" text-anchor="end" font-size="9" fill="currentColor">14</text><text x="49.6" y="188" text-anchor="middle" font-size="9" fill="currentColor">1</text><text x="68.8" y="188" text-anchor="middle" font-size="9" fill="currentColor">3</text><text x="88.1" y="188" text-anchor="middle" font-size="9" fill="currentColor">5</text><text x="107.3" y="188" text-anchor="middle" font-size="9" fill="currentColor">7</text><text x="126.5" y="188" text-anchor="middle" font-size="9" fill="currentColor">9</text><text x="145.8" y="188" text-anchor="middle" font-size="9" fill="currentColor">11</text><text x="165.0" y="188" text-anchor="middle" font-size="9" fill="currentColor">13</text><text x="184.2" y="188" text-anchor="middle" font-size="9" fill="currentColor">15</text><text x="203.5" y="188" text-anchor="middle" font-size="9" fill="currentColor">17</text><text x="222.7" y="188" text-anchor="middle" font-size="9" fill="currentColor">19</text><text x="241.9" y="188" text-anchor="middle" font-size="9" fill="currentColor">21</text><text x="261.2" y="188" text-anchor="middle" font-size="9" fill="currentColor">23</text><text x="280.4" y="188" text-anchor="middle" font-size="9" fill="currentColor">25</text><text x="165.0" y="204" text-anchor="middle" font-size="10" fill="currentColor">educacion</text><text transform="translate(11,101.0) rotate(-90)" text-anchor="middle" font-size="10" fill="currentColor">salario</text><line x1="40" y1="176" x2="294.8" y2="176" stroke="currentColor" stroke-opacity="0.5"/><line x1="40" y1="176" x2="40" y2="22" stroke="currentColor" stroke-opacity="0.5"/><path d="M49.6,155.1 L68.8,151.4 L88.1,146.9 L107.3,141.7 L126.5,135.4 L145.8,128.1 L165.0,119.5 L184.2,109.3 L203.5,97.2 L222.7,83.0 L241.9,66.2 L261.2,46.4 L280.4,23.0" fill="none" stroke="#1d4ed8" stroke-width="2.4"/></svg></p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 4" id="variables-en-logaritmo-caso-2-elasticidad">Variables en logaritmo: Caso 2 - Elasticidad</h4>
+<!-- sem6/clase7.tex · lámina 4 -->
+<ul>
+<li>
+<p>Cuando <span class="arithmatex">\(x_j\)</span> e <span class="arithmatex">\(y\)</span> se encuentran en logaritmo: un cambio de un 1% en <span class="arithmatex">\(x_j\)</span> se asocia a un cambio de <span class="arithmatex">\(\beta_j\)</span>% en <span class="arithmatex">\(y\)</span>.</p>
+</li>
+<li>
+<p>Por ejemplo, se estima la elasticidad de la demanda de vino en Chile.</p>
+<div class="arithmatex">\[
+\hat{\log(\text{cantidad vino})} = 6 - 0,2 \log(\text{precio vino})
+\]</div>
+</li>
+<li>
+<p>Un aumento de un 1% en el precio del vino corresponde a una caída del 0,2% en la cantidad consumida de vino.</p>
+</li>
+<li>
+<p>Se interpreta como una elasticidad. Por ejemplo, la elasticidad de la demanda de vino con respecto al precio es 0,2.</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="log-modelos"></div>
+
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En log(salario) = 0.584 + 0.083·educ, ¿qué significa 0.083?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Un año más de educación se asocia con un salario aproximadamente 8.3% mayor.</button>
+<button class="econ-quiz-opt" data-why="Eso sería en un modelo nivel-nivel.">Un año más de educación aumenta el salario en 0.083 dólares.</button>
+<button class="econ-quiz-opt" data-why="Eso sería en un modelo log-log.">Un 1% más de educación aumenta el salario en 0.083%.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 3: modelo log-nivel, 100·β₁ % por unidad de x.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En log(cantidad de vino) = 6 − 0.2·log(precio), si el precio sube 10%, la cantidad…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…cae aproximadamente 2%.</button>
+<button class="econ-quiz-opt" data-why="Eso es para un aumento de 1% en el precio.">…cae 0.2%.</button>
+<button class="econ-quiz-opt" data-why="−0.2 × 10% = −2%.">…cae 20%.</button>
+</div>
+<p class="econ-quiz-fb">✅ Es una elasticidad: β₁ × Δ%x (lámina 4).</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Log-nivel y log-log</p>
+<p>Simula salarios como los de la lámina 3 y la demanda de vino de la lámina 4, y recupera la semielasticidad y la elasticidad.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">n</span><span class="w">       </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">500</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">educ</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="m">6</span><span class="o">:</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">salario</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="m">0.584</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.083</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">))</span><span class="w">   </span><span class="c1"># como la lámina 3</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">salario</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)[</span><span class="s">"educ"</span><span class="p">]</span><span class="w">                 </span><span class="c1"># % por año, aproximado</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nf">exp</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)[</span><span class="s">"educ"</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">      </span><span class="c1"># % por año, exacto</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Log-log: elasticidad de la demanda de vino (lámina 4)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">precio</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">3000</span><span class="p">,</span><span class="w"> </span><span class="m">15000</span><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">cantidad</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="m">6</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">precio</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">))</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">cantidad</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">precio</span><span class="p">)))</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>0.083</code> por <code>0.3</code>. ¿Qué tanto se alejan ahora la aproximación 100·β y el porcentaje exacto?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 5–7" data-num="2" id="tema-2">Formas cuadráticas</h3>
+<p class="econ-tema-q">¿Y si el efecto de un año más de experiencia no es siempre el mismo?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 5" id="formas-cuadraticas">Formas cuadráticas</h4>
+<!-- sem6/clase7.tex · lámina 5 -->
+<ul>
+<li>
+<p>El Modelo de Regresión Lineal se refiere a una relación lineal entre los coeficientes que acompañan a los regresores <span class="arithmatex">\(X\)</span>. Pero las <span class="arithmatex">\(X\)</span> pueden tomar cualquier forma.</p>
+</li>
+<li>
+<p>Considere el modelo:</p>
+<div class="arithmatex">\[
+y = \beta_0 + \beta_1 x + \beta_2 x^2 + u
+\]</div>
+</li>
+<li>
+<p>¿Cuál es la interpretación de <span class="arithmatex">\(\beta_1\)</span> y <span class="arithmatex">\(\beta_2\)</span>?</p>
+</li>
+<li>
+<p><strong>Siempre piensen en términos de derivadas parciales con respecto a la variable explicativa.</strong></p>
+</li>
+<li>
+<p>En este caso, la predicción de <span class="arithmatex">\(y\)</span> es:</p>
+<div class="arithmatex">\[
+\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x + \hat{\beta}_2 x^2
+\]</div>
+<p>Lo que implica que:</p>
+<div class="arithmatex">\[
+\Delta \hat{y} \approx (\hat{\beta}_1 + 2 \hat{\beta}_2 x) \Delta x \Rightarrow \frac{\Delta \hat{y}}{\Delta x} \approx \hat{\beta}_1 + 2 \hat{\beta}_2 x
+\]</div>
+</li>
+<li>
+<p>Noten que ahora un cambio en <span class="arithmatex">\(x\)</span> genera un cambio esperado en <span class="arithmatex">\(y\)</span> que depende del nivel de <span class="arithmatex">\(x\)</span>: el efecto parcial de <span class="arithmatex">\(x\)</span> en <span class="arithmatex">\(y\)</span> es variable.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\hat{\beta}_1\)</span> es aproximadamente la pendiente de la relación entre <span class="arithmatex">\(x\)</span> y <span class="arithmatex">\(y\)</span> cuando <span class="arithmatex">\(x = 0\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 6" id="ejemplo-efecto-de-experiencia-en-salario">Ejemplo: efecto de experiencia en salario</h4>
+<!-- sem6/clase7.tex · lámina 6 -->
+<ul>
+<li>
+<p>Considere la siguiente ecuación:</p>
+<div class="arithmatex">\[
+\hat{salario} = 3.73 + 0.298\text{exper} - 0.0061\text{exper}^2
+\]</div>
+</li>
+<li>
+<p>La experiencia tiene un efecto positivo en el salario pero este efecto va cayendo para niveles altos de experiencia (<span class="arithmatex">\(\hat{\beta}_2\)</span> negativo).</p>
+</li>
+<li>
+<p>¿Tiene sentido económico esto?</p>
+</li>
+<li>
+<p>Específicamente, el efecto parcial de la experiencia en el salario es:</p>
+<div class="arithmatex">\[
+\triangle \hat{salario} / \triangle \text{exper} = 0.298 - 2 \cdot 0.0061 \text{exper}
+\]</div>
+</li>
+<li>
+<p>Cuando <span class="arithmatex">\(\beta_1\)</span> y <span class="arithmatex">\(\beta_2\)</span> tienen distinto signo, hay un valor de <span class="arithmatex">\(x\)</span> a partir del cual el efecto <em>ceteris paribus</em> de <span class="arithmatex">\(x\)</span> en <span class="arithmatex">\(y\)</span> cambia de dirección.</p>
+</li>
+<li>
+<p>En el ejemplo, este valor es <span class="arithmatex">\(x = \left|\frac{\beta_1}{2\beta_2}\right| = 24.4\)</span> años.</p>
+</li>
+<li>
+<p>Otros polinomios de mayor grado también pueden ser incluidos en un MRL.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 7" id="ejemplo-experiencia-y-salario">Ejemplo: experiencia y salario</h4>
+<!-- sem6/clase7.tex · lámina 7 -->
+<p>Si bien los coeficientes son lineales, la relación entre experiencia y salario deja de ser lineal.</p>
+<p><img alt="Ejemplo: experiencia y salario" class="econ-slide-img" src="../../images/slides/sem6_images_sal_exp.png" /></p>
+</div>
+<div class="econ-widget" data-widget="cuadratica"></div>
+
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con salario = 3.73 + 0.298·exper − 0.0061·exper², ¿cuál es el efecto de un año más con 10 años de experiencia?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>0.298 − 2·0.0061·10 = 0.176</button>
+<button class="econ-quiz-opt" data-why="Ese es el efecto cuando exper = 0.">0.298</button>
+<button class="econ-quiz-opt" data-why="La derivada de β₂x² es 2β₂x.">0.298 − 0.0061·10 = 0.237</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 6: Δsalario/Δexper = 0.298 − 2·0.0061·exper.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿A partir de qué experiencia el efecto se vuelve negativo según la lámina 6?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>24.4 años</button>
+<button class="econ-quiz-opt" data-why="Es |β₁/(2β₂)|, no |β₁/β₂|.">48.9 años</button>
+<button class="econ-quiz-opt" data-why="Como β₁ &gt; 0 y β₂ &lt; 0 hay un punto donde el efecto cambia de dirección.">Nunca</button>
+</div>
+<p class="econ-quiz-fb">✅ x = |0.298 / (2·0.0061)| = 24.4.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · La curva de la experiencia</p>
+<p>Simula datos con la ecuación de la lámina 6, estímala con <code>I(exper^2)</code> y encuentra el punto de quiebre.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">6</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">n</span><span class="w">       </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">500</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">exper</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">45</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">salario</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">3.73</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.298</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exper</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.0061</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exper</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">salario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">exper</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="n">exper</span><span class="o">^</span><span class="m">2</span><span class="p">))</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">b</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nf">unname</span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="s">"exper"</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="s">"I(exper^2)"</span><span class="p">]))</span><span class="w">       </span><span class="c1"># punto de quiebre (≈ 24.4)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">b</span><span class="p">[</span><span class="s">"exper"</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="s">"I(exper^2)"</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">35</span><span class="p">)</span><span class="w">   </span><span class="c1"># efecto de un año más</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nf">plot</span><span class="p">(</span><span class="n">exper</span><span class="p">,</span><span class="w"> </span><span class="n">salario</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"grey70"</span><span class="p">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="nf">curve</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="o">^</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"steelblue"</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>- 0.0061</code> por <code>+ 0.0061</code>. ¿Existe todavía un máximo?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 8–9" data-num="3" id="tema-3">Términos de interacción</h3>
+<p class="econ-tema-q">¿Vale lo mismo un dormitorio extra en una casa chica que en una grande?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 8–9" id="terminos-de-interaccion">Términos de interacción</h4>
+<!-- sem6/clase7.tex · lámina 8 -->
+<ul>
+<li>
+<p>En ciertas ocasiones el efecto parcial de un regresor <span class="arithmatex">\(x\)</span> en la variable dependiente <span class="arithmatex">\(y\)</span> puede depender del valor de otro regresor <span class="arithmatex">\(z\)</span>.</p>
+</li>
+<li>
+<p>En este caso, se incluye en la regresión un término de interacción <span class="arithmatex">\(x \times z\)</span>.</p>
+</li>
+<li>
+<p>Ejemplo: suponga el siguiente modelo para el precio de una vivienda</p>
+<div class="arithmatex">\[
+\text{precio} = \beta_0 + \beta_1\text{msq} + \beta_2\text{dorm} + \beta_3\text{msq} \cdot \text{dorm} + u
+\]</div>
+<p>donde msq son los metros cuadrados de la vivienda y dorm el número de dormitorios.</p>
+</li>
+<li>
+<p>En este caso se cumple que</p>
+<div class="arithmatex">\[
+\frac{\triangle E(\text{precio}|msq,dorm)}{\triangle \text{dorm}} = \beta_2 + \beta_3\text{msq}
+\]</div>
+</li>
+<li>
+<p>Si <span class="arithmatex">\(\beta_2 &gt; 0\)</span> y <span class="arithmatex">\(\beta_3 &gt; 0\)</span>, la ecuación implica que un dormitorio adicional se relaciona con un incremento en el valor de la vivienda, y estos incrementos son mayores en viviendas de más metros cuadrados msq.</p>
+</li>
+</ul>
+<!-- sem6/clase7.tex · lámina 9 -->
+<ul>
+<li>
+<p>Para resumir el efecto de dorm en precio se puede evaluar en valores interesantes de msq, como su media, mediana o algún percentil extremo.</p>
+</li>
+<li>
+<p>Por ejemplo, sea el tamaño de la casa promedio <span class="arithmatex">\(\bar{msq}\)</span>, el efecto de un dorm más:</p>
+<div class="arithmatex">\[
+\frac{\triangle \text{precio}}{\triangle \text{dorm}} = \beta_2 + \beta_3\bar{\text{msq}}. \quad
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="interaccion"></div>
+
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En precio = β₀ + β₁msq + β₂dorm + β₃msq·dorm, ¿cuál es el efecto de un dormitorio más?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>β₂ + β₃·msq</button>
+<button class="econ-quiz-opt" data-why="Solo si β₃ = 0, o si msq = 0.">β₂</button>
+<button class="econ-quiz-opt" data-why="β₃ mide cuánto cambia el efecto del dormitorio por cada m² adicional.">β₃</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 8.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Para resumir el efecto de dorm, la lámina 9 sugiere evaluar β₂ + β₃·msq en…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…valores interesantes de msq, como su media o mediana.</button>
+<button class="econ-quiz-opt" data-why="Una casa de 0 m² no existe: β₂ solo, rara vez es interesante.">…msq = 0.</button>
+<button class="econ-quiz-opt" data-why="Puede usarse un percentil extremo, pero lo típico es la media o la mediana.">…el máximo de msq solamente.</button>
+</div>
+<p class="econ-quiz-fb">✅ Por ejemplo, β₂ + β₃·msq̄ para la casa promedio.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Interacción en R</p>
+<p>Simula precios de viviendas con interacción, estima <code>msq * dorm</code> y evalúa el efecto de un dormitorio en distintos tamaños.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">9</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">n</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">400</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">msq</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">200</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">dorm</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">precio</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.9</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">msq</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dorm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">msq</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dorm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">precio</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">msq</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dorm</span><span class="p">)</span><span class="w">            </span><span class="c1"># = msq + dorm + msq:dorm</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">b</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">b</span><span class="p">[</span><span class="s">"dorm"</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="s">"msq:dorm"</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">msq</span><span class="p">)</span><span class="w">   </span><span class="c1"># efecto de un dormitorio, casa promedio</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">b</span><span class="p">[</span><span class="s">"dorm"</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="s">"msq:dorm"</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="m">160</span><span class="p">)</span><span class="w">  </span><span class="c1"># casa chica y casa grande</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>0.05 * msq * dorm</code> por <code>0 * msq * dorm</code>. ¿Qué pasa con el efecto del dormitorio en casas chicas y grandes?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 10–13" data-num="4" id="tema-4">Reescalar variables y resumen</h3>
+<p class="econ-tema-q">Si cambio de dólares a pesos, ¿cambian mis conclusiones?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 10" id="reescalando-variables">Reescalando variables</h4>
+<!-- sem6/clase7.tex · lámina 10 -->
+<p>¿Qué pasa si re-escalamos <span class="arithmatex">\(X\)</span> o <span class="arithmatex">\(Y\)</span>? Por ejemplo, para cambiar su unidad de medida?</p>
+<ul>
+<li>
+<p>Los coeficientes estimados, sus varianzas, estadísticos <span class="arithmatex">\(t\)</span> y <span class="arithmatex">\(F\)</span>, cambian de manera tal que se preservan los efectos medidos y los resultados de los tests.</p>
+</li>
+<li>
+<p>En general, se reescalan variables por motivos estéticos, como reducir el número de ceros en los decimales de una estimación de un coeficiente.</p>
+</li>
+<li>
+<p>Este procedimiento es usual con variables económicas cuando los montos medidos son grandes o para transformar entre monedas de diferentes países.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 11" id="ejemplo-reescalando-y">Ejemplo: reescalando <span class="arithmatex">\(Y\)</span></h4>
+<!-- sem6/clase7.tex · lámina 11 -->
+<ul>
+<li>
+<p>Considere el siguiente modelo:</p>
+<div class="arithmatex">\[
+{salario_{us\$}} = \beta_0 + \beta_1\text{educacion} + u
+\]</div>
+<p>donde <span class="arithmatex">\({salario_{us\$}}\)</span> es medido en dólares.</p>
+</li>
+<li>
+<p>Quiero estimarlo en pesos a TC=1000 (i.e. <span class="arithmatex">\({salario_{chile}} = 1000 \cdot {salario_{us\$}}\)</span>).</p>
+</li>
+<li>
+<p>Al multiplicar el modelo de los dos lados se obtiene</p>
+<div class="arithmatex">\[
+1000 \cdot {salario_{us\$}} = 1000 \beta_0 + 1000 \beta_1 \text{educ} + 1000 \cdot u \quad
+\]</div>
+<div class="arithmatex">\[
+{salario_{chile}} = \tilde{\beta}_0 + \tilde{\beta}_1 \text{educ} + \tilde{u} \quad
+\]</div>
+<p>donde <strong><span class="arithmatex">\(\tilde{\beta}_j = 1000 \beta_j\)</span>.</strong></p>
+</li>
+<li>
+<p>Interpretación. Asuma <span class="arithmatex">\(\beta_j = 20\)</span></p>
+<ol>
+<li>
+<p>Modelo original: un aumento de un año de educación implica un aumento de 20 dólares en el salario promedio.</p>
+</li>
+<li>
+<p>Modelo nuevo: un aumento de un año de educación implica un aumento de 20000 pesos en el salario promedio.</p>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 12" id="reescalando-un-regresor-x">Reescalando un regresor X</h4>
+<!-- sem6/clase7.tex · lámina 12 -->
+<div class="arithmatex">\[
+y = \beta_0 + \beta_1 x + u
+\]</div>
+<p>Si re-escala la variable <span class="arithmatex">\(x\)</span> por <span class="arithmatex">\(\tilde{x} = \alpha x\)</span> se estima:</p>
+<div class="arithmatex">\[
+y = \beta_0 + \tilde{\beta}_1 \tilde{x} + u
+\]</div>
+<p><span class="arithmatex">\(\Rightarrow\)</span></p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\hat{\tilde{\beta}}_1 = \frac{\hat{\beta}_1}{\alpha}\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\text{Var}(\hat{\tilde{\beta}}_1) = ?\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\hat{\sigma}^2\)</span>, SSR, SST, <span class="arithmatex">\(R^2\)</span></p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="reescalar"></div>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 13" id="en-resumen">En resumen</h4>
+<!-- sem6/clase7.tex · lámina 13 -->
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modelo</th>
+<th style="text-align: center;">Var. dependiente</th>
+<th style="text-align: center;">Var. independiente</th>
+<th style="text-align: center;">Interpretación <span class="arithmatex">\(\beta\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Nivel-nivel</td>
+<td style="text-align: center;"><span class="arithmatex">\(y\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(x\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(E\Delta y = \beta_i \Delta x\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">Nivel-log</td>
+<td style="text-align: center;"><span class="arithmatex">\(y\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(log(x)\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(E\Delta y = \frac{\beta_i}{100} \Delta \% x\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">Log-nivel</td>
+<td style="text-align: center;"><span class="arithmatex">\(log(y)\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(x\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(E\Delta\% y = (100 \beta_i) \Delta x\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">Log-log</td>
+<td style="text-align: center;"><span class="arithmatex">\(log(y)\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(log(x)\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(E\Delta \% y = \beta_i \Delta \%x\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>[^1]: Serie de Taylor centrada en 0, es decir, es una buena aproximación para x cercanos a 0.</p>
+</div>
+<div class="econ-practica" id="practica-4">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 4</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si el salario pasa de dólares a pesos (× 1 000), ¿qué pasa con el estadístico t de la educación?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>No cambia.</button>
+<button class="econ-quiz-opt" data-why="β̂ y su error estándar se multiplican por 1 000: el cociente queda igual.">Se multiplica por 1 000.</button>
+<button class="econ-quiz-opt" data-why="El test no puede depender de la moneda.">Se divide por 1 000.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 10: se preservan los efectos medidos y los resultados de los tests.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si x se reescala como x̃ = α·x, entonces β̂₁ del modelo nuevo es…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>β̂₁ / α</button>
+<button class="econ-quiz-opt" data-why="Si x se agranda, el efecto por unidad se achica.">α·β̂₁</button>
+<button class="econ-quiz-opt" data-why="Cambian las unidades de x, así que cambia su coeficiente.">β̂₁</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 12.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Mismo modelo, otras unidades</p>
+<p>Estima la misma regresión con el salario en dólares, en pesos y con la educación en meses. Compara β̂, s.e., t y R².</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">n</span><span class="w">           </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">200</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">educ</span><span class="w">        </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="m">8</span><span class="o">:</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">salario_usd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">150</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">90</span><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">salario_clp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">salario_usd</span><span class="w">          </span><span class="c1"># TC = 1000 (lámina 11)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">coefs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="n">m</span><span class="p">))[</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">  </span><span class="c1"># β̂, s.e., t</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nf">rbind</span><span class="p">(</span><span class="n">dolares</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nf">coefs</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">salario_usd</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">)),</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="n">pesos</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nf">coefs</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">salario_clp</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">)),</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="n">x_en_meses</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">coefs</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">salario_usd</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="m">12</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="p">))))</span><span class="w">   </span><span class="c1"># lámina 12</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="nf">c</span><span class="p">(</span><span class="n">R2_dolares</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">salario_usd</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">))</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="n">R2_pesos</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">salario_clp</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">))</span><span class="o">$</span><span class="n">r.squared</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> agrega una fila con el salario en miles de dólares (<code>salario_usd / 1000</code>). ¿Qué esperas antes de ejecutar?</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li><strong>Log-nivel:</strong> un aumento de una unidad en <span class="arithmatex">\(x\)</span> se asocia con un cambio aproximado de <span class="arithmatex">\(100\beta\%\)</span> en <span class="arithmatex">\(y\)</span>. <strong>Log-log:</strong> <span class="arithmatex">\(\beta\)</span> es una <strong>elasticidad</strong>.</li>
+<li>Con <span class="arithmatex">\(x\)</span> y <span class="arithmatex">\(x^2\)</span>, el efecto parcial <span class="arithmatex">\(\beta_1 + 2\beta_2 x\)</span> <strong>depende del nivel</strong> de <span class="arithmatex">\(x\)</span>; si los signos difieren, cambia de dirección en <span class="arithmatex">\(|\beta_1 / 2\beta_2|\)</span>.</li>
+<li>Con una <strong>interacción</strong> <span class="arithmatex">\(x \cdot z\)</span>, el efecto de <span class="arithmatex">\(x\)</span> depende de <span class="arithmatex">\(z\)</span>: se reporta evaluado en valores interesantes, como la media.</li>
+<li><strong>Reescalar</strong> cambia coeficientes y errores estándar en la misma proporción: <span class="arithmatex">\(t\)</span>, <span class="arithmatex">\(F\)</span> y <span class="arithmatex">\(R^2\)</span> no cambian.</li>
+</ul>
+</div>
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En un modelo nivel-log, y = β₀ + β₁·log(x), con β₁ = 50, si x aumenta 1%…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…y aumenta en 0.5 unidades.</button>
+<button class="econ-quiz-opt" data-why="Eso sería un modelo log-log con β = 50.">…y aumenta 50%.</button>
+<button class="econ-quiz-opt" data-why="Sería si log(x) aumentara en una unidad, no x en 1%.">…y aumenta en 50 unidades.</button>
+</div>
+<p class="econ-quiz-fb">✅ Tabla de la lámina 13: Δy = (β/100)·Δ%x = 50/100 = 0.5.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">En salario = β₀ + β₁·educ + β₂·exper + β₃·educ·exper, con β₃ > 0, ¿qué significa?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>El retorno a la educación es mayor para quienes tienen más experiencia.</button>
+<button class="econ-quiz-opt" data-why="La interacción describe cómo cambia un efecto, no la correlación entre las x.">La educación y la experiencia están correlacionadas.</button>
+<button class="econ-quiz-opt" data-why="El efecto es β₁ + β₃·exper: depende de la experiencia.">La educación no tiene efecto.</button>
+</div>
+<p class="econ-quiz-fb">✅ Igual que con los dormitorios y los metros cuadrados.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Reescalas el ingreso de pesos a millones de pesos (x ÷ 1 000 000) en una regresión. ¿Qué pasa con su coeficiente y su R²?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>El coeficiente se multiplica por 1 000 000 y el R² no cambia.</button>
+<button class="econ-quiz-opt" data-why="Si x se achica, el efecto por unidad se agranda.">El coeficiente se divide por 1 000 000.</button>
+<button class="econ-quiz-opt" data-why="El R² no depende de las unidades.">Cambia el R².</button>
+</div>
+<p class="econ-quiz-fb">✅ Es la lámina 12 con α = 1/1 000 000.</p>
+</div>
+
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulo 6, secciones 6.1 y 6.2 (efectos de la escala, formas funcionales e interacciones).</li>
+<li>Próxima clase: <strong>Inferencia sobre un parámetro</strong>: el test t y los intervalos de confianza para <span class="arithmatex">\(\beta_j\)</span>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+    
+  </body>
+</html>

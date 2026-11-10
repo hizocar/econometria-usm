@@ -1,0 +1,2661 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/ayudantias/ayudantia1/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../ayudantia4/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Ayudantía 1 · Repaso de estadística - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ayudantia-1-repaso-de-estadistica" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ayudantía 1 · Repaso de estadística
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../clases/clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temas-de-la-ayudantia" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗺️ Temas de la ayudantía
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repaso-de-estadistica-descriptiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Ayudantía · Repaso de estadística descriptiva
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Ayudantía · Repaso de estadística descriptiva">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Estadística descriptiva
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Estadística descriptiva">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ramas-de-la-estadistica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ramas de la Estadística
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadistica-descriptiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadística Descriptiva
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadisticos-de-localizacion-central" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadísticos de Localización Central
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadisticos-de-localizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadísticos de Localización
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadisticos-de-dispersion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadísticos de dispersión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#histograma" class="md-nav__link">
+    <span class="md-ellipsis">
+      Histograma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grafico-de-caja-boxplot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gráfico de caja - Boxplot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repaso-de-estadistica-inferencial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Ayudantía · Repaso de estadística inferencial
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Ayudantía · Repaso de estadística inferencial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · TCL e IC para la media
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · TCL e IC para la media">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estadistica-inferencial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadística Inferencial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-ic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza (IC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teorema-central-del-limite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teorema central del límite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supuestos-tcl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supuestos TCL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-ejemplo1" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC. ejemplo1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intervalo-de-confianza-de-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalo de confianza de 95%
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otros-niveles-de-confianza" class="md-nav__link">
+    <span class="md-ellipsis">
+      Otros niveles de confianza
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-de-ic-con-distintos-niveles-de-confianza" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparación de IC con distintos niveles de confianza.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-nivel-de-confianza-y-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza: nivel de confianza y precisión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nivel-de-confianza-y-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nivel de confianza y precisión.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-determinacion-del-tamano-muestral" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza: determinación del tamaño muestral
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · IC para proporciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · IC para proporciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-para-las-proporciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza para las proporciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-para-las-proporciones-ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC para las proporciones: ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-para-las-proporciones-respuesta-de-ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC para las proporciones. respuesta de ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-para-las-proporciones-determinacion-del-tamano-muestral" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC para las proporciones: determinación del tamaño muestral
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-para-las-proporciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC para las proporciones
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · IC para diferencia de medias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · IC para diferencia de medias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-diferencia-de-media-de-dos-poblaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza diferencia de media de dos poblaciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diferencia-de-media-de-dos-poblaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diferencia de media de dos poblaciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-sigma_x2-y-sigma_y2-conocidos-con-n_x-y-n_y-grandes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caso σx² y σy² conocidos, con nx y ny grandes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#volver-a-la-catedra" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Volver a la cátedra
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temas-de-la-ayudantia" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗺️ Temas de la ayudantía
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repaso-de-estadistica-descriptiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Ayudantía · Repaso de estadística descriptiva
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Ayudantía · Repaso de estadística descriptiva">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Estadística descriptiva
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Estadística descriptiva">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ramas-de-la-estadistica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ramas de la Estadística
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadistica-descriptiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadística Descriptiva
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadisticos-de-localizacion-central" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadísticos de Localización Central
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadisticos-de-localizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadísticos de Localización
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadisticos-de-dispersion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadísticos de dispersión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#histograma" class="md-nav__link">
+    <span class="md-ellipsis">
+      Histograma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grafico-de-caja-boxplot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gráfico de caja - Boxplot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repaso-de-estadistica-inferencial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Ayudantía · Repaso de estadística inferencial
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Ayudantía · Repaso de estadística inferencial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · TCL e IC para la media
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · TCL e IC para la media">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estadistica-inferencial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadística Inferencial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-ic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza (IC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teorema-central-del-limite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teorema central del límite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supuestos-tcl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supuestos TCL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-ejemplo1" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC. ejemplo1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intervalo-de-confianza-de-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalo de confianza de 95%
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otros-niveles-de-confianza" class="md-nav__link">
+    <span class="md-ellipsis">
+      Otros niveles de confianza
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-de-ic-con-distintos-niveles-de-confianza" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparación de IC con distintos niveles de confianza.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-nivel-de-confianza-y-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza: nivel de confianza y precisión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nivel-de-confianza-y-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nivel de confianza y precisión.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-determinacion-del-tamano-muestral" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza: determinación del tamaño muestral
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · IC para proporciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · IC para proporciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-para-las-proporciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza para las proporciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-para-las-proporciones-ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC para las proporciones: ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-para-las-proporciones-respuesta-de-ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC para las proporciones. respuesta de ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-para-las-proporciones-determinacion-del-tamano-muestral" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC para las proporciones: determinación del tamaño muestral
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ic-para-las-proporciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      IC para las proporciones
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · IC para diferencia de medias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · IC para diferencia de medias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intervalos-de-confianza-diferencia-de-media-de-dos-poblaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intervalos de confianza diferencia de media de dos poblaciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diferencia-de-media-de-dos-poblaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diferencia de media de dos poblaciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-sigma_x2-y-sigma_y2-conocidos-con-n_x-y-n_y-grandes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caso σx² y σy² conocidos, con nx y ny grandes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#volver-a-la-catedra" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Volver a la cátedra
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="ayudantia-1-repaso-de-estadistica">Ayudantía 1 · Repaso de estadística</h1>
+<div class="usm-session-meta">
+<span>📘 Ayudantía · Semana 1</span>
+<span class="usm-tag-gold">Complementa la Clase 1 · Wooldridge, apéndice C</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la ayudantía</p>
+<p>Esta página reproduce <strong>íntegros y en orden</strong> los repasos de la semana 1 (<code>sem1/repaso_ayudantia.tex</code>
+y <code>sem1/repaso_estadistica.tex</code>). Se trabajan en la <strong>ayudantía</strong>, no en la cátedra del viernes
+(<a href="../../clases/clase1/">Clase 1</a>). Las soluciones de los ejemplos aparecen plegadas para que intentes
+resolverlos antes.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Cómo estudiar esta página</p>
+<p>La ayudantía está ordenada en <strong>4 temas</strong>. Cada tema parte con una <strong>pregunta guía</strong>, sigue con las láminas
+y los simuladores, y termina con <strong>✍️ preguntas de selección múltiple</strong> (cada alternativa incorrecta explica
+por qué no lo es) y un <strong>🧪 ejercicio de R</strong> que puedes editar y ejecutar aquí mismo, sin instalar nada.
+Los 4 ejercicios de R en un solo archivo: <a href="../../r/ayudantia1.R">📥 ayudantia1.R</a>.</p>
+</div>
+<h2 id="objetivos">🎯 Objetivos</h2>
+<ul>
+<li>Repasar estadística descriptiva: localización, dispersión, histograma y boxplot.</li>
+<li>Usar el <strong>Teorema Central del Límite</strong> para construir intervalos de confianza para una media.</li>
+<li>Construir intervalos para proporciones y para la diferencia de dos medias, y calcular tamaños muestrales.</li>
+</ul>
+<h2 id="temas-de-la-ayudantia">🗺️ Temas de la ayudantía</h2>
+<p>Haz clic en un tema para ir directo a él.</p>
+<ol class="econ-ruta is-ayudantia">
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Estadística descriptiva</span><span class="econ-ruta-l">Parte 1 · láminas 1–10 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">TCL e intervalos de confianza para la media</span><span class="econ-ruta-l">Parte 2 · láminas 1–14 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">Intervalos de confianza para proporciones</span><span class="econ-ruta-l">Parte 2 · láminas 15–24 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-4"><span class="econ-ruta-n">4</span><span class="econ-ruta-t">Intervalos para la diferencia de medias</span><span class="econ-ruta-l">Parte 2 · láminas 25–34 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+</ol>
+
+<h2 class="econ-parte is-ayudantia" data-eyebrow="Parte 1 · Ayudantía" id="repaso-de-estadistica-descriptiva">Repaso de estadística descriptiva</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem1/repaso_ayudantia.tex</code> · 10 láminas</p>
+
+<h3 class="econ-tema is-ayudantia" data-laminas="Parte 1 · láminas 1–10" data-num="1" id="tema-1">Estadística descriptiva</h3>
+<p class="econ-tema-q">¿Cómo resumir muchos datos en pocos números y gráficos?</p>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 1" id="ramas-de-la-estadistica">Ramas de la Estadística</h4>
+<!-- sem1/repaso_ayudantia.tex · lámina 1 -->
+<p>La Estadística se divide en dos áreas:</p>
+<ul>
+<li>
+<p><strong>Estadística Descriptiva:</strong> se emplea como una primera aproximación a los datos. Utiliza tablas y gráficos para resumir la información disponible.</p>
+</li>
+<li>
+<p><strong>Estadística Inferencial:</strong> va un poco más allá. A partir de los datos desarrolla mecanismos de decisión parar determinar si los datos sustentan o no una hipótesis. Permite hacer predicciones.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 2" id="estadistica-descriptiva">Estadística Descriptiva</h4>
+<!-- sem1/repaso_ayudantia.tex · lámina 2 -->
+<ul>
+<li>
+<p>Los <strong>estadísticos</strong> son funciones de los datos de una muestra:</p>
+<div class="arithmatex">\[
+f(X_1,....,X_n)
+\]</div>
+</li>
+<li>
+<p><strong>gráficos</strong>: histogramas, gráficos de caja</p>
+</li>
+<li>
+<p><strong>tablas</strong>: de frecuencia, contingencia, etc.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 3–4" id="estadisticos-de-localizacion-central">Estadísticos de Localización Central</h4>
+<!-- sem1/repaso_ayudantia.tex · lámina 3 -->
+<ul>
+<li>
+<p><strong>Media empírica o promedio</strong>:</p>
+<div class="arithmatex">\[
+\bar{X}=\frac{1}{n}\sum_{i=1}^n X_i
+\]</div>
+</li>
+<li>
+<p><strong>Mediana</strong>: Si se tiene una muestra <span class="arithmatex">\(X_1,...,X_n\)</span>, se ordenan los datos de menor a mayor: <span class="arithmatex">\(X_{(1)},...X_{(n)}\)</span>. La mediana es la observación que queda en el medio.</p>
+<div class="arithmatex">\[
+Med(X_1,....,X_n)=\left\{
+\begin{array}{ll}
+X_{(\frac{n+1}{2})}, &amp; \hbox{si $n$ es impar} \\
+\frac{X_{(n/2)}+X_{(n/2+1)}}{2}, &amp; \hbox{si $n$ es par}
+\end{array}
+\right.
+\]</div>
+</li>
+</ul>
+<!-- sem1/repaso_ayudantia.tex · lámina 4 -->
+<ul>
+<li>
+<p>Suponiendo que se tienen 13 datos (caso de <span class="arithmatex">\(n\)</span> impar):</p>
+<div class="arithmatex">\[
+X_{(1)},......,\underbrace{X_{(7)}}_\text{mediana},......,X_{(13)}
+\]</div>
+</li>
+<li>
+<p>Suponiendo que se tienen 12 datos (caso de <span class="arithmatex">\(n\)</span> par):</p>
+<div class="arithmatex">\[
+X_{(1)},......,\underbrace{X_{(6)},X_{(7)}}_\text{mediana$=\frac{X_{(6)}+X_{(7)}}{2}$},......,X_{(12)}
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="bar-gates"></div>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 5" id="estadisticos-de-localizacion">Estadísticos de Localización</h4>
+<!-- sem1/repaso_ayudantia.tex · lámina 5 -->
+<ul>
+<li>
+<p>Un percentil es una medida estadística que indica la posición de un dato dentro de un conjunto de observaciones, dividiendo los datos en 100 partes iguales.</p>
+</li>
+<li>
+<p>Los percentiles más empleados son: <span class="arithmatex">\(P_{25}\)</span>, <span class="arithmatex">\(P_{50}=Mediana\)</span>, <span class="arithmatex">\(P_{75}\)</span> y se conocen como <strong><em>cuartiles</em></strong> ya que dividen a los datos en 4 partes (se suelen nombrar <span class="arithmatex">\(q_1\)</span>, <span class="arithmatex">\(q_2\)</span> y <span class="arithmatex">\(q_3\)</span>).</p>
+</li>
+<li>
+<p>También existen los <strong>quintiles</strong> y <strong>deciles</strong>, según se dividan a los datos en 5 o 10 partes.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 6–7" id="estadisticos-de-dispersion">Estadísticos de dispersión</h4>
+<!-- sem1/repaso_ayudantia.tex · lámina 6 -->
+<ul>
+<li>
+<p>El <strong><em>rango intercuartílico</em></strong>: se define como:</p>
+<div class="arithmatex">\[
+RIQ(X_1,...,X_n)=q_3-q_1
+\]</div>
+</li>
+<li>
+<p>La <strong><em>varianza muestral o empírica</em></strong> se define como:</p>
+<div class="arithmatex">\[
+Var(X_1,...,X_n)=\frac{\sum_{i=1}^n (X_i-\bar{X})^2}{n-1}
+\]</div>
+</li>
+</ul>
+<!-- sem1/repaso_ayudantia.tex · lámina 7 -->
+<ul>
+<li>
+<p>La <strong><em>desviación estándar muestral o empírico</em></strong> es la raíz cuadrada de la varianza, es decir:</p>
+<div class="arithmatex">\[
+S(X_1,...,X_n)=\sqrt{\frac{\sum_{i=1}^n (X_i-\bar{X})^2}{n-1}}
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 8" id="histograma">Histograma</h4>
+<!-- sem1/repaso_ayudantia.tex · lámina 8 -->
+<p>El histograma resume los datos dentro de algunos rangos y se cuenta el número de observaciones dentro de cada rango.</p>
+<p><img alt="Histograma" class="econ-slide-img" src="../../images/slides/sem1_hist.png" /></p>
+<p><a class="usm-btn" href="https://colab.research.google.com/drive/1fGx_sLiasa-psVeudjO5IgJPPJX0lB6t?usp=sharing" target="_blank">Colab</a></p>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 9–10" id="grafico-de-caja-boxplot">Gráfico de caja - Boxplot</h4>
+<!-- sem1/repaso_ayudantia.tex · lámina 9 -->
+<p><img alt="Gráfico de caja - Boxplot" class="econ-slide-img" src="../../images/slides/sem1_box_plot.png" /></p>
+<!-- sem1/repaso_ayudantia.tex · lámina 10 -->
+<ul>
+<li>
+<p><u><em>Línea en medio de la caja</em></u>: <span class="arithmatex">\(Med\)</span> (mediana).</p>
+</li>
+<li>
+<p><u><em>Límite superior de la caja</em></u>: <span class="arithmatex">\(q_3\)</span> (tercer cuartil).</p>
+</li>
+<li>
+<p><u><em>Límite inferior de la caja</em></u>: <span class="arithmatex">\(q_1\)</span> (primer cuartil).</p>
+</li>
+<li>
+<p>notar que el largo de la caja representa el <span class="arithmatex">\(RIQ\)</span> (rango intercuartilico).</p>
+</li>
+<li>
+<p><u><em>Bigote superior</em></u>: es el mínimo entre <span class="arithmatex">\(q_3+ 1.5RIQ\)</span> y el máximo de los datos (<span class="arithmatex">\(X_n\)</span>).</p>
+</li>
+<li>
+<p><u><em>Bigote inferior</em></u>: es el máximo entre <span class="arithmatex">\(q_1 - 1.5RIQ\)</span> y el mínimo de los datos (<span class="arithmatex">\(X_1\)</span>).</p>
+</li>
+<li>
+<p><u><em>Puntos fuera de los bigotes</em></u>: Todos los puntos que exceden los bigotes se grafican. Son puntos extremos (atípicos).</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="descriptiva"></div>
+
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En un boxplot, ¿qué representa la caja?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>El 50% central de los datos, entre el primer y el tercer cuartil.</button>
+<button class="econ-quiz-opt" data-why="El rango completo lo marcan los bigotes y los atípicos, no la caja.">El rango completo de los datos.</button>
+<button class="econ-quiz-opt" data-why="El boxplot se construye con cuartiles, no con la media ni la desviación estándar.">La media ± una desviación estándar.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 9–10: la caja va de q₁ a q₃ y la línea interior es la mediana.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Dos cursos tienen promedio 5.0. En el A las notas van de 4.8 a 5.2; en el B, de 2.0 a 7.0. ¿Qué estadístico los distingue?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>La desviación estándar.</button>
+<button class="econ-quiz-opt" data-why="Ambas medias son 5.0.">La media.</button>
+<button class="econ-quiz-opt" data-why="Mide la posición central, que puede ser igual en ambos; aquí lo que cambia es la dispersión.">La mediana.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 6–7: los estadísticos de dispersión miden cuán alejados están los datos de su centro.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Media, mediana y un atípico</p>
+<p>Calcula los estadísticos de localización y dispersión de 15 sueldos con un valor atípico, y dibuja su histograma y su boxplot.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 15 sueldos en miles de pesos; el último es un atípico (10 millones)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">sueldos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">520</span><span class="p">,</span><span class="w"> </span><span class="m">610</span><span class="p">,</span><span class="w"> </span><span class="m">580</span><span class="p">,</span><span class="w"> </span><span class="m">700</span><span class="p">,</span><span class="w"> </span><span class="m">650</span><span class="p">,</span><span class="w"> </span><span class="m">590</span><span class="p">,</span><span class="w"> </span><span class="m">720</span><span class="p">,</span><span class="w"> </span><span class="m">680</span><span class="p">,</span><span class="w"> </span><span class="m">560</span><span class="p">,</span><span class="w"> </span><span class="m">630</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">             </span><span class="m">600</span><span class="p">,</span><span class="w"> </span><span class="m">750</span><span class="p">,</span><span class="w"> </span><span class="m">640</span><span class="p">,</span><span class="w"> </span><span class="m">610</span><span class="p">,</span><span class="w"> </span><span class="m">10000</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nf">c</span><span class="p">(</span><span class="n">media</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">sueldos</span><span class="p">),</span><span class="w"> </span><span class="n">mediana</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">median</span><span class="p">(</span><span class="n">sueldos</span><span class="p">))</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nf">c</span><span class="p">(</span><span class="n">desv_estandar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">sueldos</span><span class="p">),</span><span class="w"> </span><span class="n">rango_intercuartil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">IQR</span><span class="p">(</span><span class="n">sueldos</span><span class="p">))</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nf">quantile</span><span class="p">(</span><span class="n">sueldos</span><span class="p">)</span><span class="w">              </span><span class="c1"># cuartiles: q1, mediana y q3</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nf">hist</span><span class="p">(</span><span class="n">sueldos</span><span class="p">[</span><span class="m">-15</span><span class="p">],</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Histograma (sin el atípico)"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"miles de $"</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nf">boxplot</span><span class="p">(</span><span class="n">sueldos</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Boxplot: el atípico aparte"</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> elimina el <code>10000</code> del vector. ¿Cuánto cambia la media? ¿Y la mediana?</p>
+</div>
+<h2 class="econ-parte is-ayudantia" data-eyebrow="Parte 2 · Ayudantía" id="repaso-de-estadistica-inferencial">Repaso de estadística inferencial</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem1/repaso_estadistica.tex</code> · 34 láminas</p>
+
+<h3 class="econ-tema is-ayudantia" data-laminas="Parte 2 · láminas 1–14" data-num="2" id="tema-2">TCL e intervalos de confianza para la media</h3>
+<p class="econ-tema-q">¿Cuánto podemos confiar en un promedio calculado con una muestra?</p>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 1" id="estadistica-inferencial">Estadística Inferencial</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 1 -->
+<ul>
+<li>
+<p>Utiliza los datos muestrales para <strong><em>inferir</em></strong> sobre la población.</p>
+</li>
+<li>
+<p>Requiere hacer supuesto sobre la población de interés. Uso de las teoría de <strong><em>probabilidades</em></strong>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 2" id="intervalos-de-confianza-ic">Intervalos de confianza (IC)</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 2 -->
+<ul>
+<li>
+<p>En lugar de ofrecer un valor único, se ofrece un rango de valores donde es más probable que el parámetro se encuentre.</p>
+</li>
+<li>
+<p>Este rango de valores lo llamaremos Intervalo de confianza (IC).</p>
+</li>
+<li>
+<p>Ventaja: da una idea de la precisión que se tiene al estimar.</p>
+</li>
+<li>
+<p>Para construir un IC hay que decidir previamente el nivel de confianza que se quiere tener.</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="aro"></div>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 3" id="teorema-central-del-limite">Teorema central del límite</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 3 -->
+<ul>
+<li>
+<p>La distribución muestral del promedio es la distribución de probabilidad de todos los posibles promedios de muestras de un determinado tamaño (<span class="arithmatex">\(n\)</span>), seleccionadas desde una población.</p>
+</li>
+<li>
+<p>Para una población con media <span class="arithmatex">\(\mu\)</span> y varianza <span class="arithmatex">\(\sigma^2\)</span> la distribución muestral de los promedios de todas las posibles muestras de tamaño n generadas desde la población serán, aproximadamente, normalmente distribuidas.</p>
+</li>
+<li>
+<p>La media de la distribución muestral será igual a <span class="arithmatex">\(\mu\)</span> y la varianza igual a <span class="arithmatex">\(\sigma^2/n\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="galton"></div>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 4" id="supuestos-tcl">Supuestos TCL</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 4 -->
+<ol>
+<li>
+<p><strong>Muestreo aleatorio:</strong> Las observaciones deben ser i.i.d. <span class="arithmatex">\((X_1, X_2, \ldots, X_n)\)</span>.</p>
+</li>
+<li>
+<p><strong>Tamaño muestral adecuado (regla de dedo):</strong></p>
+<div class="arithmatex">\[
+n \text{ debe ser } \begin{cases}
+\geq 30 &amp; \text{para distribuciones simétricas (normal)} \\
+\geq 50 &amp; \text{para distribuciones  asimétricas} \\
+\geq 100 &amp; \text{para distribuciones muy asimétricas}
+\end{cases}
+\]</div>
+</li>
+<li>
+<p><strong>Varianza finita:</strong> <span class="arithmatex">\(\sigma^2 &lt; \infty\)</span></p>
+</li>
+<li>
+<p><strong>Media finita:</strong> <span class="arithmatex">\(\mu &lt; \infty\)</span></p>
+</li>
+</ol>
+</div>
+<div class="econ-widget" data-widget="tcl"></div>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 5–7" id="ic-ejemplo1">IC. ejemplo1</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 5 -->
+<p><strong>Una tienda quiere obtener una estimación de las ventas mensuales promedio de un cierto producto. Supongamos que las ventas de este producto son bastante estables a los largo del año. Se dispone de una m.a. <span class="arithmatex">\(X_1,...,X_{36}\)</span> de datos de venta mensual y <span class="arithmatex">\(\bar{x}=200\)</span>. Obtener un IC de 95% para la media poblacional.</strong></p>
+<ul>
+<li>
+<p>Como <span class="arithmatex">\(n=36&gt;30\)</span> aplica el TCL.</p>
+<div class="arithmatex">\[
+\bar{X} \stackrel{aprox.}\sim N(\mu,\frac{\sigma^2}{n})
+\]</div>
+</li>
+<li>
+<p><span class="arithmatex">\(\mu\)</span> es la media poblacional que desconocemos</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\sigma^2\)</span> es la varianza poblacional (supongamos que es conocida por el momento)</p>
+<div class="arithmatex">\[
+\sigma^2=60^2
+\]</div>
+</li>
+</ul>
+<!-- sem1/repaso_estadistica.tex · lámina 6 -->
+<details class="success">
+<summary>Solución</summary>
+<ul>
+<li>
+<div class="arithmatex">\[
+    \frac{\bar{X}-\mu}{\frac{\sigma}{\sqrt{n}}}=\frac{\bar{X}-\mu}{\frac{60}{\sqrt{36}}}=\frac{\bar{X}-\mu}{10} \stackrel{aprox.}\sim N(0,1)
+    \]</div>
+</li>
+<li>
+<p>Intervalo de confianza de 95%</p>
+<div class="arithmatex">\[
+P(a\leq \frac{\bar{X}-\mu}{\frac{\sigma}{\sqrt{n}}}\leq b)=0.95
+\]</div>
+</li>
+</ul>
+</details>
+<!-- sem1/repaso_estadistica.tex · lámina 7 -->
+<details class="success">
+<summary>Solución (continuación)</summary>
+<p>El intervalos de confianza de 95% para <span class="arithmatex">\(\mu\)</span> cuando <span class="arithmatex">\(\sigma\)</span> es conocido está dado por:</p>
+<div class="arithmatex">\[
+\color{blue}{\bar{x} \pm 1.96\frac{\sigma}{\sqrt{n}}}
+\]</div>
+<div class="arithmatex">\[
+a=z_{0.025}=-1.96 \text{ y } b=z_{0.975}=-z_{0.025}=1.96
+\]</div>
+<ul>
+<li>
+<p>Esto es así si <span class="arithmatex">\(n\geq 30\)</span> o bien</p>
+</li>
+<li>
+<p>si <span class="arithmatex">\(n&lt;30\)</span> pero la muestra es <strong>normal</strong></p>
+</li>
+</ul>
+<div class="arithmatex">\[
+\color{red}{IC_{95\%}=(180.4;219.6})
+\]</div>
+<p>Haz clic: <a class="usm-btn" href="https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing" target="_blank">Colab</a> <a class="usm-btn" href="https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing" target="_blank">Excel</a></p>
+</details>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 8" id="intervalo-de-confianza-de-95">Intervalo de confianza de 95%</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 8 -->
+<p>El intervalo de confianza de 95% para <span class="arithmatex">\(\mu\)</span> cuando <span class="arithmatex">\(\sigma\)</span> es conocido está dado por:</p>
+<div class="arithmatex">\[
+\color{blue}{\bar{x} \pm 1.96\frac{\sigma}{\sqrt{n}}}
+\]</div>
+<ul>
+<li>
+<p>Esto es así si <span class="arithmatex">\(n\geq 30\)</span> o bien</p>
+</li>
+<li>
+<p>si <span class="arithmatex">\(n&lt;30\)</span> pero la muestra es <strong>normal</strong></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 9–10" id="otros-niveles-de-confianza">Otros niveles de confianza</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 9 -->
+<p>Si <span class="arithmatex">\(\alpha\)</span> es un número entre 0 y 1. El intervalo de confianza de <span class="arithmatex">\(100(1-\alpha)\%\)</span> para la media poblacional <span class="arithmatex">\(\mu\)</span> cuando <span class="arithmatex">\(\sigma\)</span> es conocido se obtiene de la siguiente forma:</p>
+<ul>
+<li>
+<p>Se identifica: <span class="arithmatex">\(z_{\frac{\alpha}{2}}\)</span></p>
+</li>
+<li>
+<p>Finalmente el IC de <span class="arithmatex">\(100(1-\alpha)\%\)</span> es:</p>
+<div class="arithmatex">\[
+\color{red}{\bar{x} \pm z_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}}
+\]</div>
+</li>
+</ul>
+<!-- sem1/repaso_estadistica.tex · lámina 10 -->
+<p>Suponga que se desea aumentar la confiabilidad y hacer un intervalo de 99%</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(1-\alpha=0.99,\)</span> entonces <span class="arithmatex">\(\frac{\alpha}{2}=0.005\)</span>.:</p>
+<div class="arithmatex">\[
+z_{0.005}=-2.57
+\]</div>
+</li>
+<li>
+<div class="arithmatex">\[
+    IC_{99\%}=(\bar{x}+z_{0.005}\frac{\sigma}{\sqrt{n}};\bar{x}-z_{0.005}\frac{\sigma}{\sqrt{n}})
+    \]</div>
+</li>
+<li>
+<div class="arithmatex">\[
+    IC_{99\%}=(200-(2.57)10;200+(2.57)10)
+    \]</div>
+</li>
+<li>
+<div class="arithmatex">\[
+    \color{red}{IC_{99\%}=(174.3;225.7)}
+    \]</div>
+</li>
+</ul>
+<p>Haz clic: <a class="usm-btn" href="https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing" target="_blank">Excel</a></p>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 11" id="comparacion-de-ic-con-distintos-niveles-de-confianza">Comparación de IC con distintos niveles de confianza.</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 11 -->
+<div class="arithmatex">\[
+\color{blue}{IC_{95\%}=(180.4;219.6) \text{, y } IC_{99\%}=(174.3;225.7)}
+\]</div>
+<p><strong>Si aumento el nivel de confianza y el intervalo se hace mayor!!!</strong></p>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 12" id="intervalos-de-confianza-nivel-de-confianza-y-precision">Intervalos de confianza: nivel de confianza y precisión</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 12 -->
+<p>Si tomamos como estimador puntual <span class="arithmatex">\(\bar{X}\)</span></p>
+<ul>
+<li>
+<p>Con un 95% de confianza el verdadero valor del parámetro <span class="arithmatex">\(\mu\)</span> no estará mas lejos de:</p>
+<div class="arithmatex">\[
+E_{95}=(1.96)\frac{\sigma }{\sqrt{n}}
+\]</div>
+</li>
+<li>
+<p>Con un 99% de confianza el verdadero valor del parámetro <span class="arithmatex">\(\mu\)</span> no estará mas lejos de:</p>
+<div class="arithmatex">\[
+E_{99}=(2.58)\frac{\sigma }{\sqrt{n}}
+\]</div>
+</li>
+<li>
+<p>Llamaremos a <span class="arithmatex">\(E\)</span> <strong><em>error absoluto</em></strong> de la estimación</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 13" id="nivel-de-confianza-y-precision">Nivel de confianza y precisión.</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 13 -->
+<ul>
+<li>
+<p>Si para una misma muestra aumentamos el nivel de confianza (por ejemplo de 95% a 99%) lograremos una mejora en la <strong>confiabilidad</strong>... pero se pierde <strong>precisión</strong> (mayor error absoluto)</p>
+<ul>
+<li>
+<p>el error absoluto (<span class="arithmatex">\(E_{95}\)</span>) del IC de <strong>95%</strong>:</p>
+<div class="arithmatex">\[
+{\color{blue}{E_{95}}}=(1.96)\frac{\sigma }{\sqrt{n}}
+\]</div>
+</li>
+<li>
+<p>el error absoluto (<span class="arithmatex">\(E_{99}\)</span>) del IC de <strong>99%</strong>:</p>
+<div class="arithmatex">\[
+{\color{blue}{E_{99}}}=(2.58)\frac{\sigma }{\sqrt{n}}
+\]</div>
+</li>
+<li>
+<p>confiabilidad <span class="arithmatex">\((1-\alpha)\)</span> <span class="arithmatex">\(\uparrow \Rightarrow\)</span> precisión <span class="arithmatex">\(\downarrow\)</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="ic-cobertura"></div>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 14" id="intervalos-de-confianza-determinacion-del-tamano-muestral">Intervalos de confianza: determinación del tamaño muestral</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 14 -->
+<ul>
+<li>
+<p>Antes de realizar un muestreo se puede definir el nivel de confianza y precisión (error absoluto) deseados y luego determinar el tamaño muestral (<span class="arithmatex">\(n\)</span>)</p>
+</li>
+<li>
+<p>suponiendo <span class="arithmatex">\(\sigma\)</span> conocido y eligiendo <span class="arithmatex">\(E\)</span> (el error absoluto) y <span class="arithmatex">\(\alpha\)</span>:</p>
+<div class="arithmatex">\[
+{\color{blue}{E}}=-z_{\frac{{\color{blue}{\alpha}}}{2}}\sigma/\sqrt{{\color{red}{n}}}
+\]</div>
+</li>
+<li>
+<p>luego, despejando <span class="arithmatex">\(n\)</span>:</p>
+<div class="arithmatex">\[
+n=(z_{\frac{\alpha}{2}}\frac{\sigma}{E})^2
+\]</div>
+</li>
+<li>
+<p>si el valor resultante no es entero se redondea hacia arriba.</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué dice el Teorema Central del Límite?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Con n grande, X̄ es aproximadamente normal, aunque la población no lo sea.</button>
+<button class="econ-quiz-opt" data-why="La población no cambia: lo que se vuelve normal es la distribución de X̄.">Con n grande, los datos de la población se vuelven normales.</button>
+<button class="econ-quiz-opt" data-why="X̄ varía de muestra en muestra alrededor de μ, con varianza σ²/n.">X̄ siempre es igual a μ.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 3–4: X̄ ≈ N(μ, σ²/n) si n ≥ 30, o para cualquier n si la población es normal.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con x̄ = 200, σ = 60 y n = 36, ¿cuál es el IC de 99% para μ?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-why="Ese es el IC de 95% (z = 1.96).">(180.4; 219.6)</button>
+<button class="econ-quiz-opt" data-correct>(174.2; 225.8)</button>
+<button class="econ-quiz-opt" data-why="Ese es el de 90% (z = 1.645): más confianza exige un intervalo más ancho.">(183.6; 216.4)</button>
+</div>
+<p class="econ-quiz-fb">✅ 200 ± 2.576 · 60/√36 = 200 ± 25.8. Pruébalo en la calculadora de intervalos.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · El TCL y el 95%</p>
+<p>Comprueba el TCL con una población muy asimétrica, reproduce el IC de la lámina 5 y verifica qué significa el 95%.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># TCL: la población es muy asimétrica, pero el promedio de 36 datos no</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">36</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">promedios</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="m">5000</span><span class="p">,</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="nf">rexp</span><span class="p">(</span><span class="m">36</span><span class="p">,</span><span class="w"> </span><span class="n">rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">200</span><span class="p">)))</span><span class="w">  </span><span class="c1"># μ = σ = 200</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nf">hist</span><span class="p">(</span><span class="n">promedios</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"5 000 promedios de n = 36"</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">     </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"x barra"</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nf">c</span><span class="p">(</span><span class="n">media</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">promedios</span><span class="p">),</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">promedios</span><span class="p">),</span><span class="w"> </span><span class="n">sd_teorica</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">200</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">6</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># IC de 95% de la lámina 5: x barra = 200, σ = 60, n = 36</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="m">200</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">qnorm</span><span class="p">(</span><span class="m">0.975</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="m">36</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># ¿Qué significa el 95%? El intervalo atrapa a μ en ~95% de las muestras</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">cubre</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="m">5000</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">36</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">200</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">60</span><span class="p">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="nf">abs</span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">200</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">1.96</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="m">36</span><span class="p">)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">})</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nf">mean</span><span class="p">(</span><span class="n">cubre</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>0.975</code> por <code>0.995</code> en el IC. ¿El intervalo de 99% es más ancho o más angosto?</p>
+</div>
+<h3 class="econ-tema is-ayudantia" data-laminas="Parte 2 · láminas 15–24" data-num="3" id="tema-3">Intervalos de confianza para proporciones</h3>
+<p class="econ-tema-q">¿Cómo estimar un porcentaje, como la tasa de productos defectuosos?</p>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 15–19" id="intervalos-de-confianza-para-las-proporciones">Intervalos de confianza para las proporciones</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 15 -->
+<ul>
+<li>
+<p>Sea <span class="arithmatex">\(\bf{p}\)</span> la proporción de <em>éxitos</em> en una población.</p>
+</li>
+<li>
+<p><strong><em>éxito:</em></strong> identifica a un individuo de una población con una determinada característica.</p>
+</li>
+<li>
+<p>ejemplos:</p>
+<ul>
+<li>
+<p>proporción de fallas en una población de un determinado artefacto.</p>
+</li>
+<li>
+<p>proporción de enfermos en una población.</p>
+</li>
+<li>
+<p>proporción de aprobados en un curso</p>
+</li>
+</ul>
+</li>
+</ul>
+<!-- sem1/repaso_estadistica.tex · lámina 16 -->
+<ul>
+<li>
+<p>Recordemos que la v.a. :</p>
+<div class="arithmatex">\[
+X\equiv \text{número de éxitos en una muestra de tamaño } n
+\]</div>
+<p>Distribuye <span class="arithmatex">\(Bin(n,p)\)</span></p>
+</li>
+<li>
+<p>Además si <span class="arithmatex">\(n\geq 30\)</span></p>
+<div class="arithmatex">\[
+X\stackrel{aprox.}\sim N(np,np(1-p))
+\]</div>
+</li>
+<li>
+<p>Se pedirá adicionalmente que <span class="arithmatex">\(np&gt;5\)</span> y <span class="arithmatex">\(n(1-p)&gt;5\)</span></p>
+</li>
+</ul>
+<!-- sem1/repaso_estadistica.tex · lámina 17 -->
+<ul>
+<li>
+<p>Un buen estimador puntual para <span class="arithmatex">\(p\)</span> es <span class="arithmatex">\(\hat{p}=\frac{X}{n}\)</span> la fracción de éxitos en la muestra.</p>
+</li>
+<li>
+<p>Ahora:</p>
+<div class="arithmatex">\[
+\hat{p}\stackrel{aprox.}\sim N(p,\frac{p(1-p)}{n})
+\]</div>
+<p>y</p>
+<div class="arithmatex">\[
+\frac{\hat{p}-p}{\sqrt{\frac{p(1-p)}{n}}}\stackrel{aprox.}\sim N(0,1)
+\]</div>
+</li>
+</ul>
+<!-- sem1/repaso_estadistica.tex · lámina 18 -->
+<p>Entonces se puede emplear la distribución normal para armar un IC para las proporciones. En este caso:</p>
+<div class="arithmatex">\[
+P(z_{\frac{\alpha}{2}}\leq \frac{\hat{p}-p}{\sqrt{\frac{p(1-p)}{n}}}\leq -z_{\frac{\alpha}{2}} )\simeq 1-\alpha
+\]</div>
+<!-- sem1/repaso_estadistica.tex · lámina 19 -->
+<p>Es decir:</p>
+<div class="arithmatex">\[
+P(z_{\frac{\alpha}{2}}\leq \frac{\hat{p}-p}{\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}}\leq -z_{\frac{\alpha}{2}} )\simeq 1-\alpha
+\]</div>
+<div class="arithmatex">\[
+P(\hat{p}+z_{\frac{\alpha}{2}}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\leq p \leq \hat{p}-z_{\frac{\alpha}{2}}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} )\simeq 1-\alpha
+\]</div>
+<p>El IC se construye como:</p>
+<div class="arithmatex">\[
+\color{red}{IC_{(1-\alpha)100\%}=\hat{p}\pm z_{\frac{\alpha}{2}}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}}
+\]</div>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 20" id="ic-para-las-proporciones-ejemplo">IC para las proporciones: ejemplo</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 20 -->
+<p><strong>Un fabricante asegura, a una compañía que le compra un producto en forma regular, que el porcentaje de productos defectuosos es 5%. La compañía decide comprobar la afirmación del fabricante seleccionando de su inventario 200 unidades del producto y probándolas. En este procedimiento se detectan 19 unidades defectuosas en la muestra. ¿Es coherente este resultado con la afirmación del proveedor? Utilice una confiabilidad de 95%.</strong></p>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 21" id="ic-para-las-proporciones-respuesta-de-ejemplo">IC para las proporciones. respuesta de ejemplo</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 21 -->
+<details class="success">
+<summary>Solución</summary>
+<div class="arithmatex">\[
+\hat{p}=\frac{19}{200}=0.095
+\]</div>
+<div class="arithmatex">\[
+IC_{95\%}=\hat{p}\pm z_{0.025}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+\]</div>
+<div class="arithmatex">\[
+IC_{95\%}=0.095 \pm 1.96 \sqrt{\frac{0.095(1-0.095)}{200}}
+\]</div>
+<div class="arithmatex">\[
+IC_{95\%}=(0.05433;0.1356)
+\]</div>
+<p>El proveedor afirma que <span class="arithmatex">\(p\)</span> es <span class="arithmatex">\(0.05\)</span>. Este valor no cae dentro del IC.</p>
+<p>Haz clic: <a class="usm-btn" href="https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing" target="_blank">Colab</a> <a class="usm-btn" href="https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing" target="_blank">Excel</a></p>
+</details>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 22" id="ic-para-las-proporciones-determinacion-del-tamano-muestral">IC para las proporciones: determinación del tamaño muestral</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 22 -->
+<ul>
+<li>
+<p>Aquí también se puede determinar <span class="arithmatex">\(n\)</span> fijando el nivel de confianza y el largo del intervalo.</p>
+</li>
+<li>
+<p>se requiere una estimación inicial de <span class="arithmatex">\(p\)</span>, <span class="arithmatex">\(p^*\)</span>.</p>
+</li>
+<li>
+<p>Para obtener <span class="arithmatex">\(p^*\)</span> se puede extraer una muestra preliminar (más pequeña), o usar <span class="arithmatex">\(p^*=0.5\)</span> (peor escenario).</p>
+</li>
+<li>
+<p>En este caso el error absoluto es:</p>
+<div class="arithmatex">\[
+E=-z_{\frac{\alpha}{2}}\sqrt{\frac{p^*(1-p^*)}{n}}
+\]</div>
+</li>
+<li>
+<p>luego, despejando <span class="arithmatex">\(n\)</span>:</p>
+<div class="arithmatex">\[
+n=\frac{z_{\frac{\alpha}{2}}^2p^*(1-p^*)}{E^2}
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 23–24" id="ic-para-las-proporciones">IC para las proporciones</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 23 -->
+<p><strong>Un fabricante produce chips para computadores. Cada chip tiene una probabilidad <span class="arithmatex">\(p\)</span> de tener una calidad aceptable. Para obtener un IC de 95% para <span class="arithmatex">\(p\)</span> cuya longitud no exceda <span class="arithmatex">\(0.05\)</span>, se toma una muestra inicial de 30 chips. De estos 30 chips, 26 resultaron con una calidad aceptable. ¿Cuál es el tamaño muestral necesario para obtener un intervalo con las características requeridas?</strong></p>
+<!-- sem1/repaso_estadistica.tex · lámina 24 -->
+<details class="success">
+<summary>Solución</summary>
+<div class="arithmatex">\[
+p^*=\frac{26}{30}=0.8667
+\]</div>
+<div class="arithmatex">\[
+n=\frac{z_{\frac{\alpha}{2}}^2p^*(1-p^*)}{E^2}=\frac{(1.96)^2(0.8667)(1-0.8667)}{(0.025)^2}=710.12
+\]</div>
+<p>Se requiere un tamaño muestral de 711 chips.</p>
+<p>Haz clic: <a class="usm-btn" href="https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing" target="_blank">Colab</a> <a class="usm-btn" href="https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing" target="_blank">Excel</a></p>
+</details>
+</div>
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con 19 defectuosos en 200 unidades, el IC de 95% es (0.054; 0.136). El proveedor dice que p = 0.05. ¿Qué concluyes?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Los datos no son coherentes con lo que afirma el proveedor: 0.05 queda fuera del intervalo.</button>
+<button class="econ-quiz-opt" data-why="Lo que importa es si el valor queda dentro o fuera del intervalo.">El proveedor tiene razón, porque 0.05 está cerca de 0.054.</button>
+<button class="econ-quiz-opt" data-why="El intervalo ya incorpora la incertidumbre de usar 200 unidades.">Con 200 unidades no se puede concluir nada.</button>
+</div>
+<p class="econ-quiz-fb">✅ Es la conclusión de la lámina 21.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Sin información previa sobre p, ¿qué p* conviene usar para calcular el tamaño muestral?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>0.5, porque maximiza p*(1 − p*) y da el n más conservador.</button>
+<button class="econ-quiz-opt" data-why="Daría un n demasiado chico si en realidad p estuviera cerca de 0.5.">0.05</button>
+<button class="econ-quiz-opt" data-why="Con p* = 1, p*(1 − p*) = 0 y el n calculado sería 0.">1</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 22: p* = 0.5 es el peor escenario.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Productos defectuosos</p>
+<p>Reproduce el intervalo de la lámina 21 y calcula cuántas unidades harían falta para un error de ±3 puntos porcentuales.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Lámina 20: 19 defectuosos en 200 unidades</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">19</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">200</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">qnorm</span><span class="p">(</span><span class="m">0.975</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w">  </span><span class="c1"># (0.0543; 0.1356)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Tamaño muestral para un error E = 0.03 con p* = 0.5 (peor escenario)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">E</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.03</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nf">ceiling</span><span class="p">(</span><span class="nf">qnorm</span><span class="p">(</span><span class="m">0.975</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">E</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> usa <code>p* = 0.095</code> en vez de <code>0.5</code> en el tamaño muestral. ¿Cuántas unidades necesitas ahora?</p>
+</div>
+<h3 class="econ-tema is-ayudantia" data-laminas="Parte 2 · láminas 25–34" data-num="4" id="tema-4">Intervalos para la diferencia de medias</h3>
+<p class="econ-tema-q">¿Ganan distinto, en promedio, los egresados de dos carreras?</p>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 25" id="intervalos-de-confianza-diferencia-de-media-de-dos-poblaciones">Intervalos de confianza diferencia de media de dos poblaciones</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 25 -->
+<p>Se cree que el salario promedio de recién egresados de la carrera de ingeniería industrial es mayor que el salario promedio de recién egresados de arquitectura. Se obtuvieron muestras aleatorias de cada grupo de egresados:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(X_1,....,X_{n_x}\)</span>: salarios de egresados de ing. industrial</p>
+</li>
+<li>
+<p><span class="arithmatex">\(Y_1,....,Y_{n_y}\)</span>: salarios de egresados de arquitectura</p>
+</li>
+<li>
+<p>Se supone que las muestras son <strong>independientes</strong> entre si</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 26–27" id="diferencia-de-media-de-dos-poblaciones">Diferencia de media de dos poblaciones</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 26 -->
+<p>Llamaremos:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\mu_x\)</span>: media poblacional de salarios de egresados de ing. industrial</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\mu_y\)</span>: media poblacional de salarios de egresados de arquitectura</p>
+</li>
+</ul>
+<!-- sem1/repaso_estadistica.tex · lámina 27 -->
+<p>La idea es armar un IC para:</p>
+<div class="arithmatex">\[
+\mu_x-\mu_y
+\]</div>
+<ul>
+<li>
+<p>Si el cero cae dentro del intervalo, los datos no dan evidencia de diferencia entre las medias</p>
+</li>
+<li>
+<p>Si el cero cae fuera del intervalo, los datos dan evidencia de diferencia entre las medias</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 28–31" id="caso-sigma_x2-y-sigma_y2-conocidos-con-n_x-y-n_y-grandes">Caso <span class="arithmatex">\(\sigma_x^2\)</span> y <span class="arithmatex">\(\sigma_y^2\)</span> conocidos, con <span class="arithmatex">\(n_x\)</span> y <span class="arithmatex">\(n_y\)</span> grandes</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 28 -->
+<ul>
+<li>
+<p><span class="arithmatex">\(\bar{X} \stackrel{aprox.}\sim N(\mu_x,\frac{\sigma_x^2}{n_x})\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\bar{Y} \stackrel{aprox.}\sim N(\mu_y,\frac{\sigma_y^2}{n_y})\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\bar{X}-\bar{Y}\)</span> también es aproximadamente normal</p>
+</li>
+<li>
+<p><span class="arithmatex">\(E(\bar{X}-\bar{Y})=E(\bar{X})-E(\bar{Y})=\mu_x-\mu_y\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(V(\bar{X}-\bar{Y})=V(\bar{X})+V(\bar{Y})=\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}\)</span> (porque las muestras son independientes)</p>
+</li>
+</ul>
+<!-- sem1/repaso_estadistica.tex · lámina 29 -->
+<p>Por ello,</p>
+<div class="arithmatex">\[
+Z=\frac{(\bar{X}-\bar{Y})-(\mu_x-\mu_y)}{\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}} \stackrel{aprox.}\sim N(0,1)
+\]</div>
+<!-- sem1/repaso_estadistica.tex · lámina 30 -->
+<p>De aquí surge que:</p>
+<div class="arithmatex">\[
+P(z_{\frac{\alpha}{2}}\leq Z\leq -z_{\frac{\alpha}{2}}) \simeq 1-\alpha
+\]</div>
+<div class="arithmatex">\[
+P(z_{\frac{\alpha}{2}}\leq \frac{(\bar{X}-\bar{Y})-(\mu_x-\mu_y)}{\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}\leq -z_{\frac{\alpha}{2}}) \simeq 1-\alpha
+\]</div>
+<p><span class="arithmatex">\(P((\bar{X}-\bar{Y}) + z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}\leq \mu_x-\mu_y\leq (\bar{X}-\bar{Y})-z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}})\)</span> <span class="arithmatex">\(\simeq 1-\alpha\)</span></p>
+<!-- sem1/repaso_estadistica.tex · lámina 31 -->
+<p>El IC de <span class="arithmatex">\((1-\alpha)100\%\)</span> para la diferencia de medias <span class="arithmatex">\(\mu_x-\mu_y\)</span> es:</p>
+<div class="arithmatex">\[
+\color{red}{IC_{(1-\alpha)100}=(\bar{X}-\bar{Y}) \pm z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}
+\]</div>
+</div>
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Láminas 32–34" id="ejemplo">Ejemplo</h4>
+<!-- sem1/repaso_estadistica.tex · lámina 32 -->
+<p>En el ejemplo de salarios. Supongamos que:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\bar{X}=\$800000\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\bar{Y}=\$680000\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(n_x=144\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(n_y=121\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\sigma_x=60000\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\sigma_y=50000\)</span></p>
+</li>
+</ul>
+<p>Obtener un IC de 95% para la diferencia de medias.</p>
+<!-- sem1/repaso_estadistica.tex · lámina 33 -->
+<details class="success">
+<summary>Solución</summary>
+<p>El IC de 95% es:</p>
+<div class="arithmatex">\[
+IC_{95}=(\bar{X}-\bar{Y}) \pm z_{0.025}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}
+\]</div>
+<div class="arithmatex">\[
+IC_{95}=(800000-680000)\pm(1.96)\sqrt{\frac{60000^2}{144}+\frac{50000^2}{121}}
+\]</div>
+<div class="arithmatex">\[
+IC_{95}=(106756; 133244)
+\]</div>
+<p>Haz clic: <a class="usm-btn" href="https://colab.research.google.com/drive/14izMe-eFdclOhTeS3hiLE_0h_4E3Jkps?usp=sharing" target="_blank">Colab</a> <a class="usm-btn" href="https://docs.google.com/spreadsheets/d/1xAh-TitIncHH8uwblbpvgjYma7B6gUTWlk8C2z1BquQ/edit?usp=sharing" target="_blank">Excel</a></p>
+</details>
+<!-- sem1/repaso_estadistica.tex · lámina 34 -->
+<details class="success">
+<summary>Conclusión</summary>
+<div class="arithmatex">\[
+\color{red}{IC_{95}=(106.756; 133.244)}
+\]</div>
+<p>Como el intervalo para <span class="arithmatex">\(\mu_x-\mu_y\)</span> <strong><em>no contiene al cero</em></strong>, el resultado nos está dando evidencia de que las medias poblacionales son diferentes. <strong><em>Los salarios promedio de los egresados de ingeniería son más altos en promedio que los de arquitectura.</em></strong></p>
+</details>
+</div>
+<div class="econ-widget" data-widget="ic-calc"></div>
+
+<div class="econ-practica" id="practica-4">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 4</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">El IC de 95% para μₓ − μᵧ es (106 756; 133 244). ¿Qué significa que no contenga al cero?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Que hay evidencia de que los salarios promedio de ambas carreras son distintos.</button>
+<button class="econ-quiz-opt" data-why="El intervalo se refiere a las medias, no a cada persona.">Que todos los ingenieros ganan más que todos los arquitectos.</button>
+<button class="econ-quiz-opt" data-why="120 000 es la estimación puntual; el intervalo da un rango de valores plausibles.">Que la diferencia es exactamente 120 000.</button>
+</div>
+<p class="econ-quiz-fb">✅ Es la conclusión de la lámina 34.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si aumentas nₓ y nᵧ (y lo demás no cambia), el intervalo para μₓ − μᵧ…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…se angosta.</button>
+<button class="econ-quiz-opt" data-why="El error estándar √(σₓ²/nₓ + σᵧ²/nᵧ) baja al crecer las muestras.">…se ensancha.</button>
+<button class="econ-quiz-opt" data-why="El error estándar depende de los tamaños muestrales.">…no cambia.</button>
+</div>
+<p class="econ-quiz-fb">✅ Más datos, menos incertidumbre: el error estándar disminuye.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Ingeniería contra arquitectura</p>
+<p>Reproduce el intervalo de la lámina 33 para la diferencia de salarios promedio.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Lámina 32: salarios de egresados de ingeniería (X) y arquitectura (Y)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">xbar</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">800000</span><span class="p">;</span><span class="w"> </span><span class="n">ybar</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">680000</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">nx</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">144</span><span class="p">;</span><span class="w">    </span><span class="n">ny</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">121</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">sx</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">60000</span><span class="p">;</span><span class="w">  </span><span class="n">sy</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">50000</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">ee</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">sx</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sy</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ny</span><span class="p">)</span><span class="w">               </span><span class="c1"># error estándar</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">(</span><span class="n">xbar</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ybar</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">qnorm</span><span class="p">(</span><span class="m">0.975</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ee</span><span class="w">    </span><span class="c1"># (106 756; 133 244)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> ¿cuánto tendría que valer <code>ybar</code> para que el intervalo contuviera al cero? Pruébalo.</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>La <strong>media</strong> se deja arrastrar por los atípicos; la <strong>mediana</strong> y el rango intercuartil, no.</li>
+<li>Por el <strong>TCL</strong>, <span class="arithmatex">\(\bar{X}\)</span> es aproximadamente <span class="arithmatex">\(N(\mu, \sigma^2/n)\)</span> aunque la población no sea normal.</li>
+<li>Un <strong>IC de 95%</strong> atrapa a μ en el 95% de las muestras; más confianza implica un intervalo más ancho.</li>
+<li>Para reducir el error a la mitad se necesitan <strong>cuatro veces</strong> más datos.</li>
+</ul>
+</div>
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Construiste un IC de 95% para μ y obtuviste (180.4 ; 219.6). ¿Cuál interpretación es correcta?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">Hay 95% de probabilidad de que μ esté entre 180.4 y 219.6.</button>
+<button class="econ-quiz-opt" data-correct>Si repitiéramos el muestreo muchas veces, el 95% de los intervalos construidos así contendría a μ.</button>
+<button class="econ-quiz-opt">El 95% de los meses tiene ventas entre 180.4 y 219.6.</button>
+</div>
+<p class="econ-quiz-fb">✅ μ es fijo: un intervalo ya calculado lo contiene o no. El 95% es una propiedad del <strong>procedimiento</strong> (revisa el simulador de cobertura). La tercera opción confunde la distribución de x̄ con la de las ventas individuales.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si cuadruplicas el tamaño muestral n (manteniendo σ y la confianza), el error absoluto E…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">…se reduce a la cuarta parte.</button>
+<button class="econ-quiz-opt" data-correct>…se reduce a la mitad.</button>
+<button class="econ-quiz-opt">…no cambia.</button>
+</div>
+<p class="econ-quiz-fb">✅ E = z·σ/√n, y √(4n) = 2√n. Para reducir el error a la mitad necesitas cuatro veces más datos.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">En una muestra de 15 sueldos aparece uno de 10 millones. ¿Qué estadístico cambia más?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt">La mediana</button>
+<button class="econ-quiz-opt" data-correct>La media</button>
+<button class="econ-quiz-opt">Ambos cambian lo mismo</button>
+</div>
+<p class="econ-quiz-fb">✅ La media usa el valor de cada dato, así que un atípico la arrastra; la mediana solo depende de la posición central. Pruébalo agregando un atípico en el simulador de estadística descriptiva.</p>
+</div>
+
+<h2 id="volver-a-la-catedra">🔗 Volver a la cátedra</h2>
+<ul>
+<li><a href="../../clases/clase1/">Clase 1 · Introducción y repaso de estadística</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+    
+  </body>
+</html>

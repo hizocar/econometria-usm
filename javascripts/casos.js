@@ -3175,6 +3175,12 @@
     }
   };
 
+  // Herramientas compartidas con casos2.js (clases 5 en adelante)
+  window.EconCasos = {
+    caso, svgBox, tween, ease, onVisible, popIn, countUp, drawStroke, hand, handArrow, wait, reduced, miles, shake,
+    matInv, matMul, tr, lgamma, ibeta, pT, pF, lmSummary, matHTML, olsMulti,
+  };
+
   if (typeof document$ !== "undefined") document$.subscribe(E.mountAll);
   E.mountAll();
 })();

@@ -1,0 +1,1629 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase8/">
+      
+      
+        <link rel="prev" href="../clase7/">
+      
+      
+        <link rel="next" href="../../ayudantias/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Clase 8 · Inferencia sobre un conjunto de parámetros - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-8-inferencia-sobre-un-conjunto-de-parametros" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 8 · Inferencia sobre un conjunto de parámetros
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ayudantias/" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inferencia-sobre-un-conjunto-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Inferencia sobre un conjunto de parámetros
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Inferencia sobre un conjunto de parámetros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Combinaciones de parámetros
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Combinaciones de parámetros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hipotesis-de-igualdad-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hipótesis de igualdad de parámetros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continuacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continuación
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Ejemplo: β₁ = β₂
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Ejemplo: β₁ = β₂">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-test-beta_1-beta_2-con-alpha-005" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: Test β1 = β2 con α = 0.05
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Ejercicio: β₁ = 2β₂
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Ejercicio: β₁ = 2β₂">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejercicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicio
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inferencia-sobre-un-conjunto-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Inferencia sobre un conjunto de parámetros
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Inferencia sobre un conjunto de parámetros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Combinaciones de parámetros
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Combinaciones de parámetros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hipotesis-de-igualdad-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hipótesis de igualdad de parámetros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continuacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continuación
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Ejemplo: β₁ = β₂
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Ejemplo: β₁ = β₂">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-test-beta_1-beta_2-con-alpha-005" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: Test β1 = β2 con α = 0.05
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Ejercicio: β₁ = 2β₂
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Ejercicio: β₁ = 2β₂">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejercicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicio
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="clase-8-inferencia-sobre-un-conjunto-de-parametros">Clase 8 · Inferencia sobre un conjunto de parámetros</h1>
+<div class="usm-session-meta">
+<span>📅 Viernes 4 de diciembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 8 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">🛠️ Semana del Taller 2</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la semana</p>
+<p>Esta página reproduce <strong>íntegras y en orden</strong> las diapositivas de la cátedra del viernes de la
+semana 8 (<code>sem8/Clase9.tex</code>, 7 láminas). Los bloques <strong>Interactivo</strong>, los casos y las preguntas
+son material adicional para estudiar.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Cómo estudiar esta página</p>
+<p>La clase está ordenada en <strong>3 temas</strong>. Cada tema parte con una <strong>pregunta guía</strong>, sigue con las láminas
+y los simuladores, y termina con <strong>✍️ preguntas de selección múltiple</strong> (cada alternativa incorrecta explica
+por qué no lo es) y un <strong>🧪 ejercicio de R</strong> que puedes editar y ejecutar aquí mismo, sin instalar nada.
+Los 3 ejercicios de R en un solo archivo: <a href="../../r/clase8.R">📥 clase8.R</a>.</p>
+</div>
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<ul>
+<li>Plantear hipótesis sobre <strong>combinaciones lineales</strong> de parámetros, como <span class="arithmatex">\(\beta_1 = \beta_2\)</span> o <span class="arithmatex">\(\beta_1 = 2\beta_2\)</span>.</li>
+<li>Calcular la varianza de una combinación usando la <strong>covarianza</strong> entre estimadores, tomada de <span class="arithmatex">\(\hat{\sigma}^2 (X^\top X)^{-1}\)</span>.</li>
+<li>Construir el estadístico <span class="arithmatex">\(t\)</span> y decidir con la regla de rechazo.</li>
+</ul>
+<h2 id="agenda-de-la-catedra-viernes-1840-2125">🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)</h2>
+<p>Haz clic en un tema para ir directo a él.</p>
+<ol class="econ-ruta">
+<li><span class="econ-ruta-h">18:40</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Hipótesis sobre combinaciones de parámetros</span><span class="econ-ruta-l">láminas 1–3 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:20</span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">Ejemplo: β₁ = β₂</span><span class="econ-ruta-l">láminas 4–5 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">19:55</span><span class="econ-ruta-t">☕ Receso</span></li>
+<li><span class="econ-ruta-h">20:05</span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">Ejercicio: β₁ = 2β₂</span><span class="econ-ruta-l">láminas 6–7 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">20:40</span><span class="econ-ruta-t">🧪 Práctica guiada con R, preparación del Taller 2 y cierre</span></li>
+</ol>
+
+<h2 class="econ-parte" data-eyebrow="Parte 1 · Cátedra" id="inferencia-sobre-un-conjunto-de-parametros">Inferencia sobre un conjunto de parámetros</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem8/Clase9.tex</code> · 7 láminas</p>
+
+<h3 class="econ-tema" data-laminas="láminas 1–3" data-num="1" id="tema-1">Hipótesis sobre combinaciones de parámetros</h3>
+<p class="econ-tema-q">¿Es el efecto de A igual al de B? ¿Cómo se testea algo que involucra dos coeficientes?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="introduccion">Introducción</h4>
+<!-- sem8/Clase9.tex · lámina 1 -->
+<ul>
+<li>
+<p>La clase pasada, vimos cómo hacer un test de hipótesis sobre un estimador específico del MCO.</p>
+</li>
+<li>
+<p>Pero a veces, no es eso lo que buscamos sino respuestas a hipótesis más complejas.</p>
+<ul>
+<li>
+<p>¿Es el coeficiente sobre la variable A igual al coeficiente para la variable B?</p>
+</li>
+<li>
+<p>¿Puedo rechazar la hipótesis de que tres factores económicos al mismo tiempo no influyen en mi variable de interés?</p>
+</li>
+<li>
+<p>¿Puedo excluir la posibilidad de que los sueldos dependen de variables discriminatorias (género, edad, origen)?</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="hipotesis-de-igualdad-de-parametros">Hipótesis de igualdad de parámetros</h4>
+<!-- sem8/Clase9.tex · lámina 2 -->
+<ul>
+<li>
+<p>Imaginamos que queremos testear: <span class="arithmatex">\(H_0: \beta_1 = \beta_2\)</span>.</p>
+</li>
+<li>
+<p>Planteamos el test:</p>
+<p><span class="arithmatex">\(H_0: \beta_1 - \beta_2 = 0\)</span>.</p>
+<p><span class="arithmatex">\(H_1: \beta_1 - \beta_2 \neq 0\)</span></p>
+</li>
+<li>
+<p>Dado que los <span class="arithmatex">\(\hat{\beta}\)</span> son distribuidos como normales, la diferencia también es una normal.</p>
+</li>
+<li>
+<p>Se puede, entonces, construir un test <span class="arithmatex">\(t\)</span> con el <span class="arithmatex">\(t\)</span>-estadístico:</p>
+<div class="arithmatex">\[
+t_{\text{estadístico}} = \frac{\hat{\beta}_1 - \hat{\beta}_2 - 0}{\sqrt{\hat{Var}(\hat{\beta}_1 - \hat{\beta}_2)}}
+\]</div>
+</li>
+<li>
+<p>Necesitamos: <span class="arithmatex">\(\hat{Var}(\hat{\beta}_1 - \hat{\beta}_2)\)</span>.</p>
+</li>
+<li>
+<p>Recuerden propiedades de la varianza. Sea <span class="arithmatex">\(k,c\)</span> constantes. Sean <span class="arithmatex">\(A, B\)</span> variables aleatorias:</p>
+<ol>
+<li>
+<p><span class="arithmatex">\(\text{Var}(kA) = k^2A\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\text{Var}(kA + cB) = k^2\text{Var}(A) + c^2\text{Var}(B) + 2kc\text{COV}(A, B)\)</span></p>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 3" id="continuacion">Continuación</h4>
+<!-- sem8/Clase9.tex · lámina 3 -->
+<ul>
+<li>
+<p>Entonces, en este caso, usando propiedades de la varianza (<span class="arithmatex">\(k = 1\)</span>, <span class="arithmatex">\(c = -1\)</span>):</p>
+<div class="arithmatex">\[
+\hat{Var}(\hat{\beta}_1 - \hat{\beta}_2) = \textcolor{red}{\hat{Var}(\hat{\beta}_1) + \hat{Var}(\hat{\beta}_2)} - \textcolor{blue}{2\hat{\text{COV}}(\hat{\beta}_1, \hat{\beta}_2)}
+\]</div>
+</li>
+<li>
+<p>Recuerden la matriz: <span class="arithmatex">\(\hat{Var}(\hat{\beta})= (X^{\top}X)^{-1}\hat{\sigma}^2\)</span>.</p>
+<ol>
+<li>
+<p><strong><span class="arithmatex">\(\hat{Var}(\hat{\beta}_j) = \hat{\sigma}^2_{j}\)</span> es el elemento <span class="arithmatex">\((j + 1), (j + 1)\)</span> de esa matriz (diagonal principal).</strong></p>
+</li>
+<li>
+<p><strong><span class="arithmatex">\(\hat{\text{COV}}(\hat{\beta}_j, \hat{\beta}_l) = \hat{\sigma}_{jl}\)</span> es el elemento <span class="arithmatex">\((j + 1), (l + 1)\)</span> de esa matriz.</strong></p>
+</li>
+</ol>
+</li>
+<li>
+<p>Regla de rechazo: una vez construido el <span class="arithmatex">\(t\)</span>-estadístico, se rechaza la hipótesis nula si <span class="arithmatex">\(t_{\text{estadístico}} &gt; t_{\alpha/2,n-k-1}\)</span>, donde <span class="arithmatex">\(\alpha\)</span> es el nivel de significatividad requerido.</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="cov-importa"></div>
+
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Para testear H₀: β₁ = β₂, ¿qué varianza necesitas?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Var(β̂₁ − β̂₂) = Var(β̂₁) + Var(β̂₂) − 2·Cov(β̂₁, β̂₂).</button>
+<button class="econ-quiz-opt" data-why="Falta la covarianza: β̂₁ y β̂₂ en general están correlacionados.">Var(β̂₁) + Var(β̂₂).</button>
+<button class="econ-quiz-opt" data-why="Las varianzas se suman: Var(kA) = k²Var(A), con k = −1.">Var(β̂₁) − Var(β̂₂).</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 2 y 3.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿De dónde sale Cov(β̂₁, β̂₂)?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Del elemento (2, 3) de la matriz σ̂²(XᵀX)⁻¹.</button>
+<button class="econ-quiz-opt" data-why="Es una covarianza entre estimadores, no entre variables.">De la correlación entre y y x₁.</button>
+<button class="econ-quiz-opt" data-why="El R² no da covarianzas entre coeficientes.">Del R² de la regresión.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 3: el elemento (j + 1), (l + 1), fuera de la diagonal.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · β₁ = β₂ en R</p>
+<p>Simula una regresión en que H₀ es verdadera, calcula el test con <code>vcov()</code> y compáralo con el truco de reparametrizar el modelo.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">8</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">n</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">140</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">x1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">x2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">y</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">      </span><span class="c1"># β1 = β2: H0 es verdadera</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">m</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">V</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">vcov</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w">                          </span><span class="c1"># σ̂²(XᵀX)⁻¹</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">se_dif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="s">"x1"</span><span class="p">,</span><span class="w"> </span><span class="s">"x1"</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V</span><span class="p">[</span><span class="s">"x2"</span><span class="p">,</span><span class="w"> </span><span class="s">"x2"</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">V</span><span class="p">[</span><span class="s">"x1"</span><span class="p">,</span><span class="w"> </span><span class="s">"x2"</span><span class="p">])</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">t</span><span class="w">      </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)[</span><span class="s">"x1"</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)[</span><span class="s">"x2"</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">se_dif</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nf">c</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unname</span><span class="p">(</span><span class="n">t</span><span class="p">),</span><span class="w"> </span><span class="n">valor_critico</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">qt</span><span class="p">(</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">3</span><span class="p">))</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Truco: con s = x1 + x2, el coeficiente de x1 en y ~ x1 + s es β1 − β2</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">s</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nf">coef</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s</span><span class="p">)))[</span><span class="s">"x1"</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">      </span><span class="c1"># mismo t que arriba</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>1 * x2</code> por <code>0.5 * x2</code> en la línea de <code>y</code> (ahora H₀ es falsa). ¿Se rechaza?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 4–5" data-num="2" id="tema-2">Ejemplo: β₁ = β₂</h3>
+<p class="econ-tema-q">Con la matriz de varianzas y covarianzas en la mano, ¿cuánto vale el test?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 4–5" id="ejemplo-test-beta_1-beta_2-con-alpha-005">Ejemplo: Test <span class="arithmatex">\(\beta_1 = \beta_2\)</span> con <span class="arithmatex">\(\alpha = 0.05\)</span></h4>
+<!-- sem8/Clase9.tex · lámina 4 -->
+<p><span class="arithmatex">\(\mathbf{(X^{\top}X)^{-1}} =
+        \begin{bmatrix}
+            0.05987 &amp; -0.00177 &amp; -0.00035 \\
+            -0.00177 &amp; 0.00030 &amp; -0.00002 \\
+            -0.00035 &amp; -0.00002 &amp; 0.00001 \\
+        \end{bmatrix}\)</span>; <span class="arithmatex">\(\hat{\sigma}^2 = \frac{SSR}{n-k-1} = 141925\)</span>;</p>
+<p><span class="arithmatex">\(\hat{\beta} =
+        \begin{bmatrix}
+            140 \\
+            42 \\
+            5 \\
+        \end{bmatrix}\)</span>; <span class="arithmatex">\(n=140\)</span></p>
+<p>Entonces: <span class="arithmatex">\(\mathbf{(X^{\top}X)^{-1}\hat{\sigma}^2} =
+        \begin{bmatrix}
+            8497.04975 &amp; -251.20725 &amp; -49.67375 \\
+            -251.20725 &amp; \textcolor{red}{42.5775} &amp; \textcolor{blue}{-2.8385} \\
+            -49.67375 &amp; \textcolor{blue}{-2.8385} &amp; \textcolor{red}{1.41925} \\
+        \end{bmatrix}\)</span>; <span class="arithmatex">\(\hat{\text{COV}}(\hat{\beta}_1, \hat{\beta}_2) = \textcolor{blue}{-2.8385}\)</span><br>
+<span class="arithmatex">\(\hat{Var}(\hat{\beta}_1)=\textcolor{red}{42.5775} \quad \hat{Var}(\hat{\beta}_2)=\textcolor{red}{1,41925}\)</span></p>
+<!-- sem8/Clase9.tex · lámina 5 -->
+<p>Procedimiento:</p>
+<ul>
+<li>
+<p>Paso 1: Hipótesis: <span class="arithmatex">\(H_0: \beta_1 - \beta_2 = 0\)</span><br>
+    <span class="arithmatex">\(H_1: \beta_1 - \beta_2 \neq 0\)</span>.</p>
+</li>
+<li>
+<p>Paso 2: Construir: <span class="arithmatex">\(\hat{Var}(\hat{\beta}_1 - \hat{\beta}_2)\)</span>:</p>
+<ul>
+<li><span class="arithmatex">\(\sqrt{\hat{Var}(\hat{\beta}_1 - \hat{\beta}_2)} = \sqrt{42,58 + 1.42 - 2(-2.84)} = 7,05\)</span></li>
+</ul>
+</li>
+<li>
+<p>Paso 3: <span class="arithmatex">\(t_e = \frac{42 - 5}{7,05} = 5.3\)</span></p>
+</li>
+<li>
+<p>Paso 4: Rechazo <span class="arithmatex">\(H_0\)</span> porque <span class="arithmatex">\(5.3 &gt; 1.98\)</span> valor crítico de la t con 137 grados de libertad con un 5% de significancia.</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="test-combinacion"></div>
+
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con Var(β̂₁) = 42.5775, Var(β̂₂) = 1.41925 y Cov = −2.8385, ¿cuánto vale Var(β̂₁ − β̂₂)?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>49.67</button>
+<button class="econ-quiz-opt" data-why="Faltó restar 2·Cov; como Cov es negativa, se suma 5.68.">43.99</button>
+<button class="econ-quiz-opt" data-why="Es −2·Cov, y Cov = −2.8385: el término suma.">38.32</button>
+</div>
+<p class="econ-quiz-fb">✅ 42.5775 + 1.41925 − 2·(−2.8385) = 49.67, y √49.67 = 7.05 (lámina 5).</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con t = 5.3 y un valor crítico de 1.98, ¿qué concluyes?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Se rechaza que el efecto de x₁ sea igual al de x₂.</button>
+<button class="econ-quiz-opt" data-why="5.3 &gt; 1.98.">No se rechaza.</button>
+<button class="econ-quiz-opt" data-why="Este test compara dos coeficientes; no testea si β₁ = 0.">x₁ no es significativa.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 5, paso 4.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · El ejemplo de la lámina 5</p>
+<p>Con la matriz de la lámina 4, calcula el error estándar de β̂₁ − β̂₂ como aᵀVa y el estadístico t.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Lámina 4: σ̂²(XᵀX)⁻¹ y los coeficientes estimados</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">V</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">8497.04975</span><span class="p">,</span><span class="w"> </span><span class="m">-251.20725</span><span class="p">,</span><span class="w"> </span><span class="m">-49.67375</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">              </span><span class="m">-251.20725</span><span class="p">,</span><span class="w">   </span><span class="m">42.5775</span><span class="p">,</span><span class="w">   </span><span class="m">-2.8385</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">               </span><span class="m">-49.67375</span><span class="p">,</span><span class="w">   </span><span class="m">-2.8385</span><span class="p">,</span><span class="w">    </span><span class="m">1.41925</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">byrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">140</span><span class="p">,</span><span class="w"> </span><span class="m">42</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">a</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">-1</span><span class="p">)</span><span class="w">                          </span><span class="c1"># combinación: β1 − β2</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">se</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">drop</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">a</span><span class="p">))</span><span class="w">         </span><span class="c1"># Var(aᵀβ̂) = aᵀ V a</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">t</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">drop</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">se</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nf">c</span><span class="p">(</span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">se</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">critico</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">qt</span><span class="p">(</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="m">137</span><span class="p">))</span><span class="w">   </span><span class="c1"># lámina 5: 7.05, 5.3 y 1.98</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>a</code> por <code>c(0, 1, 0)</code>. ¿Qué test estás haciendo ahora?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 6–7" data-num="3" id="tema-3">Ejercicio: β₁ = 2β₂</h3>
+<p class="econ-tema-q">¿Y si la hipótesis es que un efecto es el doble del otro?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 6–7" id="ejercicio">Ejercicio</h4>
+<!-- sem8/Clase9.tex · lámina 6 -->
+<p>Testee la <span class="arithmatex">\(H_0\)</span> de que el efecto de <span class="arithmatex">\(x_1\)</span> sobre <span class="arithmatex">\(y\)</span> es el doble que el efecto de <span class="arithmatex">\(x_2\)</span> sobre <span class="arithmatex">\(y:\beta_1=2\beta_2\)</span> frente a la alternativa que es diferente. Suponga <span class="arithmatex">\(\alpha=5\%\)</span>.</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(H_0: \beta_1 - 2\beta_2 = 0\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(H_1: \beta_1 - 2\beta_2 \neq 0\)</span>.</p>
+</li>
+</ul>
+<!-- sem8/Clase9.tex · lámina 7 -->
+<ul>
+<li>
+<p>Para construir el t-estadístico empírico: <span class="arithmatex">\(t_e = \frac{\hat{\beta}_1 - 2\hat{\beta}_2}{\sqrt{\hat{\text{Var}}(\hat{\beta}_1 - 2\hat{\beta}_2)}}\)</span> necesitamos calcular:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\hat{\text{Var}}(\hat{\beta}_1 - 2\hat{\beta}_2) = \hat{\text{Var}}(\hat{\beta}_1) + 4\hat{\text{Var}}(\hat{\beta}_2) - 4\hat{\text{COV}}(\hat{\beta}_1, \hat{\beta}_2)\)</span></p>
+</li>
+<li>
+<p>Usando la matriz de antes reemplazamos para obtener:</p>
+<p>$$
+\begin{aligned}
+\hat{ \text{Var}}(\hat{\beta}_1 - 2\hat{\beta}_2) &amp;= 42.5 + 4 \times 1.42 - 4(-2.84) \
+&amp;= 59.5 \
+\Rightarrow \text{s.e}(\hat{\beta}_1 - 2\hat{\beta}_2) &amp;= \sqrt{\hat{\text{Var}}(\hat{\beta}_1 - 2\hat{\beta}_2)} = 7.68</p>
+<p>\end{aligned}
+$$</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Construimos el t-empírico: <span class="arithmatex">\(t_e = \frac{42 - 10}{7.68} = 4.16\)</span></p>
+</li>
+<li>
+<p>Regla: Rechazo si <span class="arithmatex">\(|t_e| &gt; 1.98\)</span> valor crítico de la t con 137 grados de libertad . Entonces, se rechaza <span class="arithmatex">\(H_0\)</span> con un 5% de significancia, rechazo la hipótesis de que <span class="arithmatex">\(\beta_1 = 2\beta_2\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Para H₀: β₁ = 2β₂, ¿qué varianza se necesita?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Var(β̂₁) + 4·Var(β̂₂) − 4·Cov(β̂₁, β̂₂)</button>
+<button class="econ-quiz-opt" data-why="Var(kA) = k²Var(A): con k = −2, el factor es 4.">Var(β̂₁) + 2·Var(β̂₂) − 2·Cov(β̂₁, β̂₂)</button>
+<button class="econ-quiz-opt" data-why="Las varianzas siempre se suman.">Var(β̂₁) − 4·Var(β̂₂)</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 7, con k = 1 y c = −2: 2kc = −4.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En la lámina 7, t = (42 − 10)/7.68 = 4.16. ¿De dónde sale el 10?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>De 2·β̂₂ = 2·5.</button>
+<button class="econ-quiz-opt" data-why="H₀ dice β₁ − 2β₂ = 0: el valor de H₀ es 0.">Es el valor de H₀.</button>
+<button class="econ-quiz-opt" data-why="El error estándar es 7.68.">Es el error estándar.</button>
+</div>
+<p class="econ-quiz-fb">✅ El numerador es β̂₁ − 2β̂₂ − 0.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · β₁ = 2β₂ con matrices</p>
+<p>Repite el ejercicio de la lámina 7 con el vector a = (0, 1, −2). La lámina redondea Var(β̂₁) a 42.5; con 42.5775 los números cambian un poco.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">V</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">8497.04975</span><span class="p">,</span><span class="w"> </span><span class="m">-251.20725</span><span class="p">,</span><span class="w"> </span><span class="m">-49.67375</span><span class="p">,</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">              </span><span class="m">-251.20725</span><span class="p">,</span><span class="w">   </span><span class="m">42.5775</span><span class="p">,</span><span class="w">   </span><span class="m">-2.8385</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">               </span><span class="m">-49.67375</span><span class="p">,</span><span class="w">   </span><span class="m">-2.8385</span><span class="p">,</span><span class="w">    </span><span class="m">1.41925</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">byrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">140</span><span class="p">,</span><span class="w"> </span><span class="m">42</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">a</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">-2</span><span class="p">)</span><span class="w">                          </span><span class="c1"># H0: β1 − 2β2 = 0 (lámina 6)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">v</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">drop</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">               </span><span class="c1"># 42.58 + 4·1.42 − 4·(−2.84)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nf">c</span><span class="p">(</span><span class="n">var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">drop</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nf">abs</span><span class="p">(</span><span class="nf">drop</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nf">qt</span><span class="p">(</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="m">137</span><span class="p">)</span><span class="w">  </span><span class="c1"># ¿se rechaza?</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> testea H₀: β₁ = 8β₂. ¿Se rechaza?</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>Hipótesis como <span class="arithmatex">\(\beta_1 = \beta_2\)</span> se reescriben como <strong>combinaciones lineales</strong>: <span class="arithmatex">\(H_0: \beta_1 - \beta_2 = 0\)</span>.</li>
+<li><span class="arithmatex">\(\text{Var}(k\hat{\beta}_1 + c\hat{\beta}_2) = k^2\text{Var}(\hat{\beta}_1) + c^2\text{Var}(\hat{\beta}_2) + 2kc\,\text{Cov}(\hat{\beta}_1, \hat{\beta}_2)\)</span>, con todo tomado de <span class="arithmatex">\(\hat{\sigma}^2(X^\top X)^{-1}\)</span>.</li>
+<li><strong>No hay que olvidar la covarianza</strong>: si las <span class="arithmatex">\(x\)</span> están correlacionadas, los estimadores también lo están.</li>
+<li>El estadístico es un <span class="arithmatex">\(t\)</span> con <span class="arithmatex">\(n - k - 1\)</span> grados de libertad, igual que en la Clase 7.</li>
+</ul>
+</div>
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Var(β̂₁) = 4, Var(β̂₂) = 9 y Cov(β̂₁, β̂₂) = 3. ¿Cuál es el error estándar de β̂₁ − β̂₂?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>√7 ≈ 2.65</button>
+<button class="econ-quiz-opt" data-why="Faltó restar 2·Cov = 6.">√13 ≈ 3.61</button>
+<button class="econ-quiz-opt" data-why="La covarianza se resta en una diferencia: −2·Cov.">√19 ≈ 4.36</button>
+</div>
+<p class="econ-quiz-fb">✅ 4 + 9 − 2·3 = 7.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué hipótesis corresponde a “el efecto de un año de educación es el triple que el de un año de experiencia”?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>H₀: β_educ − 3·β_exper = 0</button>
+<button class="econ-quiz-opt" data-why="Eso diría que el efecto de la experiencia es el triple.">H₀: 3·β_educ − β_exper = 0</button>
+<button class="econ-quiz-opt" data-why="Eso son dos restricciones distintas, no una combinación.">H₀: β_educ = β_exper = 0</button>
+</div>
+<p class="econ-quiz-fb">✅ β_educ = 3·β_exper.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">En el simulador, si x₁ y x₂ están muy correlacionadas positivamente y ignoras la covarianza, el error estándar de β̂₁ − β̂₂ queda…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…demasiado chico, porque Cov(β̂₁, β̂₂) es negativa y debería sumar.</button>
+<button class="econ-quiz-opt" data-why="Con x positivamente correlacionadas, los estimadores se correlacionan negativamente.">…demasiado grande.</button>
+<button class="econ-quiz-opt" data-why="Solo si la covarianza es cero.">…correcto.</button>
+</div>
+<p class="econ-quiz-fb">✅ Por eso la lámina 3 insiste en el término 2·Cov.</p>
+</div>
+
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulo 4, sección 4.4 (tests sobre una combinación lineal de parámetros).</li>
+<li>🛠️ Esta semana es el <strong>Taller 2</strong>: repasa los tests t sobre uno y varios parámetros con las calculadoras de las Clases 7 y 8.</li>
+<li>Próxima clase: <strong>Propiedades asintóticas</strong>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+    
+  </body>
+</html>
