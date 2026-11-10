@@ -64,6 +64,7 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
   - javascripts/econ.js
   - javascripts/casos.js
+  - javascripts/casos2.js
   - javascripts/r-run.js
 
 # Customization
@@ -88,3 +89,11 @@ nav:
       - "Clase 2 · Regresión lineal simple": clases/clase2.md
       - "Clase 3 · Causalidad y variable omitida": clases/clase3.md
       - "Clase 4 · Regresión lineal múltiple": clases/clase4.md
+      - "Clase 5 · Propiedades estadísticas del estimador MCO": clases/clase5.md
+      - "Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones": clases/clase6.md
+      - "Clase 7 · Inferencia sobre un parámetro": clases/clase7.md
+      - "Clase 8 · Inferencia sobre un conjunto de parámetros": clases/clase8.md
+  - Ayudantías:
+      - ayudantias/index.md
+      - "Ayudantía 1 · Repaso de estadística": ayudantias/ayudantia1.md
+      - "Ayudantía 4 · La inversa de XᵀX por cofactores": ayudantias/ayudantia4.md

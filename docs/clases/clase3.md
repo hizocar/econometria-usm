@@ -13,7 +13,7 @@
     `Clase3.tex` (Parte 1) y `Clase4.tex` (Parte 2), ambas de la **cátedra del viernes**. Los bloques
     **Interactivo**, los casos y las preguntas son material adicional para estudiar.
 
-!!! example "Cómo estudiar esta clase"
+!!! example "Cómo estudiar esta página"
     La clase está ordenada en **8 temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas
     y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica
     por qué no lo es) y, en casi todos, un **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada.

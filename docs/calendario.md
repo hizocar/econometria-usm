@@ -11,12 +11,12 @@
     oportunamente.
 
 <div class="econ-week" markdown>
-### Semana 1 · 12 al 17 de octubre <span class="econ-pill is-gold">En curso</span>
+### Semana 1 · 12 al 17 de octubre
 - **Lunes 12** — 🏖️ Feriado (Encuentro de Dos Mundos): sin taller.
 - **Viernes 16** — [Clase 1 · Introducción](clases/clase1.md): econometría, causalidad,
   tipos de datos y muestreo.
-- **Ayudantía** — Repaso de estadística descriptiva e inferencial (TCL e intervalos de confianza),
-  [Partes 2 y 3 de la Clase 1](clases/clase1.md).
+- **Ayudantía** — [📘 Ayudantía 1 · Repaso de estadística](ayudantias/ayudantia1.md): descriptiva,
+  TCL e intervalos de confianza.
 </div>
 
 <div class="econ-week is-eval" markdown>
@@ -38,31 +38,35 @@
 ### Semana 4 · 2 al 7 de noviembre <span class="econ-pill">Taller 1</span>
 - **Lunes 2** — Taller.
 - **Viernes 6** — [Clase 4 · Regresión lineal múltiple](clases/clase4.md): estimación MCO, notación matricial, $R^2$ y $R^2$ ajustado.
-- **Ayudantía/taller** — Ejercicio: la inversa de $X^\top X$ por cofactores ([Parte 2 de la Clase 4](clases/clase4.md)).
+- **Ayudantía/taller** — [📘 Ayudantía 4 · La inversa de $X^\top X$ por cofactores](ayudantias/ayudantia4.md).
 </div>
 
 <div class="econ-week" markdown>
-### Semana 5 · 9 al 14 de noviembre
+### Semana 5 · 9 al 14 de noviembre <span class="econ-pill is-gold">En curso</span>
 - **Lunes 9** — Taller.
-- **Viernes 13** — Clase 5 · Interpretación de la regresión múltiple.
+- **Viernes 13** — [Clase 5 · Propiedades estadísticas del estimador MCO](clases/clase5.md): supuestos
+  clásicos, insesgamiento y errores estándar.
 </div>
 
 <div class="econ-week is-eval" markdown>
 ### Semana 6 · 16 al 21 de noviembre <span class="econ-pill">Certamen 1</span>
 - **Lunes 16** — 📝 **Certamen 1** (lectura: Miguel & Kremer, 2004).
-- **Viernes 20** — Clase 6 · Propiedades estadísticas del estimador MCO.
+- **Viernes 20** — [Clase 6 · Interpretación](clases/clase6.md): logaritmos, formas cuadráticas,
+  interacciones y reescalamiento.
 </div>
 
 <div class="econ-week" markdown>
 ### Semana 7 · 23 al 28 de noviembre
 - **Lunes 23** — Taller.
-- **Viernes 27** — Clase 7 · Inferencia sobre un parámetro.
+- **Viernes 27** — [Clase 7 · Inferencia sobre un parámetro](clases/clase7.md): test t, errores tipo I
+  y II, intervalos de confianza y valor-p.
 </div>
 
 <div class="econ-week is-eval" markdown>
 ### Semana 8 · 30 de noviembre al 5 de diciembre <span class="econ-pill">Taller 2</span>
 - **Lunes 30** — Taller.
-- **Viernes 4** — Clase 8 · Inferencia sobre un conjunto de parámetros.
+- **Viernes 4** — [Clase 8 · Inferencia sobre un conjunto de parámetros](clases/clase8.md): tests sobre
+  combinaciones lineales de parámetros.
 </div>
 
 <div class="econ-week is-eval" markdown>

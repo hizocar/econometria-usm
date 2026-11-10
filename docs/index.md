@@ -18,7 +18,7 @@ medir relaciones, contrastar hipótesis y estimar efectos causales con datos rea
 </div>
 
 > 🗓️ Revisa el detalle semana a semana en [**Calendario**](calendario.md) y el material de cada
-> sesión en [**Clases**](clases/clases.md).
+> sesión en [**Clases**](clases/clases.md) y [**Ayudantías**](ayudantias/index.md).
 
 ## 📌 Descripción
 
@@ -64,7 +64,7 @@ página: cada clase trae gráficos que puedes manipular para entender intuitivam
 <div class="usm-card" markdown>
 ### 🛠️ Taller — lunes
 Sesión práctica a cargo de **Iván**, que complementa la cátedra con ejercicios, uso de software y
-los **talleres evaluados** del curso.
+los **talleres evaluados** del curso. Su material está en [**Ayudantías**](ayudantias/index.md).
 </div>
 
 <div class="usm-card" markdown>

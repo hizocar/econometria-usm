@@ -3,7 +3,7 @@
     mkdocs build --site-dir site && python3 tools/auditar.py [site]
 
 Para cada lámina de cada .tex (definidos en tools/clases.py) toma sus palabras de contenido
-(sin comandos LaTeX) y mide qué fracción aparece en el HTML de la clase. Una lámina bajo 100%
+(sin comandos LaTeX) y mide qué fracción aparece en el HTML de su página (clase o ayudantía). Una lámina bajo 100%
 indica texto omitido o modificado; se listan las palabras que faltan.
 """
 import html
@@ -28,7 +28,9 @@ def norm(s):
 
 def palabras_tex(block):
     b = re.sub(r"\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}", " ", block, flags=re.S)
-    b = re.sub(r"\\begin\{(tabular|array)\}\{[^}]*\}", " ", b)  # especificación de columnas, p. ej. {c|cccc}
+    # especificación de columnas, p. ej. {c|cccc} o {@{}llcc@{}}, y colores de filas: formato, no contenido
+    b = re.sub(r"\\begin\{(tabular|array)\}\{(?:[^{}]|\{[^{}]*\})*\}", " ", b)
+    b = re.sub(r"\\rowcolors\{[^}]*\}\{[^}]*\}\{[^}]*\}", " ", b)
     b = re.sub(r"\\(begin|end|color|textcolor|label|tag)\{[^}]*\}", " ", b)
     b = re.sub(r"\\'([aeiou])", r"\1", b)
     b = re.sub(r"\\(href|includegraphics)(\[[^\]]*\])?\{[^}]*\}", " ", b)
@@ -47,9 +49,12 @@ def main():
     site = Path(sys.argv[1] if len(sys.argv) > 1 else "site")
     total = completas = 0
     for n, cfg in CLASES.items():
-        pagina = palabras_html(site / "clases" / f"clase{n}" / "index.html")
-        for tex, *_ in cfg["fuentes"]:
-            print(f"== Clase {n} · {tex}")
+        for tex, titulo, *_ in cfg["fuentes"]:
+            # La ayudantía tiene su propia página (docs/ayudantias/ayudantiaN.md)
+            ayud = "Ayudantía" in titulo
+            ruta = site / ("ayudantias" if ayud else "clases") / f"{'ayudantia' if ayud else 'clase'}{n}" / "index.html"
+            pagina = palabras_html(ruta)
+            print(f"== {'Ayudantía' if ayud else 'Clase'} {n} · {tex}")
             for i, (titulo, cuerpo) in enumerate(frames(SLIDES / tex), 1):
                 w = palabras_tex(cuerpo)
                 if not w:

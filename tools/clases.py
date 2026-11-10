@@ -75,37 +75,45 @@ def r_ejercicio(t):
             f'```r\n{codigo.strip()}\n```\n\n**🎯 Reto:** {reto}\n{{: .econ-r-reto }}\n\n</div>')
 
 
-def ruta(temas, receso_tras, cierre, previo=None):
+def fila_ruta(t, hora):
+    extra = f'✍️ {len(t["quiz"])} preguntas' + (" · 🧪 R" if t.get("r") else "")
+    return (f'<li><span class="econ-ruta-h">{hora}</span><a class="econ-ruta-a" href="#tema-{t["n"]}">'
+            f'<span class="econ-ruta-n">{t["n"]}</span><span class="econ-ruta-t">{t["titulo"]}</span>'
+            f'<span class="econ-ruta-l">{t["laminas"]} · {extra}</span></a></li>')
+
+
+def ruta(temas, receso_tras, cierre, previo=None, ayudantia=None):
     """Agenda visual de la cátedra: un paso por tema, con enlace, láminas y lo que trae para practicar.
-    Los temas de ayudantía van en una lista aparte, sin horario (se ven otro día)."""
-    def fila(t, hora):
-        extra = f'✍️ {len(t["quiz"])} preguntas' + (" · 🧪 R" if t.get("r") else "")
-        return (f'<li><span class="econ-ruta-h">{hora}</span><a class="econ-ruta-a" href="#tema-{t["n"]}">'
-                f'<span class="econ-ruta-n">{t["n"]}</span><span class="econ-ruta-t">{t["titulo"]}</span>'
-                f'<span class="econ-ruta-l">{t["laminas"]} · {extra}</span></a></li>')
+    Si la semana tiene ayudantía (número de su página), se enlaza al final: se ve otro día."""
     pausa = lambda h, txt: f'<li class="is-break"><span class="econ-ruta-h">{h}</span><span class="econ-ruta-t">{txt}</span></li>'
     filas = [pausa(*previo)] if previo else []
     for t in (t for t in temas if not t.get("ayudantia")):
-        filas.append(fila(t, t["hora"]))
+        filas.append(fila_ruta(t, t["hora"]))
         if t["n"] == receso_tras[0]:
             filas.append(pausa(receso_tras[1], "☕ Receso"))
     filas.append(pausa(*cierre))
     out = '<ol class="econ-ruta">\n' + "\n".join(filas) + "\n</ol>"
-    ayud = [t for t in temas if t.get("ayudantia")]
-    if ayud:
-        out += ('\n\n<p class="econ-ruta-sub">📘 <strong>Ayudantía</strong> · se trabaja otro día de la semana, no en la cátedra del viernes</p>\n'
-                '<ol class="econ-ruta is-ayudantia">\n' + "\n".join(fila(t, "") for t in ayud) + "\n</ol>")
+    if ayudantia:
+        out += (f"\n\n📘 **Ayudantía de la semana** · se trabaja otro día, en su propia página: "
+                f"[Ir a la Ayudantía {ayudantia} →](../ayudantias/ayudantia{ayudantia}.md)\n{{: .econ-ruta-sub }}")
     return out
 
 
-def como_estudiar(n, temas):
-    """Recuadro inicial que explica la estructura por temas de la clase."""
+def ruta_ayudantia(temas):
+    """Temas de una página de ayudantía (sin horario)."""
+    return '<ol class="econ-ruta is-ayudantia">\n' + "\n".join(fila_ruta(t, "") for t in temas) + "\n</ol>"
+
+
+def como_estudiar(nombre, temas, que="La clase"):
+    """Recuadro inicial que explica la estructura por temas de la página (nombre: clase1, ayudantia1…)."""
     nr = sum(1 for t in temas if t.get("r"))
-    return ('!!! example "Cómo estudiar esta clase"\n'
-            f'    La clase está ordenada en **{len(temas)} temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas\n'
+    r_txt = ((" y un" if nr == len(temas) else " y, en casi todos, un") +
+             " **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada") if nr else ""
+    return ('!!! example "Cómo estudiar esta página"\n'
+            f'    {que} está ordenada en **{len(temas)} temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas\n'
             '    y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica\n'
-            f'    por qué no lo es){(" y un" if nr == len(temas) else " y, en casi todos, un") + " **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada" if nr else ""}.\n'
-            + (f'    Los {nr} ejercicios de R en un solo archivo: [📥 clase{n}.R](../r/clase{n}.R).\n' if nr else ""))
+            f'    por qué no lo es){r_txt}.\n'
+            + (f'    Los {nr} ejercicios de R en un solo archivo: [📥 {nombre}.R](../r/{nombre}.R).\n' if nr else ""))
 
 
 def script_r(temas, titulo):
@@ -161,6 +169,37 @@ def svg_dag(x2y=False, x2x1=False):
     return f'<svg class="econ-tikz-svg econ-dag" viewBox="0 0 170 92" role="img" aria-label="Diagrama causal entre X1, X2 e Y">{d}</svg>'
 
 
+def svg_curva(titulo, pts, ymax, ystep, nota=None):
+    """Gráficos de la lámina 'Variables en logaritmo: Caso 1' (Clase 6): mismos ejes, marcas y curva del TikZ."""
+    W, H, L, B, T, R = 300, 210, 40, 34, 26, 10
+    X = lambda x: L + (x / 26) * (W - L - R)
+    Y = lambda y: H - B - (y / ymax) * (H - B - T)
+    g = f'<text x="{W / 2}" y="16" text-anchor="middle" font-weight="700" fill="currentColor">{titulo}</text>'
+    y = 0
+    while y <= ymax + 1e-9:
+        g += f'<line x1="{L}" x2="{X(26)}" y1="{Y(y):.1f}" y2="{Y(y):.1f}" stroke="currentColor" stroke-opacity="0.15"/>'
+        g += f'<text x="{L - 4}" y="{Y(y) + 3:.1f}" text-anchor="end" font-size="9" fill="currentColor">{y:g}</text>'
+        y += ystep
+    for x in range(1, 26, 2):
+        g += f'<text x="{X(x):.1f}" y="{H - B + 12}" text-anchor="middle" font-size="9" fill="currentColor">{x}</text>'
+    g += f'<text x="{X(13):.1f}" y="{H - 6}" text-anchor="middle" font-size="10" fill="currentColor">educacion</text>'
+    g += f'<text transform="translate(11,{(T + H - B) / 2}) rotate(-90)" text-anchor="middle" font-size="10" fill="currentColor">{titulo}</text>'
+    g += f'<line x1="{L}" y1="{H - B}" x2="{X(26.5):.1f}" y2="{H - B}" stroke="currentColor" stroke-opacity="0.5"/>'
+    g += f'<line x1="{L}" y1="{H - B}" x2="{L}" y2="{T - 4}" stroke="currentColor" stroke-opacity="0.5"/>'
+    d = " ".join(f'{"M" if i == 0 else "L"}{X(a):.1f},{Y(b):.1f}' for i, (a, b) in enumerate(pts))
+    g += f'<path d="{d}" fill="none" stroke="{BLUE}" stroke-width="2.4"/>'
+    if nota:
+        g += f'<text x="{X(nota[0]):.1f}" y="{Y(nota[1]):.1f}" font-size="10" fill="currentColor">{nota[2]}</text>'
+    return f'<svg class="econ-tikz-svg econ-tikz-plot" viewBox="0 0 {W} {H}" role="img" aria-label="Gráfico de {titulo} contra educacion">{g}</svg>'
+
+
+def svg_log_lineal():
+    rec = svg_curva("log(salario)", [(1, 0.667), (25, 2.659)], 3, 0.5, (16.5, 1.55, "pendiente: 0.083"))
+    exp_pts = [(1, 1.948), (3, 2.300), (5, 2.716), (7, 3.206), (9, 3.785), (11, 4.468), (13, 5.275),
+               (15, 6.228), (17, 7.352), (19, 8.680), (21, 10.247), (23, 12.098), (25, 14.282)]
+    return rec, svg_curva("salario", exp_pts, 14, 2)
+
+
 ARBOL_CAUSAL = f"""<div class="econ-tikz-tree">
 <div class="t-root">Individuo {ar('i')}</div>
 <div class="t-row"><span>↙</span><span>↘</span></div>
@@ -182,6 +221,8 @@ TIKZ = {
     ("sem3/Clase4.tex", 1): svg_dag(x2y=True),
     ("sem3/Clase4.tex", 2): svg_dag(x2x1=True),
     ("sem3/Clase4.tex", 3): svg_dag(x2y=True, x2x1=True),
+    ("sem6/clase7.tex", 1): svg_log_lineal()[0],
+    ("sem6/clase7.tex", 2): svg_log_lineal()[1],
 }
 
 # --------------------------------------------------------------------------------------------
@@ -196,26 +237,19 @@ C1_CABECERA = """# Clase 1 · Introducción y repaso de estadística
 </div>
 
 !!! info "Contenido oficial de la semana"
-    Esta página reproduce **íntegras y en orden** las diapositivas de la semana 1 (`sem1/`).
-    **Cátedra del viernes:** Parte 1 (`clase1.tex`). **Ayudantía:** Partes 2 y 3
-    (`repaso_ayudantia.tex` y `repaso_estadistica.tex`), que se ven otro día. Los bloques
-    **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para
-    estudiar; las soluciones de los ejemplos aparecen plegadas para que intentes resolverlos antes.
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
+    semana 1 (`sem1/clase1.tex`). El repaso de estadística (`repaso_ayudantia.tex` y
+    `repaso_estadistica.tex`) se trabaja en la ayudantía y tiene su propia página:
+    [📘 Ayudantía 1](../ayudantias/ayudantia1.md). Los bloques **Interactivo**, los casos y las
+    preguntas son material adicional para estudiar.
 
 <!--COMO-ESTUDIAR-->
 
 ## 🎯 Objetivos de la sesión
 
-**Cátedra (viernes)**
-
 - Entender qué es la econometría y qué tipo de preguntas permite responder.
 - Distinguir **correlación** de **causalidad** y el rol del supuesto *ceteris paribus*.
 - Reconocer los tipos de datos y los métodos de muestreo.
-
-**Ayudantía**
-
-- Repasar estadística descriptiva (localización, dispersión, histograma y boxplot) e inferencial
-  (TCL e intervalos de confianza para medias, proporciones y diferencias de medias).
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
@@ -227,28 +261,32 @@ C1_CIERRE = """!!! abstract "🧠 Ideas clave"
     - **Correlación no es causalidad**: un efecto causal compara situaciones *ceteris paribus* (helados, tiburones y temperatura).
     - Los datos pueden ser **experimentales u observacionales**, y de **corte transversal, series de tiempo o panel**.
     - Lo que hace representativa a una muestra es **cómo se elige** (aleatoriamente), no su tamaño: la sopa revuelta y el Literary Digest.
-    - *Ayudantía:* por el **TCL**, $\\bar{X}$ es aproximadamente $N(\\mu, \\sigma^2/n)$; un **IC de 95%** atrapa a μ en el 95% de las muestras.
 
 ## ✅ Autoevaluación
 
 """ + "\n\n".join([
-    quiz("Construiste un IC de 95% para μ y obtuviste (180.4 ; 219.6). ¿Cuál interpretación es correcta?",
-         ["Hay 95% de probabilidad de que μ esté entre 180.4 y 219.6.",
-          "Si repitiéramos el muestreo muchas veces, el 95% de los intervalos construidos así contendría a μ.",
-          "El 95% de los meses tiene ventas entre 180.4 y 219.6."], 1,
-         "μ es fijo: un intervalo ya calculado lo contiene o no. El 95% es una propiedad del <strong>procedimiento</strong> (revisa el simulador de cobertura). La tercera opción confunde la distribución de x̄ con la de las ventas individuales."),
-    quiz("Si cuadruplicas el tamaño muestral n (manteniendo σ y la confianza), el error absoluto E…",
-         ["…se reduce a la cuarta parte.", "…se reduce a la mitad.", "…no cambia."], 1,
-         "E = z·σ/√n, y √(4n) = 2√n. Para reducir el error a la mitad necesitas cuatro veces más datos."),
-    quiz("En una muestra de 15 sueldos aparece uno de 10 millones. ¿Qué estadístico cambia más?",
-         ["La mediana", "La media", "Ambos cambian lo mismo"], 1,
-         "La media usa el valor de cada dato, así que un atípico la arrastra; la mediana solo depende de la posición central. Pruébalo agregando un atípico en el simulador de estadística descriptiva."),
+    quiz("Los barrios con más bomberos registran más incendios. ¿Qué concluyes?",
+         [("Que los bomberos provocan incendios.", "No hay un mecanismo lógico para eso: es la misma trampa de los helados y los tiburones."),
+          "Que probablemente un tercer factor (barrios más grandes o con más riesgo) aumenta ambas cosas.",
+          ("Que la relación prueba que los bomberos no sirven.", "La correlación no permite concluir nada causal, ni a favor ni en contra.")], 1,
+         "Correlación no es causalidad: hay que comparar barrios <em>ceteris paribus</em>."),
+    quiz("Una encuesta por Instagram sobre uso de redes sociales recibe 50 000 respuestas. ¿Es representativa de los chilenos?",
+         ["No: responde quien quiere y quien ve la publicación; es un muestreo no probabilístico.",
+          ("Sí, porque 50 000 es una muestra enorme.", "El tamaño no corrige la forma de selección: es el error del Literary Digest."),
+          ("Sí, si se pondera por edad.", "Ponderar ayuda, pero quienes nunca ven la publicación no pueden aparecer en la muestra.")], 0,
+         "Una muestra es representativa si toda unidad puede aparecer con probabilidad conocida (lámina 13)."),
+    quiz("Tienes las notas de los mismos 200 estudiantes en cada semestre durante 4 años. ¿Qué tipo de datos son?",
+         [("Corte transversal", "Habría un solo período."),
+          ("Serie de tiempo", "Habría una sola unidad."),
+          "Datos de panel"], 2,
+         "Las mismas unidades observadas en varios períodos: un panel (lámina 11)."),
 ]) + """
 
 ## 📚 Para la próxima clase
 
-- **Wooldridge**, capítulo 1 (*La naturaleza de la econometría y los datos económicos*) y apéndice C
-  (repaso de estadística).
+- **Wooldridge**, capítulo 1 (*La naturaleza de la econometría y los datos económicos*).
+- 📘 En la **[Ayudantía 1](../ayudantias/ayudantia1.md)** se repasa la estadística que usaremos todo el curso
+  (Wooldridge, apéndice C).
 - Próxima clase: **Regresión lineal simple**.
 """
 
@@ -751,25 +789,20 @@ C4_CABECERA = """# Clase 4 · Regresión lineal múltiple
 </div>
 
 !!! info "Contenido oficial de la semana"
-    Esta página reproduce **íntegros y en orden** los materiales de la semana 4 (`sem4/`).
-    **Cátedra del viernes:** Parte 1 (`Clase5.tex`, 25 láminas). **Ayudantía/taller:** Parte 2
-    (`calculo_matrices.tex`, ejercicio de la inversa de $X^\\top X$). Los bloques **Interactivo**, los casos
-    y las preguntas de autoevaluación son material adicional para estudiar.
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
+    semana 4 (`sem4/Clase5.tex`, 25 láminas). El ejercicio de la inversa de $X^\\top X$
+    (`calculo_matrices.tex`) se trabaja en la ayudantía/taller y tiene su propia página:
+    [📘 Ayudantía 4](../ayudantias/ayudantia4.md). Los bloques **Interactivo**, los casos y las
+    preguntas son material adicional para estudiar.
 
 <!--COMO-ESTUDIAR-->
 
 ## 🎯 Objetivos de la sesión
 
-**Cátedra (viernes)**
-
 - Pasar del modelo simple al **modelo de regresión lineal múltiple** e interpretar cada $\\beta_j$ *ceteris paribus*.
 - Plantear la estimación por MCO con $k$ variables y escribir el modelo en **notación matricial**, $y = X\\beta + u$.
 - Derivar $\\hat{\\beta} = (X^\\top X)^{-1} X^\\top y$ y reconocer sus propiedades algebraicas.
 - Distinguir entre $R^2$ y $R^2$ ajustado, y leer la salida de una regresión en R.
-
-**Ayudantía**
-
-- Calcular a mano $(X^\\top X)^{-1}$ por cofactores y obtener $\\hat{\\beta}$ con los datos del ejemplo.
 
 ## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
 
@@ -804,7 +837,7 @@ C4_CIERRE = """!!! abstract "🧠 Ideas clave"
 ## 📚 Para la próxima clase
 
 - **Wooldridge**, capítulo 3, secciones 3.1–3.2 (*Análisis de regresión múltiple: estimación*).
-- 🛠️ Esta semana es el **Taller 1**: repasa el ejercicio de la Parte 2 y verifica tus cálculos con la calculadora matricial.
+- 🛠️ Esta semana es el **Taller 1**: en la **[Ayudantía 4](../ayudantias/ayudantia4.md)** se calcula a mano la inversa de $X^\\top X$; verifica tus cálculos con la calculadora matricial.
 - Próxima clase: **Interpretación de la regresión múltiple**.
 """
 
@@ -1082,7 +1115,7 @@ C1_TEMAS = [
          r=("Describir e inferir",
             "Con 36 meses de ventas, primero describe la muestra y luego infiere la media poblacional, como en el ejemplo de la ayudantía.",
             R_C1_T7, "cambia los dos `36` por `144`. ¿Qué pasa con el ancho del intervalo?")),
-    dict(n=8, ayudantia=True, inicio=(S1A, 1), fin=(S1A, 10), laminas="Parte 2 · Ayudantía · láminas 1–10",
+    dict(n=1, ayudantia=True, inicio=(S1A, 1), fin=(S1A, 10), laminas="Parte 1 · láminas 1–10",
          titulo="Estadística descriptiva", corto="Estadística descriptiva",
          pregunta="¿Cómo resumir muchos datos en pocos números y gráficos?",
          quiz=[
@@ -1100,7 +1133,7 @@ C1_TEMAS = [
          r=("Media, mediana y un atípico",
             "Calcula los estadísticos de localización y dispersión de 15 sueldos con un valor atípico, y dibuja su histograma y su boxplot.",
             R_C1_A1, "elimina el `10000` del vector. ¿Cuánto cambia la media? ¿Y la mediana?")),
-    dict(n=9, ayudantia=True, inicio=(S1E, 1), fin=(S1E, 14), laminas="Parte 3 · Ayudantía · láminas 1–14",
+    dict(n=2, ayudantia=True, inicio=(S1E, 1), fin=(S1E, 14), laminas="Parte 2 · láminas 1–14",
          titulo="TCL e intervalos de confianza para la media", corto="TCL e IC para la media",
          pregunta="¿Cuánto podemos confiar en un promedio calculado con una muestra?",
          quiz=[
@@ -1118,7 +1151,7 @@ C1_TEMAS = [
          r=("El TCL y el 95%",
             "Comprueba el TCL con una población muy asimétrica, reproduce el IC de la lámina 5 y verifica qué significa el 95%.",
             R_C1_A2, "cambia `0.975` por `0.995` en el IC. ¿El intervalo de 99% es más ancho o más angosto?")),
-    dict(n=10, ayudantia=True, inicio=(S1E, 15), fin=(S1E, 24), laminas="Parte 3 · Ayudantía · láminas 15–24",
+    dict(n=3, ayudantia=True, inicio=(S1E, 15), fin=(S1E, 24), laminas="Parte 2 · láminas 15–24",
          titulo="Intervalos de confianza para proporciones", corto="IC para proporciones",
          pregunta="¿Cómo estimar un porcentaje, como la tasa de productos defectuosos?",
          quiz=[
@@ -1136,7 +1169,7 @@ C1_TEMAS = [
          r=("Productos defectuosos",
             "Reproduce el intervalo de la lámina 21 y calcula cuántas unidades harían falta para un error de ±3 puntos porcentuales.",
             R_C1_A3, "usa `p* = 0.095` en vez de `0.5` en el tamaño muestral. ¿Cuántas unidades necesitas ahora?")),
-    dict(n=11, ayudantia=True, inicio=(S1E, 25), fin=(S1E, 34), laminas="Parte 3 · Ayudantía · láminas 25–34",
+    dict(n=4, ayudantia=True, inicio=(S1E, 25), fin=(S1E, 34), laminas="Parte 2 · láminas 25–34",
          titulo="Intervalos para la diferencia de medias", corto="IC para diferencia de medias",
          pregunta="¿Ganan distinto, en promedio, los egresados de dos carreras?",
          quiz=[
@@ -1621,7 +1654,7 @@ C4_TEMAS = [
          r=("La salida de la lámina 25",
             "Reproduce la regresión de la lámina 25 con los 5 datos y calcula el R² ajustado a mano.",
             R_C4_T6, "agrega un sexto individuo a los datos (por ejemplo, 15, 100 y 700). ¿Cómo cambian los errores estándar?")),
-    dict(n=7, ayudantia=True, inicio=(S4A, 1), fin=(S4A, 7), laminas="Parte 2 · Ayudantía · secciones 1–7",
+    dict(n=1, ayudantia=True, inicio=(S4A, 1), fin=(S4A, 7), laminas="Parte 1 · secciones 1–7",
          titulo="La inversa de XᵀX por cofactores", corto="Inversa por cofactores",
          pregunta="¿Cómo se invierte a mano una matriz de 3 × 3?",
          quiz=[
@@ -1642,20 +1675,1046 @@ C4_TEMAS = [
 ]
 
 
+# --------------------------------------------------------------------------------------------
+# Ayudantías (página aparte por semana; las fuentes con "Ayudantía" en el título)
+# --------------------------------------------------------------------------------------------
+A1_CABECERA = """# Ayudantía 1 · Repaso de estadística
+
+<div class="usm-session-meta">
+<span>📘 Ayudantía · Semana 1</span>
+<span class="usm-tag-gold">Complementa la Clase 1 · Wooldridge, apéndice C</span>
+</div>
+
+!!! info "Contenido oficial de la ayudantía"
+    Esta página reproduce **íntegros y en orden** los repasos de la semana 1 (`sem1/repaso_ayudantia.tex`
+    y `sem1/repaso_estadistica.tex`). Se trabajan en la **ayudantía**, no en la cátedra del viernes
+    ([Clase 1](../clases/clase1.md)). Las soluciones de los ejemplos aparecen plegadas para que intentes
+    resolverlos antes.
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos
+
+- Repasar estadística descriptiva: localización, dispersión, histograma y boxplot.
+- Usar el **Teorema Central del Límite** para construir intervalos de confianza para una media.
+- Construir intervalos para proporciones y para la diferencia de dos medias, y calcular tamaños muestrales.
+
+## 🗺️ Temas de la ayudantía
+
+Haz clic en un tema para ir directo a él.
+"""
+
+A1_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - La **media** se deja arrastrar por los atípicos; la **mediana** y el rango intercuartil, no.
+    - Por el **TCL**, $\\bar{X}$ es aproximadamente $N(\\mu, \\sigma^2/n)$ aunque la población no sea normal.
+    - Un **IC de 95%** atrapa a μ en el 95% de las muestras; más confianza implica un intervalo más ancho.
+    - Para reducir el error a la mitad se necesitan **cuatro veces** más datos.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+quiz("Construiste un IC de 95% para μ y obtuviste (180.4 ; 219.6). ¿Cuál interpretación es correcta?",
+         ["Hay 95% de probabilidad de que μ esté entre 180.4 y 219.6.",
+          "Si repitiéramos el muestreo muchas veces, el 95% de los intervalos construidos así contendría a μ.",
+          "El 95% de los meses tiene ventas entre 180.4 y 219.6."], 1,
+         "μ es fijo: un intervalo ya calculado lo contiene o no. El 95% es una propiedad del <strong>procedimiento</strong> (revisa el simulador de cobertura). La tercera opción confunde la distribución de x̄ con la de las ventas individuales."),
+    quiz("Si cuadruplicas el tamaño muestral n (manteniendo σ y la confianza), el error absoluto E…",
+         ["…se reduce a la cuarta parte.", "…se reduce a la mitad.", "…no cambia."], 1,
+         "E = z·σ/√n, y √(4n) = 2√n. Para reducir el error a la mitad necesitas cuatro veces más datos."),
+    quiz("En una muestra de 15 sueldos aparece uno de 10 millones. ¿Qué estadístico cambia más?",
+         ["La mediana", "La media", "Ambos cambian lo mismo"], 1,
+         "La media usa el valor de cada dato, así que un atípico la arrastra; la mediana solo depende de la posición central. Pruébalo agregando un atípico en el simulador de estadística descriptiva.")
+]) + """
+
+## 🔗 Volver a la cátedra
+
+- [Clase 1 · Introducción y repaso de estadística](../clases/clase1.md)
+"""
+
+A4_CABECERA = """# Ayudantía 4 · La inversa de XᵀX por cofactores
+
+<div class="usm-session-meta">
+<span>📘 Ayudantía · Semana 4</span>
+<span class="usm-tag-red">🛠️ Taller 1</span>
+<span class="usm-tag-gold">Complementa la Clase 4</span>
+</div>
+
+!!! info "Contenido oficial de la ayudantía"
+    Esta página reproduce **íntegro y en orden** el ejercicio de la semana 4 (`sem4/calculo_matrices.tex`).
+    Se trabaja en la **ayudantía/taller**, no en la cátedra del viernes ([Clase 4](../clases/clase4.md)).
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos
+
+- Calcular a mano $(X^\\top X)^{-1}$ por cofactores: menores, cofactores, adjunta y determinante.
+- Obtener $\\hat{\\beta} = (X^\\top X)^{-1}X^\\top y$ con los datos del ejemplo de la cátedra.
+
+## 🗺️ Temas de la ayudantía
+
+Haz clic en un tema para ir directo a él.
+"""
+
+A4_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - $A^{-1} = \\operatorname{adj}(A)/\\det(A)$: existe solo si $\\det(A) \\neq 0$.
+    - La adjunta es la **transpuesta** de la matriz de cofactores, y cada cofactor es $(-1)^{i+j}$ por un menor.
+    - Con la inversa, $\\hat{\\beta} = (X^\\top X)^{-1}X^\\top y$ reproduce la estimación de la lámina 22 de la Clase 4.
+
+## 🔗 Volver a la cátedra
+
+- [Clase 4 · Regresión lineal múltiple](../clases/clase4.md)
+"""
+
+
 C1_AGENDA = "\n" + ruta(C1_TEMAS, (2, "19:55"), ("21:25", "✅ Ideas clave, autoevaluación y cierre"),
-                      previo=("18:40", "🎓 Presentación del curso: programa, evaluaciones, cátedra + ayudantía y trabajo práctico"))
+                      previo=("18:40", "🎓 Presentación del curso: programa, evaluaciones, cátedra + ayudantía y trabajo práctico"),
+                      ayudantia=1)
 C2_AGENDA = "\n" + ruta(C2_TEMAS, (3, "19:55"), ("21:25", "✅ Ideas clave, autoevaluación y cierre"))
-C4_AGENDA = "\n" + ruta(C4_TEMAS, (3, "19:55"), ("21:20", "✅ Ideas clave, autoevaluación y cierre"))
+C4_AGENDA = "\n" + ruta(C4_TEMAS, (3, "19:55"), ("21:20", "✅ Ideas clave, autoevaluación y cierre"), ayudantia=4)
+
+
+# --------------------------------------------------------------------------------------------
+# Clase 5 · Semana 5 · Propiedades estadísticas del estimador MCO
+# --------------------------------------------------------------------------------------------
+S5 = "sem5/clase6.tex"
+
+C5_CABECERA = """# Clase 5 · Propiedades estadísticas del estimador MCO
+
+<div class="usm-session-meta">
+<span>📅 Viernes 13 de noviembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 5 · Contenido 5 · Análisis de regresión múltiple</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
+    semana 5 (`sem5/clase6.tex`, 19 láminas). Los bloques **Interactivo**, los casos y las preguntas
+    son material adicional para estudiar.
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos de la sesión
+
+- Enunciar los **cinco supuestos clásicos** del modelo de regresión múltiple y reconocer cuándo se violan.
+- Demostrar que, bajo los supuestos 1 a 4, $\\hat{\\beta}$ es **insesgado**.
+- Obtener la matriz de varianzas y covarianzas $\\text{Var}(\\hat{\\beta} \\mid X) = \\sigma^2 (X^\\top X)^{-1}$ y estimarla con $\\hat{\\sigma}^2$.
+- Calcular e interpretar los **errores estándar** de cada $\\hat{\\beta}_j$.
+
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+
+Haz clic en un tema para ir directo a él.
+"""
+
+C5_INSERTAR = {
+    (S5, 5): widget("multicolinealidad"),
+    (S5, 10): widget("supuestos-mlc"),
+    (S5, 13): widget("lab-supuestos"),
+    (S5, 18): complemento("¿Por qué 42.6 y 42.90?",
+        "La matriz $(X^\\top X)^{-1}$ de la lámina está redondeada a cinco decimales: $141\\,925 \\times 0.00030 = 42.58$, que la lámina "
+        "aproxima a $42.6$ y da $\\hat{se}(\\hat{\\beta}_1) = 6.53$. Con la matriz sin redondear se obtiene $42.90$ y $6.55$, el error "
+        "estándar que reporta Stata para la misma regresión (salario en educación e IQ, $n = 935$) en la lámina 13 de la Clase 7.")
+        + "\n\n" + widget("vcov"),
+}
+
+R_C5_T2 = r'''
+set.seed(5)
+n  <- 50
+x1 <- rnorm(n)
+x2 <- 2 * x1                       # relación lineal exacta: viola el supuesto 3
+y  <- 1 + 2 * x1 + rnorm(n)
+
+coef(lm(y ~ x1 + x2))              # R no puede estimar x2: entrega NA
+
+X <- cbind(1, x1, x2)
+qr(X)$rank                         # rango 2, no k + 1 = 3
+try(solve(t(X) %*% X))             # XᵀX no tiene inversa
+'''
+
+R_C5_T3 = r'''
+set.seed(4)
+n <- 2000
+habilidad <- rnorm(n)                       # no la observamos
+educ      <- 12 + 2 * habilidad + rnorm(n)  # se relaciona con la educación
+salario   <- 1 + 0.5 * educ + 1 * habilidad + rnorm(n)
+
+coef(lm(salario ~ educ))               # habilidad en u: E[u | X] ≠ 0
+coef(lm(salario ~ educ + habilidad))   # si pudiéramos incluirla: ≈ 0.5
+cor(educ, habilidad)
+'''
+
+R_C5_T4 = r'''
+set.seed(8)
+n       <- 300
+educ    <- runif(n, 6, 20)
+u       <- rnorm(n, sd = 0.4 * educ)   # la varianza crece con la educación
+salario <- 2 + 0.8 * educ + u
+m <- lm(salario ~ educ)
+
+plot(educ, resid(m), pch = 19, col = "steelblue",
+     main = "Residuos: el abanico se abre", ylab = "residuo")
+abline(h = 0, lty = 2)
+tapply(resid(m), cut(educ, 3), sd)     # dispersión por tramo de educación
+'''
+
+R_C5_T5 = r'''
+set.seed(12)
+n     <- 50
+sigma <- 2
+X     <- cbind(1, x1 = rnorm(n), x2 = rnorm(n))   # X fija entre muestras
+beta  <- c(1, 2, 1.5)
+
+b_hat <- replicate(5000, {
+  y <- X %*% beta + rnorm(n, sd = sigma)
+  drop(solve(t(X) %*% X) %*% t(X) %*% y)          # (XᵀX)⁻¹Xᵀy
+})
+rowMeans(b_hat)                  # ≈ (1, 2, 1.5): insesgado (lámina 12)
+round(var(t(b_hat)), 4)          # varianza simulada
+round(sigma^2 * solve(t(X) %*% X), 4)   # σ²(XᵀX)⁻¹ (lámina 13)
+'''
+
+R_C5_T6 = r'''
+# 1) Con los números de las láminas 17 y 18
+XtX_inv <- matrix(c( 0.05987, -0.00177, -0.00035,
+                    -0.00177,  0.00030, -0.00002,
+                    -0.00035, -0.00002,  0.00001), 3, 3, byrow = TRUE)
+V <- 141925 * XtX_inv
+round(V, 2)
+sqrt(diag(V))                       # errores estándar
+
+# 2) Con datos simulados: σ̂² = SSR / (n − k − 1)
+set.seed(16)
+n  <- 100
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+y  <- 1 + 2 * x1 + 1.5 * x2 + rnorm(n, sd = 3)
+m  <- lm(y ~ x1 + x2)
+X  <- model.matrix(m)
+sigma2_hat <- sum(resid(m)^2) / (n - 2 - 1)
+c(a_mano = sigma2_hat, lm = summary(m)$sigma^2)
+cbind(a_mano = sqrt(diag(sigma2_hat * solve(t(X) %*% X))),
+      lm     = coef(summary(m))[, "Std. Error"])
+'''
+
+R_C5_T7 = r'''
+set.seed(19)
+se_beta1 <- function(n, sd_x, sigma) {
+  x <- rnorm(n, sd = sd_x)
+  y <- 1 + 2 * x + rnorm(n, sd = sigma)
+  coef(summary(lm(y ~ x)))["x", "Std. Error"]
+}
+round(c(base            = se_beta1(100, 1, 2),
+        mas_variacion_x = se_beta1(100, 3, 2),
+        mas_ruido       = se_beta1(100, 1, 6),
+        mas_datos       = se_beta1(400, 1, 2)), 3)
+'''
+
+C5_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S5, 1), fin=(S5, 2), laminas="láminas 1–2",
+         titulo="¿Qué hace bueno a un estimador?", corto="¿Qué hace bueno a β̂?",
+         pregunta="Ya sabemos calcular β̂. ¿Cómo sabemos si es un buen estimador de β?",
+         quiz=[
+             ("¿Qué significa que β̂ sea un estimador <em>insesgado</em> de β?",
+              ["Que el promedio de β̂ sobre todas las muestras posibles es igual a β.",
+               ("Que en cada muestra β̂ = β.", "Cada muestra da un β̂ distinto; el insesgamiento habla del promedio."),
+               ("Que el R² es alto.", "El R² mide ajuste dentro de la muestra, no si β̂ acierta en promedio.")], 0,
+              "Es lo que se demuestra en la lámina 12."),
+             ("¿Cuántos supuestos clásicos enumera la lámina 2?",
+              [("Tres", "Faltan ortogonalidad y homocedasticidad."), "Cinco",
+               ("Uno: que u sea normal", "La normalidad no está en la lista: se agrega como supuesto 6 en la Clase 7.")], 1,
+              "Linealidad, muestra aleatoria, identificación, ortogonalidad y homocedasticidad."),
+         ]),
+    dict(n=2, hora="19:00", inicio=(S5, 3), fin=(S5, 5), laminas="láminas 3–5",
+         titulo="Supuestos 1 a 3: linealidad, muestra aleatoria e identificación", corto="Supuestos 1 a 3",
+         pregunta="¿Qué le pedimos al modelo, a los datos y a la matriz X?",
+         quiz=[
+             ("¿Cuál de estos modelos <strong>no</strong> es lineal en los parámetros, aunque se pueda linealizar?",
+              [("y = β₀ + β₁x + β₂x² + u", "Es lineal en β₀, β₁ y β₂: x² es solo otra variable."),
+               "Y = A·K^α₁·Q^α₂·L^α₃",
+               ("log y = β₀ + β₁ log x + u", "Es lineal en β₀ y β₁: los logaritmos están en las variables.")], 1,
+              "La función de producción se linealiza tomando logaritmos (lámina 3)."),
+             ("Incluyes x₂ = 2·x₁ en la regresión. ¿Qué pasa?",
+              ["X no tiene rango completo y XᵀX no tiene inversa: MCO no tiene solución única.",
+               ("β̂₂ es exactamente el doble de β̂₁.", "Ni siquiera se pueden calcular ambos: se viola el supuesto 3."),
+               ("Nada, solo aumenta el R².", "Con una relación lineal exacta no existe (XᵀX)⁻¹.")], 0,
+              "Es el ejemplo de violación de la lámina 5. Pruébalo con ρ = 1 en el simulador de multicolinealidad."),
+         ],
+         r=("Multicolinealidad perfecta",
+            "Construye una variable que es exactamente el doble de otra y mira cómo responden `lm()` y `solve()`.",
+            R_C5_T2, "cambia `2 * x1` por `2 * x1 + rnorm(n, sd = 0.01)`. ¿Se puede estimar ahora? ¿Qué pasa con los errores estándar?")),
+    dict(n=3, hora="19:25", inicio=(S5, 6), fin=(S5, 7), laminas="láminas 6–7",
+         titulo="Supuesto 4: ortogonalidad, el supuesto crítico", corto="Supuesto 4: ortogonalidad",
+         pregunta="¿Por qué este supuesto, y no otro, decide si podemos interpretar β causalmente?",
+         quiz=[
+             ("¿Cuál de estas situaciones viola E[u | X] = 0?",
+              ["Se omite una variable que afecta a y y está correlacionada con alguna x.",
+               ("La varianza de u crece con x.", "Eso viola el supuesto 5 (homocedasticidad), no el 4."),
+               ("El R² es bajo.", "Un R² bajo solo dice que u tiene mucha varianza, no que esté relacionado con X.")], 0,
+              "Lámina 7: omisión de variables y errores de medición en los regresores."),
+             ("¿Qué implica E[u | X] = 0 sobre la covarianza entre las x y el error?",
+              ["Que es cero: E[Xᵀu] = 0.",
+               ("Que es positiva.", "La ortogonalidad implica covarianza nula."),
+               ("Nada: son conceptos independientes.", "La lámina 6 lo deriva explícitamente.")], 0,
+              "Además implica E(y | X) = Xβ."),
+         ],
+         r=("Lo que pasa cuando falla el supuesto 4",
+            "La habilidad queda en el error y se relaciona con la educación. Compara la regresión con y sin ella.",
+            R_C5_T3, "cambia `2 * habilidad` por `0 * habilidad` en la educación. ¿Sigue habiendo sesgo?")),
+    dict(n=4, hora="19:40", inicio=(S5, 8), fin=(S5, 10), laminas="láminas 8–10",
+         titulo="Supuesto 5: homocedasticidad, y el resumen", corto="Supuesto 5 y resumen",
+         pregunta="¿Importa que el ruido sea más grande para algunas personas que para otras?",
+         quiz=[
+             ("Var(u | X) = σ²I significa que…",
+              ["…todos los errores tienen la misma varianza y no están correlacionados entre sí.",
+               ("…los errores son todos iguales a σ.", "Habla de la varianza de u, no de su valor."),
+               ("…u se distribuye normal.", "La normalidad es otro supuesto (el 6, en la Clase 7).")], 0,
+              "Homocedasticidad (diagonal constante) y no autocorrelación (fuera de la diagonal, ceros)."),
+             ("En la lámina 9, ¿qué distingue el gráfico de heterocedasticidad?",
+              ["La dispersión de los puntos alrededor de la recta cambia con x.",
+               ("La recta tiene pendiente negativa.", "La pendiente no tiene relación con la homocedasticidad."),
+               ("Los puntos forman una curva.", "Eso sería un problema de forma funcional, no de varianza.")], 0,
+              "Con homocedasticidad la nube tiene el mismo ancho para todo x."),
+         ],
+         r=("El abanico de la heterocedasticidad",
+            "Simula salarios cuya varianza crece con la educación (el ejemplo de la lámina 8) y grafica los residuos.",
+            R_C5_T4, "cambia `sd = 0.4 * educ` por `sd = 4`. ¿Cómo se ve ahora el gráfico de residuos?")),
+    dict(n=5, hora="20:05", inicio=(S5, 11), fin=(S5, 13), laminas="láminas 11–13",
+         titulo="Insesgamiento y varianza de β̂", corto="Insesgamiento y varianza",
+         pregunta="¿Acierta MCO en promedio? ¿Y cuánto se equivoca de muestra en muestra?",
+         quiz=[
+             ("¿Qué supuestos se usan para demostrar que β̂ es insesgado?",
+              ["Del 1 al 4.",
+               ("Del 1 al 5.", "La homocedasticidad no se necesita para el insesgamiento; sí para la fórmula de la varianza."),
+               ("Solo el 5.", "El paso clave es E(u | X) = 0, que es el supuesto 4.")], 0,
+              "Lámina 12: el paso (6) usa E(u | X) = 0."),
+             ("En la demostración de la varianza, ¿en qué paso se usa la homocedasticidad?",
+              ["Al reemplazar E[uuᵀ | X] por σ²I.",
+               ("Al escribir β̂ = β + (XᵀX)⁻¹Xᵀu.", "Ese paso solo usa y = Xβ + u."),
+               ("Al tomar la raíz de la varianza.", "La demostración termina en σ²(XᵀX)⁻¹, sin raíces.")], 0,
+              "Lámina 13, paso (12)."),
+         ],
+         r=("Insesgamiento y σ²(XᵀX)⁻¹ por simulación",
+            "Deja X fija, genera 5 000 muestras de y y compara el promedio y la varianza de β̂ con lo que dicen las láminas 12 y 13.",
+            R_C5_T5, "cambia `sigma <- 2` por `sigma <- 4`. ¿Cuánto crece la varianza? ¿Cambia el promedio?")),
+    dict(n=6, hora="20:35", inicio=(S5, 14), fin=(S5, 18), laminas="láminas 14–18",
+         titulo="Estimar σ² y los errores estándar", corto="σ̂² y errores estándar",
+         pregunta="σ² no se observa. ¿Cómo obtenemos, entonces, la precisión de cada β̂ⱼ?",
+         quiz=[
+             ("Con n = 935 y k = 2 variables explicativas, ¿cuántos grados de libertad tiene σ̂²?",
+              [("935", "Hay que descontar los parámetros estimados."),
+               ("933", "Faltó descontar el intercepto: son k + 1 parámetros."),
+               "932"], 2,
+              "gl = n − k − 1 = 935 − 2 − 1 = 932 (lámina 15)."),
+             ("En V̂(β̂) = σ̂²(XᵀX)⁻¹, ¿dónde está la varianza de β̂₁?",
+              ["En el elemento (2, 2) de la diagonal.",
+               ("En el elemento (1, 1).", "Ese corresponde a β̂₀, el intercepto."),
+               ("Fuera de la diagonal.", "Fuera de la diagonal están las covarianzas entre estimadores.")], 0,
+              "Lámina 16: el elemento a(j+1, j+1) es la varianza de β̂ⱼ."),
+         ],
+         r=("Errores estándar a mano",
+            "Reproduce la matriz de la lámina 18 y, después, calcula σ̂² y los errores estándar a mano en una regresión simulada.",
+            R_C5_T6, "cambia `sd = 3` por `sd = 6` en la línea de `y`. ¿Cuánto cambian los errores estándar?")),
+    dict(n=7, hora="21:05", inicio=(S5, 19), fin=(S5, 19), laminas="lámina 19",
+         titulo="¿Qué hace más preciso a β̂?", corto="Precisión de β̂",
+         pregunta="Si pudieras diseñar tu estudio, ¿qué cambiarías para estimar β con más precisión?",
+         quiz=[
+             ("¿Cuál de estos cambios hace <strong>menos</strong> preciso a β̂₁?",
+              [("Que x tenga más variabilidad.", "Más variación en x aumenta Σ(xᵢ − x̄)² y reduce la varianza."),
+               "Que el error tenga más varianza.",
+               ("Tener más observaciones.", "Más datos aumentan Σ(xᵢ − x̄)² y reducen la varianza.")], 1,
+              "Lámina 19: si la varianza del residuo es más grande, el estimador es menos preciso."),
+             ("Dos estudios estiman el retorno a la educación. En el A todos tienen entre 11 y 13 años de estudio; en el B, entre 6 y 20. ¿Cuál será más preciso (con igual n y σ²)?",
+              ["El B, porque hay más variación en x.",
+               ("El A, porque los datos son más parecidos.", "Datos parecidos en x dan poca información para medir la pendiente."),
+               ("Igual de precisos.", "La varianza depende de Σ(xᵢ − x̄)².")], 0,
+              "Más variabilidad en x, más información (lámina 19)."),
+         ],
+         r=("Tres formas de ganar precisión",
+            "Compara el error estándar de β̂₁ al aumentar la variación de x, el ruido y el tamaño muestral.",
+            R_C5_T7, "¿cuántas observaciones necesitas para que el error estándar sea la mitad que en `base`? Pruébalo.")),
+]
+
+C5_AGENDA = "\n" + ruta(C5_TEMAS, (4, "19:55"), ("21:20", "✅ Ideas clave, autoevaluación y cierre"))
+
+C5_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - Los **supuestos clásicos**: linealidad, muestra aleatoria, identificación (rango completo), ortogonalidad $E[u \\mid X] = 0$ y homocedasticidad $V(u \\mid X) = \\sigma^2 I$.
+    - Con los supuestos **1 a 4**, $\\hat{\\beta}$ es **insesgado**; la ortogonalidad es el supuesto crítico.
+    - Con los supuestos **1 a 5**, $\\text{Var}(\\hat{\\beta} \\mid X) = \\sigma^2 (X^\\top X)^{-1}$, y por Gauss-Markov MCO es el estimador lineal insesgado de menor varianza.
+    - Como $\\sigma^2$ no se observa, se usa $\\hat{\\sigma}^2 = SSR/(n-k-1)$; la raíz de la diagonal de $\\hat{\\sigma}^2 (X^\\top X)^{-1}$ da los **errores estándar**.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("Con heterocedasticidad (y los supuestos 1 a 4 cumplidos), ¿qué le pasa a β̂?",
+         ["Sigue siendo insesgado, pero la fórmula σ²(XᵀX)⁻¹ ya no describe bien su varianza.",
+          ("Queda sesgado.", "El insesgamiento solo requiere los supuestos 1 a 4."),
+          ("No se puede calcular.", "Se calcula igual; lo que falla es la fórmula de su varianza.")], 0,
+         "Míralo en el laboratorio de supuestos: el histograma sigue centrado en 2."),
+    quiz("Con σ̂² = 141 925 y un elemento diagonal de (XᵀX)⁻¹ igual a 0.00030, ¿cuál es el error estándar aproximado?",
+         ["6.5",
+          ("42.6", "Esa es la varianza; el error estándar es su raíz."),
+          ("0.017", "Esa es la raíz de 0.00030; falta multiplicar por σ̂² antes.")], 0,
+         "√(141 925 × 0.00030) = √42.58 ≈ 6.5 (láminas 17 y 18)."),
+    quiz("¿Qué dice el teorema de Gauss-Markov?",
+         ["Que, bajo los supuestos 1 a 5, MCO es el estimador lineal insesgado de menor varianza.",
+          ("Que MCO es el estimador de menor varianza entre todos los estimadores posibles.", "Solo entre los lineales e insesgados."),
+          ("Que β̂ es normal.", "La normalidad requiere un supuesto adicional (Clase 7).")], 0,
+         "Lámina 11, propiedad 3: MELI o BLUE."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulo 3, secciones 3.3 a 3.5 (valor esperado y varianza de MCO, teorema de Gauss-Markov).
+- 📝 El **lunes 16 de noviembre** es el **Certamen 1** (lectura: Miguel y Kremer, 2004).
+- Próxima clase: **Interpretación: logaritmos, formas cuadráticas e interacciones**.
+"""
+
+# --------------------------------------------------------------------------------------------
+# Clase 6 · Semana 6 · Interpretación: logaritmos, cuadráticas, interacciones y escala
+# --------------------------------------------------------------------------------------------
+S6 = "sem6/clase7.tex"
+
+C6_CABECERA = """# Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+
+<div class="usm-session-meta">
+<span>📅 Viernes 20 de noviembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 6 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">📝 Semana del Certamen 1 (lunes 16)</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
+    semana 6 (`sem6/clase7.tex`, 13 láminas). Los bloques **Interactivo**, los casos y las preguntas
+    son material adicional para estudiar.
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos de la sesión
+
+- Interpretar coeficientes en modelos **nivel-nivel, log-nivel, nivel-log y log-log**, incluida la elasticidad.
+- Usar **formas cuadráticas** para efectos parciales que cambian con el nivel de $x$, y encontrar su punto de inflexión.
+- Interpretar **términos de interacción** y evaluarlos en valores relevantes.
+- Predecir cómo cambian los coeficientes, sus errores estándar y los tests al **reescalar** variables.
+
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+
+Haz clic en un tema para ir directo a él.
+"""
+
+C6_INSERTAR = {
+    (S6, 4): widget("log-modelos"),
+    (S6, 7): widget("cuadratica"),
+    (S6, 9): widget("interaccion"),
+    (S6, 12): widget("reescalar"),
+}
+
+R_C6_T1 = r'''
+set.seed(3)
+n       <- 500
+educ    <- sample(6:20, n, replace = TRUE)
+salario <- exp(0.584 + 0.083 * educ + rnorm(n, sd = 0.4))   # como la lámina 3
+m <- lm(log(salario) ~ educ)
+coef(m)
+100 * coef(m)["educ"]                 # % por año, aproximado
+100 * (exp(coef(m)["educ"]) - 1)      # % por año, exacto
+
+# Log-log: elasticidad de la demanda de vino (lámina 4)
+precio   <- runif(n, 3000, 15000)
+cantidad <- exp(6 - 0.2 * log(precio) + rnorm(n, sd = 0.1))
+coef(lm(log(cantidad) ~ log(precio)))
+'''
+
+R_C6_T2 = r'''
+set.seed(6)
+n       <- 500
+exper   <- runif(n, 0, 45)
+salario <- 3.73 + 0.298 * exper - 0.0061 * exper^2 + rnorm(n, sd = 1.5)
+m <- lm(salario ~ exper + I(exper^2))
+b <- coef(m)
+b
+unname(-b["exper"] / (2 * b["I(exper^2)"]))       # punto de quiebre (≈ 24.4)
+b["exper"] + 2 * b["I(exper^2)"] * c(5, 20, 35)   # efecto de un año más
+
+plot(exper, salario, pch = 19, col = "grey70")
+curve(b[1] + b[2] * x + b[3] * x^2, add = TRUE, lwd = 3, col = "steelblue")
+'''
+
+R_C6_T3 = r'''
+set.seed(9)
+n      <- 400
+msq    <- runif(n, 40, 200)
+dorm   <- sample(1:5, n, replace = TRUE)
+precio <- 10 + 0.9 * msq - 2 * dorm + 0.05 * msq * dorm + rnorm(n, sd = 8)
+
+m <- lm(precio ~ msq * dorm)            # = msq + dorm + msq:dorm
+b <- coef(m)
+b
+b["dorm"] + b["msq:dorm"] * mean(msq)   # efecto de un dormitorio, casa promedio
+b["dorm"] + b["msq:dorm"] * c(60, 160)  # casa chica y casa grande
+'''
+
+R_C6_T4 = r'''
+set.seed(10)
+n           <- 200
+educ        <- sample(8:20, n, replace = TRUE)
+salario_usd <- 150 + 20 * educ + rnorm(n, sd = 90)
+salario_clp <- 1000 * salario_usd          # TC = 1000 (lámina 11)
+
+coefs <- function(m) round(coef(summary(m))[2, 1:3], 3)  # β̂, s.e., t
+rbind(dolares    = coefs(lm(salario_usd ~ educ)),
+      pesos      = coefs(lm(salario_clp ~ educ)),
+      x_en_meses = coefs(lm(salario_usd ~ I(12 * educ))))   # lámina 12
+
+c(R2_dolares = summary(lm(salario_usd ~ educ))$r.squared,
+  R2_pesos   = summary(lm(salario_clp ~ educ))$r.squared)
+'''
+
+C6_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S6, 1), fin=(S6, 4), laminas="láminas 1–4",
+         titulo="Logaritmos: porcentajes y elasticidades", corto="Logaritmos",
+         pregunta="¿Cómo cambia la lectura de β cuando hay logaritmos en el modelo?",
+         quiz=[
+             ("En log(salario) = 0.584 + 0.083·educ, ¿qué significa 0.083?",
+              ["Un año más de educación se asocia con un salario aproximadamente 8.3% mayor.",
+               ("Un año más de educación aumenta el salario en 0.083 dólares.", "Eso sería en un modelo nivel-nivel."),
+               ("Un 1% más de educación aumenta el salario en 0.083%.", "Eso sería en un modelo log-log.")], 0,
+              "Lámina 3: modelo log-nivel, 100·β₁ % por unidad de x."),
+             ("En log(cantidad de vino) = 6 − 0.2·log(precio), si el precio sube 10%, la cantidad…",
+              ["…cae aproximadamente 2%.",
+               ("…cae 0.2%.", "Eso es para un aumento de 1% en el precio."),
+               ("…cae 20%.", "−0.2 × 10% = −2%.")], 0,
+              "Es una elasticidad: β₁ × Δ%x (lámina 4)."),
+         ],
+         r=("Log-nivel y log-log",
+            "Simula salarios como los de la lámina 3 y la demanda de vino de la lámina 4, y recupera la semielasticidad y la elasticidad.",
+            R_C6_T1, "cambia `0.083` por `0.3`. ¿Qué tanto se alejan ahora la aproximación 100·β y el porcentaje exacto?")),
+    dict(n=2, hora="19:20", inicio=(S6, 5), fin=(S6, 7), laminas="láminas 5–7",
+         titulo="Formas cuadráticas", corto="Formas cuadráticas",
+         pregunta="¿Y si el efecto de un año más de experiencia no es siempre el mismo?",
+         quiz=[
+             ("Con salario = 3.73 + 0.298·exper − 0.0061·exper², ¿cuál es el efecto de un año más con 10 años de experiencia?",
+              ["0.298 − 2·0.0061·10 = 0.176",
+               ("0.298", "Ese es el efecto cuando exper = 0."),
+               ("0.298 − 0.0061·10 = 0.237", "La derivada de β₂x² es 2β₂x.")], 0,
+              "Lámina 6: Δsalario/Δexper = 0.298 − 2·0.0061·exper."),
+             ("¿A partir de qué experiencia el efecto se vuelve negativo según la lámina 6?",
+              ["24.4 años",
+               ("48.9 años", "Es |β₁/(2β₂)|, no |β₁/β₂|."),
+               ("Nunca", "Como β₁ > 0 y β₂ < 0 hay un punto donde el efecto cambia de dirección.")], 0,
+              "x = |0.298 / (2·0.0061)| = 24.4."),
+         ],
+         r=("La curva de la experiencia",
+            "Simula datos con la ecuación de la lámina 6, estímala con `I(exper^2)` y encuentra el punto de quiebre.",
+            R_C6_T2, "cambia `- 0.0061` por `+ 0.0061`. ¿Existe todavía un máximo?")),
+    dict(n=3, hora="20:05", inicio=(S6, 8), fin=(S6, 9), laminas="láminas 8–9",
+         titulo="Términos de interacción", corto="Interacciones",
+         pregunta="¿Vale lo mismo un dormitorio extra en una casa chica que en una grande?",
+         quiz=[
+             ("En precio = β₀ + β₁msq + β₂dorm + β₃msq·dorm, ¿cuál es el efecto de un dormitorio más?",
+              ["β₂ + β₃·msq",
+               ("β₂", "Solo si β₃ = 0, o si msq = 0."),
+               ("β₃", "β₃ mide cuánto cambia el efecto del dormitorio por cada m² adicional.")], 0,
+              "Lámina 8."),
+             ("Para resumir el efecto de dorm, la lámina 9 sugiere evaluar β₂ + β₃·msq en…",
+              ["…valores interesantes de msq, como su media o mediana.",
+               ("…msq = 0.", "Una casa de 0 m² no existe: β₂ solo, rara vez es interesante."),
+               ("…el máximo de msq solamente.", "Puede usarse un percentil extremo, pero lo típico es la media o la mediana.")], 0,
+              "Por ejemplo, β₂ + β₃·msq̄ para la casa promedio."),
+         ],
+         r=("Interacción en R",
+            "Simula precios de viviendas con interacción, estima `msq * dorm` y evalúa el efecto de un dormitorio en distintos tamaños.",
+            R_C6_T3, "cambia `0.05 * msq * dorm` por `0 * msq * dorm`. ¿Qué pasa con el efecto del dormitorio en casas chicas y grandes?")),
+    dict(n=4, hora="20:40", inicio=(S6, 10), fin=(S6, 13), laminas="láminas 10–13",
+         titulo="Reescalar variables y resumen", corto="Reescalar y resumen",
+         pregunta="Si cambio de dólares a pesos, ¿cambian mis conclusiones?",
+         quiz=[
+             ("Si el salario pasa de dólares a pesos (× 1 000), ¿qué pasa con el estadístico t de la educación?",
+              ["No cambia.",
+               ("Se multiplica por 1 000.", "β̂ y su error estándar se multiplican por 1 000: el cociente queda igual."),
+               ("Se divide por 1 000.", "El test no puede depender de la moneda.")], 0,
+              "Lámina 10: se preservan los efectos medidos y los resultados de los tests."),
+             ("Si x se reescala como x̃ = α·x, entonces β̂₁ del modelo nuevo es…",
+              ["β̂₁ / α",
+               ("α·β̂₁", "Si x se agranda, el efecto por unidad se achica."),
+               ("β̂₁", "Cambian las unidades de x, así que cambia su coeficiente.")], 0,
+              "Lámina 12."),
+         ],
+         r=("Mismo modelo, otras unidades",
+            "Estima la misma regresión con el salario en dólares, en pesos y con la educación en meses. Compara β̂, s.e., t y R².",
+            R_C6_T4, "agrega una fila con el salario en miles de dólares (`salario_usd / 1000`). ¿Qué esperas antes de ejecutar?")),
+]
+
+C6_AGENDA = "\n" + ruta(C6_TEMAS, (2, "19:55"), ("21:15", "✅ Ideas clave, autoevaluación y cierre"))
+
+C6_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - **Log-nivel:** un aumento de una unidad en $x$ se asocia con un cambio aproximado de $100\\beta\\%$ en $y$. **Log-log:** $\\beta$ es una **elasticidad**.
+    - Con $x$ y $x^2$, el efecto parcial $\\beta_1 + 2\\beta_2 x$ **depende del nivel** de $x$; si los signos difieren, cambia de dirección en $|\\beta_1 / 2\\beta_2|$.
+    - Con una **interacción** $x \\cdot z$, el efecto de $x$ depende de $z$: se reporta evaluado en valores interesantes, como la media.
+    - **Reescalar** cambia coeficientes y errores estándar en la misma proporción: $t$, $F$ y $R^2$ no cambian.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("En un modelo nivel-log, y = β₀ + β₁·log(x), con β₁ = 50, si x aumenta 1%…",
+         ["…y aumenta en 0.5 unidades.",
+          ("…y aumenta 50%.", "Eso sería un modelo log-log con β = 50."),
+          ("…y aumenta en 50 unidades.", "Sería si log(x) aumentara en una unidad, no x en 1%.")], 0,
+         "Tabla de la lámina 13: Δy = (β/100)·Δ%x = 50/100 = 0.5."),
+    quiz("En salario = β₀ + β₁·educ + β₂·exper + β₃·educ·exper, con β₃ > 0, ¿qué significa?",
+         ["El retorno a la educación es mayor para quienes tienen más experiencia.",
+          ("La educación y la experiencia están correlacionadas.", "La interacción describe cómo cambia un efecto, no la correlación entre las x."),
+          ("La educación no tiene efecto.", "El efecto es β₁ + β₃·exper: depende de la experiencia.")], 0,
+         "Igual que con los dormitorios y los metros cuadrados."),
+    quiz("Reescalas el ingreso de pesos a millones de pesos (x ÷ 1 000 000) en una regresión. ¿Qué pasa con su coeficiente y su R²?",
+         ["El coeficiente se multiplica por 1 000 000 y el R² no cambia.",
+          ("El coeficiente se divide por 1 000 000.", "Si x se achica, el efecto por unidad se agranda."),
+          ("Cambia el R².", "El R² no depende de las unidades.")], 0,
+         "Es la lámina 12 con α = 1/1 000 000."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulo 6, secciones 6.1 y 6.2 (efectos de la escala, formas funcionales e interacciones).
+- Próxima clase: **Inferencia sobre un parámetro**: el test t y los intervalos de confianza para $\\beta_j$.
+"""
+
+# --------------------------------------------------------------------------------------------
+# Clase 7 · Semana 7 · Inferencia sobre un parámetro
+# --------------------------------------------------------------------------------------------
+S7 = "sem7/Clase8.tex"
+
+C7_CABECERA = """# Clase 7 · Inferencia sobre un parámetro
+
+<div class="usm-session-meta">
+<span>📅 Viernes 27 de noviembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 7 · Contenido 5 · Análisis de regresión múltiple</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
+    semana 7 (`sem7/Clase8.tex`, 21 láminas). Los bloques **Interactivo**, los casos y las preguntas
+    son material adicional para estudiar.
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos de la sesión
+
+- Enunciar el teorema de **Gauss-Markov** y el supuesto de **normalidad** del modelo lineal clásico.
+- Usar la distribución $t_{n-k-1}$ de $(\\hat{\\beta}_j - \\beta_j)/se(\\hat{\\beta}_j)$ para hacer **tests de hipótesis** sobre un parámetro.
+- Distinguir los **errores tipo I y II**, y construir **intervalos de confianza** para $\\beta_j$.
+- Calcular e interpretar el **valor-p**, y hacer **tests de una cola**.
+
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+
+Haz clic en un tema para ir directo a él.
+"""
+
+C7_INSERTAR = {
+    (S7, 9): widget("errores-tipo"),
+    (S7, 12): widget("ic-beta"),
+    (S7, 17): widget("t-test"),
+}
+
+R_C7_T1 = r'''
+set.seed(1)
+n <- 15
+t_stats <- replicate(10000, {
+  x <- rnorm(n)
+  y <- 1 + 0.5 * x + rnorm(n)
+  s <- coef(summary(lm(y ~ x)))
+  (s["x", "Estimate"] - 0.5) / s["x", "Std. Error"]   # (β̂ − β) / s.e.
+})
+hist(t_stats, breaks = 60, freq = FALSE, xlim = c(-5, 5),
+     main = "t simulados (barras) y t con 13 gl (rojo)")
+curve(dt(x, df = n - 2), add = TRUE, lwd = 3, col = "firebrick")
+curve(dnorm(x), add = TRUE, lwd = 2, lty = 2)
+c(t_13gl = qt(0.975, 13), normal = qnorm(0.975), t_932gl = qt(0.975, 932))
+'''
+
+R_C7_T2 = r'''
+set.seed(2)
+rechaza <- function(beta1, n = 30, alpha = 0.05) {
+  x <- rnorm(n)
+  y <- 1 + beta1 * x + rnorm(n)
+  coef(summary(lm(y ~ x)))["x", "Pr(>|t|)"] < alpha
+}
+c(error_tipo_I    = mean(replicate(2000, rechaza(0))),         # ≈ α
+  poder_beta_0.3  = mean(replicate(2000, rechaza(0.3))),
+  poder_con_n_120 = mean(replicate(2000, rechaza(0.3, n = 120))))
+'''
+
+R_C7_T3 = r'''
+set.seed(7)
+n <- 60
+x <- rnorm(n)
+y <- 2 + 0.4 * x + rnorm(n)
+m <- lm(y ~ x)
+b  <- coef(summary(m))["x", "Estimate"]
+se <- coef(summary(m))["x", "Std. Error"]
+t_crit <- qt(0.975, df = n - 2)
+
+c(b - t_crit * se, b + t_crit * se)    # IC 95% a mano (lámina 12)
+confint(m)["x", ]                       # lo mismo con R
+abs(b / se) > t_crit                    # ¿se rechaza H0: β1 = 0? (lámina 10)
+'''
+
+R_C7_T4 = r'''
+# Lámina 13: salario en educación e IQ (n = 935, gl = 932)
+b  <- 42.0576
+se <- 6.5498
+gl <- 932
+
+t <- (b - 0) / se
+t                                        # 6.42 (lámina 14)
+qt(0.975, gl)                            # valor crítico ≈ 1.96
+b + c(-1, 1) * qt(0.975, gl) * se        # IC 95% (lámina 15)
+'''
+
+R_C7_T5 = r'''
+gl <- 932
+2 * pt(-abs(6.4212), gl)                 # valor-p del ejemplo: casi 0
+
+# Valor-p de dos colas para distintos estadísticos t
+t <- c(1, 1.96, 2.2, 3)
+round(2 * pt(-abs(t), gl), 4)
+'''
+
+R_C7_T6 = r'''
+# Lámina 20: retornos a la experiencia (n − k − 1 = 522)
+t <- 0.0041 / 0.0017
+t                                        # ≈ 2.41
+qt(0.95, 522)                            # valor crítico de una cola ≈ 1.645
+pt(t, 522, lower.tail = FALSE)           # valor-p de una cola
+2 * pt(-abs(t), 522)                     # el de dos colas, para comparar
+'''
+
+C7_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S7, 1), fin=(S7, 5), laminas="láminas 1–5",
+         titulo="Gauss-Markov, normalidad y la distribución de β̂", corto="Normalidad y distribución de β̂",
+         pregunta="Para hacer tests no basta con la media y la varianza de β̂. ¿Qué más necesitamos?",
+         quiz=[
+             ("¿Por qué se agrega el supuesto 6, u ~ N(0, σ²)?",
+              ["Para conocer la distribución de β̂ y poder hacer tests e intervalos de confianza.",
+               ("Para que β̂ sea insesgado.", "El insesgamiento ya se tiene con los supuestos 1 a 4."),
+               ("Para que la varianza sea σ²(XᵀX)⁻¹.", "Eso ya se tiene con los supuestos 1 a 5.")], 0,
+              "Lámina 2: no basta con la esperanza y la varianza."),
+             ("¿Por qué el estadístico usa la t de Student y no la normal?",
+              ["Porque se reemplaza la varianza verdadera, desconocida, por su estimación σ̂².",
+               ("Porque u no es normal.", "Justamente se supone normal (supuesto 6)."),
+               ("Porque la muestra es pequeña siempre.", "Con n grande la t se parece a la normal, pero la razón es estimar σ².")], 0,
+              "Lámina 5: con s.e.(β̂ⱼ) en vez de la desviación verdadera, se obtiene t con n − k − 1 gl."),
+         ],
+         r=("¿De dónde sale la t?",
+            "Simula 10 000 estadísticos (β̂ − β)/s.e. con n = 15 y compáralos con la t de 13 gl y con la normal.",
+            R_C7_T1, "cambia `n <- 15` por `n <- 200`. ¿Cuánto se parecen ahora la t y la normal?")),
+    dict(n=2, hora="19:10", inicio=(S7, 6), fin=(S7, 9), laminas="láminas 6–9",
+         titulo="Tests de hipótesis y los dos tipos de error", corto="Tests y errores tipo I y II",
+         pregunta="Si decidimos con datos, ¿de qué formas nos podemos equivocar?",
+         quiz=[
+             ("Rechazas H₀: β₁ = 0 cuando en realidad β₁ = 0. ¿Qué error cometiste?",
+              ["Error tipo I",
+               ("Error tipo II", "El tipo II es no rechazar una H₀ falsa."),
+               ("Ninguno, si el valor-p era chico.", "Un valor-p chico puede ocurrir por azar aunque H₀ sea cierta: eso es el error tipo I.")], 0,
+              "Su probabilidad es α, el nivel de significancia (lámina 9)."),
+             ("¿Qué pasa con la probabilidad de error tipo II si aumenta n?",
+              ["Disminuye: el test gana poder.",
+               ("Aumenta.", "Con más datos el test detecta mejor los efectos reales."),
+               ("No cambia: la fija el investigador.", "El investigador fija α (tipo I), no β.")], 0,
+              "Lámina 9: el poder del test es 1 − β. Pruébalo en el simulador."),
+         ],
+         r=("Error tipo I y poder por simulación",
+            "Repite 2 000 veces un test con H₀ verdadera y con H₀ falsa, y cuenta cuántas veces se rechaza.",
+            R_C7_T2, "cambia `alpha = 0.05` por `alpha = 0.01`. ¿Qué pasa con el error tipo I? ¿Y con el poder?")),
+    dict(n=3, hora="19:35", inicio=(S7, 10), fin=(S7, 12), laminas="láminas 10–12",
+         titulo="La regla de rechazo y los intervalos de confianza", corto="Regla de rechazo e IC",
+         pregunta="¿Qué tan lejos de aⱼ tiene que estar β̂ⱼ para rechazar?",
+         quiz=[
+             ("Una variable es significativa al 1%. ¿Lo es también al 5%?",
+              ["Sí: si se rechaza con α = 1%, también se rechaza con niveles mayores.",
+               ("No necesariamente.", "El valor crítico al 5% es menor que al 1%: si |t| supera el del 1%, supera el del 5%."),
+               ("Solo si n es grande.", "Vale para cualquier n.")], 0,
+              "Lámina 11."),
+             ("El IC de 95% para β₁ es (0.12; 0.48). ¿Qué concluyes sobre H₀: β₁ = 0 al 5%?",
+              ["Se rechaza, porque 0 no está en el intervalo.",
+               ("No se rechaza.", "Si el valor de H₀ queda fuera del intervalo, se rechaza (lámina 12)."),
+               ("No se puede saber sin el estadístico t.", "El intervalo ya contiene la información del test.")], 0,
+              "Intervalo y test de dos colas al mismo α dan la misma conclusión."),
+         ],
+         r=("El intervalo y el test dicen lo mismo",
+            "Calcula el IC de 95% para β₁ a mano y con `confint()`, y comprueba la regla de rechazo.",
+            R_C7_T3, "cambia `0.4 * x` por `0.1 * x`. ¿Contiene ahora el intervalo al cero? ¿Qué dice el test?")),
+    dict(n=4, hora="20:05", inicio=(S7, 13), fin=(S7, 15), laminas="láminas 13–15",
+         titulo="Ejemplo: educación e IQ", corto="Ejemplo: educación e IQ",
+         pregunta="Después de controlar por IQ, ¿sigue importando la educación para el salario?",
+         quiz=[
+             ("En la lámina 14, t = 42.0576 / 6.5498 = 6.42. ¿Qué mide ese número?",
+              ["Cuántos errores estándar se aleja β̂₁ del valor de H₀ (0).",
+               ("El efecto de la educación en el salario.", "Ese es β̂₁ = 42.06."),
+               ("La probabilidad de que H₀ sea cierta.", "El estadístico t no es una probabilidad.")], 0,
+              "Lámina 7: t mide la distancia en desviaciones estándar estimadas."),
+             ("El IC de 95% de la lámina 15 es (29.22; 54.895). ¿Qué afirmación es correcta?",
+              ["Con 95% de confianza, un año más de educación se asocia con entre 29 y 55 unidades más de salario, con IQ constante.",
+               ("El 95% de las personas gana entre 29.22 y 54.895.", "El intervalo es para el parámetro β₁, no para los salarios."),
+               ("β₁ está entre esos valores con probabilidad exacta de 95%.", "El 95% es una propiedad del procedimiento, como en la Ayudantía 1.")], 0,
+              "Y como el 0 no está en el intervalo, se rechaza H₀: β₁ = 0."),
+         ],
+         r=("El ejemplo de las láminas 13 a 15",
+            "Con los números de la salida de Stata, calcula el estadístico t, el valor crítico y el intervalo de confianza. Con el valor crítico exacto (1.9625) "
+            "el intervalo coincide con el de Stata, de 29.20 a 54.91; la lámina 15 usa 1.96 y obtiene 29.22 a 54.895.",
+            R_C7_T4, "testea H₀: β₁ = 50 en vez de 0. ¿Se rechaza al 5%?")),
+    dict(n=5, hora="20:30", inicio=(S7, 16), fin=(S7, 17), laminas="láminas 16–17",
+         titulo="El valor-p", corto="Valor-p",
+         pregunta="¿Cuál es el nivel de significancia más pequeño al que habríamos rechazado?",
+         quiz=[
+             ("Un coeficiente tiene valor-p = 0.03. ¿Qué concluyes?",
+              ["Se rechaza H₀ al 5% y al 10%, pero no al 1%.",
+               ("H₀ es verdadera con probabilidad 3%.", "El valor-p se calcula suponiendo que H₀ es cierta; no es la probabilidad de H₀."),
+               ("Se rechaza H₀ al 1%.", "0.03 > 0.01.")], 0,
+              "Lámina 16: el valor-p es el menor nivel de significancia al que se rechaza."),
+             ("En el gráfico de la lámina 17, ¿qué representa el área rosada?",
+              ["La probabilidad de observar un t tan extremo como el obtenido si H₀ es verdadera.",
+               ("La zona de rechazo.", "La zona de rechazo la marcan los valores críticos (líneas rojas)."),
+               ("La probabilidad de error tipo II.", "El tipo II se calcula suponiendo que H₀ es falsa.")], 0,
+              "Es el valor-p bilateral."),
+         ],
+         r=("Calcular valores-p",
+            "Obtén el valor-p del ejemplo y el de varios estadísticos t con `pt()`.",
+            R_C7_T5, "¿qué valor de t da un valor-p de exactamente 0.05 con 932 gl? Usa `qt()`.")),
+    dict(n=6, hora="20:50", inicio=(S7, 18), fin=(S7, 21), laminas="láminas 18–21",
+         titulo="Tests de una cola y conclusiones", corto="Tests de una cola",
+         pregunta="¿Y si solo nos interesa saber si el efecto es positivo?",
+         quiz=[
+             ("En H₀: β₂ = 0 vs. H₁: β₂ > 0, obtienes t = −3. ¿Qué concluyes?",
+              ["No se rechaza H₀: los valores negativos de t no son evidencia a favor de H₁.",
+               ("Se rechaza H₀, porque |t| = 3 es grande.", "En una cola derecha solo cuentan los t grandes y positivos."),
+               ("Se rechaza H₀ a favor de β₂ < 0.", "Esa no es la alternativa planteada.")], 0,
+              "Lámina 18."),
+             ("Con 522 gl y α = 5%, ¿qué valor crítico se usa en el test de una cola de la lámina 20?",
+              ["1.645",
+               ("1.96", "Ese es para dos colas (2.5% en cada cola)."),
+               ("2.41", "Ese es el estadístico t calculado, no el valor crítico.")], 0,
+              "Con tantos grados de libertad se puede usar la normal."),
+         ],
+         r=("Una cola contra dos colas",
+            "Reproduce el test de la lámina 20 y compara el valor-p de una y de dos colas.",
+            R_C7_T6, "si el estadístico fuera 1.8, ¿se rechazaría con una cola? ¿Y con dos?")),
+]
+
+C7_AGENDA = "\n" + ruta(C7_TEMAS, (3, "19:55"), ("21:15", "✅ Ideas clave, autoevaluación y cierre"))
+
+C7_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - Con los supuestos 1 a 6 (modelo lineal clásico), $\\dfrac{\\hat{\\beta}_j - \\beta_j}{se(\\hat{\\beta}_j)} \\sim t_{n-k-1}$.
+    - Se rechaza $H_0: \\beta_j = a_j$ si $|t| \\geq t_{\\alpha/2}$; $\\alpha$ es la probabilidad de **error tipo I**, y el **poder** $1 - \\beta$ sube con $n$.
+    - El **IC** al $(1-\\alpha)$ es $\\hat{\\beta}_j \\pm t_{\\alpha/2}\\, se(\\hat{\\beta}_j)$: si $a_j$ queda fuera, se rechaza $H_0$.
+    - El **valor-p** es el menor nivel de significancia al que se rechaza. En una **cola**, solo cuentan los valores de $t$ en la dirección de $H_1$.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("β̂ⱼ = 1.2, s.e. = 0.5, n − k − 1 = 100. ¿Se rechaza H₀: βⱼ = 0 al 5% (dos colas)?",
+         ["Sí: t = 2.4 > 1.98.",
+          ("No: t = 0.42.", "t = β̂ / s.e. = 1.2 / 0.5, no al revés."),
+          ("No se puede saber sin el valor-p.", "Basta con comparar |t| con el valor crítico.")], 0,
+         "Pruébalo en la calculadora del test t."),
+    quiz("Bajas α de 5% a 1%. ¿Qué pasa?",
+         ["Baja la probabilidad de error tipo I, pero sube la de error tipo II.",
+          ("Bajan ambos errores.", "Con n fijo, hay un trade-off entre ambos."),
+          ("No cambia nada.", "Cambia el valor crítico y, con él, la regla de rechazo.")], 0,
+         "Míralo en el simulador de errores tipo I y II."),
+    quiz("Un coeficiente no es estadísticamente significativo. ¿Qué significa?",
+         ["Que los datos no dan evidencia suficiente para afirmar que es distinto de cero.",
+          ("Que el efecto es exactamente cero.", "No rechazar H₀ no es lo mismo que demostrarla."),
+          ("Que la variable debe eliminarse siempre.", "Puede ser relevante por teoría o para evitar sesgo por variable omitida.")], 0,
+         "Ausencia de evidencia no es evidencia de ausencia."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulo 4, secciones 4.1 a 4.3 (distribución de los estimadores, test t e intervalos de confianza).
+- Próxima clase: **Inferencia sobre un conjunto de parámetros**.
+"""
+
+# --------------------------------------------------------------------------------------------
+# Clase 8 · Semana 8 · Inferencia sobre un conjunto de parámetros
+# --------------------------------------------------------------------------------------------
+S8 = "sem8/Clase9.tex"
+
+C8_CABECERA = """# Clase 8 · Inferencia sobre un conjunto de parámetros
+
+<div class="usm-session-meta">
+<span>📅 Viernes 4 de diciembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 8 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">🛠️ Semana del Taller 2</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
+    semana 8 (`sem8/Clase9.tex`, 7 láminas). Los bloques **Interactivo**, los casos y las preguntas
+    son material adicional para estudiar.
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos de la sesión
+
+- Plantear hipótesis sobre **combinaciones lineales** de parámetros, como $\\beta_1 = \\beta_2$ o $\\beta_1 = 2\\beta_2$.
+- Calcular la varianza de una combinación usando la **covarianza** entre estimadores, tomada de $\\hat{\\sigma}^2 (X^\\top X)^{-1}$.
+- Construir el estadístico $t$ y decidir con la regla de rechazo.
+
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+
+Haz clic en un tema para ir directo a él.
+"""
+
+C8_INSERTAR = {
+    (S8, 3): widget("cov-importa"),
+    (S8, 5): widget("test-combinacion"),
+}
+
+R_C8_T1 = r'''
+set.seed(8)
+n  <- 140
+x1 <- rnorm(n)
+x2 <- 0.6 * x1 + rnorm(n)
+y  <- 1 + 1 * x1 + 1 * x2 + rnorm(n)      # β1 = β2: H0 es verdadera
+m  <- lm(y ~ x1 + x2)
+
+V      <- vcov(m)                          # σ̂²(XᵀX)⁻¹
+se_dif <- sqrt(V["x1", "x1"] + V["x2", "x2"] - 2 * V["x1", "x2"])
+t      <- (coef(m)["x1"] - coef(m)["x2"]) / se_dif
+c(t = unname(t), valor_critico = qt(0.975, n - 3))
+
+# Truco: con s = x1 + x2, el coeficiente de x1 en y ~ x1 + s es β1 − β2
+s <- x1 + x2
+coef(summary(lm(y ~ x1 + s)))["x1", ]      # mismo t que arriba
+'''
+
+R_C8_T2 = r'''
+# Lámina 4: σ̂²(XᵀX)⁻¹ y los coeficientes estimados
+V <- matrix(c(8497.04975, -251.20725, -49.67375,
+              -251.20725,   42.5775,   -2.8385,
+               -49.67375,   -2.8385,    1.41925), 3, 3, byrow = TRUE)
+b <- c(140, 42, 5)
+
+a  <- c(0, 1, -1)                          # combinación: β1 − β2
+se <- sqrt(drop(t(a) %*% V %*% a))         # Var(aᵀβ̂) = aᵀ V a
+t  <- drop(a %*% b) / se
+c(se = se, t = t, critico = qt(0.975, 137))   # lámina 5: 7.05, 5.3 y 1.98
+'''
+
+R_C8_T3 = r'''
+V <- matrix(c(8497.04975, -251.20725, -49.67375,
+              -251.20725,   42.5775,   -2.8385,
+               -49.67375,   -2.8385,    1.41925), 3, 3, byrow = TRUE)
+b <- c(140, 42, 5)
+
+a  <- c(0, 1, -2)                          # H0: β1 − 2β2 = 0 (lámina 6)
+v  <- drop(t(a) %*% V %*% a)               # 42.58 + 4·1.42 − 4·(−2.84)
+c(var = v, se = sqrt(v), t = drop(a %*% b) / sqrt(v))
+abs(drop(a %*% b) / sqrt(v)) > qt(0.975, 137)  # ¿se rechaza?
+'''
+
+C8_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S8, 1), fin=(S8, 3), laminas="láminas 1–3",
+         titulo="Hipótesis sobre combinaciones de parámetros", corto="Combinaciones de parámetros",
+         pregunta="¿Es el efecto de A igual al de B? ¿Cómo se testea algo que involucra dos coeficientes?",
+         quiz=[
+             ("Para testear H₀: β₁ = β₂, ¿qué varianza necesitas?",
+              ["Var(β̂₁ − β̂₂) = Var(β̂₁) + Var(β̂₂) − 2·Cov(β̂₁, β̂₂).",
+               ("Var(β̂₁) + Var(β̂₂).", "Falta la covarianza: β̂₁ y β̂₂ en general están correlacionados."),
+               ("Var(β̂₁) − Var(β̂₂).", "Las varianzas se suman: Var(kA) = k²Var(A), con k = −1.")], 0,
+              "Láminas 2 y 3."),
+             ("¿De dónde sale Cov(β̂₁, β̂₂)?",
+              ["Del elemento (2, 3) de la matriz σ̂²(XᵀX)⁻¹.",
+               ("De la correlación entre y y x₁.", "Es una covarianza entre estimadores, no entre variables."),
+               ("Del R² de la regresión.", "El R² no da covarianzas entre coeficientes.")], 0,
+              "Lámina 3: el elemento (j + 1), (l + 1), fuera de la diagonal."),
+         ],
+         r=("β₁ = β₂ en R",
+            "Simula una regresión en que H₀ es verdadera, calcula el test con `vcov()` y compáralo con el truco de reparametrizar el modelo.",
+            R_C8_T1, "cambia `1 * x2` por `0.5 * x2` en la línea de `y` (ahora H₀ es falsa). ¿Se rechaza?")),
+    dict(n=2, hora="19:20", inicio=(S8, 4), fin=(S8, 5), laminas="láminas 4–5",
+         titulo="Ejemplo: β₁ = β₂", corto="Ejemplo: β₁ = β₂",
+         pregunta="Con la matriz de varianzas y covarianzas en la mano, ¿cuánto vale el test?",
+         quiz=[
+             ("Con Var(β̂₁) = 42.5775, Var(β̂₂) = 1.41925 y Cov = −2.8385, ¿cuánto vale Var(β̂₁ − β̂₂)?",
+              ["49.67",
+               ("43.99", "Faltó restar 2·Cov; como Cov es negativa, se suma 5.68."),
+               ("38.32", "Es −2·Cov, y Cov = −2.8385: el término suma.")], 0,
+              "42.5775 + 1.41925 − 2·(−2.8385) = 49.67, y √49.67 = 7.05 (lámina 5)."),
+             ("Con t = 5.3 y un valor crítico de 1.98, ¿qué concluyes?",
+              ["Se rechaza que el efecto de x₁ sea igual al de x₂.",
+               ("No se rechaza.", "5.3 > 1.98."),
+               ("x₁ no es significativa.", "Este test compara dos coeficientes; no testea si β₁ = 0.")], 0,
+              "Lámina 5, paso 4."),
+         ],
+         r=("El ejemplo de la lámina 5",
+            "Con la matriz de la lámina 4, calcula el error estándar de β̂₁ − β̂₂ como aᵀVa y el estadístico t.",
+            R_C8_T2, "cambia `a` por `c(0, 1, 0)`. ¿Qué test estás haciendo ahora?")),
+    dict(n=3, hora="20:05", inicio=(S8, 6), fin=(S8, 7), laminas="láminas 6–7",
+         titulo="Ejercicio: β₁ = 2β₂", corto="Ejercicio: β₁ = 2β₂",
+         pregunta="¿Y si la hipótesis es que un efecto es el doble del otro?",
+         quiz=[
+             ("Para H₀: β₁ = 2β₂, ¿qué varianza se necesita?",
+              ["Var(β̂₁) + 4·Var(β̂₂) − 4·Cov(β̂₁, β̂₂)",
+               ("Var(β̂₁) + 2·Var(β̂₂) − 2·Cov(β̂₁, β̂₂)", "Var(kA) = k²Var(A): con k = −2, el factor es 4."),
+               ("Var(β̂₁) − 4·Var(β̂₂)", "Las varianzas siempre se suman.")], 0,
+              "Lámina 7, con k = 1 y c = −2: 2kc = −4."),
+             ("En la lámina 7, t = (42 − 10)/7.68 = 4.16. ¿De dónde sale el 10?",
+              ["De 2·β̂₂ = 2·5.",
+               ("Es el valor de H₀.", "H₀ dice β₁ − 2β₂ = 0: el valor de H₀ es 0."),
+               ("Es el error estándar.", "El error estándar es 7.68.")], 0,
+              "El numerador es β̂₁ − 2β̂₂ − 0."),
+         ],
+         r=("β₁ = 2β₂ con matrices",
+            "Repite el ejercicio de la lámina 7 con el vector a = (0, 1, −2). La lámina redondea Var(β̂₁) a 42.5; con 42.5775 los números cambian un poco.",
+            R_C8_T3, "testea H₀: β₁ = 8β₂. ¿Se rechaza?")),
+]
+
+C8_AGENDA = "\n" + ruta(C8_TEMAS, (2, "19:55"), ("20:40", "🧪 Práctica guiada con R, preparación del Taller 2 y cierre"))
+
+C8_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - Hipótesis como $\\beta_1 = \\beta_2$ se reescriben como **combinaciones lineales**: $H_0: \\beta_1 - \\beta_2 = 0$.
+    - $\\text{Var}(k\\hat{\\beta}_1 + c\\hat{\\beta}_2) = k^2\\text{Var}(\\hat{\\beta}_1) + c^2\\text{Var}(\\hat{\\beta}_2) + 2kc\\,\\text{Cov}(\\hat{\\beta}_1, \\hat{\\beta}_2)$, con todo tomado de $\\hat{\\sigma}^2(X^\\top X)^{-1}$.
+    - **No hay que olvidar la covarianza**: si las $x$ están correlacionadas, los estimadores también lo están.
+    - El estadístico es un $t$ con $n - k - 1$ grados de libertad, igual que en la Clase 7.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("Var(β̂₁) = 4, Var(β̂₂) = 9 y Cov(β̂₁, β̂₂) = 3. ¿Cuál es el error estándar de β̂₁ − β̂₂?",
+         ["√7 ≈ 2.65",
+          ("√13 ≈ 3.61", "Faltó restar 2·Cov = 6."),
+          ("√19 ≈ 4.36", "La covarianza se resta en una diferencia: −2·Cov.")], 0,
+         "4 + 9 − 2·3 = 7."),
+    quiz("¿Qué hipótesis corresponde a “el efecto de un año de educación es el triple que el de un año de experiencia”?",
+         ["H₀: β_educ − 3·β_exper = 0",
+          ("H₀: 3·β_educ − β_exper = 0", "Eso diría que el efecto de la experiencia es el triple."),
+          ("H₀: β_educ = β_exper = 0", "Eso son dos restricciones distintas, no una combinación.")], 0,
+         "β_educ = 3·β_exper."),
+    quiz("En el simulador, si x₁ y x₂ están muy correlacionadas positivamente y ignoras la covarianza, el error estándar de β̂₁ − β̂₂ queda…",
+         ["…demasiado chico, porque Cov(β̂₁, β̂₂) es negativa y debería sumar.",
+          ("…demasiado grande.", "Con x positivamente correlacionadas, los estimadores se correlacionan negativamente."),
+          ("…correcto.", "Solo si la covarianza es cero.")], 0,
+         "Por eso la lámina 3 insiste en el término 2·Cov."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulo 4, sección 4.4 (tests sobre una combinación lineal de parámetros).
+- 🛠️ Esta semana es el **Taller 2**: repasa los tests t sobre uno y varios parámetros con las calculadoras de las Clases 7 y 8.
+- Próxima clase: **Propiedades asintóticas**.
+"""
 
 
 CLASES = {
     1: dict(out="docs/clases/clase1.md", cabecera=C1_CABECERA + C1_AGENDA, cierre=C1_CIERRE, temas=C1_TEMAS,
             fuentes=[("sem1/clase1.tex", "Parte 1 · Introducción a la econometría"),
-                     ("sem1/repaso_ayudantia.tex", "Parte 2 · Ayudantía · Repaso de estadística descriptiva",
-                      '!!! note "Material de ayudantía"\n'
-                      '    Las Partes 2 y 3 no se ven en la cátedra del viernes: se trabajan en la **ayudantía** de la semana.'),
-                     ("sem1/repaso_estadistica.tex", "Parte 3 · Ayudantía · Repaso de estadística inferencial")],
-            insertar=C1_INSERTAR, plegar=C1_PLEGAR),
+                     ("sem1/repaso_ayudantia.tex", "Parte 1 · Ayudantía · Repaso de estadística descriptiva"),
+                     ("sem1/repaso_estadistica.tex", "Parte 2 · Ayudantía · Repaso de estadística inferencial")],
+            insertar=C1_INSERTAR, plegar=C1_PLEGAR,
+            ayudantia=dict(cabecera=A1_CABECERA, cierre=A1_CIERRE)),
     2: dict(out="docs/clases/clase2.md", cabecera=C2_CABECERA + C2_AGENDA, cierre=C2_CIERRE, temas=C2_TEMAS,
             fuentes=[("sem2/clase2.tex", "Parte 1 · Regresión lineal simple")],
             insertar=C2_INSERTAR, plegar={}),
@@ -1665,11 +2724,23 @@ CLASES = {
             insertar=C3_INSERTAR, plegar={}, temas=C3_TEMAS),
     4: dict(out="docs/clases/clase4.md", cabecera=C4_CABECERA + C4_AGENDA, cierre=C4_CIERRE, temas=C4_TEMAS,
             fuentes=[("sem4/Clase5.tex", "Parte 1 · Regresión lineal múltiple: estimación"),
-                     ("sem4/calculo_matrices.tex", "Parte 2 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores",
-                      '!!! note "Material de ayudantía/taller"\n'
-                      '    Este ejercicio no se ve en la cátedra del viernes: se trabaja en la **ayudantía/taller** de la semana. '
-                      'Mantiene el formato numérico del documento original (punto para los miles, coma decimal).')],
-            insertar=C4_INSERTAR, plegar={}, pasos={("sem4/Clase5.tex", 15): 22}),
+                     ("sem4/calculo_matrices.tex", "Parte 1 · Ayudantía · Ejercicio: la inversa de XᵀX por cofactores",
+                      '!!! note "Formato numérico"\n'
+                      '    Este documento mantiene el formato numérico del original: punto para los miles y coma decimal.')],
+            insertar=C4_INSERTAR, plegar={}, pasos={("sem4/Clase5.tex", 15): 22},
+            ayudantia=dict(cabecera=A4_CABECERA, cierre=A4_CIERRE)),
+    5: dict(out="docs/clases/clase5.md", cabecera=C5_CABECERA + C5_AGENDA, cierre=C5_CIERRE, temas=C5_TEMAS,
+            fuentes=[(S5, "Parte 1 · Propiedades estadísticas del estimador MCO")],
+            insertar=C5_INSERTAR, plegar={}),
+    6: dict(out="docs/clases/clase6.md", cabecera=C6_CABECERA + C6_AGENDA, cierre=C6_CIERRE, temas=C6_TEMAS,
+            fuentes=[(S6, "Parte 1 · Interpretación: no linealidades, interacciones y escala")],
+            insertar=C6_INSERTAR, plegar={}),
+    7: dict(out="docs/clases/clase7.md", cabecera=C7_CABECERA + C7_AGENDA, cierre=C7_CIERRE, temas=C7_TEMAS,
+            fuentes=[(S7, "Parte 1 · Inferencia sobre un parámetro")],
+            insertar=C7_INSERTAR, plegar={}),
+    8: dict(out="docs/clases/clase8.md", cabecera=C8_CABECERA + C8_AGENDA, cierre=C8_CIERRE, temas=C8_TEMAS,
+            fuentes=[(S8, "Parte 1 · Inferencia sobre un conjunto de parámetros")],
+            insertar=C8_INSERTAR, plegar={}),
 }
 
 
@@ -1705,19 +2776,23 @@ def rango(a, b):
     return f"Lámina {a}" if a == b else f"Láminas {a}–{b}"
 
 
-def generar(n):
-    cfg = CLASES[n]
-    temas = cfg.get("temas", [])
-    partes = [cfg["cabecera"].strip().replace("<!--COMO-ESTUDIAR-->\n", como_estudiar(n, temas) if temas else "")]
-    # Con temas, las láminas bajan un nivel (h4) para que el índice muestre Parte > Tema > Lámina
-    hx = "####" if temas else "###"
+AVISO = ("<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. "
+         "No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->\n\n")
+
+
+def es_ayudantia(fuente):
+    return "Ayudantía" in fuente[1]
+
+
+def laminas_md(cfg, fuentes, temas, hx, partes):
+    """Agrega a `partes` las láminas de `fuentes` (íntegras y en orden) con temas e insertos."""
     insertar = dict(cfg["insertar"])
     antes = {}
     for t in temas:
         antes[t["inicio"]] = tema_encabezado(t)
         fin = [insertar[t["fin"]]] if t["fin"] in insertar else []
         insertar[t["fin"]] = "\n\n".join(fin + [practica(t)] + ([r_ejercicio(t)] if t.get("r") else []))
-    for tex, titulo, *extra in cfg["fuentes"]:
+    for tex, titulo, *extra in fuentes:
         fr = convert(SLIDES / tex, REPO, SLIDES)
         ayud = "Ayudantía" in titulo
         tipo = "Ayudantía" if ayud else "Cátedra"
@@ -1787,16 +2862,46 @@ def generar(n):
             if bloques:
                 bloques.append("</div>")
                 partes.append("\n\n".join(bloques))
-    partes.append("---\n\n" + cfg["cierre"].strip())
-    aviso = ("<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. "
-             "No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->\n\n")
-    (REPO / cfg["out"]).write_text(aviso + "\n\n".join(partes) + "\n", encoding="utf-8")
-    print(f"✓ {cfg['out']}")
+
+
+def escribir(rel, partes):
+    (REPO / rel).parent.mkdir(exist_ok=True)
+    (REPO / rel).write_text(AVISO + "\n\n".join(partes) + "\n", encoding="utf-8")
+    print(f"✓ {rel}")
+
+
+def escribir_r(nombre, temas, titulo):
     if any(t.get("r") for t in temas):
-        out_r = REPO / "docs" / "r" / f"clase{n}.R"
+        out_r = REPO / "docs" / "r" / f"{nombre}.R"
         out_r.parent.mkdir(exist_ok=True)
-        out_r.write_text(script_r(temas, cfg["cabecera"].strip().split("\n")[0].lstrip("# ")), encoding="utf-8")
+        out_r.write_text(script_r(temas, titulo), encoding="utf-8")
         print(f"✓ {out_r.relative_to(REPO)}")
+
+
+def generar(n):
+    """Página de la clase (solo cátedra) y, si la semana tiene, página aparte de la ayudantía."""
+    cfg = CLASES[n]
+    temas = cfg.get("temas", [])
+    hx = "####" if temas else "###"  # con temas: Parte > Tema > Lámina en el índice
+    t_cat = [t for t in temas if not t.get("ayudantia")]
+    t_ay = [t for t in temas if t.get("ayudantia")]
+    f_cat = [f for f in cfg["fuentes"] if not es_ayudantia(f)]
+    f_ay = [f for f in cfg["fuentes"] if es_ayudantia(f)]
+
+    partes = [cfg["cabecera"].strip().replace("<!--COMO-ESTUDIAR-->\n", como_estudiar(f"clase{n}", t_cat) if t_cat else "")]
+    laminas_md(cfg, f_cat, t_cat, hx, partes)
+    partes.append("---\n\n" + cfg["cierre"].strip())
+    escribir(cfg["out"], partes)
+    escribir_r(f"clase{n}", t_cat, cfg["cabecera"].strip().split("\n")[0].lstrip("# "))
+
+    if f_ay:
+        ay = cfg["ayudantia"]
+        partes = [ay["cabecera"].strip().replace("<!--COMO-ESTUDIAR-->\n", como_estudiar(f"ayudantia{n}", t_ay, "La ayudantía"))
+                  + "\n\n" + ruta_ayudantia(t_ay)]
+        laminas_md(cfg, f_ay, t_ay, hx, partes)
+        partes.append("---\n\n" + ay["cierre"].strip())
+        escribir(f"docs/ayudantias/ayudantia{n}.md", partes)
+        escribir_r(f"ayudantia{n}", t_ay, ay["cabecera"].strip().split("\n")[0].lstrip("# "))
 
 
 def inventario():

@@ -60,11 +60,20 @@ def colors_to_bold(s):
             if m.group(0).startswith("{"):
                 end = match_brace(s, m.start())
                 inner = s[m.end():end]
-                s = s[: m.start()] + r"\textbf{" + inner + "}" + s[end + 1:]
+                # Un grupo de color que encierra listas o párrafos no cabe en \textbf: se deja el contenido tal cual
+                if r"\begin{" in inner or "\\[" in inner or "$$" in inner or re.search(r"\n\s*\n", inner):
+                    s = s[: m.start()] + inner + s[end + 1:]
+                else:
+                    s = s[: m.start()] + r"\textbf{" + inner + "}" + s[end + 1:]
             else:
                 open_i = m.end() - 1
                 end = match_brace(s, open_i)
-                s = s[: m.start()] + r"\textbf{" + s[open_i + 1:end] + "}" + s[end + 1:]
+                inner = s[open_i + 1:end]
+                item = re.match(r"\s*\\item\s*", inner)
+                if item:  # \textcolor{blue}{\item texto}: el ítem queda fuera de la negrita
+                    s = s[: m.start()] + r"\item \textbf{" + inner[item.end():] + "}" + s[end + 1:]
+                else:
+                    s = s[: m.start()] + r"\textbf{" + inner + "}" + s[end + 1:]
             done = False
             break
         if done:
@@ -139,6 +148,19 @@ def unwrap(block, cmd, nargs):
         block = block[:m.start()] + block[i + 1:end] + block[end + 1:]
 
 
+def text_fuera_de_formulas(s):
+    """\\text{msq} escrito fuera de una fórmula: pandoc lo descarta, así que se deja solo el texto."""
+    while True:
+        spans = [m.span() for m in MATH_RE.finditer(s)]
+        for m in re.finditer(r"\\text\{", s):
+            if not in_math(spans, m.start()):
+                end = match_brace(s, m.end() - 1)
+                s = s[: m.start()] + s[m.end():end] + s[end + 1:]
+                break
+        else:
+            return s
+
+
 def preprocess(block, tikz_counter):
     def tikz(_m):
         tikz_counter[0] += 1
@@ -148,7 +170,9 @@ def preprocess(block, tikz_counter):
     block = unwrap(block, "resizebox", 2)
     # figure/columns solo dan formato en beamer; sin ellos pandoc genera Markdown simple
     block = re.sub(r"\\begin\{figure\}(\[[^\]]*\])?|\\end\{figure\}|\\caption\{[^}]*\}|\\label\{[^}]*\}", "", block)
-    block = re.sub(r"\\begin\{columns\}|\\end\{columns\}|\\column\{[^}]*\}", "\n\n", block)
+    block = re.sub(r"\\begin\{columns\}(\[[^\]]*\])?|\\end\{columns\}|\\column\{[^}]*\}"
+                   r"|\\begin\{column\}\{[^}]*\}|\\end\{column\}", "\n\n", block)
+    block = text_fuera_de_formulas(block)
     # "[\hat\beta_0] : ..." al inicio de equation* no es un argumento opcional
     block = re.sub(r"(\\begin\{equation\*?\}\s*)\[", r"\1{}[", block)
     block = re.sub(r"\\beamergotobutton\{([^}]*)\}", r"\1", block)
@@ -164,6 +188,7 @@ def title_md(title):
     t = title.replace("\\\\", " ").replace("\n", " ")
     t = re.sub(r"\\'\{?([aeiouAEIOU])\}?", lambda m: m.group(1).translate(str.maketrans("aeiouAEIOU", "áéíóúÁÉÍÓÚ")), t)
     t = t.replace("\\%", "%")
+    t = re.sub(r"\\\((.*?)\\\)", r"$\1$", t)
     t = re.sub(r"\s+", " ", t).strip()
     # Títulos en mayúsculas de las diapositivas -> formato oración (mismo texto)
     letters = [c for c in re.sub(r"\$.*?\$", "", t) if c.isalpha()]

@@ -102,24 +102,3 @@ R2 <- summary(m)$r.squared
 fitted(m)                  # ŷ = X beta gorro
 
 # Reto: agrega un sexto individuo a los datos (por ejemplo, 15, 100 y 700). ¿Cómo cambian los errores estándar?
-
-# ============================================================================
-# Tema 7 · Cofactores en R
-# ============================================================================
-experiencia <- c(12, 18, 14, 12, 11)
-educacion   <- c(93, 119, 108, 96, 74)
-X <- cbind(1, experiencia, educacion)
-A <- t(X) %*% X
-det(A)
-
-# Cofactor (i, j) = (−1)^(i + j) · determinante del menor sin fila i ni columna j
-cof <- matrix(0, 3, 3)
-for (i in 1:3) for (j in 1:3) cof[i, j] <- (-1)^(i + j) * det(A[-i, -j])
-adjunta <- t(cof)
-inversa <- adjunta / det(A)
-
-round(inversa, 4)
-round(solve(A), 4)          # la inversa que calcula R: igual
-round(A %*% inversa, 10)    # la identidad
-
-# Reto: calcula β̂ con tu inversa: inversa %*% t(X) %*% c(769, 808, 825, 650, 562).

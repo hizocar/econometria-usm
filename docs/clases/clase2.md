@@ -14,7 +14,7 @@
     (`sem2/clase2.tex`, 34 láminas), todas de la **cátedra del viernes**. Los bloques
     **Interactivo**, los casos y las preguntas de autoevaluación son material adicional para estudiar.
 
-!!! example "Cómo estudiar esta clase"
+!!! example "Cómo estudiar esta página"
     La clase está ordenada en **7 temas**. Cada tema parte con una **pregunta guía**, sigue con las láminas
     y los simuladores, y termina con **✍️ preguntas de selección múltiple** (cada alternativa incorrecta explica
     por qué no lo es) y un **🧪 ejercicio de R** que puedes editar y ejecutar aquí mismo, sin instalar nada.
