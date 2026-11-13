@@ -1,12 +1,12 @@
-# 🎮 Práctica · Certamen 1
+# 🎮 Práctica · Primer bloque
 
 <div class="usm-session-meta">
-<span>📝 Certamen 1 · lunes 16 de noviembre</span>
+<span>🧩 Primer bloque del curso</span>
 <span class="usm-tag-gold">Clases 1 a 5 · Ayudantías 1 y 4</span>
 </div>
 
-Una zona para **entrenar** antes del certamen: comentes de Verdadero, Falso o Incierto, y ejercicios
-numéricos para resolver **a mano, con calculadora**, como en la prueba. Cada respuesta trae una
+Una zona para **entrenar lo visto en el primer bloque**: comentes de Verdadero, Falso o Incierto, y
+**12 talleres** de ejercicios para resolver **a mano, con calculadora**. Cada respuesta trae una
 explicación paso a paso y un enlace a la clase donde repasar.
 
 !!! tip "Cómo funciona el puntaje"
@@ -14,58 +14,39 @@ explicación paso a paso y un enlace a la clase donde repasar.
     - **Ejercicios:** cada campo correcto suma puntos, y un ejercicio perfecto suma 5 más.
     - Solo cuenta el **primer intento** de cada pregunta: los reintentos (y abrir la solución) ya no suman,
       pero sirven para practicar. Así el puntaje refleja lo que realmente sabes.
-    - Tu puntaje se guarda **en este navegador**. Sube de nivel: de 🐣 *Recién llegado* a 🏆 *Leyenda del certamen*.
+    - Tu puntaje se guarda **en este navegador**. Sube de nivel: de 🐣 *Recién llegado* a 🏆 *Leyenda del primer bloque*.
 
-!!! example "Consejos para el certamen"
+!!! example "Consejos para estudiar"
     - En un comente, **toma posición** (Verdadero, Falso o Incierto) y luego **justifica** con 2 o 3 argumentos:
       la definición, la fórmula o el supuesto que corresponde. Es el formato de las explicaciones de esta página.
-    - En los ejercicios, **muestra el procedimiento**: fórmula, reemplazo y resultado. Practica escribiendo los pasos,
-      no solo el número final.
+    - En los ejercicios, **escribe el procedimiento** en papel: fórmula, reemplazo y resultado. Después compara
+      con la solución paso a paso.
+    - **Varía los talleres:** cada uno mira el mismo contenido desde otro ángulo. Usa 🎲 *Sorpresa* para no
+      acostumbrarte a un solo tipo de ejercicio.
     - Ingresa los números con **coma o punto** decimal; se acepta un pequeño margen de redondeo.
 
 <div class="pr-marcador" aria-live="polite"></div>
 
 ## 1 · Comentes: ¿Verdadero, Falso o Incierto?
 
-Afirmaciones sobre los contenidos del certamen. Filtra por tema o recórrelas todas. Criterio usado:
+Afirmaciones sobre los contenidos del primer bloque. Filtra por tema o recórrelas todas. Criterio usado:
 **Falso** si alguna parte de la afirmación es falsa o si dice "siempre" y hay contraejemplos;
 **Incierto** si la respuesta depende de condiciones que la afirmación no especifica.
 
 <div class="pr-zona" data-zona="comentes"></div>
 
-## 2 · Regresión simple a mano
+## 2 · Talleres de ejercicios
 
-Estimadores MCO, valores ajustados, residuos y la descomposición **SST = SSE + SSR**. Repaso:
-[Clase 2](../clases/clase2.md).
+Elige un taller. Cada uno tiene entre 16 y 24 ejercicios distintos; con 🎲 *Otro ejercicio* pasas al siguiente.
 
-<div class="pr-zona" data-banco="simple"></div>
+| Contenido | Talleres | Repaso |
+|---|---|---|
+| Regresión simple y MCO | 📈 con datos · 🧾 desde resúmenes · 🕵️ detective de residuos · 📏 cambio de unidades | [Clase 2](../clases/clase2.md) |
+| Regresión múltiple y matrices | 🔢 MCO simple con matrices · 🧮 múltiple con matrices · ⚖️ ¿qué modelo prefieres? | [Clase 4](../clases/clase4.md), [Clase 5](../clases/clase5.md), [Ayudantía 4](../ayudantias/ayudantia4.md) |
+| Causalidad | 🌗 outcomes potenciales · 🧩 variable omitida | [Clase 3](../clases/clase3.md) |
+| Estadística | 📊 descriptiva · 🎯 intervalos para medias · 📐 tamaño muestral y proporciones | [Ayudantía 1](../ayudantias/ayudantia1.md) |
 
-## 3 · Regresión múltiple con matrices
-
-β̂ = (XᵀX)⁻¹Xᵀy, σ̂², errores estándar, R² y R² ajustado, y predicciones. Repaso:
-[Clase 4](../clases/clase4.md), [Clase 5](../clases/clase5.md) y [Ayudantía 4](../ayudantias/ayudantia4.md).
-
-<div class="pr-zona" data-banco="multi"></div>
-
-## 4 · Outcomes potenciales y sesgo de selección
-
-ATE, ATT, diferencia observada y su descomposición en **ATT + sesgo de selección**. Repaso:
-[Clase 3](../clases/clase3.md).
-
-<div class="pr-zona" data-banco="causal"></div>
-
-## 5 · Sesgo por variable omitida
-
-La fórmula **β̃₁ = β₁ + β₂·δ₁** y la tabla de signos. Repaso: [Clase 3, Parte 2](../clases/clase3.md).
-
-<div class="pr-zona" data-banco="ovb"></div>
-
-## 6 · Intervalos de confianza
-
-Para una media con σ conocido y para la diferencia de dos medias. Repaso:
-[Ayudantía 1](../ayudantias/ayudantia1.md).
-
-<div class="pr-zona" data-banco="ic"></div>
+<div class="pr-zona" data-zona="talleres"></div>
 
 ## 📐 Fórmulas útiles
 

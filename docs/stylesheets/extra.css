@@ -2241,3 +2241,5 @@
   .pr-card.is-in, .pr-float { animation: none; }
   .pr-bar > span { transition: none; }
 }
+.pr-chip.is-gold { background: var(--usm-gold); color: var(--usm-navy-dark); border-color: var(--usm-gold); }
+.md-typeset .pr-taller-t { font-weight: 700; font-size: 0.9rem; margin: 0.6rem 0 0.2rem; }
