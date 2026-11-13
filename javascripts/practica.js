@@ -9,7 +9,7 @@
    ========================================================================== */
 (function () {
   "use strict";
-  const KEY = "econometria-usm:practica-certamen1:v1";
+  const KEY = "econometria-usm:practica-bloque1:v1";
 
   /* ---------------------------- Comentes ---------------------------- */
   const C = (tema, txt, v, exp, repaso) => ({ tema, txt, v, exp, repaso });
@@ -190,7 +190,7 @@
   ];
   const VERED = { V: "Verdadero", F: "Falso", I: "Incierto" };
   const NIVELES = [[0, "🐣 Recién llegado"], [60, "📏 Aprendiz de MCO"], [180, "🔍 Detective del sesgo"], [360, "📊 Analista de regresiones"],
-    [600, "🧠 Maestro de Gauss-Markov"], [900, "🏆 Leyenda del certamen"]];
+    [600, "🧠 Maestro de Gauss-Markov"], [900, "🏆 Leyenda del primer bloque"]];
 
   /* ---------------------------- Estado y marcador ---------------------------- */
   const vacio = () => ({ pts: 0, resp: 0, ok: 0, racha: 0, mejor: 0, hechos: {} });
@@ -324,7 +324,7 @@
     const t = String(s).trim().replace(/\s+/g, "").replace(",", ".").replace("−", "-");
     return t === "" || !/^[-+]?\d*\.?\d+(e[-+]?\d+)?$/i.test(t) ? null : parseFloat(t);
   };
-  const tol = (q) => Math.max(0.5 * 10 ** -(q.dec ?? 2) + 1e-9, 0.002 * Math.abs(q.ans));
+  const tol = (q) => (q.exacto ? 1e-9 : Math.max(0.5 * 10 ** -(q.dec ?? 2) + 1e-9, 0.002 * Math.abs(q.ans)));
   const f = (v) => String(v).replace(/\.0$/, "");
 
   function tabla(cab, filas) {
@@ -352,12 +352,38 @@
       `<li><strong>Regresión auxiliar:</strong> ${e.aux}</li></ul>`,
     ic1: (e) => `<p>Con una muestra aleatoria de n = ${e.n} sobre ${e.contexto} se obtuvo x̄ = ${e.xbar}. Suponga σ = ${e.sigma} conocido.</p>` +
       `<p>Construye el intervalo de confianza de <strong>${e.conf}%</strong> para μ (usa z = ${{ 90: "1.645", 95: "1.96", 99: "2.576" }[e.conf]}).</p>`,
+    resumen: (e) => `<p>Con una muestra de <strong>n = ${e.n}</strong> se quiere explicar <strong>${e.y_lab}</strong> con <strong>${e.x_lab}</strong> ` +
+      "(y = β₀ + β₁x + u). No tienes los datos, solo estos resúmenes:</p>" +
+      `<ul class="pr-eqs"><li>x̄ = ${e.xbar} &nbsp;·&nbsp; ȳ = ${f(e.ybar)}</li><li>Σ(xᵢ − x̄)² = ${e.Sxx} &nbsp;·&nbsp; Σ(xᵢ − x̄)(yᵢ − ȳ) = ${f(e.Sxy)}</li>` +
+      `<li>SSR = Σûᵢ² = ${e.SSR}</li></ul>`,
+    residuos: (e) => "<p>Alguien estimó por MCO (con intercepto) una regresión de y en x y anotó los residuos, pero se borraron dos. " +
+      "<strong>Sin volver a estimar la recta</strong>, usa las propiedades de MCO para recuperarlos.</p>" +
+      tabla(["", ...e.nombres], [["x", ...e.x], ["û", ...e.u.map((v) => (v === null ? "<strong>?</strong>" : v))]]),
+    unidades: (e) => `<p>Se estimó <strong>${e.y_lab}</strong> (en ${e.y_u}) en función de <strong>${e.x_lab}</strong> (en ${e.x_u}):</p>` +
+      `<p class="econ-po-eq">ŷ = ${f(e.b0)} ${e.b1 < 0 ? "−" : "+"} ${f(Math.abs(e.b1))}·x &nbsp;&nbsp; (R² = ${f(e.R2)})</p>` +
+      `<p>Ahora ${e.var === "y" ? `y se mide en <strong>${e.txt}</strong>` : `x se mide en <strong>${e.txt}</strong>`}. ¿Cómo queda la regresión estimada?</p>`,
+    matriz2: (e) => "<p>Regresión simple y = β₀ + β₁x + u escrita con matrices, y = Xβ + u. Con los datos:</p>" +
+      tabla(["Obs.", ...e.x.map((_, i) => i + 1)], [["x", ...e.x], ["y", ...e.y]]) +
+      "<p>Arma X (con su columna de unos), calcula XᵀX, su determinante y β̂ = (XᵀX)⁻¹Xᵀy.</p>",
+    descriptiva: (e) => `<p>Se registraron ${e.datos.length} datos de ${e.contexto}:</p>` +
+      `<p class="econ-po-eq">${e.datos.join(" · ")}</p><p>Calcula los estadísticos y mira qué le hace el valor atípico a la media.</p>`,
+    tamano: (e) => ({
+      media: `<p>Se quiere estimar una media poblacional con un error máximo de <strong>E = ${f(e.E)}</strong> y <strong>${e.conf}%</strong> de confianza. ` +
+        `Estudios anteriores indican σ = ${e.sigma}. ¿Cuántas observaciones se necesitan?</p>`,
+      prop_n: `<p>Se quiere estimar una proporción con un error máximo de <strong>E = ${f(e.E)}</strong> y <strong>${e.conf}%</strong> de confianza, ` +
+        `usando p* = ${f(e.p)}${e.p === 0.5 ? " (no hay información previa)" : " de un estudio piloto"}. ¿Cuántas observaciones se necesitan?</p>`,
+      prop_ic: `<p>En una encuesta aleatoria a <strong>${e.n}</strong> personas, <strong>${e.x}</strong> dicen usar la bicicleta para ir al trabajo. ` +
+        `Construye el intervalo de confianza de <strong>${e.conf}%</strong> para la proporción poblacional.</p>`,
+    })[e.sub] + `<p class="pr-nota">Usa z = ${{ 90: "1.645", 95: "1.96", 99: "2.576" }[e.conf]}. Los tamaños muestrales se redondean hacia arriba.</p>`,
+    comparar: (e) => `<p>Con los mismos <strong>n = ${e.n}</strong> datos (SST = ${e.SST}) se estiman dos modelos para la misma y:</p>` +
+      tabla(["Modelo", "Variables explicativas (k)", "SSR"], [["A", e.kA, e.SSRA], ["B", e.kB, e.SSRB]]) +
+      "<p>B incluye todas las variables de A y otras más.</p>",
     ic2: (e) => `<p>Se compara ${e.contexto}: X̄ = ${e.xb} (nₓ = ${e.nx}, σₓ = ${e.sx}) e Ȳ = ${e.yb} (nᵧ = ${e.ny}, σᵧ = ${e.sy}).</p>` +
       `<p>Construye el intervalo de confianza de <strong>${e.conf}%</strong> para μₓ − μᵧ (usa z = ${{ 90: "1.645", 95: "1.96", 99: "2.576" }[e.conf]}).</p>`,
   };
 
-  function montarTaller(z) {
-    const banco = (window.PRACTICA_BANCO || {})[z.dataset.banco] || [];
+  function montarTaller(z, clave) {
+    const banco = (window.PRACTICA_BANCO || {})[clave] || [];
     if (!banco.length) { z.textContent = "No se pudo cargar el banco de ejercicios."; return; }
     const head = h("div", "pr-meta");
     const card = h("div", "pr-card pr-ej");
@@ -452,10 +478,47 @@
     pintar();
   }
 
+  /* Zona de talleres: un selector con todos los tipos de ejercicio y un botón sorpresa */
+  const TALLERES = [
+    ["simple", "📈 Regresión simple con datos"], ["resumen", "🧾 Regresión desde resúmenes"], ["residuos", "🕵️ Detective de residuos"],
+    ["matriz2", "🔢 MCO simple con matrices"], ["multi", "🧮 Regresión múltiple con matrices"], ["comparar", "⚖️ ¿Qué modelo prefieres?"],
+    ["unidades", "📏 Cambio de unidades"], ["causal", "🌗 Outcomes potenciales"], ["ovb", "🧩 Variable omitida"],
+    ["descriptiva", "📊 Estadística descriptiva"], ["ic", "🎯 Intervalos para medias"], ["tamano", "📐 Tamaño muestral y proporciones"],
+  ];
+  function montarTalleres(z) {
+    const chips = h("div", "pr-chips");
+    const area = h("div", "pr-taller");
+    z.append(chips, area);
+    const elegir = (k) => {
+      chips.querySelectorAll(".pr-chip").forEach((x) => x.classList.toggle("is-on", x.dataset.k === k));
+      area.innerHTML = "";
+      const n = ((window.PRACTICA_BANCO || {})[k] || []).length;
+      area.append(h("p", "pr-taller-t", `${TALLERES.find((t) => t[0] === k)[1]} · ${n} ejercicios`));
+      montarTaller(area, k);
+    };
+    TALLERES.forEach(([k, lab]) => {
+      const b = h("button", "pr-chip", lab);
+      b.type = "button";
+      b.dataset.k = k;
+      b.addEventListener("click", () => elegir(k));
+      chips.append(b);
+    });
+    const sorpresa = h("button", "pr-chip is-gold", "🎲 Sorpresa");
+    sorpresa.type = "button";
+    sorpresa.addEventListener("click", () => {
+      const actual = chips.querySelector(".pr-chip.is-on")?.dataset.k;
+      const otros = TALLERES.filter((t) => t[0] !== actual);
+      elegir(otros[Math.floor(Math.random() * otros.length)][0]);
+    });
+    chips.append(sorpresa);
+    elegir("simple");
+  }
+
   function montar() {
     document.querySelectorAll(".pr-marcador:not([data-ok])").forEach((m) => { m.dataset.ok = 1; montarMarcador(m); });
     document.querySelectorAll(".pr-zona[data-zona='comentes']:not([data-ok])").forEach((z) => { z.dataset.ok = 1; montarComentes(z); });
-    document.querySelectorAll(".pr-zona[data-banco]:not([data-ok])").forEach((z) => { z.dataset.ok = 1; montarTaller(z); });
+    document.querySelectorAll(".pr-zona[data-banco]:not([data-ok])").forEach((z) => { z.dataset.ok = 1; montarTaller(z, z.dataset.banco); });
+    document.querySelectorAll(".pr-zona[data-zona='talleres']:not([data-ok])").forEach((z) => { z.dataset.ok = 1; montarTalleres(z); });
   }
   if (typeof document$ !== "undefined") document$.subscribe(() => { marcadores.length = 0; montar(); });
   else document.addEventListener("DOMContentLoaded", montar);
