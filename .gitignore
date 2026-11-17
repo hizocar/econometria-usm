@@ -4,3 +4,6 @@ site/
 __pycache__/
 .DS_Store
 __pycache__/
+
+# Enlace local de la CLI de Supabase (no versionar)
+supabase/.temp/
