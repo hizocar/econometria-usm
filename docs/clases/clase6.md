@@ -518,6 +518,8 @@ $\Rightarrow$
 | Log-nivel   |     $log(y)$     |        $x$         |    $E\Delta\% y = (100 \beta_i) \Delta x$     |
 | Log-log     |     $log(y)$     |      $log(x)$      |      $E\Delta \% y = \beta_i \Delta \%x$      |
 
+Interpretación
+
 [^1]: Serie de Taylor centrada en 0, es decir, es una buena aproximación para x cercanos a 0.
 
 </div>

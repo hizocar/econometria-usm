@@ -25,8 +25,9 @@ REPO = Path(__file__).resolve().parent.parent
 SLIDES = REPO.parent  # carpeta con sem1/, sem2/, ...
 
 
-def widget(name):
-    return f'<div class="econ-widget" data-widget="{name}"></div>'
+def widget(name, preset=None):
+    extra = f' data-preset="{preset}"' if preset is not None else ""
+    return f'<div class="econ-widget" data-widget="{name}"{extra}></div>'
 
 
 def quiz(pregunta, opciones, correcta, feedback):
@@ -200,6 +201,35 @@ def svg_log_lineal():
     return rec, svg_curva("salario", exp_pts, 14, 2)
 
 
+def svg_rectas(paneles, etiqueta):
+    """Gráficos de rectas de las láminas de variables binarias (Clase 11): mismas coordenadas del TikZ.
+    Cada panel: dict(dx, ejes=(xmax, ymax, xlab, ylab), rectas=[(x0, y0, x1, y1, texto, color, dy)],
+    marcas=[(y, texto)], letra)."""
+    U, M = 46, 60
+    w = max(p["dx"] + p["ejes"][0] for p in paneles) * U + M + 70
+    hgt = max(p["ejes"][1] for p in paneles) * U + 70
+    Y = lambda y: hgt - 40 - y * U
+    g = ""
+    for p in paneles:
+        X = lambda x, p=p: M + (p["dx"] + x) * U
+        xm, ym, xl, yl = p["ejes"]
+        g += f'<line x1="{X(0)}" y1="{Y(0)}" x2="{X(xm)}" y2="{Y(0)}" stroke="currentColor" marker-end="url(#ahk)"/>'
+        g += f'<line x1="{X(0)}" y1="{Y(0)}" x2="{X(0)}" y2="{Y(ym)}" stroke="currentColor" marker-end="url(#ahk)"/>'
+        g += f'<text x="{X(xm) + 4}" y="{Y(0) + 14}" font-style="italic" fill="currentColor">{xl}</text>'
+        g += f'<text x="{X(0) - 6}" y="{Y(ym) + 4}" text-anchor="end" font-style="italic" fill="currentColor">{yl}</text>'
+        for x0, y0, x1, y1, txt, col, dy in p["rectas"]:
+            g += f'<line x1="{X(x0)}" y1="{Y(y0)}" x2="{X(x1)}" y2="{Y(y1)}" stroke="{col}" stroke-width="2.6"/>'
+            g += f'<text x="{X(x1) + 4}" y="{Y(y1) + dy}" fill="currentColor">{txt}</text>'
+        for y, txt in p.get("marcas", []):
+            g += f'<line x1="{X(-0.2)}" y1="{Y(y)}" x2="{X(0)}" y2="{Y(y)}" stroke="currentColor" stroke-dasharray="3 2"/>'
+            g += f'<text x="{X(-0.3)}" y="{Y(y) + 4}" text-anchor="end" fill="currentColor">{txt}</text>'
+        if p.get("letra"):
+            g += f'<text x="{X(1.5)}" y="{Y(-0.5) + 4}" text-anchor="middle" fill="currentColor">{p["letra"]}</text>'
+    defs = '<defs><marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>'
+    return (f'<svg class="econ-tikz-svg econ-tikz-plot" viewBox="0 0 {w:.0f} {hgt:.0f}" role="img" aria-label="{etiqueta}" '
+            f'style="max-width:{min(560, w):.0f}px;width:100%">{defs}{g}</svg>')
+
+
 ARBOL_CAUSAL = f"""<div class="econ-tikz-tree">
 <div class="t-root">Individuo {ar('i')}</div>
 <div class="t-row"><span>↙</span><span>↘</span></div>
@@ -212,6 +242,8 @@ ARBOL_CAUSAL = f"""<div class="econ-tikz-tree">
 # Las láminas sin título que continúan el tema anterior se dejan en la misma tarjeta.
 TITULOS = {
     ("sem1/clase1.tex", 20): "Estadística descriptiva e inferencial",
+    ("sem11/ejercicio_dummy_hete.tex", 1): "Ejercicios: modelo de probabilidad lineal",
+    ("sem12/guia_heterocedasticidad.tex", 1): "Guía de ejercicios de heterocedasticidad",
 }
 
 TIKZ = {
@@ -223,6 +255,15 @@ TIKZ = {
     ("sem3/Clase4.tex", 3): svg_dag(x2y=True, x2x1=True),
     ("sem6/clase7.tex", 1): svg_log_lineal()[0],
     ("sem6/clase7.tex", 2): svg_log_lineal()[1],
+    ("sem11/clase 12.tex", 1): svg_rectas([dict(dx=0, ejes=(5, 4.5, "educ", "salario"),
+        rectas=[(0, 1.5, 4.5, 3.9, "mujer=0", BLUE, -6), (0, 0.7, 4.5, 3.1, "mujer=1", "currentColor", 14)],
+        marcas=[(1.5, "β₀"), (0.7, "β₀ + δ₀")])], "Dos rectas paralelas: mujer=1 tiene un intercepto menor, β₀ + δ₀"),
+    ("sem11/clase 12.tex", 2): svg_rectas([
+        dict(dx=0, ejes=(3, 3, "educ", "salario"), letra="(a)",
+             rectas=[(0, 0.7, 2.5, 2.7, "hombre", "currentColor", -6), (0, 0.2, 2.5, 1.5, "mujer", BLUE, 14)]),
+        dict(dx=5, ejes=(3, 3, "educ", "salario"), letra="(b)",
+             rectas=[(0, 0.6, 2.5, 2.0, "hombre", "currentColor", 14), (0, 0.2, 2.5, 2.5, "mujer", BLUE, -6)])],
+        "Panel a: la recta de mujeres tiene menor intercepto y menor pendiente. Panel b: menor intercepto pero mayor pendiente"),
 }
 
 # --------------------------------------------------------------------------------------------
@@ -2704,7 +2745,1114 @@ C8_CIERRE = """!!! abstract "🧠 Ideas clave"
 
 - **Wooldridge**, capítulo 4, sección 4.4 (tests sobre una combinación lineal de parámetros).
 - 🛠️ Esta semana es el **Taller 2**: repasa los tests t sobre uno y varios parámetros con las calculadoras de las Clases 7 y 8.
-- Próxima clase: **Propiedades asintóticas**.
+- Próxima clase: **Inferencia sobre un conjunto de parámetros: el test F**.
+"""
+
+
+# --------------------------------------------------------------------------------------------
+# Clase 9 · Semana 9 · El test F
+# --------------------------------------------------------------------------------------------
+S9 = "sem9/Clase10.tex"
+
+C9_CABECERA = """# Clase 9 · Inferencia sobre un conjunto de parámetros: el test F
+
+<div class="usm-session-meta">
+<span>📅 Viernes 11 de diciembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 9 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">📝 Semana del Control 2</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
+    semana 9 (`sem9/Clase10.tex`, 20 láminas). Los bloques **Interactivo**, los casos y las preguntas
+    son material adicional para estudiar.
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos de la sesión
+
+- Plantear hipótesis sobre **varios parámetros a la vez**, como $H_0: \\beta_3 = \\beta_4 = 0$.
+- Construir el estadístico $F$ comparando el modelo **restringido** y el **no restringido**, con SSR o con $R^2$.
+- Decidir con la distribución $F(j, n-k-1)$ y entender por qué el test conjunto puede rechazar aunque ninguna $t$ lo haga.
+- Hacer la prueba de **significancia global** de una regresión.
+
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+
+Haz clic en un tema para ir directo a él.
+"""
+
+C9_INSERTAR = {
+    (S9, 18): widget("f-test"),
+    (S9, 19): widget("f-vs-t"),
+}
+
+R_C9_T1 = r'''
+set.seed(1)
+n  <- 100
+x1 <- rnorm(n)
+x2 <- rnorm(n)
+y  <- 1 + 0.8 * x1 + 0.6 * x2 + rnorm(n)
+
+m1 <- lm(y ~ x1)            # sin x2
+m2 <- lm(y ~ x1 + x2)       # agregando x2, que es relevante
+c(SSR_sin_x2 = sum(resid(m1)^2), SSR_con_x2 = sum(resid(m2)^2))
+c(R2_sin_x2 = summary(m1)$r.squared, R2_con_x2 = summary(m2)$r.squared)
+'''
+
+R_C9_T2 = r'''
+set.seed(9)
+n  <- 120
+x1 <- rnorm(n); x2 <- rnorm(n); x3 <- rnorm(n)
+y  <- 1 + 0.5 * x1 + 0.4 * x2 + 0.3 * x3 + rnorm(n)
+
+ur <- lm(y ~ x1 + x2 + x3)     # no restringido
+r  <- lm(y ~ x1)               # restringido: H0: beta2 = beta3 = 0
+SSR_ur <- sum(resid(ur)^2)
+SSR_r  <- sum(resid(r)^2)
+j <- 2; k <- 3
+
+F <- (SSR_r - SSR_ur) / SSR_ur * (n - k - 1) / j
+c(F = F, critico = qf(0.95, j, n - k - 1),
+  valor_p = pf(F, j, n - k - 1, lower.tail = FALSE))
+anova(r, ur)                   # R hace el mismo test
+'''
+
+R_C9_T3 = r'''
+# Valores críticos de la F al 5% para distintos grados de libertad
+gl <- c(10, 30, 100, 348, 1000)
+round(sapply(gl, function(d) qf(0.95, df1 = 2, df2 = d)), 3)
+
+curve(df(x, 2, 348), from = 0, to = 6, lwd = 3, col = "goldenrod",
+      main = "Distribución F(2, 348)", ylab = "densidad")
+abline(v = qf(0.95, 2, 348), col = "firebrick", lty = 2)   # zona de rechazo a la derecha
+'''
+
+R_C9_T4 = r'''
+# Láminas 16 y 17: salarios en el baseball (n = 353, k = 4, j = 2)
+n <- 353; k <- 4; j <- 2
+F_ssr <- (198.31 - 183.60) / 183.60 * (n - k - 1) / j
+F_r2  <- (0.6270 - 0.5971) / (1 - 0.6270) * (n - k - 1) / j
+c(F_con_SSR = F_ssr, F_con_R2 = F_r2)
+qf(0.95, j, n - k - 1)                         # valor crítico ≈ 3.02
+pf(F_ssr, j, n - k - 1, lower.tail = FALSE)    # valor-p
+'''
+
+R_C9_T5 = r'''
+set.seed(19)
+n  <- 60
+x1 <- rnorm(n)
+x2 <- 0.95 * x1 + sqrt(1 - 0.95^2) * rnorm(n)   # muy correlacionadas
+y  <- 1 + 0.3 * x1 + 0.3 * x2 + rnorm(n)
+m  <- lm(y ~ x1 + x2)
+
+round(coef(summary(m)), 3)      # las t individuales
+summary(m)$fstatistic           # el F de significancia global (lámina 20)
+R2 <- summary(m)$r.squared
+R2 / (1 - R2) * (n - 2 - 1) / 2  # el mismo F con la fórmula del R²
+'''
+
+C9_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S9, 1), fin=(S9, 4), laminas="láminas 1–4",
+         titulo="Varios parámetros a la vez", corto="Varios parámetros a la vez",
+         pregunta="¿Cómo testear si dos variables, juntas, no aportan nada?",
+         quiz=[
+             ("Se rechaza H₀: β₁ = β₂ = 0. ¿Qué podemos concluir?",
+              ["Que al menos uno de los dos coeficientes es distinto de cero.",
+               ("Que ambos coeficientes son distintos de cero.", "El test no dice cuál: puede ser uno, el otro o ambos (lámina 1)."),
+               ("Que β₁ = β₂.", "Esa es otra hipótesis: la igualdad de parámetros de la Clase 8.")], 0,
+              "Se dice que x₁ y x₂ son <em>conjuntamente</em> significativas."),
+             ("Al agregar una variable relevante al modelo, ¿qué pasa con la SSR?",
+              ["Baja, y el R² sube.",
+               ("Sube, y el R² baja.", "Con una variable más, MCO ajusta al menos igual de bien: la SSR no puede subir."),
+               ("No cambia.", "Si la variable aporta, la SSR baja.")], 0,
+              "Láminas 3 y 4: SST = ↑SSE + ↓SSR."),
+         ],
+         r=("La SSR baja al agregar una variable",
+            "Compara la SSR y el R² de un modelo sin y con una variable relevante.",
+            R_C9_T1, "cambia `0.6 * x2` por `0 * x2` (x₂ irrelevante). ¿Baja igual la SSR? ¿Cuánto?")),
+    dict(n=2, hora="19:05", inicio=(S9, 5), fin=(S9, 10), laminas="láminas 5–10",
+         titulo="Modelo restringido y el estadístico F", corto="Restringido y no restringido",
+         pregunta="¿Cuánto tiene que aumentar la SSR al imponer H₀ para rechazarla?",
+         quiz=[
+             ("En y = β₀ + β₁x₁ + β₂x₂ + β₃x₃ + u, para testear H₀: β₂ = β₃ = 0, ¿cuál es el modelo restringido?",
+              ["y = β₀ + β₁x₁ + u",
+               ("y = β₀ + β₂x₂ + β₃x₃ + u", "El restringido impone H₀: saca las variables cuyos coeficientes se suponen cero."),
+               ("y = β₀ + u", "Ese sería el restringido de la significancia global, no de esta hipótesis.")], 0,
+              "Lámina 7: se asume H₀ verdadera y se estima el modelo sin x₂ ni x₃."),
+             ("¿Qué representa j en F = [(SSR_r − SSR_ur)/SSR_ur]·[(n − k − 1)/j]?",
+              ["El número de restricciones que impone H₀.",
+               ("El número de variables del modelo restringido.", "j cuenta las restricciones de exclusión, no las variables que quedan."),
+               ("Los grados de libertad del modelo no restringido.", "Esos son n − k − 1.")], 0,
+              "Lámina 9. En el ejemplo del baseball, j = 2."),
+             ("¿Por qué SSR_r − SSR_ur nunca es negativo?",
+              ["Porque el modelo no restringido incluye todas las variables del restringido, así que ajusta al menos igual de bien.",
+               ("Porque los residuos siempre son positivos.", "Los residuos pueden ser negativos; lo que se compara son sumas de cuadrados."),
+               ("Por convención, se toma el valor absoluto.", "No hay valor absoluto: es una consecuencia de MCO.")], 0,
+              "Láminas 5 y 9."),
+         ],
+         r=("El F a mano y con anova()",
+            "Estima el modelo restringido y el no restringido, calcula el F con la fórmula de la lámina 8 y compáralo con `anova()`.",
+            R_C9_T2, "cambia `0.4 * x2 + 0.3 * x3` por `0 * x2 + 0 * x3` (H₀ verdadera). ¿Se rechaza?")),
+    dict(n=3, hora="19:35", inicio=(S9, 11), fin=(S9, 12), laminas="láminas 11–12",
+         titulo="La zona de rechazo y la distribución F", corto="Distribución F",
+         pregunta="¿Qué valores de F son evidencia contra H₀?",
+         quiz=[
+             ("Con α = 5%, ¿cuándo se rechaza H₀ en el test F?",
+              ["Cuando F supera el valor crítico F(α; j, n − k − 1).",
+               ("Cuando |F| es mayor que 1.96.", "1.96 es de la normal en un test de dos colas; el F usa su propia distribución."),
+               ("Cuando F es negativo.", "F no puede ser negativo: es un cociente de sumas de cuadrados.")], 0,
+              "Lámina 11: solo valores grandes de F son evidencia contra H₀ (una cola)."),
+             ("Si las variables testeadas son muy relevantes, el F tiende a ser…",
+              ["…grande.",
+               ("…cercano a cero.", "Cercano a cero ocurre cuando las variables no aportan: SSR_r ≈ SSR_ur."),
+               ("…cercano a 1.96.", "No hay un valor fijo: depende de cuánto baja la SSR.")], 0,
+              "Cuanto más grande la diferencia entre los modelos, más extremo el F."),
+         ],
+         r=("Valores críticos de la F",
+            "Calcula el valor crítico de la F al 5% con distintos grados de libertad y grafica la F(2, 348) del ejemplo.",
+            R_C9_T3, "calcula el valor crítico al 1% con `qf(0.99, 2, 348)`. ¿Es mayor o menor que al 5%?")),
+    dict(n=4, hora="20:05", inicio=(S9, 13), fin=(S9, 18), laminas="láminas 13–18",
+         titulo="Ejemplo: rendimiento y salario en el baseball", corto="Ejemplo: baseball",
+         pregunta="¿Importa el rendimiento de un jugador para su salario?",
+         quiz=[
+             ("En el ejemplo, F = 13.94 y el valor crítico al 5% de F(2, 348) es 3.02. ¿Qué concluyes?",
+              ["Los home runs o las carreras impulsadas son importantes para explicar el salario.",
+               ("Ninguna medida de rendimiento importa.", "13.94 > 3.02: se rechaza H₀."),
+               ("Ambas medidas son individualmente significativas.", "El F no dice eso; de hecho, ninguna t individual rechaza (lámina 18).")], 0,
+              "Lámina 16."),
+             ("En la fórmula del ejemplo aparece (353 − 4 − 1)/2. ¿Por qué 4?",
+              ["Porque el modelo no restringido tiene 4 variables explicativas (k = 4).",
+               ("Porque se testean 4 restricciones.", "Se testean 2 restricciones (β₃ = β₄ = 0): j = 2."),
+               ("Porque el modelo restringido tiene 4 parámetros.", "Los grados de libertad se calculan con el modelo no restringido.")], 0,
+              "n − k − 1 = 353 − 4 − 1 = 348."),
+         ],
+         r=("El ejemplo del baseball",
+            "Reproduce el F de la lámina 16 con las SSR y el de la lámina 17 con los R², y obtén el valor crítico y el valor-p.",
+            R_C9_T4, "¿qué valor de SSR restringido haría que F quedara justo en el valor crítico? Pruébalo.")),
+    dict(n=5, hora="20:50", inicio=(S9, 19), fin=(S9, 20), laminas="láminas 19–20",
+         titulo="F, multicolinealidad y significancia global", corto="Multicolinealidad y F global",
+         pregunta="¿Cómo puede el F rechazar si ninguna t lo hace?",
+         quiz=[
+             ("Dos variables muy correlacionadas tienen t individuales no significativas, pero su F conjunto sí lo es. ¿Por qué?",
+              ["La multicolinealidad infla los errores estándar individuales, pero el F evalúa ambas juntas y no tiene ese problema.",
+               ("El F está mal calculado.", "Es un resultado esperable con regresores muy correlacionados (lámina 19)."),
+               ("Las t individuales siempre son menos confiables que el F.", "Las t funcionan bien sin multicolinealidad fuerte.")], 0,
+              "Lámina 19."),
+             ("En la prueba de significancia global, ¿cuál es el modelo restringido?",
+              ["y = β₀ + u",
+               ("y = β₀ + β₁x₁ + u", "Ese restringe solo algunas variables; el global restringe todas."),
+               ("El mismo modelo sin intercepto.", "El intercepto se mantiene: H₀ es β₁ = … = βₖ = 0.")], 0,
+              "Su R² es cero, por eso F = [R²/(1 − R²)]·[(n − k − 1)/k] (lámina 20)."),
+         ],
+         r=("Multicolinealidad y F global",
+            "Simula dos regresores muy correlacionados, revisa las t individuales y el F de significancia global, y calcula el F con la fórmula del R².",
+            R_C9_T5, "cambia `0.95` por `0` (regresores independientes). ¿Qué pasa con las t individuales?")),
+]
+
+C9_AGENDA = "\n" + ruta(C9_TEMAS, (3, "19:55"), ("21:15", "✅ Ideas clave, autoevaluación y cierre"))
+
+C9_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - Para testear varias restricciones a la vez se compara el modelo **restringido** (impone $H_0$) con el **no restringido**.
+    - $F = \\dfrac{SSR_r - SSR_{ur}}{SSR_{ur}} \\cdot \\dfrac{n-k-1}{j} = \\dfrac{R^2_{ur} - R^2_r}{1 - R^2_{ur}} \\cdot \\dfrac{n-k-1}{j} \\sim F(j, n-k-1)$; se rechaza si supera el valor crítico.
+    - Con regresores muy correlacionados, el $F$ puede rechazar aunque ninguna $t$ individual lo haga.
+    - La **significancia global** usa $F = \\dfrac{R^2}{1-R^2} \\cdot \\dfrac{n-k-1}{k}$.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("Con n = 100, k = 5 y j = 3, SSR_r = 240 y SSR_ur = 200. ¿Cuánto vale F?",
+         ["6.27",
+          ("18.8", "Falta dividir por j = 3."),
+          ("0.2", "Ese es solo (SSR_r − SSR_ur)/SSR_ur; falta multiplicar por (n − k − 1)/j = 94/3.")], 0,
+         "F = (40/200)·(94/3) = 0.2·31.33 = 6.27."),
+    quiz("¿Puede el F ser negativo?",
+         ["No: SSR_r ≥ SSR_ur, así que el numerador nunca es negativo.",
+          ("Sí, si las variables tienen efecto negativo.", "El signo de los coeficientes no importa: se comparan sumas de cuadrados."),
+          ("Sí, si el R² del modelo restringido es mayor.", "Eso no puede ocurrir: el no restringido incluye las variables del restringido.")], 0,
+         "Lámina 9."),
+    quiz("En una regresión con k = 3, n = 54 y R² = 0.25, ¿cuál es el F de significancia global?",
+         ["5.56",
+          ("0.33", "Ese es R²/(1 − R²); falta multiplicar por (n − k − 1)/k = 50/3."),
+          ("16.67", "Ese es (n − k − 1)/k; falta multiplicar por R²/(1 − R²).")], 0,
+         "F = (0.25/0.75)·(50/3) = 5.56."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulo 4, sección 4.5 (pruebas de restricciones lineales múltiples: el test F).
+- Próxima clase: **Inferencia sobre un conjunto de parámetros: el test F**.
+"""
+
+# --------------------------------------------------------------------------------------------
+# Clase 10 · Semana 10 · Propiedades asintóticas
+# --------------------------------------------------------------------------------------------
+S10 = "sem10/clase11.tex"
+
+C10_CABECERA = """# Clase 10 · Propiedades asintóticas
+
+<div class="usm-session-meta">
+<span>📅 Viernes 18 de diciembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 10 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">📝 Semana del Certamen 2 (lunes 14)</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
+    semana 10 (`sem10/clase11.tex`, 17 láminas). Los bloques **Interactivo**, los casos y las preguntas
+    son material adicional para estudiar.
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos de la sesión
+
+- Distinguir propiedades de **muestra finita** (insesgamiento) de propiedades **asintóticas** (consistencia).
+- Entender la **consistencia** de MCO y por qué basta la exogeneidad débil $E(x'u) = 0$.
+- Usar la **normalidad asintótica** para justificar tests e intervalos aunque $u$ no sea normal.
+- Conocer la **eficiencia asintótica** de MCO y qué cambia con heterocedasticidad.
+
+## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+
+Haz clic en un tema para ir directo a él.
+"""
+
+C10_INSERTAR = {
+    (S10, 6): widget("consistencia"),
+    (S10, 10): widget("normal-asintotica"),
+}
+
+R_C10_T1 = r'''
+# Con una variable omitida correlacionada con x, el sesgo NO desaparece al crecer n
+set.seed(10)
+sesgo <- function(n) {
+  x <- rnorm(n)
+  z <- 0.7 * x + rnorm(n)              # omitida, correlacionada con x
+  y <- 1 + 2 * x + 1 * z + rnorm(n)
+  unname(coef(lm(y ~ x))[2])           # verdadero: 2
+}
+sapply(c(50, 500, 5000, 50000), sesgo)  # se acerca a 2.7, no a 2
+'''
+
+R_C10_T2 = r'''
+# Como la aplicación en R de la lámina 17: β̂1 para muestras cada vez más grandes
+set.seed(11)
+ns <- c(10, 50, 200, 1000, 5000)
+beta_hat <- sapply(ns, function(n) {
+  replicate(300, {
+    x <- rnorm(n)
+    u <- rexp(n) - 1                    # error muy asimétrico, media 0
+    y <- 1 + 2 * x + u
+    coef(lm(y ~ x))[2]
+  })
+})
+colnames(beta_hat) <- ns
+round(apply(beta_hat, 2, sd), 4)                      # la dispersión cae
+round(colMeans(abs(beta_hat - 2) > 0.1), 3)            # P(|β̂1 − 2| > 0.1) → 0
+boxplot(beta_hat, xlab = "n", ylab = "beta1 estimado"); abline(h = 2, lty = 2)
+'''
+
+R_C10_T3 = r'''
+set.seed(12)
+t_stats <- function(n) replicate(4000, {
+  x <- abs(rnorm(n))
+  y <- 1 + 2 * x + (rexp(n) - 1) * 2      # errores asimétricos
+  s <- coef(summary(lm(y ~ x)))
+  (s[2, 1] - 2) / s[2, 2]
+})
+t10  <- t_stats(10)
+t500 <- t_stats(500)
+c(rechazo_n10 = mean(abs(t10) > 1.96), rechazo_n500 = mean(abs(t500) > 1.96))  # meta: 0.05
+hist(t500, breaks = 50, freq = FALSE, main = "t con n = 500")
+curve(dnorm(x), add = TRUE, lwd = 3, col = "goldenrod")
+'''
+
+R_C10_T4 = r'''
+# MCO tiene menor varianza que otro estimador consistente (eficiencia asintótica)
+set.seed(13)
+n <- 400
+sim <- replicate(2000, {
+  x <- rnorm(n); y <- 1 + 2 * x + rnorm(n)
+  mco <- coef(lm(y ~ x))[2]
+  alto <- x > median(x)                   # estimador alternativo: compara dos grupos
+  grupos <- (mean(y[alto]) - mean(y[!alto])) / (mean(x[alto]) - mean(x[!alto]))
+  c(MCO = unname(mco), grupos = grupos)
+})
+rowMeans(sim)          # ambos ≈ 2: los dos son consistentes
+apply(sim, 1, var)     # pero MCO tiene menor varianza
+'''
+
+C10_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S10, 1), fin=(S10, 4), laminas="láminas 1–4",
+         titulo="Muestras grandes y los supuestos de la consistencia", corto="Muestras grandes",
+         pregunta="¿Qué le pasa a MCO cuando la muestra crece sin límite?",
+         quiz=[
+             ("¿Qué supuesto es suficiente para la consistencia de MCO, según la lámina 4?",
+              ["E(x′u) = 0: que las x no estén correlacionadas con el error.",
+               ("Que u sea normal.", "La consistencia no requiere normalidad (lámina 3)."),
+               ("Homocedasticidad.", "La homocedasticidad no se necesita para la consistencia.")], 0,
+              "Es la exogeneidad débil, más débil que E(u | x) = 0."),
+             ("Si se omite una variable relevante correlacionada con x, al aumentar n…",
+              ["…el sesgo no desaparece: MCO es inconsistente.",
+               ("…el sesgo desaparece gracias al TCL.", "Más datos no corrigen la correlación entre x y el error."),
+               ("…MCO se vuelve insesgado.", "Ni insesgado ni consistente: E(x′u) ≠ 0.")], 0,
+              "Lámina 4: la omisión genera inconsistencia."),
+         ],
+         r=("El sesgo que no se va",
+            "Estima β₁ con una variable omitida para muestras cada vez más grandes.",
+            R_C10_T1, "cambia `0.7 * x` por `0 * x` (la omitida ya no se correlaciona con x). ¿Hacia dónde converge ahora?")),
+    dict(n=2, hora="19:05", inicio=(S10, 5), fin=(S10, 6), laminas="láminas 5–6",
+         titulo="¿Qué es la consistencia?", corto="Consistencia",
+         pregunta="¿Qué significa que un estimador se acerque al valor verdadero?",
+         quiz=[
+             ("plim β̂ⱼ = βⱼ significa que…",
+              ["…la probabilidad de que β̂ⱼ esté lejos de βⱼ tiende a cero cuando n crece.",
+               ("…β̂ⱼ = βⱼ en toda muestra grande.", "En cada muestra hay error; lo que tiende a cero es la probabilidad de un error grande."),
+               ("…E(β̂ⱼ) = βⱼ.", "Eso es insesgamiento, una propiedad distinta.")], 0,
+              "Lámina 5."),
+             ("¿Puede un estimador ser consistente pero sesgado en muestras pequeñas?",
+              ["Sí: consistencia e insesgamiento son propiedades distintas.",
+               ("No: todo estimador consistente es insesgado.", "La lámina 13 dice explícitamente que consistencia ≠ insesgamiento."),
+               ("Solo si u es normal.", "La normalidad no tiene relación con esto.")], 0,
+              "Lámina 13, punto 1."),
+         ],
+         r=("Consistencia por simulación",
+            "Como en la aplicación de la lámina 17: estima β₁ en 300 muestras para cada n y mira cómo se concentra la distribución.",
+            R_C10_T2, "cambia el error por `rnorm(n) * 3`. ¿Converge igual?")),
+    dict(n=3, hora="19:25", inicio=(S10, 7), fin=(S10, 10), laminas="láminas 7–10",
+         titulo="Normalidad asintótica y sus consecuencias", corto="Normalidad asintótica",
+         pregunta="¿Podemos usar t y F si los errores no son normales?",
+         quiz=[
+             ("¿Qué justifica usar tests t e intervalos con errores no normales?",
+              ["Que β̂ es asintóticamente normal: en muestras grandes se distribuye aproximadamente normal.",
+               ("Que los errores siempre son normales en la práctica.", "No es necesario suponerlo con n grande (lámina 8)."),
+               ("Que MCO es insesgado.", "El insesgamiento no da la distribución de β̂.")], 0,
+              "Láminas 8 y 10."),
+             ("La normalidad asintótica de MCO proviene del…",
+              ["…Teorema Central del Límite.",
+               ("…teorema de Gauss-Markov.", "Gauss-Markov habla de varianza mínima, no de distribución."),
+               ("…supuesto de normalidad del error.", "Justamente no se requiere ese supuesto.")], 0,
+              "La LGN da la consistencia; el TCL, la normalidad asintótica (lámina 13)."),
+         ],
+         r=("La t con errores asimétricos",
+            "Con errores asimétricos, compara la tasa de rechazo de una H₀ verdadera con n = 10 y n = 500.",
+            R_C10_T3, "prueba n = 30. ¿Se acerca al 5%?")),
+    dict(n=4, hora="20:05", inicio=(S10, 11), fin=(S10, 17), laminas="láminas 11–17",
+         titulo="Eficiencia asintótica, resumen y aplicación", corto="Eficiencia asintótica",
+         pregunta="Si varios estimadores son consistentes, ¿cuál conviene usar?",
+         quiz=[
+             ("Bajo heterocedasticidad, MCO…",
+              ["…sigue siendo consistente, pero ya no es eficiente.",
+               ("…deja de ser consistente.", "La consistencia no requiere homocedasticidad (lámina 15)."),
+               ("…recupera la eficiencia con muestras grandes.", "La lámina 15 dice que no se soluciona con muestra grande.")], 0,
+              "Lámina 15."),
+             ("En la tabla de la lámina 12, ¿qué herramienta da la consistencia?",
+              ["La Ley de los Grandes Números.",
+               ("El álgebra exacta.", "El álgebra exacta corresponde a las propiedades de muestra finita."),
+               ("El supuesto de normalidad.", "No se usa normalidad en lo asintótico.")], 0,
+              "Láminas 12 y 13: LGN + TCL."),
+         ],
+         r=("MCO contra otro estimador consistente",
+            "Compara MCO con un estimador que divide la muestra en dos grupos: ambos son consistentes, pero ¿cuál varía menos?",
+            R_C10_T4, "aumenta n a 4000. ¿Siguen ambos cerca de 2? ¿Se mantiene la diferencia de varianzas?")),
+]
+
+C10_AGENDA = "\n" + ruta(C10_TEMAS, (3, "19:55"), ("21:00", "🧪 Práctica guiada con R y cierre"))
+
+C10_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - **Insesgamiento** es una propiedad de muestra finita; **consistencia** ($\\operatorname*{plim} \\hat{\\beta}_j = \\beta_j$) es asintótica: son distintas.
+    - MCO es consistente con supuestos más débiles: basta $E(x'u) = 0$. Una variable omitida correlacionada con $x$ produce **inconsistencia**.
+    - Por el TCL, $\\hat{\\beta}$ es **asintóticamente normal** aunque $u$ no lo sea: los tests $t$ y $F$ valen en muestras grandes.
+    - Con homocedasticidad, MCO es **asintóticamente eficiente**; con heterocedasticidad sigue siendo consistente, pero no eficiente.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("Un estimador tiene E(β̃) = β + 1/n. ¿Es insesgado? ¿Es consistente (si su varianza tiende a cero)?",
+         ["Sesgado, pero consistente.",
+          ("Insesgado y consistente.", "E(β̃) ≠ β para todo n finito: tiene sesgo 1/n."),
+          ("Sesgado e inconsistente.", "El sesgo 1/n desaparece cuando n crece, y la varianza también.")], 0,
+         "Consistencia ≠ insesgamiento (lámina 13)."),
+    quiz("¿Qué se necesita para usar el test t en una muestra de 5 000 observaciones con errores no normales?",
+         ["Los supuestos de Gauss-Markov: por la normalidad asintótica, el test t es aproximadamente válido.",
+          ("Que los errores sean normales.", "Con n grande no se requiere normalidad (lámina 10)."),
+          ("Nada: el test t nunca necesita supuestos.", "Requiere al menos los supuestos de Gauss-Markov.")], 0,
+         "Láminas 8 y 10."),
+    quiz("Duplicas el tamaño de una muestra en que hay una variable omitida correlacionada con x. El sesgo de β̂₁…",
+         ["…se mantiene aproximadamente igual.",
+          ("…se reduce a la mitad.", "El sesgo asintótico no depende de n."),
+          ("…desaparece.", "Solo desaparecería si la omitida no se correlacionara con x.")], 0,
+         "Lámina 4."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulo 5 (análisis de regresión múltiple: MCO asintótico).
+- Próxima clase: **Variables binarias, test de Chow y modelo de probabilidad lineal**.
+"""
+
+# --------------------------------------------------------------------------------------------
+# Clase 11 · Semana 11 · Variables binarias, test de Chow y MPL
+# --------------------------------------------------------------------------------------------
+S11a, S11b, A11a, A11b = "sem11/clase 12.tex", "sem11/clase13.tex", "sem11/ejer_dummy.tex", "sem11/ejercicio_dummy_hete.tex"
+
+C11_CABECERA = """# Clase 11 · Variables binarias, test de Chow y modelo de probabilidad lineal
+
+<div class="usm-session-meta">
+<span>📅 Fecha por confirmar (el viernes 25 de diciembre es feriado)</span>
+<span class="usm-tag-gold">Semana 11 · Contenido 6 · Variables binarias</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra de la semana 11:
+    `sem11/clase 12.tex` (Parte 1) y `sem11/clase13.tex` (Parte 2). Los ejercicios resueltos de la semana
+    están en la [📘 Ayudantía 11](../ayudantias/ayudantia11.md). Los bloques **Interactivo** y las preguntas
+    son material adicional para estudiar.
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos de la sesión
+
+- Incorporar información cualitativa con **variables dummy** e interpretar diferencias de **intercepto** y de **pendiente**.
+- Usar variables con **más de dos categorías** respecto de una categoría base.
+- Testear si un modelo es igual entre grupos con el **test de Chow**.
+- Estimar e interpretar el **modelo de probabilidad lineal** y conocer sus problemas.
+
+## 🗓️ Agenda de la cátedra (3 horas)
+
+La fecha se confirmará porque el viernes de la semana es feriado. Haz clic en un tema para ir directo a él.
+"""
+
+C11_INSERTAR = {
+    (S11a, 13): widget("dummies"),
+    (S11b, 3): widget("f-test", 3),
+    (S11b, 8): widget("mpl"),
+}
+
+R_C11_T1 = r'''
+set.seed(21)
+n     <- 400
+mujer <- rbinom(n, 1, 0.5)
+educ  <- sample(8:18, n, replace = TRUE)
+salario <- 1.5 - 1 * mujer + 0.55 * educ + rnorm(n)    # delta0 = −1
+
+m <- lm(salario ~ mujer + educ)
+coef(m)
+# Dos rectas paralelas: mismo efecto de educ, interceptos distintos
+c(intercepto_hombres = unname(coef(m)[1]),
+  intercepto_mujeres = unname(coef(m)[1] + coef(m)[2]))
+'''
+
+R_C11_T2 = r'''
+# Lámina 8: salario = 100 + 500 economía + 300 medicina + 600 ingeniería
+set.seed(22)
+carrera <- factor(sample(c("ninguna", "economia", "medicina", "ingenieria"), 800, replace = TRUE),
+                  levels = c("ninguna", "economia", "medicina", "ingenieria"))
+media   <- c(ninguna = 100, economia = 600, medicina = 400, ingenieria = 700)
+salario <- media[as.character(carrera)] + rnorm(800, sd = 50)
+
+coef(lm(salario ~ carrera))           # base: ninguna (la primera categoría)
+tapply(salario, carrera, mean)        # los promedios por grupo
+coef(lm(salario ~ relevel(carrera, ref = "medicina")))   # economía vs. medicina directo
+'''
+
+R_C11_T3 = r'''
+set.seed(23)
+n     <- 500
+mujer <- rbinom(n, 1, 0.5)
+educ  <- sample(8:18, n, replace = TRUE)
+salario <- 1.5 - 0.5 * mujer + 0.55 * educ + 0.2 * mujer * educ + rnorm(n)
+
+ur <- lm(salario ~ mujer * educ)       # = mujer + educ + mujer:educ
+coef(ur)
+r  <- lm(salario ~ educ)               # H0: delta0 = delta1 = 0
+anova(r, ur)                           # test F de la lámina 14
+'''
+
+R_C11_T4 = r'''
+# Lámina 3: test de Chow para hombres y mujeres
+SSR_r <- 85; SSR_ur <- 19 + 59
+n <- 366; G <- 2; k <- 3
+F <- (SSR_r - SSR_ur) / SSR_ur * (n - G * (k + 1)) / ((G - 1) * (k + 1))
+c(F = F, critico = qf(0.95, (G - 1) * (k + 1), n - G * (k + 1)))
+
+# Con datos simulados: regresión por grupo contra regresión conjunta
+set.seed(24)
+g <- rbinom(300, 1, 0.4); x <- rnorm(300)
+y <- 1 + 2 * x + g * (0.5 + 0.8 * x) + rnorm(300)
+SSRur <- sum(resid(lm(y ~ x, subset = g == 1))^2) + sum(resid(lm(y ~ x, subset = g == 0))^2)
+SSRr  <- sum(resid(lm(y ~ x))^2)
+(SSRr - SSRur) / SSRur * (300 - 2 * 2) / (1 * 2)
+'''
+
+R_C11_T5 = r'''
+# Lámina 8: P(accidente) = 0.30 − 0.05 educ − 0.0001 ingreso
+prob <- function(educ, ingreso) 0.30 - 0.05 * educ - 0.0001 * ingreso
+prob(4, 500)
+prob(20, 2000)          # ¡negativa!
+
+# MPL simulado: las predicciones pueden salir de [0, 1]
+set.seed(25)
+x <- runif(500, 0, 10)
+y <- rbinom(500, 1, plogis(-3 + 0.8 * x))
+m <- lm(y ~ x)
+range(fitted(m))
+mean(fitted(m) < 0 | fitted(m) > 1)    # % de predicciones imposibles
+'''
+
+C11_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S11a, 1), fin=(S11a, 6), laminas="Parte 1 · láminas 1–6",
+         titulo="Variables dummy: diferencias de intercepto", corto="Dummies e intercepto",
+         pregunta="¿Cómo meter información cualitativa, como el género, en una regresión?",
+         quiz=[
+             ("En salario = β₀ + δ₀·mujer + β₁·educ + u, ¿qué mide δ₀?",
+              ["La diferencia de salario esperado entre mujeres y hombres con la misma educación.",
+               ("El salario promedio de las mujeres.", "Ese es β₀ + δ₀ + β₁·educ."),
+               ("La diferencia en el retorno a la educación.", "Eso requeriría una interacción mujer·educ.")], 0,
+              "Lámina 3: efecto aditivo, una diferencia de intercepto."),
+             ("Con 4 categorías (economía, medicina, ingeniería, sin universidad), ¿cuántas dummies se incluyen junto con el intercepto?",
+              [("4", "Con 4 dummies e intercepto hay colinealidad perfecta: la trampa de las dummies."),
+               "3",
+               ("2", "Se pueden incluir hasta q − 1 = 3.")], 1,
+              "Lámina 6: con q categorías, hasta q − 1 dummies. La omitida es la categoría base."),
+         ],
+         r=("Dos rectas paralelas",
+            "Simula salarios con una dummy de género y verifica que el intercepto de las mujeres es β₀ + δ₀.",
+            R_C11_T1, "agrega la dummy `hombre <- 1 - mujer` al modelo junto con `mujer`. ¿Qué entrega R? ¿Por qué?")),
+    dict(n=2, hora="19:10", inicio=(S11a, 7), fin=(S11a, 9), laminas="Parte 1 · láminas 7–9",
+         titulo="Más de dos categorías", corto="Varias categorías",
+         pregunta="¿Cómo se comparan cuatro carreras en una sola regresión?",
+         quiz=[
+             ("Con salario = 100 + 500·economía + 300·medicina + 600·ingeniería, ¿cuánto ganan en promedio los de medicina?",
+              ["400",
+               ("300", "300 es la diferencia respecto de la categoría base; hay que sumar el intercepto."),
+               ("100", "100 es el promedio de la categoría base (sin universidad).")], 0,
+              "β₀ + β₂ = 100 + 300 = 400."),
+             ("¿Cuál es la diferencia promedio entre economía y medicina?",
+              ["200 a favor de economía.",
+               ("500", "500 es la diferencia de economía con la categoría base."),
+               ("No se puede calcular con esta regresión.", "Sí se puede: β₁ − β₂ = 500 − 300.")], 0,
+              "Responde la pregunta de la lámina 9."),
+         ],
+         r=("Categorías y categoría base",
+            "Simula los salarios de la lámina 8, estima con `factor()` y cambia la categoría base con `relevel()`.",
+            R_C11_T2, "usa `ref = \"ingenieria\"`. ¿Qué signo tienen ahora los coeficientes?")),
+    dict(n=3, hora="19:30", inicio=(S11a, 10), fin=(S11a, 14), laminas="Parte 1 · láminas 10–14",
+         titulo="Interacciones con dummies", corto="Interacciones",
+         pregunta="¿Y si la brecha depende de otra característica?",
+         quiz=[
+             ("En wage = β₀ + β₁·mujer + β₂·casad + β₃·mujer·casad, ¿cuál es el promedio de las mujeres casadas?",
+              ["β₀ + β₁ + β₂ + β₃",
+               ("β₀ + β₁", "Ese es el de las mujeres solteras."),
+               ("β₃", "β₃ es solo la diferencia adicional por la interacción.")], 0,
+              "Lámina 10, grupo 4."),
+             ("En salario = β₀ + δ₀·mujer + β₁·educ + δ₁·mujer·educ, ¿cómo testeas que las mujeres ganan igual que los hombres dadas sus características?",
+              ["H₀: δ₀ = δ₁ = 0, con un test F.",
+               ("H₀: δ₀ = 0, con un test t.", "Así se ignora una posible diferencia en la pendiente."),
+               ("H₀: β₁ = 0.", "β₁ es el retorno a la educación de los hombres.")], 0,
+              "Lámina 14."),
+         ],
+         r=("Interacción y test F",
+            "Simula salarios con diferencias de intercepto y de pendiente, y testea H₀: δ₀ = δ₁ = 0.",
+            R_C11_T3, "cambia `0.2 * mujer * educ` por `0 * mujer * educ`. ¿Sigue rechazándose H₀?")),
+    dict(n=4, hora="20:05", inicio=(S11b, 1), fin=(S11b, 4), laminas="Parte 2 · láminas 1–4",
+         titulo="El test de Chow", corto="Test de Chow",
+         pregunta="¿Es el mismo modelo para hombres y mujeres?",
+         quiz=[
+             ("En el test de Chow, ¿cómo se obtiene SSR_ur?",
+              ["Sumando las SSR de las regresiones estimadas por separado para cada grupo.",
+               ("Con la regresión de toda la muestra.", "Esa es SSR_r, la del modelo restringido."),
+               ("Promediando las SSR de los grupos.", "Se suman, no se promedian.")], 0,
+              "Lámina 2."),
+             ("En el ejemplo, F = 8.03 y el valor crítico F(4, 358) es 2.39. ¿Qué concluyes?",
+              ["El modelo es distinto para hombres y mujeres.",
+               ("El modelo es el mismo para ambos grupos.", "8.03 > 2.39: se rechaza la igualdad."),
+               ("Solo difieren los interceptos.", "El test de Chow no dice qué coeficientes difieren.")], 0,
+              "Lámina 3."),
+         ],
+         r=("Chow paso a paso",
+            "Reproduce el F de la lámina 3 y repite el test con datos simulados estimando una regresión por grupo.",
+            R_C11_T4, "en la simulación, cambia `g * (0.5 + 0.8 * x)` por `0 * g`. ¿Se rechaza?")),
+    dict(n=5, hora="20:40", inicio=(S11b, 5), fin=(S11b, 8), laminas="Parte 2 · láminas 5–8",
+         titulo="Variable dependiente binaria: el MPL", corto="Modelo de probabilidad lineal",
+         pregunta="¿Qué estimamos cuando y solo puede valer 0 o 1?",
+         quiz=[
+             ("En el MPL, ¿qué mide βⱼ?",
+              ["El cambio en la probabilidad de que y = 1 por una unidad más de xⱼ.",
+               ("El cambio porcentual en y.", "y es 0 o 1: lo que cambia es la probabilidad."),
+               ("La probabilidad de que y = 1.", "Esa es la predicción completa, β₀ + β₁x₁ + …")], 0,
+              "Lámina 6."),
+             ("¿Cuáles son los dos problemas del MPL según la lámina 7?",
+              ["Puede predecir probabilidades fuera de [0, 1], y no cumple homocedasticidad.",
+               ("Es sesgado y no tiene interpretación.", "Los coeficientes se interpretan bien como cambios en probabilidad."),
+               ("No se puede estimar por MCO.", "Sí se estima por MCO.")], 0,
+              "Lámina 7."),
+         ],
+         r=("Probabilidades imposibles",
+            "Evalúa la ecuación de la lámina 8 y estima un MPL simulado para ver cuántas predicciones salen de [0, 1].",
+            R_C11_T5, "¿con qué educación la probabilidad de accidente se vuelve negativa si el ingreso es 0?")),
+]
+
+C11_AGENDA = "\n" + ruta(C11_TEMAS, (3, "19:55"), ("21:15", "✅ Ideas clave, autoevaluación y cierre"), ayudantia=11)
+
+C11_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - Una **dummy** desplaza el intercepto; su **interacción** con una variable continua cambia la pendiente.
+    - Con $q$ categorías se incluyen $q - 1$ dummies; los coeficientes se leen respecto de la **categoría base**.
+    - El **test de Chow** compara la SSR de regresiones por grupo con la de la regresión conjunta.
+    - En el **MPL**, $\\beta_j$ es un cambio en la probabilidad de éxito; puede predecir valores fuera de $[0, 1]$ y es heterocedástico.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("log(salario) = 1.2 + 0.08·educ − 0.15·mujer. ¿Cuánto menos ganan, aproximadamente, las mujeres con la misma educación?",
+         ["Cerca de 15%.",
+          ("0.15 pesos.", "Con log(salario), el coeficiente se lee como un porcentaje aproximado (Clase 6)."),
+          ("8%.", "0.08 es el retorno a un año de educación.")], 0,
+         "100·(−0.15) ≈ −15%; el cálculo exacto es 100·(e^−0.15 − 1) ≈ −13.9%."),
+    quiz("Para comparar salarios en 3 regiones (norte, centro y sur) con la región centro como base, ¿qué incluyes?",
+         ["Dummies de norte y sur.",
+          ("Dummies de norte, centro y sur.", "Con las tres y el intercepto hay colinealidad perfecta."),
+          ("Una variable que vale 1, 2 y 3 según la región.", "Eso impondría un orden y distancias iguales entre regiones.")], 0,
+         "q − 1 dummies; la categoría omitida es la base."),
+    quiz("Un MPL predice 1.12 para una persona. ¿Qué indica?",
+         ["Una limitación del modelo: la probabilidad no puede superar 1.",
+          ("Que la persona tiene 112% de probabilidad.", "Las probabilidades no superan 1."),
+          ("Que hay un error de cálculo.", "Es una consecuencia de usar una recta (lámina 7).")], 0,
+         "Lámina 7."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulo 7 (información cualitativa: variables binarias).
+- 📘 Ejercicios resueltos en la **[Ayudantía 11](../ayudantias/ayudantia11.md)**.
+- Próxima clase: **Heterocedasticidad y variables instrumentales**.
+"""
+
+A11_CABECERA = """# Ayudantía 11 · Variables binarias y modelo de probabilidad lineal
+
+<div class="usm-session-meta">
+<span>📘 Ayudantía · Semana 11</span>
+<span class="usm-tag-gold">Complementa la Clase 11</span>
+</div>
+
+!!! info "Contenido oficial de la ayudantía"
+    Esta página reproduce **íntegros y en orden** los ejercicios de la semana 11 (`sem11/ejer_dummy.tex` y
+    `sem11/ejercicio_dummy_hete.tex`). Se trabajan en la **ayudantía**, no en la cátedra
+    ([Clase 11](../clases/clase11.md)).
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos
+
+- Calcular diferencias porcentuales entre categorías con dummies, de forma aproximada y exacta.
+- Testear la diferencia entre dos categorías y entender el papel de la covarianza.
+- Derivar la varianza del error en el modelo de probabilidad lineal.
+
+## 🗺️ Temas de la ayudantía
+
+Haz clic en un tema para ir directo a él.
+"""
+
+R_A11_1 = r'''
+# Ejercicio de diferencias salariales entre industrias
+b_service  <- -0.283; se_service <- 0.099
+100 * b_service                     # aproximación: −28.3%
+100 * (exp(b_service) - 1)          # exacto: −24.7%
+b_service / se_service              # t ≈ −2.86
+
+# Consumo vs. financiero: la covarianza no se reporta
+dif <- 0.181 - 0.158
+se_sin_cov <- sqrt(0.085^2 + 0.089^2)
+c(dif = dif, se = se_sin_cov, t = dif / se_sin_cov)
+'''
+
+R_A11_2 = r'''
+# En el MPL, Var(u | x) = p(x)·(1 − p(x)): depende de x, así que hay heterocedasticidad
+p <- seq(0, 1, by = 0.1)
+data.frame(p = p, varianza = p * (1 - p))
+curve(x * (1 - x), from = 0, to = 1, lwd = 3, col = "steelblue",
+      xlab = "p(x) = P(y = 1 | x)", ylab = "Var(u | x)")
+'''
+
+A11_TEMAS = [
+    dict(n=1, ayudantia=True, inicio=(A11a, 1), fin=(A11a, 1), laminas="Parte 1",
+         titulo="Diferencias salariales entre industrias", corto="Dummies de industria",
+         pregunta="¿Cuánto más ganan los presidentes de consejo en una industria que en otra?",
+         quiz=[
+             ("Con log(salary) y un coeficiente de −0.283 para service, ¿cuál es la diferencia exacta respecto de transporte?",
+              ["−24.7%",
+               ("−28.3%", "Esa es la aproximación 100·β, buena solo para β pequeños."),
+               ("−0.283%", "Hay que multiplicar por 100.")], 0,
+              "100·(e^−0.283 − 1) = −24.7%."),
+             ("Para testear si consprod y finance difieren, ¿qué falta en la salida para calcular el error estándar exacto?",
+              ["La covarianza entre los dos coeficientes.",
+               ("El R² de la regresión.", "El R² no entra en el error estándar de una diferencia."),
+               ("El número de observaciones.", "n = 209 sí se reporta.")], 0,
+              "se = √(Var₁ + Var₂ − 2·Cov), como en la Clase 8."),
+         ],
+         r=("Las cuentas del ejercicio",
+            "Reproduce las diferencias porcentuales y los estadísticos t del ejercicio.",
+            R_A11_1, "¿qué covarianza haría que t = 1.96 en la comparación de consprod y finance?")),
+    dict(n=2, ayudantia=True, inicio=(A11b, 1), fin=(A11b, 1), laminas="Parte 2",
+         titulo="El MPL es heterocedástico", corto="MPL y heterocedasticidad",
+         pregunta="¿Por qué la varianza del error en el MPL depende de x?",
+         quiz=[
+             ("En el MPL, Var(u | x) es igual a…",
+              ["p(x)·(1 − p(x)), donde p(x) = P(y = 1 | x).",
+               ("σ², constante.", "Depende de x a través de p(x): no es constante."),
+               ("p(x).", "Esa es la esperanza de y, no la varianza del error.")], 0,
+              "Por eso el MPL viola la homocedasticidad."),
+             ("¿Para qué valor de p(x) es máxima la varianza del error?",
+              ["0.5",
+               ("1", "Con p = 1, p(1 − p) = 0."),
+               ("0", "Con p = 0, la varianza también es 0.")], 0,
+              "p(1 − p) se maximiza en p = 0.5, con valor 0.25."),
+         ],
+         r=("La varianza del error en el MPL",
+            "Tabula y grafica p(1 − p), la varianza del error en el MPL.",
+            R_A11_2, "¿qué valores de p dan una varianza menor a 0.1?")),
+]
+
+A11_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - Con $\\log(y)$, el coeficiente de una dummy se lee como un porcentaje aproximado; el cálculo exacto es $100(e^{\\beta} - 1)$.
+    - Para comparar dos categorías no base se necesita la **covarianza** entre sus coeficientes.
+    - En el MPL, $\\text{Var}(u \\mid x) = p(x)(1 - p(x))$: el modelo es heterocedástico por construcción.
+
+## 🔗 Volver a la cátedra
+
+- [Clase 11 · Variables binarias, test de Chow y modelo de probabilidad lineal](../clases/clase11.md)
+"""
+
+# --------------------------------------------------------------------------------------------
+# Clase 12 · Semana 12 · Heterocedasticidad y variables instrumentales
+# --------------------------------------------------------------------------------------------
+S12a, S12v, S12b, A12a, A12b = ("sem12/Clase14.tex", "sem12/varianza_estimador_heteroce.tex", "sem12/Clase15.tex",
+                               "sem12/gl_test_white.tex", "sem12/guia_heterocedasticidad.tex")
+
+C12_CABECERA = """# Clase 12 · Heterocedasticidad y variables instrumentales
+
+<div class="usm-session-meta">
+<span>📅 Fecha por confirmar (el viernes 1 de enero es feriado)</span>
+<span class="usm-tag-gold">Semana 12 · Heterocedasticidad, endogeneidad y variables instrumentales</span>
+<span class="usm-tag-red">🛠️ Semana del Taller 3</span>
+</div>
+
+!!! info "Contenido oficial de la semana"
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra de la semana 12:
+    `sem12/Clase14.tex` (Parte 1), `sem12/varianza_estimador_heteroce.tex` (Parte 2) y `sem12/Clase15.tex`
+    (Parte 3). Los ejercicios de la semana están en la [📘 Ayudantía 12](../ayudantias/ayudantia12.md).
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos de la sesión
+
+- Reconocer la **heterocedasticidad** y sus consecuencias para la inferencia.
+- Detectarla con los tests de **Breusch-Pagan** y de **White**.
+- Corregir la inferencia con **errores estándar robustos** de White.
+- Entender la **endogeneidad** y estimar con **variables instrumentales** y **MC2E**.
+
+## 🗓️ Agenda de la cátedra (3 horas)
+
+La fecha se confirmará porque el viernes de la semana es feriado. Haz clic en un tema para ir directo a él.
+"""
+
+C12_INSERTAR = {
+    (S12v, 2): widget("robustos"),
+    (S12b, 15): widget("iv-sim"),
+}
+
+R_C12_T1 = r'''
+set.seed(31)
+n    <- 300
+educ <- runif(n, 6, 20)
+salario <- 2 + 0.8 * educ + rnorm(n, sd = 0.3 * educ)    # Var(u | educ) crece
+m <- lm(salario ~ educ)
+plot(educ, resid(m), pch = 19, col = "steelblue", ylab = "residuo",
+     main = "Heterocedasticidad: el abanico se abre")
+abline(h = 0, lty = 2)
+'''
+
+R_C12_T2 = r'''
+set.seed(32)
+n  <- 300
+x1 <- runif(n, 0, 10); x2 <- rnorm(n)
+y  <- 1 + 0.5 * x1 + 0.3 * x2 + rnorm(n, sd = 0.2 + 0.3 * x1)
+m  <- lm(y ~ x1 + x2)
+u2 <- resid(m)^2
+
+# Breusch-Pagan: u² sobre las x
+aux <- lm(u2 ~ x1 + x2)
+R2a <- summary(aux)$r.squared; k <- 2
+c(F  = R2a / k / ((1 - R2a) / (n - k - 1)), p_F  = pf(R2a / k / ((1 - R2a) / (n - k - 1)), k, n - k - 1, lower.tail = FALSE),
+  LM = n * R2a,                            p_LM = pchisq(n * R2a, k, lower.tail = FALSE))
+
+# White: agrega cuadrados y productos cruzados (q = k + k(k + 1)/2 = 5)
+auxW <- lm(u2 ~ x1 + x2 + I(x1^2) + I(x2^2) + I(x1 * x2))
+c(LM_White = n * summary(auxW)$r.squared, critico = qchisq(0.95, 5))
+'''
+
+R_C12_T3 = r'''
+set.seed(33)
+n <- 200
+x <- runif(n, 0, 3)
+y <- 1 + 2 * x + rnorm(n, sd = 0.2 + 1.2 * x^2)
+m <- lm(y ~ x)
+X <- model.matrix(m); u <- resid(m)
+XtXi <- solve(t(X) %*% X)
+
+V_usual   <- sum(u^2) / (n - 2) * XtXi                      # σ̂²(X'X)⁻¹
+V_robusta <- XtXi %*% t(X) %*% diag(u^2) %*% X %*% XtXi     # lámina 18
+cbind(se_usual = sqrt(diag(V_usual)), se_robusto = sqrt(diag(V_robusta)))
+'''
+
+R_C12_T4 = r'''
+# Endogeneidad por variable omitida: MCO sesgado aunque n sea grande
+set.seed(34)
+n <- 5000
+habilidad <- rnorm(n)
+educ <- 12 + 2 * habilidad + rnorm(n)
+lsalario <- 1 + 0.08 * educ + 0.10 * habilidad + rnorm(n, sd = 0.3)
+coef(lm(lsalario ~ educ))["educ"]      # verdadero: 0.08
+cor(educ, 0.10 * habilidad)            # educ se correlaciona con el error
+'''
+
+R_C12_T5 = r'''
+set.seed(35)
+n <- 5000
+habilidad <- rnorm(n)
+z    <- rbinom(n, 1, 0.5)                          # instrumento: p. ej., vivir cerca de una universidad
+educ <- 12 + 2 * z + 2 * habilidad + rnorm(n)      # relevancia: z afecta educ
+lsalario <- 1 + 0.08 * educ + 0.10 * habilidad + rnorm(n, sd = 0.3)
+
+b_mco <- coef(lm(lsalario ~ educ))["educ"]
+b_vi  <- cov(lsalario, z) / cov(educ, z)            # lámina 10
+# MC2E: primera etapa y segunda etapa (láminas 17 y 18)
+educ_hat <- fitted(lm(educ ~ z))
+b_mc2e <- coef(lm(lsalario ~ educ_hat))["educ_hat"]
+c(MCO = unname(b_mco), VI = b_vi, MC2E = unname(b_mc2e))   # verdadero: 0.08
+summary(lm(educ ~ z))$r.squared                     # R² de la primera etapa
+'''
+
+C12_TEMAS = [
+    dict(n=1, hora="18:40", inicio=(S12a, 1), fin=(S12a, 5), laminas="Parte 1 · láminas 1–5",
+         titulo="Heterocedasticidad y sus consecuencias", corto="Heterocedasticidad",
+         pregunta="¿Qué se rompe cuando la varianza del error no es constante?",
+         quiz=[
+             ("Con heterocedasticidad, ¿qué le pasa a β̂ de MCO?",
+              ["Sigue siendo insesgado y consistente, pero deja de ser MELI y sus varianzas usuales quedan sesgadas.",
+               ("Queda sesgado.", "La heterocedasticidad no afecta el insesgamiento (lámina 2)."),
+               ("Nada: todo sigue igual.", "Los errores estándar usuales y los tests t y F dejan de ser válidos.")], 0,
+              "Láminas 2 y 3."),
+             ("¿Se resuelven los problemas de la heterocedasticidad con una muestra más grande?",
+              ["No: la lámina 2 lo dice explícitamente.",
+               ("Sí, por el TCL.", "El sesgo de los errores estándar usuales no desaparece al crecer n."),
+               ("Solo si los errores son normales.", "La normalidad no corrige el problema.")], 0,
+              "Lámina 2."),
+         ],
+         r=("El abanico de los residuos",
+            "Simula salarios cuya varianza crece con la educación y grafica los residuos.",
+            R_C12_T1, "cambia `sd = 0.3 * educ` por `sd = 3`. ¿Cómo cambia el gráfico?")),
+    dict(n=2, hora="19:05", inicio=(S12a, 6), fin=(S12a, 14), laminas="Parte 1 · láminas 6–14",
+         titulo="Detectarla: Breusch-Pagan y White", corto="Breusch-Pagan y White",
+         pregunta="¿Cómo sabemos si hay heterocedasticidad?",
+         quiz=[
+             ("En el test de Breusch-Pagan, ¿qué variable dependiente tiene la regresión auxiliar?",
+              ["Los residuos al cuadrado, û².",
+               ("La variable y original.", "Se busca si la varianza (û²) se relaciona con las x."),
+               ("Los residuos sin elevar al cuadrado.", "Los residuos tienen media cero: lo relevante es su cuadrado.")], 0,
+              "Lámina 6."),
+             ("En el test de White con k = 3 regresores, ¿cuántas restricciones (q) hay?",
+              ["9",
+               ("6", "Faltan los 3 productos cruzados."),
+               ("3", "Esas son solo las variables originales.")], 0,
+              "q = k + k(k + 1)/2 = 3 + 6 = 9 (lámina 12)."),
+             ("¿Cuál es el estadístico LM del test de Breusch-Pagan?",
+              ["n·R²_aux, que se distribuye χ² con k grados de libertad.",
+               ("R²_aux/(1 − R²_aux).", "Esa expresión es parte del F, no el LM."),
+               ("El F de la regresión original.", "Se usa la regresión auxiliar, no la original.")], 0,
+              "Lámina 9."),
+         ],
+         r=("Breusch-Pagan y White a mano",
+            "Simula errores heterocedásticos y calcula los tests de Breusch-Pagan (F y LM) y de White.",
+            R_C12_T2, "cambia `sd = 0.2 + 0.3 * x1` por `sd = 1`. ¿Se rechaza la homocedasticidad?")),
+    dict(n=3, hora="19:35", inicio=(S12a, 15), fin=(S12v, 2), laminas="Partes 1 y 2 · varianza y errores robustos",
+         titulo="Errores estándar robustos", corto="Errores robustos",
+         pregunta="Si la varianza usual está mal, ¿cómo hacemos inferencia válida?",
+         quiz=[
+             ("¿Cuál es la varianza de β̂ de MCO con heterocedasticidad general?",
+              ["(X′X)⁻¹X′ΩX(X′X)⁻¹",
+               ("σ²(X′X)⁻¹", "Ese es el caso particular homocedástico, Ω = σ²I."),
+               ("Ω(X′X)⁻¹", "Falta el término X′ΩX en el centro.")], 0,
+              "Lámina 17."),
+             ("¿Qué se usa en lugar de Ω para calcular los errores robustos de White?",
+              ["Una matriz diagonal con los residuos al cuadrado, ûᵢ².",
+               ("La identidad multiplicada por σ̂².", "Eso reproduce los errores usuales."),
+               ("La matriz de correlaciones de las x.", "Ω es la varianza de los errores, no de las x.")], 0,
+              "Lámina 18."),
+         ],
+         r=("Errores robustos con matrices",
+            "Calcula los errores estándar usuales y los robustos de White con la fórmula de la lámina 18.",
+            R_C12_T3, "cambia el error por `rnorm(n, sd = 1)` (homocedástico). ¿Se parecen ahora ambos errores estándar?")),
+    dict(n=4, hora="20:05", inicio=(S12b, 1), fin=(S12b, 7), laminas="Parte 3 · láminas 1–7",
+         titulo="Endogeneidad e instrumentos", corto="Endogeneidad e instrumentos",
+         pregunta="¿Qué hacer cuando x está correlacionada con el error?",
+         quiz=[
+             ("¿Cuáles son las tres fuentes habituales de endogeneidad?",
+              ["Variables omitidas, simultaneidad y error de medida en las x.",
+               ("Heterocedasticidad, multicolinealidad y autocorrelación.", "Ninguna de ellas hace que Cov(x, u) ≠ 0 por sí sola."),
+               ("Muestras pequeñas, R² bajo y valores atípicos.", "No son causas de endogeneidad.")], 0,
+              "Lámina 2."),
+             ("¿Qué dos condiciones debe cumplir un instrumento válido z?",
+              ["Relevancia, Cov(x, z) ≠ 0, y exogeneidad, Cov(z, u) = 0.",
+               ("Cov(x, z) = 0 y Cov(z, u) ≠ 0.", "Es al revés."),
+               ("Que z afecte directamente a y.", "La restricción de exclusión exige que z afecte a y solo a través de x.")], 0,
+              "Lámina 4."),
+         ],
+         r=("MCO con endogeneidad",
+            "Simula retornos a la educación con la habilidad omitida y mira el sesgo de MCO aun con n = 5 000.",
+            R_C12_T4, "cambia `2 * habilidad` por `0 * habilidad` en la educación. ¿Desaparece el sesgo?")),
+    dict(n=5, hora="20:40", inicio=(S12b, 8), fin=(S12b, 19), laminas="Parte 3 · láminas 8–19",
+         titulo="Estimación por VI y MC2E", corto="VI y MC2E",
+         pregunta="¿Cómo se usa el instrumento para estimar β?",
+         quiz=[
+             ("En la regresión simple, el estimador de VI es…",
+              ["Cov(y, z)/Cov(x, z)",
+               ("Cov(y, x)/Var(x)", "Ese es el estimador de MCO."),
+               ("Cov(x, z)/Cov(y, z)", "Está invertido.")], 0,
+              "Láminas 9 y 10."),
+             ("¿Qué pasa con la varianza de β̂_VI si el instrumento es débil (R²ₓ,z bajo)?",
+              ["Aumenta mucho: Var(β̂_VI) = σ̂²/(SSTₓ·R²ₓ,z).",
+               ("Disminuye.", "R²ₓ,z está en el denominador."),
+               ("No cambia.", "Depende directamente de R²ₓ,z.")], 0,
+              "Lámina 15."),
+         ],
+         r=("VI y MC2E paso a paso",
+            "Estima los retornos a la educación con un instrumento binario por VI y por MC2E, y compáralos con MCO.",
+            R_C12_T5, "cambia `2 * z` por `0.05 * z` (instrumento débil). ¿Qué pasa con el R² de la primera etapa y con la estimación?")),
+]
+
+C12_AGENDA = "\n" + ruta(C12_TEMAS, (3, "19:55"), ("21:15", "✅ Ideas clave, autoevaluación y cierre"), ayudantia=12)
+
+C12_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - Con **heterocedasticidad**, MCO sigue insesgado y consistente, pero no es MELI y los errores estándar usuales (y los tests t y F) fallan, aun con muestras grandes.
+    - Se detecta con **Breusch-Pagan** ($\\hat{u}^2$ sobre las $x$) o **White** (agrega cuadrados y productos cruzados).
+    - Se corrige la inferencia con **errores robustos de White**: $(X'X)^{-1}\\big(\\sum_i \\hat{u}_i^2 x_i x_i'\\big)(X'X)^{-1}$.
+    - Con **endogeneidad**, MCO es sesgado e inconsistente; un instrumento **relevante** y **exógeno** permite estimar con VI o MC2E, con más varianza.
+
+## ✅ Autoevaluación
+
+""" + "\n\n".join([
+    quiz("En una regresión con n = 200, el R² de la regresión auxiliar de Breusch-Pagan (k = 2) es 0.05. ¿Cuánto vale el LM?",
+         ["10, que supera el valor crítico χ²(2) al 5% (5.99): se rechaza la homocedasticidad.",
+          ("0.05", "Hay que multiplicar por n."),
+          ("2.5", "LM = n·R² = 200·0.05.")], 0,
+         "LM = n·R²_aux (lámina 9)."),
+    quiz("Un coeficiente tiene s.e. usual 0.10 y s.e. robusto 0.16, con β̂ = 0.25. ¿Qué concluyes al 5%?",
+         ["Con el s.e. usual parece significativo (t = 2.5), pero con el robusto no (t = 1.56).",
+          ("Es significativo con ambos errores estándar.", "Con el robusto, t = 0.25/0.16 = 1.56 < 1.96."),
+          ("No se puede saber.", "Basta calcular ambos t.")], 0,
+         "Con heterocedasticidad, hay que usar el robusto."),
+    quiz("Un instrumento z está muy correlacionado con x, pero también con el error. ¿Qué ocurre con VI?",
+         ["Queda sesgado: el instrumento no es exógeno.",
+          ("Es consistente, porque z es relevante.", "La relevancia sola no basta: también se requiere exogeneidad."),
+          ("Es más eficiente que MCO.", "Con un instrumento inválido, VI ni siquiera es consistente.")], 0,
+         "Lámina 6, gráfico B."),
+]) + """
+
+## 📚 Para la próxima clase
+
+- **Wooldridge**, capítulos 8 (heterocedasticidad) y 15 (variables instrumentales y MC2E).
+- 🛠️ Esta semana es el **Taller 3**. Ejercicios en la **[Ayudantía 12](../ayudantias/ayudantia12.md)**.
+- Próxima clase: **Series de tiempo**.
+"""
+
+A12_CABECERA = """# Ayudantía 12 · Heterocedasticidad: test de White y errores robustos
+
+<div class="usm-session-meta">
+<span>📘 Ayudantía · Semana 12</span>
+<span class="usm-tag-red">🛠️ Taller 3</span>
+<span class="usm-tag-gold">Complementa la Clase 12</span>
+</div>
+
+!!! info "Contenido oficial de la ayudantía"
+    Esta página reproduce **íntegros y en orden** los documentos de la semana 12 (`sem12/gl_test_white.tex` y
+    `sem12/guia_heterocedasticidad.tex`). Se trabajan en la **ayudantía**, no en la cátedra
+    ([Clase 12](../clases/clase12.md)).
+
+<!--COMO-ESTUDIAR-->
+
+## 🎯 Objetivos
+
+- Contar los grados de libertad de la regresión auxiliar del test de White.
+- Comparar conclusiones con errores estándar usuales y robustos.
+
+## 🗺️ Temas de la ayudantía
+
+Haz clic en un tema para ir directo a él.
+"""
+
+R_A12_1 = r'''
+# Número de restricciones del test de White: q = k + k(k + 1)/2
+k <- 1:6
+data.frame(k = k, cuadrados = k, cruzados = choose(k, 2), q = k + k * (k + 1) / 2)
+'''
+
+R_A12_2 = r'''
+# Guía: t con errores usuales y robustos (cumgpa, tothrs y season)
+coef  <- c(cumgpa = 0.193, tothrs = 0.0014, season = -0.157)
+usual <- c(0.064, 0.0012, 0.098)
+robus <- c(0.074, 0.0012, 0.07)
+t <- cbind(t_usual = coef / usual, t_robusto = coef / robus)
+round(t, 2)
+round(2 * pt(-abs(t), df = 269 - 6 - 1), 4)      # valores-p
+'''
+
+A12_TEMAS = [
+    dict(n=1, ayudantia=True, inicio=(A12a, 1), fin=(A12a, 1), laminas="Parte 1",
+         titulo="Grados de libertad del test de White", corto="Grados de libertad de White",
+         pregunta="¿Cuántos términos lleva la regresión auxiliar de White?",
+         quiz=[
+             ("Con k = 4 regresores, ¿cuántos productos cruzados distintos hay?",
+              ["6",
+               ("16", "Se cuentan pares distintos sin orden: C(4, 2)."),
+               ("4", "Esos son los cuadrados.")], 0,
+              "C(4, 2) = 4·3/2 = 6."),
+             ("Con k = 4, ¿cuánto vale q?",
+              ["14",
+               ("10", "Faltan los 4 regresores originales: q = 4 + 4·5/2."),
+               ("8", "Faltan los productos cruzados.")], 0,
+              "q = k + k(k + 1)/2 = 4 + 10 = 14."),
+         ],
+         r=("Tabla de q",
+            "Calcula q para k entre 1 y 6.",
+            R_A12_1, "¿con qué k la regresión auxiliar supera las 20 restricciones?")),
+    dict(n=2, ayudantia=True, inicio=(A12b, 1), fin=(A12b, 1), laminas="Parte 2",
+         titulo="Errores usuales y robustos en la práctica", corto="Usuales y robustos",
+         pregunta="¿Cambia la conclusión según el error estándar que se use?",
+         quiz=[
+             ("En la guía, para cumgpa, t = 3.02 con el s.e. usual y 2.61 con el robusto. ¿Qué concluyes al 5%?",
+              ["Es significativo con ambos.",
+               ("Solo es significativo con el usual.", "2.61 > 1.96: también lo es con el robusto."),
+               ("No es significativo.", "Ambos t superan 1.96.")], 0,
+              "La conclusión no cambia en este caso."),
+             ("Si el s.e. robusto es menor que el usual, ¿qué pasa con el t?",
+              ["Aumenta en valor absoluto.",
+               ("Disminuye.", "Un denominador menor da un t mayor."),
+               ("No cambia.", "El t depende directamente del error estándar.")], 0,
+              "Es el caso de season en la guía."),
+         ],
+         r=("Las t de la guía",
+            "Calcula los estadísticos t y valores-p con ambos errores estándar.",
+            R_A12_2, "¿con qué s.e. robusto season dejaría de ser significativo al 5%?")),
+]
+
+A12_CIERRE = """!!! abstract "🧠 Ideas clave"
+    - En el test de White, $q = k + \\dfrac{k(k+1)}{2}$: los regresores, sus cuadrados y los productos cruzados.
+    - Los errores robustos pueden ser mayores o menores que los usuales; con heterocedasticidad, son los que hay que usar.
+
+## 🔗 Volver a la cátedra
+
+- [Clase 12 · Heterocedasticidad y variables instrumentales](../clases/clase12.md)
 """
 
 
@@ -2741,6 +3889,25 @@ CLASES = {
     8: dict(out="docs/clases/clase8.md", cabecera=C8_CABECERA + C8_AGENDA, cierre=C8_CIERRE, temas=C8_TEMAS,
             fuentes=[(S8, "Parte 1 · Inferencia sobre un conjunto de parámetros")],
             insertar=C8_INSERTAR, plegar={}),
+    9: dict(out="docs/clases/clase9.md", cabecera=C9_CABECERA + C9_AGENDA, cierre=C9_CIERRE, temas=C9_TEMAS,
+            fuentes=[(S9, "Parte 1 · Inferencia sobre un conjunto de parámetros: el test F")],
+            insertar=C9_INSERTAR, plegar={}),
+    10: dict(out="docs/clases/clase10.md", cabecera=C10_CABECERA + C10_AGENDA, cierre=C10_CIERRE, temas=C10_TEMAS,
+             fuentes=[(S10, "Parte 1 · Propiedades asintóticas")],
+             insertar=C10_INSERTAR, plegar={}),
+    11: dict(out="docs/clases/clase11.md", cabecera=C11_CABECERA + C11_AGENDA, cierre=C11_CIERRE, temas=C11_TEMAS + A11_TEMAS,
+             fuentes=[(S11a, "Parte 1 · Variables independientes binarias"),
+                      (S11b, "Parte 2 · Test de Chow y variables dependientes binarias"),
+                      (A11a, "Parte 1 · Ayudantía · Ejercicio: diferencias salariales"),
+                      (A11b, "Parte 2 · Ayudantía · Ejercicios: modelo de probabilidad lineal")],
+             insertar=C11_INSERTAR, plegar={}, ayudantia=dict(cabecera=A11_CABECERA, cierre=A11_CIERRE)),
+    12: dict(out="docs/clases/clase12.md", cabecera=C12_CABECERA + C12_AGENDA, cierre=C12_CIERRE, temas=C12_TEMAS + A12_TEMAS,
+             fuentes=[(S12a, "Parte 1 · Heterocedasticidad"),
+                      (S12v, "Parte 2 · Varianza del estimador MCO con heterocedasticidad"),
+                      (S12b, "Parte 3 · Endogeneidad y variables instrumentales"),
+                      (A12a, "Parte 1 · Ayudantía · Grados de libertad del test de White"),
+                      (A12b, "Parte 2 · Ayudantía · Guía de heterocedasticidad")],
+             insertar=C12_INSERTAR, plegar={}, ayudantia=dict(cabecera=A12_CABECERA, cierre=A12_CIERRE)),
 }
 
 

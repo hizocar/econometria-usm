@@ -90,6 +90,44 @@ complementan con el **taller de los lunes** (Iván), que tiene su propia secció
 [Ir a la clase →](clase8.md)
 </div>
 
+<div class="usm-card" markdown>
+### 9️⃣ Inferencia sobre un conjunto de parámetros: el test F
+**Viernes 11 de diciembre** · Modelo restringido · F con SSR y con R² · Significancia global
+
+🧮 Calculadora del test F · F conjunto contra t individuales · 📝 Semana del Control 2
+
+[Ir a la clase →](clase9.md)
 </div>
 
-> 🚧 Las clases 9 en adelante se irán publicando aquí a medida que avanza el trimestre.
+<div class="usm-card" markdown>
+### 🔟 Propiedades asintóticas
+**Viernes 18 de diciembre** · Consistencia · Normalidad asintótica · Eficiencia asintótica
+
+📈 β̂ se concentra al crecer n · la t se vuelve normal · 📝 Semana del Certamen 2
+
+[Ir a la clase →](clase10.md)
+</div>
+
+<div class="usm-card" markdown>
+### 1️⃣1️⃣ Variables binarias, test de Chow y MPL
+**Fecha por confirmar** · Dummies e interacciones · Test de Chow · Modelo de probabilidad lineal<br>
+📘 Ayudantía: [variables binarias y MPL](../ayudantias/ayudantia11.md)
+
+👫 Diferencias de intercepto y de pendiente · ⚠️ probabilidades imposibles
+
+[Ir a la clase →](clase11.md)
+</div>
+
+<div class="usm-card" markdown>
+### 1️⃣2️⃣ Heterocedasticidad y variables instrumentales
+**Fecha por confirmar** · Breusch-Pagan y White · Errores robustos · Endogeneidad · VI y MC2E<br>
+📘 Ayudantía: [test de White y errores robustos](../ayudantias/ayudantia12.md)
+
+🎯 Cobertura con errores usuales y robustos · 🔧 instrumentos buenos, débiles e inválidos · 🛠️ Semana del Taller 3
+
+[Ir a la clase →](clase12.md)
+</div>
+
+</div>
+
+> 🚧 Las clases 13 en adelante (series de tiempo) se irán publicando aquí a medida que avanza el trimestre.

@@ -95,8 +95,14 @@ nav:
       - "Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones": clases/clase6.md
       - "Clase 7 · Inferencia sobre un parámetro": clases/clase7.md
       - "Clase 8 · Inferencia sobre un conjunto de parámetros": clases/clase8.md
+      - "Clase 9 · El test F": clases/clase9.md
+      - "Clase 10 · Propiedades asintóticas": clases/clase10.md
+      - "Clase 11 · Variables binarias, Chow y MPL": clases/clase11.md
+      - "Clase 12 · Heterocedasticidad y variables instrumentales": clases/clase12.md
   - "🎮 Práctica · Primer bloque": practica/index.md
   - Ayudantías:
       - ayudantias/index.md
       - "Ayudantía 1 · Repaso de estadística": ayudantias/ayudantia1.md
       - "Ayudantía 4 · La inversa de XᵀX por cofactores": ayudantias/ayudantia4.md
+      - "Ayudantía 11 · Variables binarias y MPL": ayudantias/ayudantia11.md
+      - "Ayudantía 12 · Test de White y errores robustos": ayudantias/ayudantia12.md

@@ -28,6 +28,24 @@ Material de la **ayudantía**, que complementa la cátedra del viernes en otro d
 [Ir a la ayudantía →](ayudantia4.md) · Cátedra: [Clase 4](../clases/clase4.md)
 </div>
 
+<div class="usm-card" markdown>
+### 📘 Ayudantía 11 · Variables binarias y MPL
+**Semana 11** · Diferencias salariales entre industrias · Varianza del error en el MPL
+
+✍️ 4 preguntas de práctica · 🧪 2 ejercicios de R
+
+[Ir a la ayudantía →](ayudantia11.md) · Cátedra: [Clase 11](../clases/clase11.md)
 </div>
 
-> Las semanas 2, 3 y 5 a 8 no tienen archivos de ayudantía en el material; cuando lleguen, se publicarán aquí.
+<div class="usm-card" markdown>
+### 📘 Ayudantía 12 · Test de White y errores robustos
+**Semana 12 · 🛠️ Taller 3** · Grados de libertad del test de White · Errores usuales y robustos
+
+✍️ 4 preguntas de práctica · 🧪 2 ejercicios de R
+
+[Ir a la ayudantía →](ayudantia12.md) · Cátedra: [Clase 12](../clases/clase12.md)
+</div>
+
+</div>
+
+> Las semanas 2, 3, 5 a 10 no tienen archivos de ayudantía en el material; cuando lleguen, se publicarán aquí.

@@ -32,6 +32,7 @@ def palabras_tex(block):
     b = re.sub(r"\\begin\{(tabular|array)\}\{(?:[^{}]|\{[^{}]*\})*\}", " ", b)
     b = re.sub(r"\\rowcolors\{[^}]*\}\{[^}]*\}\{[^}]*\}", " ", b)
     b = re.sub(r"\\(begin|end|color|textcolor|label|tag)\{[^}]*\}", " ", b)
+    b = re.sub(r"(\\'){2,}", r"\\'", b)  # acento doble, errata del original
     b = re.sub(r"\\'([aeiou])", r"\1", b)
     b = re.sub(r"\\(href|includegraphics)(\[[^\]]*\])?\{[^}]*\}", " ", b)
     b = re.sub(r"\\[a-zA-Z]+\*?", " ", b)

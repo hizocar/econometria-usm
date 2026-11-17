@@ -396,4 +396,4 @@ abs(drop(a %*% b) / sqrt(v)) > qt(0.975, 137)  # ¿se rechaza?
 
 - **Wooldridge**, capítulo 4, sección 4.4 (tests sobre una combinación lineal de parámetros).
 - 🛠️ Esta semana es el **Taller 2**: repasa los tests t sobre uno y varios parámetros con las calculadoras de las Clases 7 y 8.
-- Próxima clase: **Propiedades asintóticas**.
+- Próxima clase: **Inferencia sobre un conjunto de parámetros: el test F**.

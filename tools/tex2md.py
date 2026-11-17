@@ -148,6 +148,26 @@ def unwrap(block, cmd, nargs):
         block = block[:m.start()] + block[i + 1:end] + block[end + 1:]
 
 
+def bloques_beamer(s):
+    """\\begin{block}{título}: el título (que puede venir en la línea siguiente y con llaves anidadas) pasa a negrita."""
+    while True:
+        m = re.search(r"\\begin\{block\}\s*\{", s)
+        if not m:
+            return s
+        end = match_brace(s, m.end() - 1)
+        s = s[: m.start()] + r"\textbf{" + s[m.end():end] + "}\n\n" + s[end + 1:]
+
+
+def pies_de_figura(s):
+    """\\caption{...} es contenido de la lámina: se conserva como párrafo (con llaves anidadas)."""
+    while True:
+        m = re.search(r"\\caption\{", s)
+        if not m:
+            return s
+        end = match_brace(s, m.end() - 1)
+        s = s[: m.start()] + "\n\n" + s[m.end():end] + "\n\n" + s[end + 1:]
+
+
 def text_fuera_de_formulas(s):
     """\\text{msq} escrito fuera de una fórmula: pandoc lo descarta, así que se deja solo el texto."""
     while True:
@@ -162,6 +182,8 @@ def text_fuera_de_formulas(s):
 
 
 def preprocess(block, tikz_counter):
+    for a, b in SOURCE_FIXES.items():
+        block = block.replace(a, b)
     def tikz(_m):
         tikz_counter[0] += 1
         return f"\n\nTIKZFIGURA{tikz_counter[0]}\n\n"
@@ -169,14 +191,15 @@ def preprocess(block, tikz_counter):
     block = re.sub(r"\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}", tikz, block, flags=re.S)
     block = unwrap(block, "resizebox", 2)
     # figure/columns solo dan formato en beamer; sin ellos pandoc genera Markdown simple
-    block = re.sub(r"\\begin\{figure\}(\[[^\]]*\])?|\\end\{figure\}|\\caption\{[^}]*\}|\\label\{[^}]*\}", "", block)
+    block = pies_de_figura(block)
+    block = re.sub(r"\\begin\{figure\}(\[[^\]]*\])?|\\end\{figure\}|\\label\{[^}]*\}|\\hspace\*?\{[^}]*\}", "", block)
     block = re.sub(r"\\begin\{columns\}(\[[^\]]*\])?|\\end\{columns\}|\\column\{[^}]*\}"
                    r"|\\begin\{column\}\{[^}]*\}|\\end\{column\}", "\n\n", block)
     block = text_fuera_de_formulas(block)
     # "[\hat\beta_0] : ..." al inicio de equation* no es un argumento opcional
     block = re.sub(r"(\\begin\{equation\*?\}\s*)\[", r"\1{}[", block)
     block = re.sub(r"\\beamergotobutton\{([^}]*)\}", r"\1", block)
-    block = re.sub(r"\\begin\{block\}\{([^}]*)\}", r"\\textbf{\1}\n\n", block)
+    block = bloques_beamer(block)
     block = re.sub(r"\\end\{block\}", "", block)
     block = re.sub(r"\\logo\{[^}]*\}", "", block)
     block = re.sub(r"\\(Fontvi|small|footnotesize|scriptsize|centering)\b", "", block)
@@ -187,7 +210,8 @@ def title_md(title):
     """Título de frame (LaTeX) -> texto plano con fórmulas inline."""
     t = title.replace("\\\\", " ").replace("\n", " ")
     t = re.sub(r"\\'\{?([aeiouAEIOU])\}?", lambda m: m.group(1).translate(str.maketrans("aeiouAEIOU", "áéíóúÁÉÍÓÚ")), t)
-    t = t.replace("\\%", "%")
+    t = t.replace("\\%", "%").replace("\\textendash", "–").replace("\\textemdash", "—")
+    t = re.sub(r"\\(?:textit|textbf|emph|textrm)\{([^{}]*)\}", r"\1", t)
     t = re.sub(r"\\\((.*?)\\\)", r"$\1$", t)
     t = re.sub(r"\s+", " ", t).strip()
     # Títulos en mayúsculas de las diapositivas -> formato oración (mismo texto)
@@ -259,6 +283,12 @@ def fix_display_math(md):
     return re.sub(r"\n{3,}", "\n\n", "\n".join(out))
 
 
+# Erratas del código LaTeX original que rompen la conversión (el contenido no cambia):
+SOURCE_FIXES = {
+    r"$SSR_{r} - $SSR_{ur} \geq 0$": r"$SSR_{r} - SSR_{ur} \geq 0$",  # sem9/Clase10.tex: un $ de más vaciaba la lámina
+    r"\'\'": r"\'",  # sem12/Clase15.tex: "M\'\'inimos", acento doble
+}
+
 RENDER_FIXES = {
     "estadśticamente": "estadísticamente",  # "estad\\'sticamente" en el .tex
 }
@@ -303,6 +333,10 @@ def cleanup(md):
     md = re.sub(r"(?m)(?<!\\)\\[ ]*$", "<br>", md)   # "\" al final de línea = salto de línea
     for a, b in RENDER_FIXES.items():
         md = md.replace(a, b)
+    # \(...\) dentro de una fórmula destacada $$...$$: los delimitadores sobran
+    md = re.sub(r"\$\$(.*?)\$\$", lambda m: "$$" + re.sub(r"\\\(|\\\)", "", m.group(1)) + "$$", md, flags=re.S)
+    # Paréntesis escapados por pandoc, como \(a\): son texto, no fórmulas
+    md = re.sub(r"\\\(([a-z])\\\)", r"(\1)", md)
     return promote_header(md)
 
 
@@ -341,6 +375,14 @@ def convert(tex_path, repo_root, tex_root, img_prefix="../images/"):
                 for ext in (".png", ".jpg", ".jpeg"):
                     if (Path(tex_root) / (rel + ext)).exists():
                         src = Path(tex_root) / (rel + ext)
+            if not src.exists() and (Path(tex_path).parent / rel).exists():
+                src = Path(tex_path).parent / rel  # ruta relativa a la carpeta del .tex
+            if not src.exists():
+                # Imagen citada sin carpeta: se busca por nombre en las carpetas de las semanas
+                hallados = sorted(Path(tex_root).glob(f"sem*/**/{Path(rel).name}"))
+                if hallados:
+                    print(f"  ⚠ {Path(tex_path).name}: imagen '{rel}' encontrada en {hallados[0].relative_to(tex_root)}")
+                    src = hallados[0]
             name = re.sub(r"[^a-zA-Z0-9_.-]", "_", str(src.relative_to(tex_root)).replace("/", "_")).lower()
             dest = Path(repo_root) / "docs" / "images" / "slides" / name
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -351,6 +393,9 @@ def convert(tex_path, repo_root, tex_root, img_prefix="../images/"):
         body = re.sub(r'<img src="()([^"]+)"[^>]*/>', img, body)
         body = re.sub(r"\[(Colab|Excel)\]\((https?://[^)]+)\)", r"[\1](\2){ .usm-btn target=_blank }", body)
         body = cleanup(body)
+        # Encabezados dentro de una lámina o sección (p. ej. "## (a)"): bajan de nivel para no
+        # competir con la estructura Parte > Tema > Lámina de la página
+        body = re.sub(r"(?m)^#{1,4} ", "##### ", body)
         body = fix_display_math(body).strip()
         out.append((title_md(title), body))
     return out

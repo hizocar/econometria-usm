@@ -72,27 +72,29 @@
 <div class="econ-week is-eval" markdown>
 ### Semana 9 · 7 al 12 de diciembre <span class="econ-pill">Control 2</span>
 - **Lunes 7** — 🚫 Sin clases. *Martes 8 — feriado (Inmaculada Concepción).*
-- **Viernes 11** — Clase 9 · Propiedades asintóticas.
+- **Viernes 11** — [Clase 9 · Inferencia sobre un conjunto de parámetros](clases/clase9.md): el test F.
 </div>
 
 <div class="econ-week is-eval" markdown>
 ### Semana 10 · 14 al 19 de diciembre <span class="econ-pill">Certamen 2</span>
 - **Lunes 14** — 📝 **Certamen 2** (lectura: Rau & Albagli, 2019).
-- **Viernes 18** — Clase 10 · Variables *dummy*.
+- **Viernes 18** — [Clase 10 · Propiedades asintóticas](clases/clase10.md): consistencia y normalidad asintótica.
 </div>
 
 <div class="econ-week" markdown>
 ### Semana 11 · 21 al 26 de diciembre
 - **Lunes 21** — Taller.
 - **Viernes 25** — 🎄 Feriado (Navidad): sin cátedra. *Jueves 24 sin clases.*
-- Contenido de la semana: Heterocedasticidad y multicolinealidad.
+- Contenido de la semana: [Clase 11 · Variables binarias, test de Chow y MPL](clases/clase11.md) (fecha por confirmar)
+  y [📘 Ayudantía 11](ayudantias/ayudantia11.md).
 </div>
 
 <div class="econ-week is-eval" markdown>
 ### Semana 12 · 28 de diciembre al 2 de enero <span class="econ-pill">Taller 3</span>
 - **Lunes 28** — Taller.
 - **Viernes 1 de enero** — 🎆 Feriado (Año Nuevo): sin cátedra. *Jueves 31 sin clases.*
-- Contenido de la semana: Error de medición, endogeneidad y variables instrumentales.
+- Contenido de la semana: [Clase 12 · Heterocedasticidad y variables instrumentales](clases/clase12.md) (fecha por confirmar)
+  y [📘 Ayudantía 12](ayudantias/ayudantia12.md).
 </div>
 
 <div class="econ-week" markdown>
