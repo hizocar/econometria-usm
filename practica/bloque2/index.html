@@ -54,6 +54,8 @@
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="../../stylesheets/practica.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -337,6 +339,8 @@
         <div class="md-main__inner md-grid">
           
             
+              
+                
               
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
@@ -898,24 +902,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-comentes-verdadero-falso-o-incierto" class="md-nav__link">
-    <span class="md-ellipsis">
-      1 · Comentes: ¿Verdadero, Falso o Incierto?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-talleres-de-ejercicios" class="md-nav__link">
-    <span class="md-ellipsis">
-      2 · Talleres de ejercicios
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#formulas-utiles" class="md-nav__link">
     <span class="md-ellipsis">
       📐 Fórmulas útiles
@@ -1134,7 +1120,9 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1151,24 +1139,6 @@
       Tabla de contenidos
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-comentes-verdadero-falso-o-incierto" class="md-nav__link">
-    <span class="md-ellipsis">
-      1 · Comentes: ¿Verdadero, Falso o Incierto?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-talleres-de-ejercicios" class="md-nav__link">
-    <span class="md-ellipsis">
-      2 · Talleres de ejercicios
-    </span>
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#formulas-utiles" class="md-nav__link">
@@ -1192,6 +1162,8 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
+
 
 
 
@@ -1201,80 +1173,32 @@
 <span class="usm-tag-gold">Clases 6 a 9 · Interpretación, test t, combinaciones y test F</span>
 </div>
 
-<p>Una zona para <strong>entrenar lo visto en el segundo bloque</strong>: comentes de Verdadero, Falso o Incierto, y
-<strong>10 talleres</strong> de ejercicios y <strong>3 tipos de problemas de desarrollo</strong> para resolver <strong>a mano, con calculadora</strong>. Cada respuesta trae una
-explicación paso a paso y un enlace a la clase donde repasar. ¿Buscas otro bloque?
-<a href="../">Primer bloque</a> · <a href="../bloque3/">Tercer bloque</a>.</p>
-<div class="admonition tip">
-<p class="admonition-title">Cómo funciona el puntaje</p>
+<p>Practica por tema lo visto en las Clases 6 a 9: comentes de Verdadero, Falso o Incierto, ejercicios y problemas de
+desarrollo para resolver a mano, con calculadora. Cada respuesta trae la explicación y un enlace a la clase donde
+repasar. Cuando te sientas listo, rinde un <strong>precertamen</strong> con tiempo. Otros bloques: <a href="../">Primer bloque</a> y <a href="../bloque3/">Tercer bloque</a>.</p>
+<div class="pr-app" data-bloque="2"></div>
+
+<details class="tip">
+<summary>Cómo funciona el puntaje</summary>
 <ul>
-<li><strong>Ingresa con tu cuenta</strong> (correo USM, nombre y contraseña): tu progreso queda guardado y lo retomas desde cualquier dispositivo.</li>
 <li><strong>Comentes:</strong> 10 puntos por acierto, más un <strong>bono de racha</strong> si encadenas aciertos 🔥.</li>
-<li><strong>Ejercicios:</strong> cada campo correcto suma puntos, y un ejercicio perfecto suma 5 más.</li>
-<li>Solo cuenta el <strong>primer intento</strong> de cada pregunta: los reintentos (y abrir la solución) ya no suman.</li>
-<li>Este bloque tiene <strong>su propio puntaje</strong>, separado del primer bloque.</li>
+<li><strong>Ejercicios:</strong> cada parte correcta suma puntos, y un ejercicio perfecto suma 5 más.</li>
+<li>Solo cuenta el <strong>primer intento</strong> de cada pregunta: los reintentos (y abrir la solución) ya no suman, pero sirven para practicar.</li>
+<li><strong>Precertamen:</strong> cada pregunta que respondes por primera vez suma igual que en la práctica; terminarlo suma 10 puntos y cada respuesta correcta 2 más.</li>
+<li>Cada bloque tiene su propio puntaje y sus niveles, de 🐣 <em>Recién llegado</em> a 🏆 <em>Leyenda de la econometría</em>.</li>
+<li>Tu avance queda guardado en tu cuenta: lo retomas desde cualquier dispositivo.</li>
 </ul>
-</div>
-<div class="admonition example">
-<p class="admonition-title">Consejos para estudiar</p>
+</details>
+<details class="example">
+<summary>Consejos para estudiar</summary>
 <ul>
 <li>Los enunciados entregan los <strong>valores críticos</strong> de t y F: practica la regla de decisión, no el cálculo de cuantiles.</li>
 <li>Antes de decidir, escribe <strong>H₀ y H₁</strong>: muchas preguntas dependen de si el test es de una o de dos colas.</li>
-<li><strong>Varía los talleres</strong> con 🎲 <em>Sorpresa</em>.</li>
+<li>Los <strong>problemas de desarrollo</strong> 🧩 tienen partes encadenadas (a, b, c…): cada parte usa lo que calculaste antes.</li>
+<li>Criterio de los comentes: <strong>Falso</strong> si alguna parte es falsa o si dice "siempre" y hay contraejemplos;
+  <strong>Incierto</strong> si la respuesta depende de condiciones que la afirmación no especifica.</li>
 </ul>
-</div>
-<div class="pr-marcador" data-bloque="2" aria-live="polite"></div>
-
-<h2 id="1-comentes-verdadero-falso-o-incierto">1 · Comentes: ¿Verdadero, Falso o Incierto?</h2>
-<p>Afirmaciones sobre las Clases 6 a 9. Criterio usado: <strong>Falso</strong> si alguna parte de la afirmación es falsa
-o si dice "siempre" y hay contraejemplos; <strong>Incierto</strong> si la respuesta depende de condiciones que la
-afirmación no especifica.</p>
-<div class="pr-zona" data-zona="comentes"></div>
-
-<h2 id="2-talleres-de-ejercicios">2 · Talleres de ejercicios</h2>
-<table>
-<thead>
-<tr>
-<th>Contenido</th>
-<th>Talleres</th>
-<th>Repaso</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Interpretación</td>
-<td>📐 logaritmos · 📈 cuadráticas · 🔀 interacciones · 📏 reescalar</td>
-<td><a href="../../clases/clase6/">Clase 6</a></td>
-</tr>
-<tr>
-<td>Inferencia sobre un parámetro</td>
-<td>🎯 test t e intervalos · 🔎 valores-p · ⚖️ errores tipo I y II</td>
-<td><a href="../../clases/clase7/">Clase 7</a></td>
-</tr>
-<tr>
-<td>Combinaciones de parámetros</td>
-<td>🧪 combinaciones</td>
-<td><a href="../../clases/clase8/">Clase 8</a></td>
-</tr>
-<tr>
-<td>Varios parámetros</td>
-<td>🧮 test F · 🌐 significancia global</td>
-<td><a href="../../clases/clase9/">Clase 9</a></td>
-</tr>
-<tr>
-<td><strong>Problemas de desarrollo</strong></td>
-<td>🧩 modelo completo · ¿mismo efecto? · restricciones de exclusión</td>
-<td>Clases 6 a 9</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition info">
-<p class="admonition-title">Problemas de desarrollo 🧩</p>
-<p>Son problemas largos, de dificultad media-alta, con partes encadenadas (a, b, c…): cada parte usa lo que calculaste antes.
-Resuélvelos en papel y luego ingresa cada resultado. Suman más puntos que los ejercicios cortos.</p>
-</div>
-<div class="pr-zona" data-zona="talleres"></div>
-
+</details>
 <h2 id="formulas-utiles">📐 Fórmulas útiles</h2>
 <details class="note">
 <summary>Ver fórmulas</summary>
@@ -1295,8 +1219,13 @@ Resuélvelos en papel y luego ingresa cada resultado. Suman más puntos que los 
 
 
 
+  
+  
 
 
+
+
+  
 
 
 

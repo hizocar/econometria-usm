@@ -71,7 +71,7 @@
       ["δ₀ es la diferencia de interceptos: la brecha cuando educ = 0.",
        "Con δ₁ > 0 la recta de las mujeres tiene más pendiente y puede cruzar la de los hombres: la brecha es δ₀ + δ₁·educ."],
       [R11, "Clase 11 · Parte 1, láminas 12 y 13"]),
-    C("binarias", "En ese mismo modelo, para testear si las mujeres ganan distinto que los hombres con iguales características no basta con el test t de δ₀.", "V",
+    C("binarias", "En salario = β₀ + δ₀·mujer + β₁·educ + δ₁·mujer·educ + u, para testear si las mujeres ganan distinto que los hombres con iguales características no basta con el test t de δ₀.", "V",
       ["La diferencia puede estar en el intercepto, en la pendiente o en ambos: el t de δ₀ solo mira la brecha cuando educ = 0.",
        "Hay que testear H₀: δ₀ = δ₁ = 0 en forma conjunta, con un test F."],
       [R11, "Clase 11 · Parte 1, lámina 14"]),

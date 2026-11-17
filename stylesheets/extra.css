@@ -2291,8 +2291,8 @@ body.pr-bloqueado .pr-marcador, body.pr-bloqueado .pr-zona { display: none; }
 .econ-admin-tabs { margin-top: 0.4rem; }
 .econ-admin-listas { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; margin-top: 0.8rem; font-size: 0.72rem; }
 .econ-admin-listas > div { padding: 0.6rem 0.8rem; border-radius: 10px; border: 1px solid var(--md-default-fg-color--lightest); }
-.md-typeset .econ-graf-fig { margin: 0.8rem 0; }
-.md-typeset .econ-graf-fig figcaption { font-weight: 700; font-size: 0.72rem; margin-bottom: 0.3rem; text-align: left; }
+.md-typeset .econ-graf-fig { display: block; width: auto; max-width: none; margin: 0.8rem 0; }
+.md-typeset .econ-graf-fig figcaption { font-weight: 700; font-style: normal; font-size: 0.72rem; margin: 0 0 0.3rem; max-width: none; text-align: left; }
 .econ-graf { width: 100%; height: auto; display: block; }
 .econ-graf-grid { stroke: var(--md-default-fg-color--lightest); stroke-width: 1; }
 .econ-graf-eje { fill: var(--md-default-fg-color--light); font-size: 10px; }
@@ -2311,3 +2311,14 @@ body.pr-bloqueado .pr-marcador, body.pr-bloqueado .pr-zona { display: none; }
 .econ-semanas span { display: block; width: 1.4rem; min-height: 2px; border-radius: 4px 4px 0 0; background: var(--usm-blue); }
 .econ-semanas em { font-style: normal; font-size: 0.62rem; font-weight: 700; }
 .econ-semanas small { font-size: 0.58rem; opacity: 0.7; }
+
+/* Panel /admin: horario de conexión (día × hora) */
+.econ-horario { display: grid; grid-template-columns: 2.2rem repeat(24, minmax(0, 1fr)); gap: 2px; align-items: center; max-width: 46rem; }
+.econ-horario i { display: block; aspect-ratio: 1; border-radius: 3px; background: var(--md-default-fg-color--lightest); }
+.econ-horario i[style] { background: color-mix(in srgb, var(--usm-blue) var(--a), var(--md-default-bg-color)); }
+.econ-horario-h { font-size: 0.56rem; color: var(--md-default-fg-color--light); text-align: left; }
+.econ-horario-d { font-size: 0.62rem; color: var(--md-default-fg-color--light); }
+.md-typeset .econ-admin-h { margin: 1.4rem 0 0.5rem; font-size: 0.82rem; }
+.md-typeset .econ-admin-ficha-con { font-size: 0.74rem; margin: 0.4rem 0 0.6rem; }
+.econ-panel-kpis { grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); }
+.econ-panel-kpis .pr-lbl, .econ-admin-listas .pr-lbl { text-transform: none; letter-spacing: 0; font-size: 0.66rem; }
