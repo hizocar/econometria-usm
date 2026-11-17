@@ -7,7 +7,8 @@
 
 Una zona para **entrenar lo visto en el primer bloque**: comentes de Verdadero, Falso o Incierto, y
 **12 talleres** de ejercicios para resolver **a mano, con calculadora**. Cada respuesta trae una
-explicación paso a paso y un enlace a la clase donde repasar.
+explicación paso a paso y un enlace a la clase donde repasar. ¿Ya vas más adelante?
+[Práctica · Segundo bloque](bloque2.md).
 
 !!! tip "Cómo funciona el puntaje"
     - **Comentes:** 10 puntos por acierto, más un **bono de racha** si encadenas aciertos 🔥.

@@ -67,6 +67,8 @@ extra_javascript:
   - javascripts/casos2.js
   - javascripts/r-run.js
   - javascripts/practica-banco.js
+  - javascripts/practica-banco2.js
+  - javascripts/practica2.js
   - javascripts/practica.js
 
 # Customization
@@ -99,7 +101,9 @@ nav:
       - "Clase 10 · Propiedades asintóticas": clases/clase10.md
       - "Clase 11 · Variables binarias, Chow y MPL": clases/clase11.md
       - "Clase 12 · Heterocedasticidad y variables instrumentales": clases/clase12.md
-  - "🎮 Práctica · Primer bloque": practica/index.md
+  - "🎮 Práctica":
+      - "Primer bloque · Clases 1 a 5": practica/index.md
+      - "Segundo bloque · Clases 6 a 9": practica/bloque2.md
   - Ayudantías:
       - ayudantias/index.md
       - "Ayudantía 1 · Repaso de estadística": ayudantias/ayudantia1.md
