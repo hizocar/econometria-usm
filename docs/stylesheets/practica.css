@@ -23,7 +23,7 @@
 .pr-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* ---------- Cuenta ---------- */
-.pr-app .pr-cuenta { margin: 0 0 0.8rem; padding: 0.55rem 0.8rem; border: 1px solid var(--pr-borde); border-left: 0; border-radius: var(--pr-radio); background: var(--pr-suave); }
+.pr-app .pr-cuenta { margin: 0 0 0.8rem; padding: 0.55rem 0.8rem; border: 1px solid var(--pr-borde); border-radius: var(--pr-radio); background: var(--pr-suave); }
 .pr-app .pr-sesion-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
 .pr-app .pr-sesion-t { display: flex; align-items: center; gap: 0.6rem; flex: 1 1 14rem; font-size: 0.78rem; }
 .pr-app .pr-sesion-t > span:last-child { display: flex; flex-direction: column; line-height: 1.25; }
@@ -192,12 +192,19 @@
 .pr-barra > span { display: block; height: 100%; border-radius: 999px; background: var(--pr-ok); }
 .pr-barra.is-baja > span { background: var(--pr-bad); }
 .pr-barra-val { font-weight: 700; text-align: right; }
-.pr-pauta-item { margin: 0.4rem 0; border: 1px solid var(--pr-borde); border-left: 4px solid var(--pr-vacia); border-radius: 10px; }
-.pr-pauta-item.is-ok { border-left-color: var(--pr-ok); }
-.pr-pauta-item.is-bad { border-left-color: var(--pr-bad); }
-.pr-pauta-item > summary { display: grid; grid-template-columns: 1.6rem 1fr auto auto; gap: 0.7rem; align-items: center; padding: 0.55rem 0.8rem; cursor: pointer; font-size: 0.76rem; list-style: none; }
+/* Material estiliza <details> como nota desplegable: aquí se neutraliza (sin ícono, borde ni fondo de nota) */
+.md-typeset details.pr-pauta-item { margin: 0.4rem 0; padding: 0; font-size: inherit; border: 1px solid var(--pr-borde); border-radius: 10px; box-shadow: none; background: var(--md-default-bg-color); }
+.md-typeset details.pr-pauta-item > summary { display: grid; grid-template-columns: 1.6rem 1fr auto auto; gap: 0.7rem; align-items: center; margin: 0; padding: 0.55rem 2rem 0.55rem 0.8rem;
+  border-radius: 10px; background: none; font-size: 0.76rem; font-weight: 600; cursor: pointer; list-style: none; }
+.md-typeset details.pr-pauta-item > summary::before { display: none; }
+.md-typeset details.pr-pauta-item > summary::after { top: 50%; transform: translateY(-50%); background-color: var(--md-default-fg-color--light); }
+.md-typeset details.pr-pauta-item[open] > summary::after { transform: translateY(-50%) rotate(90deg); }
+.md-typeset details.pr-pauta-item > summary:hover { background: var(--pr-suave); }
 .pr-pauta-item > summary::-webkit-details-marker { display: none; }
-.pr-pauta-n { font-weight: 800; }
+/* El número de la pregunta es una celda con el mismo código de colores que la cuadrícula */
+.pr-pauta-n { display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 5px; font-weight: 800; font-size: 0.68rem; background: var(--pr-vacia); }
+.pr-pauta-item.is-ok .pr-pauta-n { background: var(--pr-ok); color: #fff; }
+.pr-pauta-item.is-bad .pr-pauta-n { background: var(--pr-bad); color: #fff; }
 .pr-pauta-e { color: var(--md-default-fg-color--light); }
 .pr-pauta-p { font-weight: 700; }
 .pr-pauta-cuerpo { padding: 0 0.9rem 0.8rem; font-size: 0.8rem; }
