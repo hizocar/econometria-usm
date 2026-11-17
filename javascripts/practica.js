@@ -197,10 +197,21 @@
   /* ---------------------------- Estado y marcador ---------------------------- */
   const vacio = () => ({ pts: 0, resp: 0, ok: 0, racha: 0, mejor: 0, hechos: {} });
   let S = vacio();
-  function cargarEstado(bloque) {
+  let CUENTA = null; // con cuentas activas: { id } del estudiante; el puntaje sale de sus respuestas guardadas
+  function cargarEstado(bloque, cuenta, filas) {
     BLOQUE = bloque;
-    KEY = `econometria-usm:practica-bloque${bloque}:v1`;
+    CUENTA = cuenta || null;
+    KEY = CUENTA ? `econometria-usm:practica-bloque${bloque}:${CUENTA.id}:v1` : `econometria-usm:practica-bloque${bloque}:v1`;
     S = vacio();
+    if (filas) {
+      filas.forEach((r) => {
+        S.resp++;
+        if (r.correcta) { S.ok++; S.racha++; S.mejor = Math.max(S.mejor, S.racha); } else S.racha = 0;
+        S.pts += r.puntos;
+        S.hechos[r.item] = r.tipo === "comente" ? (r.correcta ? "ok" : "bad") : r.puntos;
+      });
+      return;
+    }
     try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(vacio(), JSON.parse(raw)); } catch (e) { /* sin almacenamiento: se juega igual */ }
   }
   const comentesDe = () => (BLOQUE === "2" ? window.PRACTICA_COMENTES2 || [] : COMENTES);
@@ -230,7 +241,8 @@
       setTimeout(() => f.remove(), 1200);
     }
   }
-  function sumar(puntos, correcta) {
+  function sumar(puntos, correcta, info) {
+    if (CUENTA && info && window.EconCuentas) window.EconCuentas.guardar({ bloque: +BLOQUE, tipo: info.tipo, item: info.item, correcta: !!correcta, puntos });
     S.resp++;
     if (correcta) { S.ok++; S.racha++; S.mejor = Math.max(S.mejor, S.racha); } else S.racha = 0;
     S.pts += puntos;
@@ -250,7 +262,7 @@
       if (!armado) { armado = true; reset.textContent = "¿Seguro? Toca otra vez"; setTimeout(() => { armado = false; reset.textContent = "↺ Reiniciar puntaje"; }, 3000); return; }
       S = vacio(); guardar(); location.reload();
     });
-    m.append(reset);
+    if (!CUENTA) m.append(reset); // con cuenta, el historial queda en el servidor y no se borra
     marcadores.push(m);
     pintarMarcador(m);
   }
@@ -316,7 +328,7 @@
       if (!S.hechos[c.id]) {
         const bono = ok && S.racha >= 2 ? Math.min(10, 2 * S.racha) : 0;
         S.hechos[c.id] = ok ? "ok" : "bad";
-        sumar(ok ? 10 + bono : 0, ok);
+        sumar(ok ? 10 + bono : 0, ok, { tipo: "comente", item: c.id });
         extra = ok ? `+10 pts${bono ? ` · 🔥 bono de racha +${bono}` : ""}` : "0 pts · la racha vuelve a 0";
         const tag = card.querySelector(".pr-tag.is-gold");
         if (tag) { tag.className = "pr-tag " + (ok ? "is-ok" : "is-bad"); tag.textContent = ok ? "✓ acertado" : "✗ fallado"; }
@@ -494,7 +506,7 @@
           intentado = true;
           const bono = todo ? 5 : 0;
           S.hechos[e.id] = pts + bono;
-          sumar(pts + bono, todo);
+          sumar(pts + bono, todo, { tipo: "ejercicio", item: e.id });
           msg = `Primer intento: <strong>${buenos} de ${campos.length}</strong> correctos · +${pts + bono} pts${bono ? " (incluye +5 por ejercicio perfecto 🎉)" : ""}.`;
           head.querySelector(".pr-tag").textContent = `ya resuelto: ${pts + bono} pts · ya no suma`;
           head.querySelector(".pr-tag").classList.remove("is-gold");
@@ -508,7 +520,7 @@
         if (!intentado) {
           intentado = true;
           S.hechos[e.id] = 0;
-          sumar(0, false);
+          sumar(0, false, { tipo: "solucion", item: e.id });
           head.querySelector(".pr-tag").textContent = "solución vista · ya no suma";
           head.querySelector(".pr-tag").classList.remove("is-gold");
         }
@@ -559,7 +571,15 @@
 
   function montar() {
     const m0 = document.querySelector(".pr-marcador");
+    if (m0 && window.EconCuentas && window.EconCuentas.activo) {
+      const b = m0.dataset.bloque || "1";
+      window.EconCuentas.cuandoSesion(b, (cuenta, filas) => { cargarEstado(b, cuenta, filas); montarZonas(); });
+      return;
+    }
     if (m0) cargarEstado(m0.dataset.bloque || "1");
+    montarZonas();
+  }
+  function montarZonas() {
     document.querySelectorAll(".pr-marcador:not([data-ok])").forEach((m) => { m.dataset.ok = 1; montarMarcador(m); });
     document.querySelectorAll(".pr-zona[data-zona='comentes']:not([data-ok])").forEach((z) => { z.dataset.ok = 1; montarComentes(z); });
     document.querySelectorAll(".pr-zona[data-banco]:not([data-ok])").forEach((z) => { z.dataset.ok = 1; montarTaller(z, z.dataset.banco); });

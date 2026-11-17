@@ -2254,3 +2254,28 @@
 .econ-mpl-lbl span:nth-child(1) { position: absolute; left: 0; }
 .econ-mpl-lbl span:nth-child(2) { position: absolute; left: 33.3%; transform: translateX(-50%); }
 .econ-mpl-lbl span:nth-child(3) { position: absolute; right: 0; }
+
+/* ---------------------------- Cuentas de la Práctica ---------------------------- */
+.pr-cuenta { margin: 1rem 0; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid var(--md-default-fg-color--lightest);
+  border-left: 4px solid var(--usm-gold); background: var(--md-code-bg-color); }
+.pr-cuenta .pr-chips { margin-bottom: 0.5rem; }
+.md-typeset .pr-acceso { display: grid; gap: 0.5rem; max-width: 28rem; }
+.md-typeset .pr-acceso .pr-nav { margin: 0.2rem 0 0; }
+.md-typeset .pr-acceso-msg { margin: 0.2rem 0; font-size: 0.72rem; font-weight: 600; min-height: 1em; }
+.pr-acceso-msg.is-ok { color: var(--econ-c1); }
+.pr-acceso-msg.is-bad { color: var(--usm-red); }
+.pr-sesion-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.pr-sesion-t { flex: 1 1 14rem; }
+.pr-sesion-mail { font-size: 0.68rem; opacity: 0.7; word-break: break-all; }
+body.pr-bloqueado .pr-marcador, body.pr-bloqueado .pr-zona { display: none; }
+.econ-panel-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 0.6rem; margin: 0.8rem 0; }
+.econ-panel-kpis > div { padding: 0.6rem 0.8rem; border-radius: 10px; background: var(--usm-navy); color: #fff; }
+.econ-panel-kpis strong { font-size: 1.3rem; }
+.econ-panel-tabla { overflow-x: auto; margin: 0.6rem 0; }
+.md-typeset .econ-panel-tabla table { display: table; width: 100%; font-size: 0.68rem; }
+.md-typeset .econ-panel-tabla th button { font: inherit; font-weight: 700; color: inherit; cursor: pointer; text-decoration: underline dotted; }
+.md-typeset .econ-panel-tabla tr.is-cero td { background: color-mix(in srgb, var(--usm-red) 7%, transparent); }
+.econ-panel-acc { white-space: nowrap; }
+.md-typeset .econ-panel-lista { margin-top: 1rem; }
+.md-typeset .econ-panel-lista textarea { width: 100%; font: inherit; font-size: 0.72rem; padding: 0.4rem; border-radius: 8px;
+  border: 1px solid var(--md-default-fg-color--lighter); background: var(--md-default-bg-color); color: var(--md-default-fg-color); }
