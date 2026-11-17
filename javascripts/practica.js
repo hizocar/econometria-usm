@@ -192,7 +192,7 @@
   ];
   const VERED = { V: "Verdadero", F: "Falso", I: "Incierto" };
   const NIVELES = [[0, "🐣 Recién llegado"], [60, "📏 Aprendiz de MCO"], [180, "🔍 Detective del sesgo"], [360, "📊 Analista de regresiones"],
-    [600, "🧠 Maestro de Gauss-Markov"], [900, "🏆 Leyenda del primer bloque"]];
+    [600, "🧠 Maestro de Gauss-Markov"], [900, "🏆 Leyenda de la econometría"]];
 
   /* ---------------------------- Estado y marcador ---------------------------- */
   const vacio = () => ({ pts: 0, resp: 0, ok: 0, racha: 0, mejor: 0, hechos: {} });
@@ -214,9 +214,13 @@
     }
     try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(vacio(), JSON.parse(raw)); } catch (e) { /* sin almacenamiento: se juega igual */ }
   }
-  const comentesDe = () => (BLOQUE === "2" ? window.PRACTICA_COMENTES2 || [] : COMENTES);
-  const temasDe = () => (BLOQUE === "2" ? window.PRACTICA_TEMAS2 || TEMAS : TEMAS);
-  const bancoDe = () => (BLOQUE === "2" ? window.PRACTICA_BANCO2 : window.PRACTICA_BANCO) || {};
+  const DATOS = () => ({
+    "2": [window.PRACTICA_COMENTES2, window.PRACTICA_TEMAS2, window.PRACTICA_BANCO2, window.PRACTICA_TALLERES2],
+    "3": [window.PRACTICA_COMENTES3, window.PRACTICA_TEMAS3, window.PRACTICA_BANCO3, window.PRACTICA_TALLERES3],
+  })[BLOQUE];
+  const comentesDe = () => (DATOS() ? DATOS()[0] || [] : COMENTES);
+  const temasDe = () => (DATOS() ? DATOS()[1] || TEMAS : TEMAS);
+  const bancoDe = () => (DATOS() ? DATOS()[2] : window.PRACTICA_BANCO) || {};
   const guardar = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* nada */ } };
   const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
   const marcadores = [];
@@ -242,7 +246,7 @@
     }
   }
   function sumar(puntos, correcta, info) {
-    if (CUENTA && info && window.EconCuentas) window.EconCuentas.guardar({ bloque: +BLOQUE, tipo: info.tipo, item: info.item, correcta: !!correcta, puntos });
+    if (CUENTA && info && window.EconCuentas) window.EconCuentas.guardar({ bloque: +BLOQUE, tipo: info.tipo, item: info.item, tema: info.tema || null, correcta: !!correcta, puntos });
     S.resp++;
     if (correcta) { S.ok++; S.racha++; S.mejor = Math.max(S.mejor, S.racha); } else S.racha = 0;
     S.pts += puntos;
@@ -328,7 +332,7 @@
       if (!S.hechos[c.id]) {
         const bono = ok && S.racha >= 2 ? Math.min(10, 2 * S.racha) : 0;
         S.hechos[c.id] = ok ? "ok" : "bad";
-        sumar(ok ? 10 + bono : 0, ok, { tipo: "comente", item: c.id });
+        sumar(ok ? 10 + bono : 0, ok, { tipo: "comente", item: c.id, tema: c.tema });
         extra = ok ? `+10 pts${bono ? ` · 🔥 bono de racha +${bono}` : ""}` : "0 pts · la racha vuelve a 0";
         const tag = card.querySelector(".pr-tag.is-gold");
         if (tag) { tag.className = "pr-tag " + (ok ? "is-ok" : "is-bad"); tag.textContent = ok ? "✓ acertado" : "✗ fallado"; }
@@ -359,6 +363,64 @@
   }
 
   const ENUNCIADO = {
+    caso_interp: (e) => `<p class="pr-caso">🧩 Problema de desarrollo · Clases 6, 7 y 9</p>` +
+      `<p>Con n = <strong>${e.n}</strong> observaciones se estimó (errores estándar entre paréntesis solo para β̂₁):</p>` +
+      `<p class="pr-eq">${e.v_y}̂ = β̂₀ + <strong>${e.b1}</strong> ${e.v_x1} <span class="pr-se">(${e.se1})</span> + <strong>${e.b2}</strong> ${e.v_x2} ` +
+      `<strong>${e.b3 < 0 ? "−" : "+"} ${Math.abs(e.b3)}</strong> ${e.v_x2}² ${e.b4 < 0 ? "−" : "+"} <strong>${Math.abs(e.b4)}</strong> ${e.v_d}</p>` +
+      `<p>R² = ${e.r2}. ${e.v_d} es una variable binaria (1 = sí). Responde en orden: cada parte usa las anteriores.</p>` +
+      `<p class="pr-nota">Valores críticos: t(${e.n - 5}) dos colas 5% = ${e.crit}; F(4, ${e.n - 5}) 5% = ${e.fcr}. Los porcentajes se escriben sin el signo % (por ejemplo, 8,5).</p>`,
+    caso_comb: (e) => `<p class="pr-caso">🧩 Problema de desarrollo · Clase 8</p>` +
+      (e.sub === "diff"
+        ? `<p>En log(salario) = β₀ + β₁·<strong>años en educación técnica</strong> + β₂·<strong>años en universidad</strong> + β₃·exper + u se quiere saber si un año de educación técnica rinde lo mismo que uno de universidad.</p>`
+        : `<p>En una función de producción log(producción) = β₀ + β₁·log(capital) + β₂·log(trabajo) + u se quiere testear <strong>rendimientos constantes a escala</strong>.</p>`) +
+      `<p>β̂₁ = <strong>${e.b1}</strong>, β̂₂ = <strong>${e.b2}</strong>, Var(β̂₁) = ${e.v1}, Var(β̂₂) = ${e.v2}, Cov(β̂₁, β̂₂) = ${e.cov}; ${e.gl} grados de libertad.</p>` +
+      `<p>H₀: <strong>${e.sub === "diff" ? "β₁ = β₂" : "β₁ + β₂ = 1"}</strong> contra H₁: ≠. Define θ de modo que H₀ sea θ = 0.</p>` +
+      `<p class="pr-nota">Valor crítico de t con ${e.gl} gl (dos colas, 5%) = ${e.crit}. Puedes escribir números pequeños como 0,000123 o 1,23e-4.</p>`,
+    caso_f: (e) => `<p class="pr-caso">🧩 Problema de desarrollo · Clase 9</p>` +
+      `<p>Con n = <strong>${e.n}</strong> se estimó un modelo con k = <strong>${e.kk}</strong> variables explicativas (SSR_ur = <strong>${e.ssru}</strong>). ` +
+      `Luego se excluyeron <strong>${e.j}</strong> de ellas (SSR_r = <strong>${e.ssrr}</strong>). La suma total de cuadrados de y es SST = ${e.sst}.</p>` +
+      `<p class="pr-nota">F(${e.j}, ${e.n - e.kk - 1}): al 5% = ${e.c5}; al 1% = ${e.c1}.</p>`,
+    ovb_asint: (e) => `<p>El modelo verdadero es <strong>${e.y}</strong> = β₀ + β₁·<strong>${e.x1}</strong> + β₂·<strong>${e.x2}</strong> + u, con β₁ = ${e.b1} y β₂ = ${e.b2}, ` +
+      `pero ${e.x2} no se observa y se estima la regresión de ${e.y} solo sobre ${e.x1}.</p>` +
+      `<p>En la población, Var(${e.x1}) = ${e.v1} y Cov(${e.x1}, ${e.x2}) = ${e.c12}.</p>`,
+    asint: (e) => `<p>Con n = <strong>${e.n0}</strong> se estimó β̂ = <strong>${e.b}</strong> con se = <strong>${e.se0}</strong>, y no fue significativo.</p>` +
+      `<p>Se repite el estudio con n = <strong>${e.n1}</strong> y se obtiene el mismo β̂. Usa la aproximación normal (n grande).</p>` +
+      `<p class="pr-nota">Valor crítico normal, dos colas al ${Math.round(100 * e.alfa)}%: z = ${e.z}.</p>`,
+    dummies: (e) => `<p>Se estimó, con <strong>${e.cats[0]}</strong> como categoría base de ${e.cat}:</p>` +
+      `<p class="pr-eq">${e.y}̂ = ${e.b0} ${e.d.map((d, i) => `${d < 0 ? "−" : "+"} ${Math.abs(d)}·${e.cats[i + 1]}`).join(" ")} + ${e.bx}·${e.x}</p>` +
+      `<p class="pr-nota">${e.cats.slice(1).join(", ")} son variables binarias (1 si pertenece a esa categoría).</p>`,
+    dumint: (e) => `<p>Se estimó, con mujer = 1 para mujeres:</p>` +
+      `<p class="pr-eq">log(salario)̂ = ${e.b0} ${e.d0 < 0 ? "−" : "+"} ${Math.abs(e.d0)}·mujer + ${e.b1}·educ ${e.d1 < 0 ? "−" : "+"} ${Math.abs(e.d1)}·mujer·educ</p>` +
+      `<p class="pr-nota">Los porcentajes se escriben sin el signo % (por ejemplo, −4,2).</p>`,
+    chow: (e) => `<p>Se quiere saber si un mismo modelo con <strong>k = ${e.kk}</strong> variables explicativas sirve para <strong>${e.g1}</strong> y <strong>${e.g2}</strong>.</p>` +
+      tabla(["Regresión", "n", "SSR"], [[`Solo ${e.g1}`, e.n1, e.s1], [`Solo ${e.g2}`, e.n2, e.s2], ["Todos juntos", e.n1 + e.n2, e.sp]]) +
+      `<p class="pr-nota">Valor crítico F(${e.kk + 1}, ${e.n1 + e.n2 - 2 * (e.kk + 1)}) al 5% = ${e.crit}.</p>`,
+    mpl: (e) => `<p>Modelo de probabilidad lineal para <strong>${e.y}</strong> (1 = sí):</p>` +
+      `<p class="pr-eq">P̂ = ${e.b0} + ${e.b1}·(${e.x1}) ${e.b2 < 0 ? "−" : "+"} ${Math.abs(e.b2)}·(${e.x2})</p>` +
+      tabla(["", e.x1, e.x2], [["Persona A", e.a[0], e.a[1]], ["Persona B", e.bb[0], e.bb[1]]]),
+    bp: (e) => `<p>Para detectar heterocedasticidad en un modelo con <strong>k = ${e.kk}</strong> variables y <strong>n = ${e.n}</strong>, se regresó û² sobre las ${e.kk} variables explicativas. ` +
+      `El R² de esa regresión auxiliar es <strong>${e.r2}</strong>.</p>` +
+      `<p class="pr-nota">Críticos al 5%: χ²(${e.kk}) = ${e.cl}; F(${e.kk}, ${e.n - e.kk - 1}) = ${e.cf}.</p>`,
+    robust: (e) => `<p>En una muestra grande se estimó β̂ = <strong>${e.b}</strong>. El error estándar usual es <strong>${e.se}</strong> y el robusto a heterocedasticidad (White) es <strong>${e.ser}</strong>.</p>` +
+      `<p class="pr-nota">Usa el valor crítico normal 1.96 (dos colas, 5%).</p>`,
+    iv: (e) => e.sub === "cov"
+      ? `<p>Se quiere estimar el efecto de <strong>${e.x}</strong> sobre <strong>${e.y}</strong>, usando <strong>${e.z}</strong> como instrumento. Con los datos (en desviaciones respecto de la media):</p>` +
+        tabla(["S_xx", "S_xy", "S_zx", "S_zy"], [[e.sxx, e.sxy, e.szx, e.szy]])
+      : `<p>Se quiere estimar el efecto de <strong>${e.x}</strong> sobre <strong>${e.y}</strong> con un instrumento binario z (1 = ${e.z} alto).</p>` +
+        tabla(["Grupo", `media de ${e.x}`, `media de ${e.y}`], [["z = 1", e.x1, e.y1], ["z = 0", e.x0, e.y0]]),
+    caso_hetero: (e) => `<p class="pr-caso">🧩 Problema de desarrollo · Clase 12</p>` +
+      `<p>Un modelo con k = <strong>${e.kk}</strong> variables y n = <strong>${e.n}</strong> entrega para la variable de interés β̂ = <strong>${e.b}</strong>, ` +
+      `con se usual = <strong>${e.se}</strong> y se robusto = <strong>${e.ser}</strong>. La regresión auxiliar de Breusch-Pagan (û² sobre las k variables) tiene R² = <strong>${e.r2}</strong>.</p>` +
+      `<p class="pr-nota">Críticos al 5%: χ²(${e.kk}) = ${e.cl}; normal (dos colas) = 1.96.</p>`,
+    caso_iv: (e) => `<p class="pr-caso">🧩 Problema de desarrollo · Clase 12</p>` +
+      `<p>En la regresión simple de <strong>${e.y}</strong> sobre <strong>${e.x}</strong> (n grande), se instrumenta ${e.x} con <strong>${e.z}</strong>.</p>` +
+      tabla(["SST_x", "σ̂²", "R² de x sobre z", "β̂ por VI", "β̂ por MCO"], [[e.sst, e.s2, e.r2xz, e.bv, e.bm]]) +
+      `<p class="pr-nota">Usa σ̂² para ambos errores estándar y 1.96 como crítico (dos colas, 5%).</p>`,
+    caso_chow: (e) => `<p class="pr-caso">🧩 Problema de desarrollo · Clase 11</p>` +
+      `<p>Para y = β₀ + β₁·educ + β₂·exper + u (k = 2) se estimó por separado para dos grupos (D = 1 para el grupo 2) y para todos juntos:</p>` +
+      tabla(["Regresión", "n", "SSR", "Intercepto", "Pendiente de educ"], [["Grupo 1 (D = 0)", e.n1, e.s1, e.a1, e.p1], ["Grupo 2 (D = 1)", e.n2, e.s2, e.a2, e.p2], ["Todos", e.n1 + e.n2, e.sp, "—", "—"]]) +
+      `<p>Luego se plantea un único modelo con D y D·educ (y D·exper) que reproduce ambas regresiones.</p>` +
+      `<p class="pr-nota">Valor crítico F(3, ${e.n1 + e.n2 - 6}) al 5% = ${e.crit}.</p>`,
     simple: (e) => `<p>Se quiere explicar <strong>${e.y_lab}</strong> con <strong>${e.x_lab}</strong> mediante y = β₀ + β₁x + u, con la muestra:</p>` +
       tabla(["", ...e.nombres], [["x", ...e.x], ["y", ...e.y]]) +
       "<p>Calcula a mano (con calculadora) las estimaciones MCO y la descomposición de la varianza.</p>",
@@ -506,7 +568,7 @@
           intentado = true;
           const bono = todo ? 5 : 0;
           S.hechos[e.id] = pts + bono;
-          sumar(pts + bono, todo, { tipo: "ejercicio", item: e.id });
+          sumar(pts + bono, todo, { tipo: "ejercicio", item: e.id, tema: clave });
           msg = `Primer intento: <strong>${buenos} de ${campos.length}</strong> correctos · +${pts + bono} pts${bono ? " (incluye +5 por ejercicio perfecto 🎉)" : ""}.`;
           head.querySelector(".pr-tag").textContent = `ya resuelto: ${pts + bono} pts · ya no suma`;
           head.querySelector(".pr-tag").classList.remove("is-gold");
@@ -520,7 +582,7 @@
         if (!intentado) {
           intentado = true;
           S.hechos[e.id] = 0;
-          sumar(0, false, { tipo: "solucion", item: e.id });
+          sumar(0, false, { tipo: "solucion", item: e.id, tema: clave });
           head.querySelector(".pr-tag").textContent = "solución vista · ya no suma";
           head.querySelector(".pr-tag").classList.remove("is-gold");
         }
@@ -539,8 +601,9 @@
     ["unidades", "📏 Cambio de unidades"], ["causal", "🌗 Outcomes potenciales"], ["ovb", "🧩 Variable omitida"],
     ["descriptiva", "📊 Estadística descriptiva"], ["ic", "🎯 Intervalos para medias"], ["tamano", "📐 Tamaño muestral y proporciones"],
   ];
+  window.PRACTICA_META1 = { temas: TEMAS, talleres: TALLERES }; // etiquetas para el panel /admin
   function montarTalleres(z) {
-    const talleres = BLOQUE === "2" ? window.PRACTICA_TALLERES2 || [] : TALLERES;
+    const talleres = DATOS() ? DATOS()[3] || [] : TALLERES;
     const chips = h("div", "pr-chips");
     const area = h("div", "pr-taller");
     z.append(chips, area);
