@@ -68,8 +68,13 @@ extra_javascript:
   - javascripts/r-run.js
   - javascripts/practica-banco.js
   - javascripts/practica-banco2.js
+  - javascripts/practica-banco3.js
   - javascripts/practica2.js
+  - javascripts/practica2-extra.js
+  - javascripts/practica3-comentes.js
+  - javascripts/practica3.js
   - javascripts/cuentas.js
+  - javascripts/admin.js
   - javascripts/practica.js
 
 # Customization
@@ -105,6 +110,7 @@ nav:
   - "🎮 Práctica":
       - "Primer bloque · Clases 1 a 5": practica/index.md
       - "Segundo bloque · Clases 6 a 9": practica/bloque2.md
+      - "Tercer bloque · Clases 10 a 12": practica/bloque3.md
   - Ayudantías:
       - ayudantias/index.md
       - "Ayudantía 1 · Repaso de estadística": ayudantias/ayudantia1.md
@@ -114,3 +120,4 @@ nav:
 
 not_in_nav: |
   practica/panel.md
+  admin.md

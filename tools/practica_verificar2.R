@@ -72,6 +72,31 @@ for (e in b$errores) { a <- ans(e)
   if (e$sub == "poder") { revisar(e$id, "p", a$p, 1 - e$beta); revisar(e$id, "n", a$n, "sube") }
   if (e$sub == "compara") { revisar(e$id, "m", a$m, paste("α =", max(e$a1, e$a2))); revisar(e$id, "b", a$b, paste("α =", min(e$a1, e$a2))) }
 }
+# Problemas de desarrollo
+for (e in b$caso_interp) { a <- ans(e); gl <- e$n - 5
+  # datos que siguen exactamente el modelo: lm() recupera los coeficientes y de ahí se derivan las partes
+  set.seed(4); x1 <- runif(60, 0, 18); x2 <- runif(60, 0, 40); d <- rbinom(60, 1, 0.5)
+  ly <- 1 + e$b1 * x1 + e$b2 * x2 + e$b3 * x2^2 + e$b4 * d; m <- lm(ly ~ x1 + x2 + I(x2^2) + d); cf <- coef(m)
+  revisar(e$id, "p1", a$p1, 100 * cf[["x1"]]); revisar(e$id, "p4", a$p4, 100 * (exp(cf[["d"]]) - 1))
+  revisar(e$id, "p2", a$p2, 100 * (cf[["x2"]] + 2 * cf[["I(x2^2)"]] * e$x0)); revisar(e$id, "xs", a$xs, -cf[["x2"]] / (2 * cf[["I(x2^2)"]]))
+  t <- (e$b1 - e$a0) / e$se1; revisar(e$id, "t", a$t, t); revisar(e$id, "crit", e$crit, qt(0.975, gl))
+  revisar(e$id, "dec", a$dec, if (abs(t) > qt(0.975, gl)) "se rechaza" else "no se rechaza")
+  revisar(e$id, "F", a$F, e$r2 / (1 - e$r2) * gl / 4); revisar(e$id, "fcr", e$fcr, qf(0.95, 4, gl))
+}
+for (e in b$caso_comb) { a <- ans(e)
+  V <- matrix(c(e$v1, e$cov, e$cov, e$v2), 2); w <- if (e$sub == "diff") c(1, -1) else c(1, 1)
+  th <- sum(w * c(e$b1, e$b2)) - (if (e$sub == "suma") 1 else 0); v <- drop(t(w) %*% V %*% w); se <- sqrt(v); cr <- qt(0.975, e$gl)
+  revisar(e$id, "th", a$th, th, 1e-6); revisar(e$id, "var", a$var, v, 1e-8); revisar(e$id, "se", a$se, se, 1e-6)
+  revisar(e$id, "t", a$t, th / se); revisar(e$id, "dec", a$dec, si(abs(th / se) > cr)); revisar(e$id, "crit", e$crit, cr)
+  revisar(e$id, "lo", a$lo, th - cr * se, 1e-6); revisar(e$id, "hi", a$hi, th + cr * se, 1e-6)
+}
+for (e in b$caso_f) { a <- ans(e); gl <- e$n - e$kk - 1
+  F <- (e$ssrr - e$ssru) / e$ssru * gl / e$j; r2u <- 1 - e$ssru / e$sst; r2r <- 1 - e$ssrr / e$sst
+  revisar(e$id, "r2u", a$r2u, r2u, 1e-6); revisar(e$id, "r2r", a$r2r, r2r, 1e-6); revisar(e$id, "gl", a$gl, gl, 0)
+  revisar(e$id, "F", a$F, F); revisar(e$id, "F_R2", F, (r2u - r2r) / (1 - r2u) * gl / e$j, 1e-8)
+  revisar(e$id, "d5", a$d5, si(F > qf(0.95, e$j, gl))); revisar(e$id, "d1", a$d1, si(F > qf(0.99, e$j, gl)))
+  revisar(e$id, "c5", e$c5, qf(0.95, e$j, gl)); revisar(e$id, "c1", e$c1, qf(0.99, e$j, gl))
+}
 # El F global de lm() coincide con R²/(1 − R²)·(n − k − 1)/k
 set.seed(3); X <- matrix(rnorm(400), 100); y <- X %*% c(0.3, 0, 0.2, 0) + rnorm(100); m <- lm(y ~ X); R2 <- summary(m)$r.squared
 revisar("global", "formula", summary(m)$fstatistic[[1]], R2 / (1 - R2) * (100 - 4 - 1) / 4, 1e-8)

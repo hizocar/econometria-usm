@@ -2279,3 +2279,35 @@ body.pr-bloqueado .pr-marcador, body.pr-bloqueado .pr-zona { display: none; }
 .md-typeset .econ-panel-lista { margin-top: 1rem; }
 .md-typeset .econ-panel-lista textarea { width: 100%; font: inherit; font-size: 0.72rem; padding: 0.4rem; border-radius: 8px;
   border: 1px solid var(--md-default-fg-color--lighter); background: var(--md-default-bg-color); color: var(--md-default-fg-color); }
+
+/* Problemas de desarrollo y ecuaciones de los talleres */
+.md-typeset .pr-caso { display: inline-block; margin: 0 0 0.4rem; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.66rem; font-weight: 700;
+  background: color-mix(in srgb, var(--usm-gold) 22%, transparent); color: var(--md-default-fg-color); }
+.md-typeset .pr-eq { overflow-x: auto; padding: 0.45rem 0.7rem; border-radius: 8px; background: var(--md-code-bg-color); font-family: var(--md-code-font-family); font-size: 0.72rem; }
+.md-typeset .pr-se { opacity: 0.7; font-size: 0.9em; }
+
+/* ---------------------------- Panel /admin ---------------------------- */
+.econ-kpi-sub { display: block; font-size: 0.62rem; opacity: 0.8; }
+.econ-admin-tabs { margin-top: 0.4rem; }
+.econ-admin-listas { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; margin-top: 0.8rem; font-size: 0.72rem; }
+.econ-admin-listas > div { padding: 0.6rem 0.8rem; border-radius: 10px; border: 1px solid var(--md-default-fg-color--lightest); }
+.md-typeset .econ-graf-fig { margin: 0.8rem 0; }
+.md-typeset .econ-graf-fig figcaption { font-weight: 700; font-size: 0.72rem; margin-bottom: 0.3rem; text-align: left; }
+.econ-graf { width: 100%; height: auto; display: block; }
+.econ-graf-grid { stroke: var(--md-default-fg-color--lightest); stroke-width: 1; }
+.econ-graf-eje { fill: var(--md-default-fg-color--light); font-size: 10px; }
+.econ-graf-mark { fill: var(--usm-blue); }
+.econ-graf-hit { fill: transparent; }
+.econ-graf-barra:hover .econ-graf-hit, .econ-graf-barra:focus .econ-graf-hit { fill: color-mix(in srgb, var(--usm-gold) 18%, transparent); }
+.econ-graf-barra:focus { outline: none; }
+.md-typeset .econ-panel-tabla tr.is-debil td { background: color-mix(in srgb, var(--usm-gold) 14%, transparent); }
+.econ-medidor { display: inline-block; width: 4.5rem; height: 0.45rem; border-radius: 999px; background: var(--md-default-fg-color--lightest); vertical-align: middle; overflow: hidden; }
+.econ-medidor > span { display: block; height: 100%; border-radius: 999px; background: var(--usm-blue); }
+.md-typeset .econ-admin-nombre { font: inherit; font-weight: 700; color: var(--md-typeset-a-color); cursor: pointer; text-align: left; }
+.econ-admin-ficha:not(:empty) { margin: 0.8rem 0; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid var(--md-default-fg-color--lightest); border-left: 4px solid var(--usm-blue); }
+.econ-admin-ficha-t { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; justify-content: space-between; font-size: 0.75rem; }
+.econ-semanas { display: flex; gap: 0.35rem; align-items: flex-end; height: 7rem; margin: 0.4rem 0 0.8rem; overflow-x: auto; }
+.econ-semanas > div { position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; min-width: 2.4rem; height: 100%; }
+.econ-semanas span { display: block; width: 1.4rem; min-height: 2px; border-radius: 4px 4px 0 0; background: var(--usm-blue); }
+.econ-semanas em { font-style: normal; font-size: 0.62rem; font-weight: 700; }
+.econ-semanas small { font-size: 0.58rem; opacity: 0.7; }

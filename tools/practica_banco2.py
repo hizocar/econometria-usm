@@ -39,6 +39,18 @@ def fcrit(alfa, j, gl):
     return float(stats.f.ppf(1 - alfa, j, gl))
 
 
+def si(x):
+    return "sí" if x else "no"
+
+
+def num(k, lab, ans, dec=2, pts=3, **kw):
+    return dict(k=k, lab=lab, ans=ans if kw.get("exacto") else round(float(ans), max(4, dec + 3)), dec=dec, pts=pts, **kw)
+
+
+def sel(k, lab, ans, opciones, pts=3):
+    return dict(k=k, lab=lab, ans=ans, opciones=opciones, pts=pts)
+
+
 # --------------------------------------------------------------------------------------------
 # 1) Interpretar logaritmos
 # --------------------------------------------------------------------------------------------
@@ -357,6 +369,117 @@ def gen_errores(k):
                           "Con n fijo hay un trade-off: un α más chico hace más difícil rechazar, así que aumenta el error tipo II."])
 
 
+# --------------------------------------------------------------------------------------------
+# 11) Problemas de desarrollo (varias partes encadenadas, dificultad media-alta)
+# --------------------------------------------------------------------------------------------
+CASO_INTERP = [dict(y="log(salario)", x1="educ", x2="exper", d="mujer", u1="año de educación", u2="año de experiencia", dd="ser mujer"),
+               dict(y="log(precio de la vivienda)", x1="dormitorios", x2="antigüedad", d="piscina", u1="dormitorio", u2="año de antigüedad", dd="tener piscina"),
+               dict(y="log(rendimiento por hectárea)", x1="riegos", x2="fertilizante", d="orgánico", u1="riego", u2="decena de kilos de fertilizante", dd="ser orgánico")]
+
+
+def gen_caso_interp(k):
+    c = CASO_INTERP[k % len(CASO_INTERP)]
+    while True:
+        b1 = round(rnd.uniform(0.02, 0.12), 3)
+        se1 = round(rnd.uniform(0.006, 0.03), 4)
+        xs = rnd.uniform(15, 40)
+        b2 = round(rnd.uniform(0.02, 0.07), 4)
+        b3 = round(-b2 / (2 * xs), 5)
+        b4 = round(rnd.uniform(-0.35, 0.3), 3)
+        x0 = rnd.choice([3, 5, 8, 10, 12, 15, 20])
+        a0 = round(b1 + rnd.choice([-1, 1]) * rnd.uniform(0.005, 0.05), 2)
+        n = rnd.choice([250, 400, 526, 700, 935])
+        r2 = round(rnd.uniform(0.12, 0.45), 3)
+        gl = n - 5
+        t = (b1 - a0) / se1
+        crit = tcrit(0.05, gl)
+        F = r2 / (1 - r2) * gl / 4
+        if abs(abs(t) - crit) >= 0.3 and abs(t) < 12 and abs(b4) >= 0.03:
+            break
+    xstar = -b2 / (2 * b3)
+    fcr = fcrit(0.05, 4, gl)
+    return dict(id=f"DI{k + 1}", tipo="caso_interp", **{f"v_{kk}": v for kk, v in c.items()}, b1=b1, se1=se1, b2=b2, b3=b3, b4=b4,
+                x0=x0, a0=a0, n=n, r2=r2, crit=r4(crit), fcr=r4(fcr),
+                preguntas=[num("p1", f"a) Efecto % aproximado de un {c['u1']} más", 100 * b1, 2, 2),
+                           num("p4", f"b) Efecto % exacto de {c['dd']}", 100 * (math.exp(b4) - 1), 2, 3),
+                           num("p2", f"c) Efecto % de una unidad más de {c['x2']} ({c['u2']}), evaluado en {c['x2']} = {x0}", 100 * (b2 + 2 * b3 * x0), 3, 3),
+                           num("xs", f"d) Valor de {c['x2']} en que su efecto se anula", xstar, 1, 3),
+                           num("t", f"e) t para H₀: β₁ = {a0}", t, 2, 3),
+                           sel("dec", "f) Decisión al 5% (dos colas)", "se rechaza" if abs(t) > crit else "no se rechaza", ["se rechaza", "no se rechaza"], 2),
+                           num("F", "g) F de significancia global", F, 2, 3)],
+                solucion=[f"a) Modelo log-nivel: 100·β₁ = <b>{fmt(100 * b1, 2)}%</b> por {c['u1']} (Clase 6, lámina 3).",
+                          f"b) Para una dummy el cambio exacto es 100·(e^β₄ − 1) = 100·(e^{b4} − 1) = <b>{fmt(100 * (math.exp(b4) - 1), 3)}%</b>; la aproximación 100·β₄ = {fmt(100 * b4, 1)}% se aleja cuando |β₄| crece.",
+                          f"c) Con término cuadrático: 100·(β₂ + 2β₃·{c['x2']}) = 100·({b2} + 2·({b3})·{x0}) = <b>{fmt(100 * (b2 + 2 * b3 * x0), 4)}%</b> (Clase 6, lámina 5).",
+                          f"d) El efecto se anula en −β₂/(2β₃) = {b2}/(2·{abs(b3)}) = <b>{fmt(xstar, 2)}</b> (lámina 6).",
+                          f"e) t = ({b1} − {a0})/{se1} = <b>{fmt(t, 3)}</b>; f) con {gl} gl el crítico es {fmt(crit, 3)}: <b>{'se rechaza' if abs(t) > crit else 'no se rechaza'}</b> H₀ (Clase 7).",
+                          f"g) F = [R²/(1 − R²)]·[(n − k − 1)/k] = [{r2}/{fmt(1 - r2, 3)}]·({gl}/4) = <b>{fmt(F, 3)}</b>, contra F(4, {gl}) = {fmt(fcr, 3)} (Clase 9, lámina 20)."])
+
+
+def gen_caso_comb(k):
+    while True:
+        gl = rnd.choice([60, 120, 300, 900])
+        crit = tcrit(0.05, gl)
+        if k % 2 == 0:
+            sub = "diff"
+            b1, b2 = round(rnd.uniform(0.02, 0.12), 4), round(rnd.uniform(0.04, 0.13), 4)
+            v1, v2 = round(rnd.uniform(0.4, 4) * 1e-4, 6), round(rnd.uniform(0.2, 2) * 1e-4, 6)
+            cov = round(rnd.uniform(-0.6, 0.8) * math.sqrt(v1 * v2), 7)
+            th, var = b1 - b2, v1 + v2 - 2 * cov
+        else:
+            sub = "suma"
+            b1, b2 = round(rnd.uniform(0.2, 0.6), 3), round(rnd.uniform(0.35, 0.85), 3)
+            v1, v2 = round(rnd.uniform(0.6, 4) * 1e-3, 5), round(rnd.uniform(0.6, 4) * 1e-3, 5)
+            cov = round(-rnd.uniform(0.1, 0.8) * math.sqrt(v1 * v2), 6)
+            th, var = b1 + b2 - 1, v1 + v2 + 2 * cov
+        if var <= 0:
+            continue
+        se = math.sqrt(var)
+        t = th / se
+        if abs(abs(t) - crit) >= 0.3 and abs(t) < 10:
+            break
+    lo, hi = th - crit * se, th + crit * se
+    hip = "β₁ = β₂" if sub == "diff" else "β₁ + β₂ = 1"
+    sig = "−" if sub == "diff" else "+"
+    return dict(id=f"DC{k + 1}", tipo="caso_comb", sub=sub, b1=b1, b2=b2, v1=v1, v2=v2, cov=cov, gl=gl, crit=r4(crit),
+                preguntas=[num("th", "a) θ̂ (la combinación que se testea)", th, 4, 2), num("var", "b) Var(θ̂)", var, 6, 3),
+                           num("se", "c) se(θ̂)", se, 4, 2), num("t", "d) Estadístico t", t, 2, 3),
+                           sel("dec", f"e) ¿Se rechaza H₀: {hip} al 5%?", si(abs(t) > crit), ["sí", "no"], 2),
+                           num("lo", "f) Límite inferior del IC de 95% para θ", lo, 4, 2), num("hi", "g) Límite superior del IC de 95% para θ", hi, 4, 2)],
+                solucion=[(f"a) H₀: β₁ = β₂ equivale a θ = β₁ − β₂ = 0: θ̂ = {b1} − {b2} = <b>{fmt(th, 4)}</b>." if sub == "diff" else
+                           f"a) H₀: β₁ + β₂ = 1 (rendimientos constantes) equivale a θ = β₁ + β₂ − 1 = 0: θ̂ = {b1} + {b2} − 1 = <b>{fmt(th, 4)}</b>."),
+                          f"b) Var(θ̂) = Var(β̂₁) + Var(β̂₂) {sig} 2·Cov = {v1} + {v2} {sig} 2·({cov}) = <b>{fmt(var, 7)}</b> (Clase 8, láminas 2 y 3).",
+                          f"c) se(θ̂) = √{fmt(var, 7)} = <b>{fmt(se, 5)}</b>; d) t = {fmt(th, 4)}/{fmt(se, 5)} = <b>{fmt(t, 3)}</b>.",
+                          f"e) Con {gl} gl el crítico es {fmt(crit, 3)}: <b>{'se rechaza' if abs(t) > crit else 'no se rechaza'}</b> H₀.",
+                          f"f–g) IC: {fmt(th, 4)} ± {fmt(crit, 3)}·{fmt(se, 5)} = <b>({fmt(lo, 4)}; {fmt(hi, 4)})</b>: {'no contiene' if not lo <= 0 <= hi else 'contiene'} el 0, coherente con e).",
+                          "Ignorar la covarianza daría otro error estándar y podría cambiar la conclusión."])
+
+
+def gen_caso_f(k):
+    while True:
+        n = rnd.choice([80, 120, 200, 350, 600])
+        kk = rnd.choice([4, 5, 6])
+        j = rnd.randint(2, kk - 1)
+        gl = n - kk - 1
+        sst = round(rnd.uniform(200, 900), 1)
+        r2u = rnd.uniform(0.25, 0.6)
+        ssru = round(sst * (1 - r2u), 1)
+        ssrr = round(ssru * (1 + rnd.uniform(0.004, 0.1)), 1)
+        F = (ssrr - ssru) / ssru * gl / j
+        c5, c1 = fcrit(0.05, j, gl), fcrit(0.01, j, gl)
+        if min(abs(F - c5), abs(F - c1)) >= 0.3:
+            break
+    R2u, R2r = 1 - ssru / sst, 1 - ssrr / sst
+    return dict(id=f"DF{k + 1}", tipo="caso_f", n=n, kk=kk, j=j, sst=sst, ssru=ssru, ssrr=ssrr, c5=r4(c5), c1=r4(c1),
+                preguntas=[num("r2u", "a) R² del modelo no restringido", R2u, 4, 2), num("r2r", "b) R² del modelo restringido", R2r, 4, 2),
+                           num("gl", "c) n − k − 1", gl, 0, 2, exacto=True), num("F", "d) Estadístico F", F, 2, 4),
+                           sel("d5", "e) ¿Se rechaza al 5%?", si(F > c5), ["sí", "no"], 2), sel("d1", "f) ¿Y al 1%?", si(F > c1), ["sí", "no"], 2)],
+                solucion=[f"a–b) R² = 1 − SSR/SST: R²_ur = 1 − {ssru}/{sst} = <b>{fmt(R2u, 4)}</b>; R²_r = 1 − {ssrr}/{sst} = <b>{fmt(R2r, 4)}</b>.",
+                          f"c) n − k − 1 = {n} − {kk} − 1 = <b>{gl}</b>, y se excluyen j = {j} variables.",
+                          f"d) F = [(SSR_r − SSR_ur)/SSR_ur]·[(n − k − 1)/j] = [({ssrr} − {ssru})/{ssru}]·({gl}/{j}) = <b>{fmt(F, 3)}</b>. Con los R² da lo mismo, porque ambos modelos tienen la misma y (Clase 9, láminas 9 y 10).",
+                          f"e) F({j}, {gl}) al 5% = {fmt(c5, 3)}: <b>{si(F > c5)}</b>. f) Al 1% = {fmt(c1, 3)}: <b>{si(F > c1)}</b>."
+                          + (" Rechazar al 5% pero no al 1% es posible: el crítico al 1% es mayor." if c5 < F <= c1 else "")])
+
+
 def main():
     banco = dict(
         logs=[gen_logs(k) for k in range(18)],
@@ -369,6 +492,9 @@ def main():
         ftest=[gen_ftest(k) for k in range(20)],
         fglobal=[gen_fglobal(k) for k in range(16)],
         errores=[gen_errores(k) for k in range(15)],
+        caso_interp=[gen_caso_interp(k) for k in range(15)],
+        caso_comb=[gen_caso_comb(k) for k in range(14)],
+        caso_f=[gen_caso_f(k) for k in range(14)],
     )
     js = ("/* ARCHIVO GENERADO por tools/practica_banco2.py (verificado con tools/practica_verificar2.R). No editar a mano. */\n"
           "window.PRACTICA_BANCO2 = " + json.dumps(banco, ensure_ascii=False) + ";\n")

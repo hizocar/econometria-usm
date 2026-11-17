@@ -17,6 +17,8 @@
     ["reescala", "📏 Reescalar variables"], ["ttest", "🎯 Test t e intervalos"], ["pvalor", "🔎 Decidir con valores-p"],
     ["errores", "⚖️ Errores tipo I y II"], ["combinacion", "🧪 Combinaciones de parámetros"], ["ftest", "🧮 Test F"],
     ["fglobal", "🌐 Significancia global"],
+    ["caso_interp", "🧩 Desarrollo: interpretar un modelo completo"], ["caso_comb", "🧩 Desarrollo: ¿mismo efecto?"],
+    ["caso_f", "🧩 Desarrollo: restricciones de exclusión"],
   ];
 
   window.PRACTICA_COMENTES2 = [

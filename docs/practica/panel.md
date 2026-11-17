@@ -3,9 +3,8 @@ search:
   exclude: true
 ---
 
-# 📊 Panel docente · Práctica
+# 📊 Panel docente
 
-Resumen de quién está practicando: registrados, respuestas por bloque, aciertos, soluciones vistas y
-última actividad. Solo la cuenta docente puede ver los datos; los estudiantes que entren aquí no verán nada.
+El panel se trasladó a **[/admin](../admin.md)**.
 
-<div class="econ-panel"></div>
+<meta http-equiv="refresh" content="0; url=../../admin/">
