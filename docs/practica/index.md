@@ -11,6 +11,7 @@ explicación paso a paso y un enlace a la clase donde repasar. ¿Ya vas más ade
 [Práctica · Segundo bloque](bloque2.md).
 
 !!! tip "Cómo funciona el puntaje"
+    - **Ingresa con tu cuenta** (correo USM, nombre y contraseña): tu progreso queda guardado y lo retomas desde cualquier dispositivo.
     - **Comentes:** 10 puntos por acierto, más un **bono de racha** si encadenas aciertos 🔥.
     - **Ejercicios:** cada campo correcto suma puntos, y un ejercicio perfecto suma 5 más.
     - Solo cuenta el **primer intento** de cada pregunta: los reintentos (y abrir la solución) ya no suman,

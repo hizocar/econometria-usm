@@ -69,6 +69,7 @@ extra_javascript:
   - javascripts/practica-banco.js
   - javascripts/practica-banco2.js
   - javascripts/practica2.js
+  - javascripts/cuentas.js
   - javascripts/practica.js
 
 # Customization
@@ -110,3 +111,6 @@ nav:
       - "Ayudantía 4 · La inversa de XᵀX por cofactores": ayudantias/ayudantia4.md
       - "Ayudantía 11 · Variables binarias y MPL": ayudantias/ayudantia11.md
       - "Ayudantía 12 · Test de White y errores robustos": ayudantias/ayudantia12.md
+
+not_in_nav: |
+  practica/panel.md
