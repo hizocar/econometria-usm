@@ -57,6 +57,7 @@ theme:
 # Extra CSS
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/practica.css
 
 # Extra JavaScript (MathJax + simuladores interactivos)
 extra_javascript:
