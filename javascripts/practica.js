@@ -9,7 +9,9 @@
    ========================================================================== */
 (function () {
   "use strict";
-  const KEY = "econometria-usm:practica-bloque1:v1";
+  // Cada página de práctica declara su bloque en el marcador (data-bloque); cada bloque guarda su propio puntaje
+  let BLOQUE = "1";
+  let KEY = "econometria-usm:practica-bloque1:v1";
 
   /* ---------------------------- Comentes ---------------------------- */
   const C = (tema, txt, v, exp, repaso) => ({ tema, txt, v, exp, repaso });
@@ -195,7 +197,15 @@
   /* ---------------------------- Estado y marcador ---------------------------- */
   const vacio = () => ({ pts: 0, resp: 0, ok: 0, racha: 0, mejor: 0, hechos: {} });
   let S = vacio();
-  try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(vacio(), JSON.parse(raw)); } catch (e) { /* sin almacenamiento: se juega igual */ }
+  function cargarEstado(bloque) {
+    BLOQUE = bloque;
+    KEY = `econometria-usm:practica-bloque${bloque}:v1`;
+    S = vacio();
+    try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(vacio(), JSON.parse(raw)); } catch (e) { /* sin almacenamiento: se juega igual */ }
+  }
+  const comentesDe = () => (BLOQUE === "2" ? window.PRACTICA_COMENTES2 || [] : COMENTES);
+  const temasDe = () => (BLOQUE === "2" ? window.PRACTICA_TEMAS2 || TEMAS : TEMAS);
+  const bancoDe = () => (BLOQUE === "2" ? window.PRACTICA_BANCO2 : window.PRACTICA_BANCO) || {};
   const guardar = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* nada */ } };
   const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
   const marcadores = [];
@@ -254,7 +264,7 @@
     const nav = h("div", "pr-nav");
     z.append(chips, card, nav);
     let tema = "todos", lista = [], pos = 0;
-    TEMAS.forEach(([k, lab]) => {
+    temasDe().forEach(([k, lab]) => {
       const b = h("button", "pr-chip", lab);
       b.type = "button";
       b.addEventListener("click", () => { tema = k; chips.querySelectorAll(".pr-chip").forEach((x) => x.classList.toggle("is-on", x === b)); armar(); });
@@ -270,7 +280,7 @@
     mezclar.addEventListener("click", () => { lista = barajar(lista); pos = 0; pintar(); });
 
     function armar() {
-      lista = COMENTES.map((c, i) => Object.assign({ id: "c" + i }, c)).filter((c) => tema === "todos" || c.tema === tema);
+      lista = comentesDe().map((c, i) => Object.assign({ id: "c" + i }, c)).filter((c) => tema === "todos" || c.tema === tema);
       pos = 0;
       pintar();
     }
@@ -279,7 +289,7 @@
       const hecho = S.hechos[c.id];
       prev.disabled = pos === 0;
       next.disabled = pos === lista.length - 1;
-      const etiqueta = (TEMAS.find((t) => t[0] === c.tema) || [0, ""])[1];
+      const etiqueta = (temasDe().find((t) => t[0] === c.tema) || [0, ""])[1];
       card.innerHTML = `<div class="pr-meta"><span>Comente ${pos + 1} de ${lista.length}</span><span class="pr-tag">${etiqueta}</span>` +
         `${hecho ? `<span class="pr-tag ${hecho === "ok" ? "is-ok" : "is-bad"}">${hecho === "ok" ? "✓ acertado" : "✗ fallado"} · ya no suma puntos</span>` : '<span class="pr-tag is-gold">+10 pts</span>'}</div>` +
         `<p class="pr-stmt">“${c.txt}”</p>`;
@@ -378,12 +388,44 @@
     comparar: (e) => `<p>Con los mismos <strong>n = ${e.n}</strong> datos (SST = ${e.SST}) se estiman dos modelos para la misma y:</p>` +
       tabla(["Modelo", "Variables explicativas (k)", "SSR"], [["A", e.kA, e.SSRA], ["B", e.kB, e.SSRB]]) +
       "<p>B incluye todas las variables de A y otras más.</p>",
+    logs: (e) => ({
+      ln: `<p>Se estimó <strong>${e.y}</strong> = β̂₀ + <strong>${e.b}</strong>·(${e.x}) (modelo log-nivel).</p>`,
+      ll: `<p>Se estimó <strong>${e.y}</strong> = β̂₀ + <strong>${e.b}</strong>·${e.x} (modelo log-log).</p>`,
+      nl: `<p>Se estimó <strong>${e.y}</strong> = β̂₀ + <strong>${e.b}</strong>·${e.x} (modelo nivel-log).</p>`,
+    })[e.sub],
+    cuadratica: (e) => `<p>Se estimó ${e.y} = ${e.b0} + ${e.b1}·x ${e.b2 < 0 ? "−" : "+"} ${f(Math.abs(e.b2))}·x², donde x = ${e.x}.</p>`,
+    interaccion: (e) => `<p>Se estimó y = β̂₀ + ${e.b1}·x ${e.b2 < 0 ? "−" : "+"} ${f(Math.abs(e.b2))}·z ${e.b3 < 0 ? "−" : "+"} ${f(Math.abs(e.b3))}·x·z, ` +
+      `donde y = ${e.y}, x = ${e.x} y z = ${e.z}.</p>`,
+    reescala: (e) => `<p>En una regresión simple se obtuvo β̂ = <strong>${e.b}</strong>, se(β̂) = <strong>${e.se}</strong> y R² = <strong>${e.R2}</strong>. ` +
+      `Ahora ${e.txt}. ¿Cómo quedan los resultados?</p>`,
+    ttest: (e) => `<p>Para el <strong>${e.ctx}</strong> se estimó β̂ = <strong>${e.b}</strong> con se = <strong>${e.se}</strong> (${e.gl} grados de libertad).</p>` +
+      `<p>Testea H₀: β = ${e.a0} contra H₁: β ${e.colas === 2 ? "≠" : "&gt;"} ${e.a0} al <strong>${Math.round(100 * e.alfa)}%</strong>.</p>` +
+      `<p class="pr-nota">Valores críticos de t con ${e.gl} gl: ${e.colas === 2 ? `dos colas al ${Math.round(100 * e.alfa)}% = ${e.crit}` :
+        `una cola al ${Math.round(100 * e.alfa)}% = ${e.crit}; dos colas al ${Math.round(100 * e.alfa)}% = ${e.crit2} (para el intervalo)`}.</p>`,
+    pvalor: (e) => `<p>En una regresión de salarios se obtuvieron estos valores-p (dos colas, H₀: βⱼ = 0):</p>` +
+      tabla(["Variable", ...e.vs], [["valor-p", ...e.ps]]) +
+      `<p>El coeficiente de <strong>${e.vs[e.i]}</strong> es <strong>${e.signo}</strong>. Usa α = ${Math.round(100 * e.alfa)}%.</p>`,
+    combinacion: (e) => `<p>Se estimó β̂₁ = <strong>${e.b1}</strong> y β̂₂ = <strong>${e.b2}</strong>, con Var(β̂₁) = ${e.v1}, Var(β̂₂) = ${e.v2} ` +
+      `y Cov(β̂₁, β̂₂) = ${e.cov} (${e.gl} gl).</p><p>Testea H₀: <strong>${e.hip}</strong> contra H₁: ≠ al 5%.</p>` +
+      `<p class="pr-nota">Valor crítico de t con ${e.gl} gl (dos colas, 5%) = ${e.crit}.</p>`,
+    ftest: (e) => `<p>Con n = <strong>${e.n}</strong> se estimó un modelo con <strong>k = ${e.kk}</strong> variables explicativas y se quiere testear que ` +
+      `<strong>${e.j}</strong> de ellas tienen coeficiente cero.</p>` +
+      (e.forma === "ssr" ? `<p>SSR del modelo restringido = ${e.ssrr}; SSR del no restringido = ${e.ssru}.</p>` :
+        `<p>R² del modelo restringido = ${e.r2r}; R² del no restringido = ${e.r2u}.</p>`) +
+      `<p class="pr-nota">Valor crítico F(${e.j}, ${e.n - e.kk - 1}) al 5% = ${e.crit}.</p>`,
+    fglobal: (e) => `<p>Una regresión con <strong>k = ${e.kk}</strong> variables explicativas y <strong>n = ${e.n}</strong> tiene R² = <strong>${e.r2}</strong>.</p>` +
+      `<p class="pr-nota">Valor crítico F(${e.kk}, ${e.n - e.kk - 1}) al 5% = ${e.crit}.</p>`,
+    errores: (e) => ({
+      tipo1: `<p>${e.m} investigadores testean, cada uno con su propia muestra, una hipótesis nula que en realidad es <strong>verdadera</strong>, con α = ${Math.round(100 * e.alfa)}%. ¿Cuántos esperas que la rechacen?</p>`,
+      poder: `<p>La probabilidad de error tipo II de un test es <strong>${e.beta}</strong>.</p>`,
+      compara: `<p>Dos investigadores usan los mismos datos (mismo n), uno con α = ${e.a1} y otro con α = ${e.a2}.</p>`,
+    })[e.sub],
     ic2: (e) => `<p>Se compara ${e.contexto}: X̄ = ${e.xb} (nₓ = ${e.nx}, σₓ = ${e.sx}) e Ȳ = ${e.yb} (nᵧ = ${e.ny}, σᵧ = ${e.sy}).</p>` +
       `<p>Construye el intervalo de confianza de <strong>${e.conf}%</strong> para μₓ − μᵧ (usa z = ${{ 90: "1.645", 95: "1.96", 99: "2.576" }[e.conf]}).</p>`,
   };
 
   function montarTaller(z, clave) {
-    const banco = (window.PRACTICA_BANCO || {})[clave] || [];
+    const banco = bancoDe()[clave] || [];
     if (!banco.length) { z.textContent = "No se pudo cargar el banco de ejercicios."; return; }
     const head = h("div", "pr-meta");
     const card = h("div", "pr-card pr-ej");
@@ -486,17 +528,18 @@
     ["descriptiva", "📊 Estadística descriptiva"], ["ic", "🎯 Intervalos para medias"], ["tamano", "📐 Tamaño muestral y proporciones"],
   ];
   function montarTalleres(z) {
+    const talleres = BLOQUE === "2" ? window.PRACTICA_TALLERES2 || [] : TALLERES;
     const chips = h("div", "pr-chips");
     const area = h("div", "pr-taller");
     z.append(chips, area);
     const elegir = (k) => {
       chips.querySelectorAll(".pr-chip").forEach((x) => x.classList.toggle("is-on", x.dataset.k === k));
       area.innerHTML = "";
-      const n = ((window.PRACTICA_BANCO || {})[k] || []).length;
-      area.append(h("p", "pr-taller-t", `${TALLERES.find((t) => t[0] === k)[1]} · ${n} ejercicios`));
+      const n = (bancoDe()[k] || []).length;
+      area.append(h("p", "pr-taller-t", `${talleres.find((t) => t[0] === k)[1]} · ${n} ejercicios`));
       montarTaller(area, k);
     };
-    TALLERES.forEach(([k, lab]) => {
+    talleres.forEach(([k, lab]) => {
       const b = h("button", "pr-chip", lab);
       b.type = "button";
       b.dataset.k = k;
@@ -507,14 +550,16 @@
     sorpresa.type = "button";
     sorpresa.addEventListener("click", () => {
       const actual = chips.querySelector(".pr-chip.is-on")?.dataset.k;
-      const otros = TALLERES.filter((t) => t[0] !== actual);
+      const otros = talleres.filter((t) => t[0] !== actual);
       elegir(otros[Math.floor(Math.random() * otros.length)][0]);
     });
     chips.append(sorpresa);
-    elegir("simple");
+    elegir(talleres[0][0]);
   }
 
   function montar() {
+    const m0 = document.querySelector(".pr-marcador");
+    if (m0) cargarEstado(m0.dataset.bloque || "1");
     document.querySelectorAll(".pr-marcador:not([data-ok])").forEach((m) => { m.dataset.ok = 1; montarMarcador(m); });
     document.querySelectorAll(".pr-zona[data-zona='comentes']:not([data-ok])").forEach((z) => { z.dataset.ok = 1; montarComentes(z); });
     document.querySelectorAll(".pr-zona[data-banco]:not([data-ok])").forEach((z) => { z.dataset.ok = 1; montarTaller(z, z.dataset.banco); });
