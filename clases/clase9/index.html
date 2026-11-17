@@ -1,0 +1,2363 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase9/">
+      
+      
+        <link rel="prev" href="../clase8/">
+      
+      
+        <link rel="next" href="../clase10/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Clase 9 · El test F - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-9-inferencia-sobre-un-conjunto-de-parametros-el-test-f" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 9 · El test F
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../practica/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🎮 Práctica · Primer bloque
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ayudantias/" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 9 · El test F
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 9 · El test F
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inferencia-sobre-un-conjunto-de-parametros-el-test-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Inferencia sobre un conjunto de parámetros: el test F
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Inferencia sobre un conjunto de parámetros: el test F">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Varios parámetros a la vez
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Varios parámetros a la vez">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-de-hipotesis-sobre-un-conjunto-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de hipótesis sobre un conjunto de parámetros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repaso-relevante-para-esta-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repaso relevante para esta clase
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repaso-si-agrego-variables-relevantes-cae-mi-ssr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repaso: Si agrego variables relevantes, cae mi SSR
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Restringido y no restringido
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Restringido y no restringido">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-de-hipotesis-y-modelo-restringido" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de hipótesis y modelo restringido
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-definiciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test: Definiciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-hipotesis-y-modelo-restringido_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de hipótesis y modelo restringido
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otra-forma-de-escribirlo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Otra forma de escribirlo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Distribución F
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Distribución F">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zona-de-rechazo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zona de rechazo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distribucion-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distribución F
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Ejemplo: baseball
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Ejemplo: baseball">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-rendimiento-y-salario-en-el-baseball" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: rendimiento y salario en el baseball
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-rendimiento-y-salario-en-el-baseball-n353" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: rendimiento y salario en el baseball (n=353)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-rendimiento-y-salario-en-el-baseball_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: rendimiento y salario en el baseball
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejercicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-rendimiento-y-salario-en-el-baseball_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: rendimiento y salario en el baseball
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 5 · Multicolinealidad y F global
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 5 · Multicolinealidad y F global">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f-test-y-el-problema-de-multi-colinealidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      F-test y el problema de multi-colinealidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-particular-prueba-de-significancia-global" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caso particular: Prueba de significancia global
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 10 · Propiedades asintóticas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 11 · Variables binarias, Chow y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 12 · Heterocedasticidad y variables instrumentales
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practica/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🎮 Práctica · Primer bloque
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 11 · Variables binarias y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 12 · Test de White y errores robustos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inferencia-sobre-un-conjunto-de-parametros-el-test-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Inferencia sobre un conjunto de parámetros: el test F
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Inferencia sobre un conjunto de parámetros: el test F">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Varios parámetros a la vez
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Varios parámetros a la vez">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-de-hipotesis-sobre-un-conjunto-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de hipótesis sobre un conjunto de parámetros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repaso-relevante-para-esta-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repaso relevante para esta clase
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repaso-si-agrego-variables-relevantes-cae-mi-ssr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repaso: Si agrego variables relevantes, cae mi SSR
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Restringido y no restringido
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Restringido y no restringido">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-de-hipotesis-y-modelo-restringido" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de hipótesis y modelo restringido
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-definiciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test: Definiciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-hipotesis-y-modelo-restringido_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de hipótesis y modelo restringido
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otra-forma-de-escribirlo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Otra forma de escribirlo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Distribución F
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Distribución F">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zona-de-rechazo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zona de rechazo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distribucion-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distribución F
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Ejemplo: baseball
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Ejemplo: baseball">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-rendimiento-y-salario-en-el-baseball" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: rendimiento y salario en el baseball
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-rendimiento-y-salario-en-el-baseball-n353" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: rendimiento y salario en el baseball (n=353)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-rendimiento-y-salario-en-el-baseball_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: rendimiento y salario en el baseball
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejercicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-rendimiento-y-salario-en-el-baseball_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: rendimiento y salario en el baseball
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 5 · Multicolinealidad y F global
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 5 · Multicolinealidad y F global">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f-test-y-el-problema-de-multi-colinealidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      F-test y el problema de multi-colinealidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-particular-prueba-de-significancia-global" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caso particular: Prueba de significancia global
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="clase-9-inferencia-sobre-un-conjunto-de-parametros-el-test-f">Clase 9 · Inferencia sobre un conjunto de parámetros: el test F</h1>
+<div class="usm-session-meta">
+<span>📅 Viernes 11 de diciembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 9 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">📝 Semana del Control 2</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la semana</p>
+<p>Esta página reproduce <strong>íntegras y en orden</strong> las diapositivas de la cátedra del viernes de la
+semana 9 (<code>sem9/Clase10.tex</code>, 20 láminas). Los bloques <strong>Interactivo</strong>, los casos y las preguntas
+son material adicional para estudiar.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Cómo estudiar esta página</p>
+<p>La clase está ordenada en <strong>5 temas</strong>. Cada tema parte con una <strong>pregunta guía</strong>, sigue con las láminas
+y los simuladores, y termina con <strong>✍️ preguntas de selección múltiple</strong> (cada alternativa incorrecta explica
+por qué no lo es) y un <strong>🧪 ejercicio de R</strong> que puedes editar y ejecutar aquí mismo, sin instalar nada.
+Los 5 ejercicios de R en un solo archivo: <a href="../../r/clase9.R">📥 clase9.R</a>.</p>
+</div>
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<ul>
+<li>Plantear hipótesis sobre <strong>varios parámetros a la vez</strong>, como <span class="arithmatex">\(H_0: \beta_3 = \beta_4 = 0\)</span>.</li>
+<li>Construir el estadístico <span class="arithmatex">\(F\)</span> comparando el modelo <strong>restringido</strong> y el <strong>no restringido</strong>, con SSR o con <span class="arithmatex">\(R^2\)</span>.</li>
+<li>Decidir con la distribución <span class="arithmatex">\(F(j, n-k-1)\)</span> y entender por qué el test conjunto puede rechazar aunque ninguna <span class="arithmatex">\(t\)</span> lo haga.</li>
+<li>Hacer la prueba de <strong>significancia global</strong> de una regresión.</li>
+</ul>
+<h2 id="agenda-de-la-catedra-viernes-1840-2125">🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)</h2>
+<p>Haz clic en un tema para ir directo a él.</p>
+<ol class="econ-ruta">
+<li><span class="econ-ruta-h">18:40</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Varios parámetros a la vez</span><span class="econ-ruta-l">láminas 1–4 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:05</span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">Modelo restringido y el estadístico F</span><span class="econ-ruta-l">láminas 5–10 · ✍️ 3 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:35</span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">La zona de rechazo y la distribución F</span><span class="econ-ruta-l">láminas 11–12 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">19:55</span><span class="econ-ruta-t">☕ Receso</span></li>
+<li><span class="econ-ruta-h">20:05</span><a class="econ-ruta-a" href="#tema-4"><span class="econ-ruta-n">4</span><span class="econ-ruta-t">Ejemplo: rendimiento y salario en el baseball</span><span class="econ-ruta-l">láminas 13–18 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">20:50</span><a class="econ-ruta-a" href="#tema-5"><span class="econ-ruta-n">5</span><span class="econ-ruta-t">F, multicolinealidad y significancia global</span><span class="econ-ruta-l">láminas 19–20 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">21:15</span><span class="econ-ruta-t">✅ Ideas clave, autoevaluación y cierre</span></li>
+</ol>
+
+<h2 class="econ-parte" data-eyebrow="Parte 1 · Cátedra" id="inferencia-sobre-un-conjunto-de-parametros-el-test-f">Inferencia sobre un conjunto de parámetros: el test F</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem9/Clase10.tex</code> · 20 láminas</p>
+
+<h3 class="econ-tema" data-laminas="láminas 1–4" data-num="1" id="tema-1">Varios parámetros a la vez</h3>
+<p class="econ-tema-q">¿Cómo testear si dos variables, juntas, no aportan nada?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="test-de-hipotesis-sobre-un-conjunto-de-parametros">Test de hipótesis sobre un conjunto de parámetros</h4>
+<!-- sem9/Clase10.tex · lámina 1 -->
+<ul>
+<li>
+<p>A menudo estamos interesados en testear hipótesis para varios parámetros a la vez.</p>
+</li>
+<li>
+<p>Por ejemplo si dos coeficientes son 0 al mismo tiempo.</p>
+</li>
+<li>
+<p>En ese caso, las hipótesis se verían de la siguiente forma:</p>
+<p>$$
+\begin{aligned}
+H_0 &amp; : \beta_{\text{1}} = \beta_{\text{2}} = 0 \
+H_1 &amp; :  \text{Al menos uno }\neq 0</p>
+<p>\end{aligned}
+$$</p>
+</li>
+<li>
+<p>Cuando se rechaza la hipótesis nula se dice que <span class="arithmatex">\(x_1\)</span> y <span class="arithmatex">\(x_2\)</span> son conjuntamente significativas al correspondiente nivel de significancia.</p>
+</li>
+<li>
+<p>Noten que en este caso, el test NO dice cuál de las variables tiene un efecto en <span class="arithmatex">\(y\)</span>. Puede ser una sola, varias o todas.</p>
+</li>
+<li>
+<p>Para esto vamos a usar un estadístico F.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="repaso-relevante-para-esta-clase">Repaso relevante para esta clase</h4>
+<!-- sem9/Clase10.tex · lámina 2 -->
+<p>Partiendo de <span class="arithmatex">\(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_k x_k + u\)</span>, calculo por MCO y obtengo la predicción: <span class="arithmatex">\(\hat{y}\)</span>. Definiciones:</p>
+<p><span class="arithmatex">\(SST : \sum_i (y_i - \bar{y})^2\)</span> <span class="arithmatex">\(\rightarrow\)</span> variabilidad de <span class="arithmatex">\(y\)</span><br>
+<span class="arithmatex">\(SSE : \sum_i (\hat{y}_i - \bar{y})^2\)</span> <span class="arithmatex">\(\rightarrow\)</span> lo explicado por mi modelo<br>
+<span class="arithmatex">\(SSR : \sum_i \hat{u}_i^2\)</span> <span class="arithmatex">\(\rightarrow\)</span> lo que mi modelo no explica/se equivoca<br>
+<span class="arithmatex">\(SST : SSE + SSR\)</span> <span class="arithmatex">\(\rightarrow\)</span> lo que explico + lo que no explico con mi modelo<br>
+<span class="arithmatex">\(R^2 : 1 - \frac{SSR}{SST}\)</span> <span class="arithmatex">\(\rightarrow\)</span> fracción de la variabilidad de <span class="arithmatex">\(y\)</span> que es explicada por mi modelo</p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 3–4" id="repaso-si-agrego-variables-relevantes-cae-mi-ssr">Repaso: Si agrego variables relevantes, cae mi SSR</h4>
+<!-- sem9/Clase10.tex · lámina 3 -->
+<p>Supongan que parto estimando <span class="arithmatex">\(y = \beta_0 + \beta_1 x_1 + u\)</span>.</p>
+<ul>
+<li>
+<p>SST = SSE + SSR</p>
+</li>
+<li>
+<p>SST = lo que explico + lo que no explico con el modelo</p>
+</li>
+<li>
+<p><span class="arithmatex">\(R^2 = 1 - \frac{SSR}{SST}\)</span><br>
+    <em>el % de la variabilidad de y que es explicada por mi modelo</em></p>
+</li>
+</ul>
+<p>¿Qué pasa si agrego a mi modelo una variable <span class="arithmatex">\(x_2\)</span> relevante para explicar <span class="arithmatex">\(y\)</span>?</p>
+<!-- sem9/Clase10.tex · lámina 4 -->
+<p>Supongan que parto estimando <span class="arithmatex">\(y = \beta_0 + \beta_1 x_1 + u\)</span>.</p>
+<ul>
+<li>
+<p>SST = SSE + SSR</p>
+</li>
+<li>
+<p>SST = lo que explico + lo que no explico con el modelo</p>
+</li>
+<li>
+<p><span class="arithmatex">\(R^2 = 1 - \frac{SSR}{SST}\)</span><br>
+    <em>el % de la variabilidad de y que es explicada por mi modelo</em></p>
+</li>
+</ul>
+<p>¿Qué pasa si agrego a mi modelo una variable <span class="arithmatex">\(x_2\)</span> relevante para explicar <span class="arithmatex">\(y\)</span>? Cae mi <span class="arithmatex">\(SSR\)</span> y aumenta mi <span class="arithmatex">\(R^2\)</span>.</p>
+<div class="arithmatex">\[
+\text{SST} = \textcolor{red}{\uparrow \text{SSE}} + \textcolor{red}{\downarrow \text{SSR}}
+\]</div>
+<div class="arithmatex">\[
+\textcolor{red}{\uparrow} R^2 = 1 - \frac{\textcolor{red}{\downarrow \text{SSR}}}{\text{SST}}
+\]</div>
+</div>
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Se rechaza H₀: β₁ = β₂ = 0. ¿Qué podemos concluir?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Que al menos uno de los dos coeficientes es distinto de cero.</button>
+<button class="econ-quiz-opt" data-why="El test no dice cuál: puede ser uno, el otro o ambos (lámina 1).">Que ambos coeficientes son distintos de cero.</button>
+<button class="econ-quiz-opt" data-why="Esa es otra hipótesis: la igualdad de parámetros de la Clase 8.">Que β₁ = β₂.</button>
+</div>
+<p class="econ-quiz-fb">✅ Se dice que x₁ y x₂ son <em>conjuntamente</em> significativas.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Al agregar una variable relevante al modelo, ¿qué pasa con la SSR?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Baja, y el R² sube.</button>
+<button class="econ-quiz-opt" data-why="Con una variable más, MCO ajusta al menos igual de bien: la SSR no puede subir.">Sube, y el R² baja.</button>
+<button class="econ-quiz-opt" data-why="Si la variable aporta, la SSR baja.">No cambia.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 3 y 4: SST = ↑SSE + ↓SSR.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · La SSR baja al agregar una variable</p>
+<p>Compara la SSR y el R² de un modelo sin y con una variable relevante.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">n</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">x1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">x2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">y</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">m1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="p">)</span><span class="w">            </span><span class="c1"># sin x2</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">m2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="p">)</span><span class="w">       </span><span class="c1"># agregando x2, que es relevante</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nf">c</span><span class="p">(</span><span class="n">SSR_sin_x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">resid</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">SSR_con_x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">resid</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">))</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nf">c</span><span class="p">(</span><span class="n">R2_sin_x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span><span class="w"> </span><span class="n">R2_con_x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>0.6 * x2</code> por <code>0 * x2</code> (x₂ irrelevante). ¿Baja igual la SSR? ¿Cuánto?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 5–10" data-num="2" id="tema-2">Modelo restringido y el estadístico F</h3>
+<p class="econ-tema-q">¿Cuánto tiene que aumentar la SSR al imponer H₀ para rechazarla?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 5" id="test-de-hipotesis-y-modelo-restringido">Test de hipótesis y modelo restringido</h4>
+<!-- sem9/Clase10.tex · lámina 5 -->
+<ul>
+<li>
+<p>Entonces, una buena forma de testear si variables son irrelevantes para explicar la variable <span class="arithmatex">\(y\)</span> (tienen <span class="arithmatex">\(\beta's = 0\)</span>) es:</p>
+<p>→ Mirar las diferencias entre el SSR de un modelo que las incluye (modelo unrestricted: <span class="arithmatex">\(SSR_{ur}\)</span>) y el SSR de un modelo que no las incluye (modelo restricted: <span class="arithmatex">\(SSR_{r}\)</span>).</p>
+</li>
+<li>
+<p>Cuanto más grande sea la diferencia <span class="arithmatex">\(SSR_{r} - SSR_{ur}\)</span> más seguros estaremos de que las variables en cuestión son relevantes para explicar <span class="arithmatex">\(y\)</span>.</p>
+</li>
+<li>
+<p>¿Cuál es el signo de esta diferencia <span class="arithmatex">\(SSR_{r} - SSR_{ur}\)</span>?</p>
+</li>
+<li>
+<p><span class="arithmatex">\(SSR_{r} - SSR_{ur} \geq 0\)</span></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 6–7" id="test-definiciones">Test: Definiciones</h4>
+<!-- sem9/Clase10.tex · lámina 6 -->
+<ul>
+<li>
+<p>Sea el modelo: <span class="arithmatex">\(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u\)</span></p>
+</li>
+<li>
+<p>Nos interesa testear si <span class="arithmatex">\(x_2\)</span> o <span class="arithmatex">\(x_3\)</span> o ambas son relevantes para el modelo. Es decir: <span class="arithmatex">\(H_0: \beta_2 = \beta_3 = 0\)</span>, <span class="arithmatex">\(H_1: Al menos uno \neq 0\)</span></p>
+</li>
+</ul>
+<!-- sem9/Clase10.tex · lámina 7 -->
+<ul>
+<li>
+<p>Sea el modelo: <span class="arithmatex">\(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u\)</span></p>
+</li>
+<li>
+<p>Nos interesa testear si <span class="arithmatex">\(x_2\)</span> o <span class="arithmatex">\(x_3\)</span> o ambas son relevantes para el modelo. Es decir: <span class="arithmatex">\(H_0: \beta_2 = \beta_3 = 0\)</span>, <span class="arithmatex">\(H_1: \beta_2 \neq 0\)</span> o <span class="arithmatex">\(\beta_3 \neq 0\)</span>.</p>
+<p><strong>Modelo no restringido (UR)</strong>: se incluyen todas las variables.</p>
+<ul>
+<li>Estimando el modelo no restringido por MCO, <span class="arithmatex">\(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u\)</span> <span class="arithmatex">\(\rightarrow\)</span> <strong>obtenemos <span class="arithmatex">\(SSR_{ur}\)</span></strong></li>
+</ul>
+<p><strong>Modelo Restringido (R)</strong>: se asume <span class="arithmatex">\(H_0\)</span> verdadera y se estima el modelo:</p>
+<ul>
+<li><span class="arithmatex">\(y = \beta_0 + \beta_1 x_1 + u\)</span> <span class="arithmatex">\(\rightarrow\)</span> <strong>obtenemos <span class="arithmatex">\(SSR_r\)</span></strong></li>
+</ul>
+</li>
+<li>
+<p>Rechazamos <span class="arithmatex">\(H_0\)</span> a medida que <span class="arithmatex">\(SSR_r - SSR_{ur}\)</span> sea mayor. Si se cumpliera <span class="arithmatex">\(H_0\)</span>, es decir las variables <span class="arithmatex">\(x_2\)</span> y <span class="arithmatex">\(x_3\)</span> fueran totalmente irrelevantes, esa diferencia sería cercana a 0.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 8–9" id="test-de-hipotesis-y-modelo-restringido_1">Test de hipótesis y modelo restringido</h4>
+<!-- sem9/Clase10.tex · lámina 8 -->
+<ul>
+<li>
+<p>Podemos pensar el test de hipótesis como la comparación entre el modelo original y el modelo restringido (cuando se cumple la <span class="arithmatex">\(H_0\)</span>).</p>
+</li>
+<li>
+<p>Entonces, se puede demostrar que:</p>
+</li>
+</ul>
+<div class="arithmatex">\[
+F = \frac{SSR_{r} - SSR_{ur}}{SSR_{ur}} \cdot \frac{n - k - 1}{j} \sim F(j, n - k - 1)
+\]</div>
+<div class="arithmatex">\[
+{ \frac{SSR_r - SSR_{ur}}{j}\over {\frac{SSR_{ur}}{n - k - 1}}}
+\]</div>
+<!-- sem9/Clase10.tex · lámina 9 -->
+<ul>
+<li>
+<p>Podemos pensar el test de hipótesis como la comparación entre el modelo original y el modelo restringido (cuando se cumple la <span class="arithmatex">\(H_0\)</span>).</p>
+</li>
+<li>
+<p>Entonces, se puede demostrar que:</p>
+</li>
+</ul>
+<div class="arithmatex">\[
+F = \frac{\textcolor{red}{SSR_{r} - SSR_{ur}}}{SSR_{ur}} \cdot \frac{n - k - 1}{j} \sim F(j, n - k - 1)
+\]</div>
+<ul>
+<li>
+<p><strong>Donde <span class="arithmatex">\(j\)</span> son las restricciones de exclusión.</strong></p>
+</li>
+<li>
+<p>Note que <span class="arithmatex">\(SSR_{r} \geq SSR_{ur}\)</span>.</p>
+</li>
+<li>
+<p>Note que <span class="arithmatex">\(SSR_{r} - SSR_{ur}\)</span> va a ser más grande cuanto más importantes son las variables testeadas.</p>
+</li>
+<li>
+<p><strong>El test sobre un conjunto de parámetros se reduce a responder si la disminución relativa en SSR de pasar del modelo restringido al no-restringido es suficientemente grande.</strong></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 10" id="otra-forma-de-escribirlo">Otra forma de escribirlo</h4>
+<!-- sem9/Clase10.tex · lámina 10 -->
+<p>Note que usando <span class="arithmatex">\(R^2 = 1 - \frac{SSR}{SST}\)</span>, el estadístico <span class="arithmatex">\(F\)</span> también se puede escribir como (demostrar de tarea):</p>
+<div class="arithmatex">\[
+F = \frac{(R^2_{ur} - R^2_{r})}{(1 - R^2_{ur})} \cdot \frac{n - k - 1}{j} \sim F(j, n - k - 1)
+\]</div>
+<ul>
+<li>
+<p>¿Cómo lo interpretan?</p>
+</li>
+<li>
+<p>Cuanto más relevantes las variables que estoy testeando, más diferencia va a haber entre el porcentaje explicado por el UR y el explicado por el R.</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En y = β₀ + β₁x₁ + β₂x₂ + β₃x₃ + u, para testear H₀: β₂ = β₃ = 0, ¿cuál es el modelo restringido?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>y = β₀ + β₁x₁ + u</button>
+<button class="econ-quiz-opt" data-why="El restringido impone H₀: saca las variables cuyos coeficientes se suponen cero.">y = β₀ + β₂x₂ + β₃x₃ + u</button>
+<button class="econ-quiz-opt" data-why="Ese sería el restringido de la significancia global, no de esta hipótesis.">y = β₀ + u</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 7: se asume H₀ verdadera y se estima el modelo sin x₂ ni x₃.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué representa j en F = [(SSR_r − SSR_ur)/SSR_ur]·[(n − k − 1)/j]?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>El número de restricciones que impone H₀.</button>
+<button class="econ-quiz-opt" data-why="j cuenta las restricciones de exclusión, no las variables que quedan.">El número de variables del modelo restringido.</button>
+<button class="econ-quiz-opt" data-why="Esos son n − k − 1.">Los grados de libertad del modelo no restringido.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 9. En el ejemplo del baseball, j = 2.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Por qué SSR_r − SSR_ur nunca es negativo?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Porque el modelo no restringido incluye todas las variables del restringido, así que ajusta al menos igual de bien.</button>
+<button class="econ-quiz-opt" data-why="Los residuos pueden ser negativos; lo que se compara son sumas de cuadrados.">Porque los residuos siempre son positivos.</button>
+<button class="econ-quiz-opt" data-why="No hay valor absoluto: es una consecuencia de MCO.">Por convención, se toma el valor absoluto.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 5 y 9.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · El F a mano y con anova()</p>
+<p>Estima el modelo restringido y el no restringido, calcula el F con la fórmula de la lámina 8 y compáralo con <code>anova()</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">9</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">n</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">120</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">x1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="n">x3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">y</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">ur</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x3</span><span class="p">)</span><span class="w">     </span><span class="c1"># no restringido</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">r</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="p">)</span><span class="w">               </span><span class="c1"># restringido: H0: beta2 = beta3 = 0</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">SSR_ur</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">resid</span><span class="p">(</span><span class="n">ur</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">SSR_r</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">resid</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">j</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="bp">F</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">SSR_r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">SSR_ur</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">SSR_ur</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">j</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nf">c</span><span class="p">(</span><span class="bp">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">F</span><span class="p">,</span><span class="w"> </span><span class="n">critico</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">qf</span><span class="p">(</span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="n">valor_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">pf</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nf">anova</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">ur</span><span class="p">)</span><span class="w">                   </span><span class="c1"># R hace el mismo test</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>0.4 * x2 + 0.3 * x3</code> por <code>0 * x2 + 0 * x3</code> (H₀ verdadera). ¿Se rechaza?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 11–12" data-num="3" id="tema-3">La zona de rechazo y la distribución F</h3>
+<p class="econ-tema-q">¿Qué valores de F son evidencia contra H₀?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 11" id="zona-de-rechazo">Zona de rechazo</h4>
+<!-- sem9/Clase10.tex · lámina 11 -->
+<ul>
+<li>
+<p>Sea <span class="arithmatex">\(\alpha\)</span> el nivel de significancia, si <span class="arithmatex">\(F_{\text{estadístico}} &gt; F_{\alpha; j; n - k - 1}\)</span> se rechaza <span class="arithmatex">\(H_0\)</span>.</p>
+<p><img alt="Zona de rechazo" class="econ-slide-img" src="../../images/slides/sem9_images_zona.png" /></p>
+<p>Cuanto más grande sea la diferencia entre los modelos, más extremo será el <span class="arithmatex">\(F_{\text{empírico}}\)</span> y más probable que rechacemos la <span class="arithmatex">\(H_0\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 12" id="distribucion-f">Distribución F</h4>
+<!-- sem9/Clase10.tex · lámina 12 -->
+<p><img alt="Distribución F" class="econ-slide-img" src="../../images/slides/sem9_images_distr_f.png" /></p>
+</div>
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con α = 5%, ¿cuándo se rechaza H₀ en el test F?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Cuando F supera el valor crítico F(α; j, n − k − 1).</button>
+<button class="econ-quiz-opt" data-why="1.96 es de la normal en un test de dos colas; el F usa su propia distribución.">Cuando |F| es mayor que 1.96.</button>
+<button class="econ-quiz-opt" data-why="F no puede ser negativo: es un cociente de sumas de cuadrados.">Cuando F es negativo.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 11: solo valores grandes de F son evidencia contra H₀ (una cola).</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si las variables testeadas son muy relevantes, el F tiende a ser…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…grande.</button>
+<button class="econ-quiz-opt" data-why="Cercano a cero ocurre cuando las variables no aportan: SSR_r ≈ SSR_ur.">…cercano a cero.</button>
+<button class="econ-quiz-opt" data-why="No hay un valor fijo: depende de cuánto baja la SSR.">…cercano a 1.96.</button>
+</div>
+<p class="econ-quiz-fb">✅ Cuanto más grande la diferencia entre los modelos, más extremo el F.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Valores críticos de la F</p>
+<p>Calcula el valor crítico de la F al 5% con distintos grados de libertad y grafica la F(2, 348) del ejemplo.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Valores críticos de la F al 5% para distintos grados de libertad</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">gl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">348</span><span class="p">,</span><span class="w"> </span><span class="m">1000</span><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nf">round</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="n">gl</span><span class="p">,</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="nf">qf</span><span class="p">(</span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">df1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">df2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">)),</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nf">curve</span><span class="p">(</span><span class="nf">df</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">348</span><span class="p">),</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"goldenrod"</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Distribución F(2, 348)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"densidad"</span><span class="p">)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nf">abline</span><span class="p">(</span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">qf</span><span class="p">(</span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">348</span><span class="p">),</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"firebrick"</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">   </span><span class="c1"># zona de rechazo a la derecha</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> calcula el valor crítico al 1% con <code>qf(0.99, 2, 348)</code>. ¿Es mayor o menor que al 5%?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 13–18" data-num="4" id="tema-4">Ejemplo: rendimiento y salario en el baseball</h3>
+<p class="econ-tema-q">¿Importa el rendimiento de un jugador para su salario?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 13" id="ejemplo-rendimiento-y-salario-en-el-baseball">Ejemplo: rendimiento y salario en el baseball</h4>
+<!-- sem9/Clase10.tex · lámina 13 -->
+<ul>
+<li>
+<p>Se tiene el siguiente modelo para los salarios de los jugadores de baseball:</p>
+<div class="arithmatex">\[
+\log(\text{salary}) = \beta_0 + \beta_1 \text{years} + \beta_2 \text{gamesyr} + \beta_3 \text{hrunsyr} + \beta_4 \text{rbisyr} + u
+\]</div>
+<p>donde <u>years</u> es el número de años en la liga, <u>gamesyr</u> el promedio de juegos anuales, <u>hrunsyr</u> el número de home runs y <u>rbisyr</u> el número de corridas gracias a su bateo.</p>
+</li>
+<li>
+<p>Se quiere testear que el rendimiento de los jugadores no influye en sus salarios, es decir,</p>
+<div class="arithmatex">\[
+H_0 : \beta_3 = \beta_4 = 0
+\]</div>
+<div class="arithmatex">\[
+H_1 : \text{.Al  menos uno es} \ \neq 0
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 14" id="ejemplo-rendimiento-y-salario-en-el-baseball-n353">Ejemplo: rendimiento y salario en el baseball (n=353)</h4>
+<!-- sem9/Clase10.tex · lámina 14 -->
+<ul>
+<li>
+<p><strong>Step 1:</strong> <span class="arithmatex">\(H_0: \beta_3 = \beta_4 = 0\)</span>, <span class="arithmatex">\(H_1: \beta_3 \neq 0\)</span> o <span class="arithmatex">\(\beta_4 \neq 0\)</span></p>
+</li>
+<li>
+<p><strong>Step 2:</strong></p>
+<ol>
+<li>
+<p><strong>Modelo no restringido:</strong></p>
+<div class="arithmatex">\[
+\log(\text{salary}) = \beta_0 + \beta_1 \text{years} + \beta_2 \text{gamesyr} + \beta_3 \text{hrunsyr} + \beta_4 \text{rbisyr} + u
+\]</div>
+<p><strong>obtenemos <span class="arithmatex">\(SSR_{ur}\)</span>.</strong></p>
+</li>
+<li>
+<p><strong>Modelo restringido:</strong></p>
+<div class="arithmatex">\[
+\log(\text{salary}) = \gamma_0 + \gamma_1 \text{years} + \gamma_2 \text{gamesyr} + e
+\]</div>
+<p><strong>obtenemos <span class="arithmatex">\(SSR_{r}\)</span>.</strong></p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Step 3:</strong> Calcular <span class="arithmatex">\(F_{\text{estadístico}} = \frac{(SSR_{r} - SSR_{ur})}{SSR_{ur}} \cdot \frac{353 - 5}{2}\)</span></p>
+</li>
+<li>
+<p><strong>Step 4:</strong> Comparar con el <span class="arithmatex">\(F\)</span> de la distribución <span class="arithmatex">\(F(2, 348)\)</span> para 5% de significatividad.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 15–16" id="ejemplo-rendimiento-y-salario-en-el-baseball_1">Ejemplo: rendimiento y salario en el baseball</h4>
+<!-- sem9/Clase10.tex · lámina 15 -->
+<ul>
+<li>
+<p><strong>Resultados modelo no restringido: <span class="arithmatex">\(\log(\text{salary}) = \beta_0 + \beta_1 \text{years} + \beta_2 \text{gamesyr} + \beta_3 \text{hrunsyr} + \beta_4 \text{rbisyr} + u\)</span></strong></p>
+<p><img alt="Ejemplo: rendimiento y salario en el baseball" class="econ-slide-img" src="../../images/slides/sem9_images_nrsalary.png" /></p>
+</li>
+<li>
+<p><strong>Resultados modelo restringido:<br>
+    <span class="arithmatex">\(\log(\text{salary}) = \gamma_0 + \gamma_1 \text{years} + \gamma_2 \text{gamesyr} + u\)</span></strong></p>
+<p><img alt="Ejemplo: rendimiento y salario en el baseball" class="econ-slide-img" src="../../images/slides/sem9_images_rsal.png" /></p>
+</li>
+</ul>
+<!-- sem9/Clase10.tex · lámina 16 -->
+<ul>
+<li>
+<p><strong>Resultados modelo no restringido: <span class="arithmatex">\(\log(\text{salary}) = \beta_0 + \beta_1 \text{years} + \beta_2 \text{gamesyr} + \beta_3 \text{hrunsyr} + \beta_4 \text{rbisyr} + u\)</span></strong></p>
+<p><img alt="Ejemplo: rendimiento y salario en el baseball" class="econ-slide-img" src="../../images/slides/sem9_images_nrsalary.png" /></p>
+</li>
+<li>
+<p><strong>Resultados modelo restringido: <span class="arithmatex">\(\log(\text{salary}) = \gamma_0 + \gamma_1 \text{years} + \gamma_2 \text{gamesyr} + u\)</span></strong></p>
+<p><img alt="Ejemplo: rendimiento y salario en el baseball" class="econ-slide-img" src="../../images/slides/sem9_images_rsal.png" /></p>
+</li>
+<li>
+<p>Test de hipótesis conjunto para <span class="arithmatex">\(H_0 : \beta_3 = \beta_4 = 0\)</span></p>
+<div class="arithmatex">\[
+F = \frac{(198.31 - 183.60)}{183.60} \cdot \frac{353-4-1}{2} = 13.94
+\]</div>
+</li>
+<li>
+<p>Comparamos con el punto crítico de <span class="arithmatex">\(F(2, 348)\)</span> con 5% de significancia que es 3.02, por lo que rechazamos la hipótesis nula. Es decir, los home runs o las corridas son importantes para explicar el salario.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 17" id="ejercicio">Ejercicio</h4>
+<!-- sem9/Clase10.tex · lámina 17 -->
+<p>Use los datos de las tablas anteriores para comprobar que uno también puede calcular el <span class="arithmatex">\(F\)</span>-estadístico usando la fórmula con los <span class="arithmatex">\(R^2\)</span> de los modelos restringidos y no restringidos:</p>
+<div class="arithmatex">\[
+F = \frac{(0.6270 - 0.5971)}{(1 - 0.6270)} \cdot \frac{353 - 4 - 1}{2} = 13.94
+\]</div>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 18" id="ejemplo-rendimiento-y-salario-en-el-baseball_2">Ejemplo: rendimiento y salario en el baseball</h4>
+<!-- sem9/Clase10.tex · lámina 18 -->
+<p><img alt="Ejemplo: rendimiento y salario en el baseball" class="econ-slide-img" src="../../images/slides/sem9_images_bsbl.png" /></p>
+<ul>
+<li>Noten que si bien encontramos que los coeficientes conjuntamente son diferentes a 0, los coeficientes para <u>hrunsyr</u> y <u>rbisyr</u> son positivos, sin embargo, no es posible rechazar la insignificancia individual de cada uno de ellos (con <span class="arithmatex">\(\alpha = 5\%\)</span>).</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="f-test"></div>
+
+<div class="econ-practica" id="practica-4">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 4</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En el ejemplo, F = 13.94 y el valor crítico al 5% de F(2, 348) es 3.02. ¿Qué concluyes?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Los home runs o las carreras impulsadas son importantes para explicar el salario.</button>
+<button class="econ-quiz-opt" data-why="13.94 &gt; 3.02: se rechaza H₀.">Ninguna medida de rendimiento importa.</button>
+<button class="econ-quiz-opt" data-why="El F no dice eso; de hecho, ninguna t individual rechaza (lámina 18).">Ambas medidas son individualmente significativas.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 16.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En la fórmula del ejemplo aparece (353 − 4 − 1)/2. ¿Por qué 4?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Porque el modelo no restringido tiene 4 variables explicativas (k = 4).</button>
+<button class="econ-quiz-opt" data-why="Se testean 2 restricciones (β₃ = β₄ = 0): j = 2.">Porque se testean 4 restricciones.</button>
+<button class="econ-quiz-opt" data-why="Los grados de libertad se calculan con el modelo no restringido.">Porque el modelo restringido tiene 4 parámetros.</button>
+</div>
+<p class="econ-quiz-fb">✅ n − k − 1 = 353 − 4 − 1 = 348.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · El ejemplo del baseball</p>
+<p>Reproduce el F de la lámina 16 con las SSR y el de la lámina 17 con los R², y obtén el valor crítico y el valor-p.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Láminas 16 y 17: salarios en el baseball (n = 353, k = 4, j = 2)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">353</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">4</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">F_ssr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="m">198.31</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">183.60</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">183.60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">j</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">F_r2</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="m">0.6270</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.5971</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.6270</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">j</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nf">c</span><span class="p">(</span><span class="n">F_con_SSR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">F_ssr</span><span class="p">,</span><span class="w"> </span><span class="n">F_con_R2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">F_r2</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nf">qf</span><span class="p">(</span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">                         </span><span class="c1"># valor crítico ≈ 3.02</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nf">pf</span><span class="p">(</span><span class="n">F_ssr</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">    </span><span class="c1"># valor-p</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> ¿qué valor de SSR restringido haría que F quedara justo en el valor crítico? Pruébalo.</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 19–20" data-num="5" id="tema-5">F, multicolinealidad y significancia global</h3>
+<p class="econ-tema-q">¿Cómo puede el F rechazar si ninguna t lo hace?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 19" id="f-test-y-el-problema-de-multi-colinealidad">F-test y el problema de multi-colinealidad</h4>
+<!-- sem9/Clase10.tex · lámina 19 -->
+<ul>
+<li>
+<p>Noten que en el ejemplo anterior, no podíamos rechazar que cada coeficiente era diferente de 0 por separado.</p>
+</li>
+<li>
+<p>Sin embargo, el <span class="arithmatex">\(F\)</span> nos dice que al menos uno de ellos sí lo es. ¿Por qué?</p>
+</li>
+<li>
+<p>Las variables <em>hrunsyr</em> y <em>rbisyr</em> están muy correlacionadas y esta multicolinealidad dificulta descubrir el efecto parcial de cada variable (dejando la otra fija). Esto se refleja en altas varianzas de los estimadores y bajos estadísticos <span class="arithmatex">\(t\)</span> individuales.</p>
+</li>
+<li>
+<p>Recuerden que si tengo mucha correlación entre dos variables, la varianza de sus estimadores aumenta, haciendo más fácil no rechazar la nula.</p>
+</li>
+<li>
+<p>Sin embargo, el <span class="arithmatex">\(F\)</span>-test al considerarlas juntas, no tiene ese problema y por eso es bueno para probar la exclusión de un conjunto de variables.</p>
+</li>
+<li>
+<p>Por ejemplo, suponga que quieren ver si el desempeño de una empresa afecta sueldos de CEOs. Hay muchas medidas para medir desempeño y seguramente están correlacionadas (e.g., profits, ventas, etc.). Entonces puede emplearse una prueba <span class="arithmatex">\(F\)</span> para determinar si, como grupo, las variables de desempeño de la empresa afectan el sueldo.</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="f-vs-t"></div>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 20" id="caso-particular-prueba-de-significancia-global">Caso particular: Prueba de significancia global</h4>
+<!-- sem9/Clase10.tex · lámina 20 -->
+<ul>
+<li>
+<p>Prueba de significación global.</p>
+</li>
+<li>
+<p>La hipótesis nula es que el modelo entero no explica <span class="arithmatex">\(y\)</span>:</p>
+<div class="arithmatex">\[
+H_0 : \beta_1 = \cdots = \beta_k = 0
+\]</div>
+</li>
+<li>
+<p>En este caso, el modelo restringido es: <span class="arithmatex">\(y = \beta_0 + u\)</span>.</p>
+</li>
+<li>
+<p>El valor de <span class="arithmatex">\(R^2_r\)</span> para el modelo restringido es cero. ¿Por qué?</p>
+</li>
+<li>
+<p>Entonces el estadístico</p>
+<div class="arithmatex">\[
+F = \frac{\textcolor{red}{(R^2_{ur} - R^2_{r}})}{(1 - R^2_{ur})} \cdot \frac{n - k - 1}{k} \sim F(k, n - k - 1)
+\]</div>
+</li>
+<li>
+<p>se reduce a</p>
+<div class="arithmatex">\[
+F = \frac{R^2}{1 - R^2} \cdot \frac{n - k - 1}{k}
+\]</div>
+</li>
+<li>
+<p>donde <span class="arithmatex">\(R^2\)</span> es el valor obtenido en el modelo sin restringir.</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-5">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 5</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Dos variables muy correlacionadas tienen t individuales no significativas, pero su F conjunto sí lo es. ¿Por qué?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>La multicolinealidad infla los errores estándar individuales, pero el F evalúa ambas juntas y no tiene ese problema.</button>
+<button class="econ-quiz-opt" data-why="Es un resultado esperable con regresores muy correlacionados (lámina 19).">El F está mal calculado.</button>
+<button class="econ-quiz-opt" data-why="Las t funcionan bien sin multicolinealidad fuerte.">Las t individuales siempre son menos confiables que el F.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 19.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En la prueba de significancia global, ¿cuál es el modelo restringido?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>y = β₀ + u</button>
+<button class="econ-quiz-opt" data-why="Ese restringe solo algunas variables; el global restringe todas.">y = β₀ + β₁x₁ + u</button>
+<button class="econ-quiz-opt" data-why="El intercepto se mantiene: H₀ es β₁ = … = βₖ = 0.">El mismo modelo sin intercepto.</button>
+</div>
+<p class="econ-quiz-fb">✅ Su R² es cero, por eso F = [R²/(1 − R²)]·[(n − k − 1)/k] (lámina 20).</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Multicolinealidad y F global</p>
+<p>Simula dos regresores muy correlacionados, revisa las t individuales y el F de significancia global, y calcula el F con la fórmula del R².</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">19</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">n</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">x1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">x2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.95</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.95</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">   </span><span class="c1"># muy correlacionadas</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">y</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">m</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="n">m</span><span class="p">)),</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">      </span><span class="c1"># las t individuales</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nf">summary</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">$</span><span class="n">fstatistic</span><span class="w">           </span><span class="c1"># el F de significancia global (lámina 20)</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="n">R2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">R2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">R2</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w">  </span><span class="c1"># el mismo F con la fórmula del R²</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>0.95</code> por <code>0</code> (regresores independientes). ¿Qué pasa con las t individuales?</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>Para testear varias restricciones a la vez se compara el modelo <strong>restringido</strong> (impone <span class="arithmatex">\(H_0\)</span>) con el <strong>no restringido</strong>.</li>
+<li><span class="arithmatex">\(F = \dfrac{SSR_r - SSR_{ur}}{SSR_{ur}} \cdot \dfrac{n-k-1}{j} = \dfrac{R^2_{ur} - R^2_r}{1 - R^2_{ur}} \cdot \dfrac{n-k-1}{j} \sim F(j, n-k-1)\)</span>; se rechaza si supera el valor crítico.</li>
+<li>Con regresores muy correlacionados, el <span class="arithmatex">\(F\)</span> puede rechazar aunque ninguna <span class="arithmatex">\(t\)</span> individual lo haga.</li>
+<li>La <strong>significancia global</strong> usa <span class="arithmatex">\(F = \dfrac{R^2}{1-R^2} \cdot \dfrac{n-k-1}{k}\)</span>.</li>
+</ul>
+</div>
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con n = 100, k = 5 y j = 3, SSR_r = 240 y SSR_ur = 200. ¿Cuánto vale F?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>6.27</button>
+<button class="econ-quiz-opt" data-why="Falta dividir por j = 3.">18.8</button>
+<button class="econ-quiz-opt" data-why="Ese es solo (SSR_r − SSR_ur)/SSR_ur; falta multiplicar por (n − k − 1)/j = 94/3.">0.2</button>
+</div>
+<p class="econ-quiz-fb">✅ F = (40/200)·(94/3) = 0.2·31.33 = 6.27.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Puede el F ser negativo?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>No: SSR_r ≥ SSR_ur, así que el numerador nunca es negativo.</button>
+<button class="econ-quiz-opt" data-why="El signo de los coeficientes no importa: se comparan sumas de cuadrados.">Sí, si las variables tienen efecto negativo.</button>
+<button class="econ-quiz-opt" data-why="Eso no puede ocurrir: el no restringido incluye las variables del restringido.">Sí, si el R² del modelo restringido es mayor.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 9.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">En una regresión con k = 3, n = 54 y R² = 0.25, ¿cuál es el F de significancia global?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>5.56</button>
+<button class="econ-quiz-opt" data-why="Ese es R²/(1 − R²); falta multiplicar por (n − k − 1)/k = 50/3.">0.33</button>
+<button class="econ-quiz-opt" data-why="Ese es (n − k − 1)/k; falta multiplicar por R²/(1 − R²).">16.67</button>
+</div>
+<p class="econ-quiz-fb">✅ F = (0.25/0.75)·(50/3) = 5.56.</p>
+</div>
+
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulo 4, sección 4.5 (pruebas de restricciones lineales múltiples: el test F).</li>
+<li>Próxima clase: <strong>Inferencia sobre un conjunto de parámetros: el test F</strong>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+        <script src="../../javascripts/practica-banco.js"></script>
+      
+        <script src="../../javascripts/practica.js"></script>
+      
+    
+  </body>
+</html>

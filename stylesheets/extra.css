@@ -2243,3 +2243,14 @@
 }
 .pr-chip.is-gold { background: var(--usm-gold); color: var(--usm-navy-dark); border-color: var(--usm-gold); }
 .md-typeset .pr-taller-t { font-weight: 700; font-size: 0.9rem; margin: 0.6rem 0 0.2rem; }
+
+/* MPL: barra de probabilidad con zona negativa (Clase 11) */
+.econ-mpl { margin: 0.8rem 0 0.2rem; }
+.econ-mpl-bar { position: relative; height: 22px; border-radius: 999px; background: var(--md-default-fg-color--lightest); overflow: hidden; }
+.econ-mpl-zero { position: absolute; left: 33.3%; top: 0; bottom: 0; width: 2px; background: currentColor; opacity: 0.6; }
+.econ-mpl-fill { position: absolute; top: 3px; bottom: 3px; border-radius: 999px; background: var(--econ-c1); transition: all 0.3s ease; }
+.econ-mpl-fill.is-neg { background: var(--econ-c3); }
+.econ-mpl-lbl { position: relative; height: 1rem; font-size: 0.66rem; color: var(--md-default-fg-color--light); }
+.econ-mpl-lbl span:nth-child(1) { position: absolute; left: 0; }
+.econ-mpl-lbl span:nth-child(2) { position: absolute; left: 33.3%; transform: translateX(-50%); }
+.econ-mpl-lbl span:nth-child(3) { position: absolute; right: 0; }

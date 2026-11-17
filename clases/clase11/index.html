@@ -1,0 +1,2653 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase11/">
+      
+      
+        <link rel="prev" href="../clase10/">
+      
+      
+        <link rel="next" href="../clase12/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Clase 11 · Variables binarias, Chow y MPL - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-11-variables-binarias-test-de-chow-y-modelo-de-probabilidad-lineal" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 11 · Variables binarias, Chow y MPL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../practica/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🎮 Práctica · Primer bloque
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ayudantias/" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 9 · El test F
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 10 · Propiedades asintóticas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 11 · Variables binarias, Chow y MPL
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 11 · Variables binarias, Chow y MPL
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-3-horas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (3 horas)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables-independientes-binarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Variables independientes binarias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Variables independientes binarias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Dummies e intercepto
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Dummies e intercepto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-dummy-binarias-o-dicotomicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables Dummy (binarias o dicotómicas)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efecto-aditivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Efecto aditivo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grafico-delta_0-0-discriminacion-salarial-a-mujeres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gráfico: δ0 &lt; 0 (Discriminacion salarial a mujeres)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efecto-aditivo_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Efecto aditivo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regla-de-oro-de-las-variables-de-categoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regla de oro de las variables de categoría
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Varias categorías
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Varias categorías">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-dummy-con-mas-de-2-categorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables Dummy con más de 2 categorías
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-salario-por-carrera-universitaria" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: salario por carrera universitaria
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Interacciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Interacciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interaccion-entre-variables-dummy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interacción entre variables dummy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaccion-con-variables-cuantitativas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interacción con variables cuantitativas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-diferentes-pendientes-e-interceptos-para-mujer-y-hombres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: diferentes pendientes e interceptos para mujer y hombres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-hipotesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de hipótesis
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-de-chow-y-variables-dependientes-binarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Test de Chow y variables dependientes binarias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Test de Chow y variables dependientes binarias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Test de Chow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Test de Chow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diferencias-entre-grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diferencias entre grupos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-chow-diferencias-entre-grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de Chow: diferencias entre grupos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-test-de-chow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo test de Chow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejercicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicio
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 5 · Modelo de probabilidad lineal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 5 · Modelo de probabilidad lineal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-dependientes-binarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables dependientes binarias
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-probabilidad-lineal-mpl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de probabilidad lineal (MPL)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-mpl-presenta-dos-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      El MPL presenta dos problemas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 12 · Heterocedasticidad y variables instrumentales
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practica/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🎮 Práctica · Primer bloque
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 11 · Variables binarias y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 12 · Test de White y errores robustos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-3-horas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (3 horas)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables-independientes-binarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Variables independientes binarias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Variables independientes binarias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Dummies e intercepto
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Dummies e intercepto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-dummy-binarias-o-dicotomicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables Dummy (binarias o dicotómicas)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efecto-aditivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Efecto aditivo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grafico-delta_0-0-discriminacion-salarial-a-mujeres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gráfico: δ0 &lt; 0 (Discriminacion salarial a mujeres)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efecto-aditivo_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Efecto aditivo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regla-de-oro-de-las-variables-de-categoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regla de oro de las variables de categoría
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Varias categorías
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Varias categorías">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-dummy-con-mas-de-2-categorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables Dummy con más de 2 categorías
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-salario-por-carrera-universitaria" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: salario por carrera universitaria
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Interacciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Interacciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interaccion-entre-variables-dummy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interacción entre variables dummy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaccion-con-variables-cuantitativas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interacción con variables cuantitativas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-diferentes-pendientes-e-interceptos-para-mujer-y-hombres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo: diferentes pendientes e interceptos para mujer y hombres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-hipotesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de hipótesis
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-de-chow-y-variables-dependientes-binarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Test de Chow y variables dependientes binarias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Test de Chow y variables dependientes binarias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Test de Chow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Test de Chow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diferencias-entre-grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diferencias entre grupos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-chow-diferencias-entre-grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de Chow: diferencias entre grupos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-test-de-chow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo test de Chow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejercicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicio
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 5 · Modelo de probabilidad lineal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 5 · Modelo de probabilidad lineal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-dependientes-binarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables dependientes binarias
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-probabilidad-lineal-mpl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de probabilidad lineal (MPL)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-mpl-presenta-dos-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      El MPL presenta dos problemas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="clase-11-variables-binarias-test-de-chow-y-modelo-de-probabilidad-lineal">Clase 11 · Variables binarias, test de Chow y modelo de probabilidad lineal</h1>
+<div class="usm-session-meta">
+<span>📅 Fecha por confirmar (el viernes 25 de diciembre es feriado)</span>
+<span class="usm-tag-gold">Semana 11 · Contenido 6 · Variables binarias</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la semana</p>
+<p>Esta página reproduce <strong>íntegras y en orden</strong> las diapositivas de la cátedra de la semana 11:
+<code>sem11/clase 12.tex</code> (Parte 1) y <code>sem11/clase13.tex</code> (Parte 2). Los ejercicios resueltos de la semana
+están en la <a href="../../ayudantias/ayudantia11/">📘 Ayudantía 11</a>. Los bloques <strong>Interactivo</strong> y las preguntas
+son material adicional para estudiar.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Cómo estudiar esta página</p>
+<p>La clase está ordenada en <strong>5 temas</strong>. Cada tema parte con una <strong>pregunta guía</strong>, sigue con las láminas
+y los simuladores, y termina con <strong>✍️ preguntas de selección múltiple</strong> (cada alternativa incorrecta explica
+por qué no lo es) y un <strong>🧪 ejercicio de R</strong> que puedes editar y ejecutar aquí mismo, sin instalar nada.
+Los 5 ejercicios de R en un solo archivo: <a href="../../r/clase11.R">📥 clase11.R</a>.</p>
+</div>
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<ul>
+<li>Incorporar información cualitativa con <strong>variables dummy</strong> e interpretar diferencias de <strong>intercepto</strong> y de <strong>pendiente</strong>.</li>
+<li>Usar variables con <strong>más de dos categorías</strong> respecto de una categoría base.</li>
+<li>Testear si un modelo es igual entre grupos con el <strong>test de Chow</strong>.</li>
+<li>Estimar e interpretar el <strong>modelo de probabilidad lineal</strong> y conocer sus problemas.</li>
+</ul>
+<h2 id="agenda-de-la-catedra-3-horas">🗓️ Agenda de la cátedra (3 horas)</h2>
+<p>La fecha se confirmará porque el viernes de la semana es feriado. Haz clic en un tema para ir directo a él.</p>
+<ol class="econ-ruta">
+<li><span class="econ-ruta-h">18:40</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Variables dummy: diferencias de intercepto</span><span class="econ-ruta-l">Parte 1 · láminas 1–6 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:10</span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">Más de dos categorías</span><span class="econ-ruta-l">Parte 1 · láminas 7–9 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:30</span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">Interacciones con dummies</span><span class="econ-ruta-l">Parte 1 · láminas 10–14 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">19:55</span><span class="econ-ruta-t">☕ Receso</span></li>
+<li><span class="econ-ruta-h">20:05</span><a class="econ-ruta-a" href="#tema-4"><span class="econ-ruta-n">4</span><span class="econ-ruta-t">El test de Chow</span><span class="econ-ruta-l">Parte 2 · láminas 1–4 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">20:40</span><a class="econ-ruta-a" href="#tema-5"><span class="econ-ruta-n">5</span><span class="econ-ruta-t">Variable dependiente binaria: el MPL</span><span class="econ-ruta-l">Parte 2 · láminas 5–8 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">21:15</span><span class="econ-ruta-t">✅ Ideas clave, autoevaluación y cierre</span></li>
+</ol>
+
+<p class="econ-ruta-sub">📘 <strong>Ayudantía de la semana</strong> · se trabaja otro día, en su propia página: <a href="../../ayudantias/ayudantia11/">Ir a la Ayudantía 11 →</a></p>
+<h2 class="econ-parte" data-eyebrow="Parte 1 · Cátedra" id="variables-independientes-binarias">Variables independientes binarias</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem11/clase 12.tex</code> · 14 láminas</p>
+
+<h3 class="econ-tema" data-laminas="Parte 1 · láminas 1–6" data-num="1" id="tema-1">Variables dummy: diferencias de intercepto</h3>
+<p class="econ-tema-q">¿Cómo meter información cualitativa, como el género, en una regresión?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="introduccion">Introducción</h4>
+<!-- sem11/clase 12.tex · lámina 1 -->
+<ul>
+<li>
+<p>Usando variables binarias podemos incorporar información cualitativa como:</p>
+<ul>
+<li>
+<p>región</p>
+</li>
+<li>
+<p>género</p>
+</li>
+<li>
+<p>raza</p>
+</li>
+<li>
+<p>religión</p>
+</li>
+<li>
+<p>situación marital</p>
+</li>
+<li>
+<p>rama de actividad económica</p>
+</li>
+<li>
+<p>participación en sindicatos</p>
+</li>
+<li>
+<p>carrera universitaria</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="variables-dummy-binarias-o-dicotomicas">Variables Dummy (binarias o dicotómicas)</h4>
+<!-- sem11/clase 12.tex · lámina 2 -->
+<ul>
+<li>
+<p>En todos estos casos se puede definir una o más variables que toman dos valores, 0 ó 1, en que 1 representa la posesión de una cualidad y 0 la ausencia.</p>
+</li>
+<li>
+<p>Estas variables son llamadas variables dummy.</p>
+</li>
+<li>
+<p>Podemos distinguir dos tipos de efectos:</p>
+<ul>
+<li>
+<p>Efecto aditivo (diferencias de intercepto)</p>
+</li>
+<li>
+<p>Efecto interacción (diferencias de pendiente)</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 3" id="efecto-aditivo">Efecto aditivo</h4>
+<!-- sem11/clase 12.tex · lámina 3 -->
+<ul>
+<li>
+<p>Suponga el caso de una variable regresora dummy para la variable género (asumiendo que solo hay hombres o mujeres en la base de datos),</p>
+<div class="arithmatex">\[
+\text{salario} = \beta_0 + \delta_0 \text{mujer} + \beta_1 \text{educ} + u
+\]</div>
+</li>
+<li>
+<p>Podemos generar una variable "mujer" que toma valor 1 si es mujer y cero si es hombre.</p>
+</li>
+<li>
+<p>Noten que dado supuesto de <span class="arithmatex">\(E[u | mujer, educ] = 0\)</span>:</p>
+<div class="arithmatex">\[
+E[\text{salario} | \text{mujer} = 0, \text{educ}] = \beta_0 + \beta_1 \text{educ} \quad \textcolor{gray}{\text{reemplazando mujer=0}}
+\]</div>
+<div class="arithmatex">\[
+E[\text{salario} | \text{mujer} = 1, \text{educ}] = \beta_0 + \delta_0 + \beta_1 \text{educ} \quad \textcolor{gray}{\text{reemplazando mujer=1}}
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 4" id="grafico-delta_0-0-discriminacion-salarial-a-mujeres">Gráfico: <span class="arithmatex">\(\delta_0 &lt; 0\)</span> (Discriminacion salarial a mujeres)</h4>
+<!-- sem11/clase 12.tex · lámina 4 -->
+<p><svg class="econ-tikz-svg econ-tikz-plot" viewBox="0 0 360 277" role="img" aria-label="Dos rectas paralelas: mujer=1 tiene un intercepto menor, β₀ + δ₀" style="max-width:360px;width:100%"><defs><marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs><line x1="60" y1="237.0" x2="290" y2="237.0" stroke="currentColor" marker-end="url(#ahk)"/><line x1="60" y1="237.0" x2="60" y2="30.0" stroke="currentColor" marker-end="url(#ahk)"/><text x="294" y="251.0" font-style="italic" fill="currentColor">educ</text><text x="54" y="34.0" text-anchor="end" font-style="italic" fill="currentColor">salario</text><line x1="60" y1="168.0" x2="267.0" y2="57.599999999999994" stroke="#1d4ed8" stroke-width="2.6"/><text x="271.0" y="51.599999999999994" fill="currentColor">mujer=0</text><line x1="60" y1="204.8" x2="267.0" y2="94.4" stroke="currentColor" stroke-width="2.6"/><text x="271.0" y="108.4" fill="currentColor">mujer=1</text><line x1="50.8" y1="168.0" x2="60" y2="168.0" stroke="currentColor" stroke-dasharray="3 2"/><text x="46.2" y="172.0" text-anchor="end" fill="currentColor">β₀</text><line x1="50.8" y1="204.8" x2="60" y2="204.8" stroke="currentColor" stroke-dasharray="3 2"/><text x="46.2" y="208.8" text-anchor="end" fill="currentColor">β₀ + δ₀</text></svg>
+<span class="arithmatex">\(E(salario| mujer, educ) = \beta_0 + \delta_0 \, mujer + \beta_1 \, educ\)</span> en la que <span class="arithmatex">\(\delta_0 &lt; 0\)</span>.</p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 5" id="efecto-aditivo_1">Efecto aditivo</h4>
+<!-- sem11/clase 12.tex · lámina 5 -->
+<ul>
+<li>
+<p>¿Cómo se testea la hipótesis nula de no discriminación salarial contra las mujeres?</p>
+<div class="arithmatex">\[
+H_0: \delta_0 = 0
+\]</div>
+<div class="arithmatex">\[
+H_1: \delta_0 &lt; 0
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 6" id="regla-de-oro-de-las-variables-de-categoria">Regla de oro de las variables de categoría</h4>
+<!-- sem11/clase 12.tex · lámina 6 -->
+<ul>
+<li>
+<p>Si hay <span class="arithmatex">\(q\)</span> categorías, se pueden incluir hasta <span class="arithmatex">\(q - 1\)</span> categorías. En nuestro ejemplo, <span class="arithmatex">\(q = 2\)</span>.</p>
+</li>
+<li>
+<p>La constante toma el promedio de la categoría que no incluyeron. Esta se llama categoría base.</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En salario = β₀ + δ₀·mujer + β₁·educ + u, ¿qué mide δ₀?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>La diferencia de salario esperado entre mujeres y hombres con la misma educación.</button>
+<button class="econ-quiz-opt" data-why="Ese es β₀ + δ₀ + β₁·educ.">El salario promedio de las mujeres.</button>
+<button class="econ-quiz-opt" data-why="Eso requeriría una interacción mujer·educ.">La diferencia en el retorno a la educación.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 3: efecto aditivo, una diferencia de intercepto.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con 4 categorías (economía, medicina, ingeniería, sin universidad), ¿cuántas dummies se incluyen junto con el intercepto?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-why="Con 4 dummies e intercepto hay colinealidad perfecta: la trampa de las dummies.">4</button>
+<button class="econ-quiz-opt" data-correct>3</button>
+<button class="econ-quiz-opt" data-why="Se pueden incluir hasta q − 1 = 3.">2</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 6: con q categorías, hasta q − 1 dummies. La omitida es la categoría base.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Dos rectas paralelas</p>
+<p>Simula salarios con una dummy de género y verifica que el intercepto de las mujeres es β₀ + δ₀.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">21</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">n</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">400</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">mujer</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbinom</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">educ</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="m">8</span><span class="o">:</span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">salario</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1.5</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mujer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.55</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">    </span><span class="c1"># delta0 = −1</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">salario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">mujer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">educ</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Dos rectas paralelas: mismo efecto de educ, interceptos distintos</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nf">c</span><span class="p">(</span><span class="n">intercepto_hombres</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unname</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)[</span><span class="m">1</span><span class="p">]),</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="n">intercepto_mujeres</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unname</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">m</span><span class="p">)[</span><span class="m">2</span><span class="p">]))</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> agrega la dummy <code>hombre &lt;- 1 - mujer</code> al modelo junto con <code>mujer</code>. ¿Qué entrega R? ¿Por qué?</p>
+</div>
+<h3 class="econ-tema" data-laminas="Parte 1 · láminas 7–9" data-num="2" id="tema-2">Más de dos categorías</h3>
+<p class="econ-tema-q">¿Cómo se comparan cuatro carreras en una sola regresión?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 7" id="variables-dummy-con-mas-de-2-categorias">Variables Dummy con más de 2 categorías</h4>
+<!-- sem11/clase 12.tex · lámina 7 -->
+<ul>
+<li>
+<p>¿Qué hacer cuando se usa una variable cualitativa como Carrera Universitaria, que tiene <span class="arithmatex">\(q &gt; 2\)</span> categorías? Supongamos que existen SOLO 4 opciones: Economía, Medicina, Ingeniería, No hizo universidad.</p>
+</li>
+<li>
+<p>Se crean <span class="arithmatex">\(q - 1\)</span> variables binarias. Cada una correspondiente a una dummy que vale 1 para una cierta categoría y 0 en otro caso. Variables: Economía, Medicina, Ingeniería.</p>
+</li>
+<li>
+<p>La categoría cuya variable dummy no fue incluida se considera la categoría base y la interpretación de los coeficientes de las categorías restantes se hace en relación a esta categoría base.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 8–9" id="ejemplo-salario-por-carrera-universitaria">Ejemplo: salario por carrera universitaria</h4>
+<!-- sem11/clase 12.tex · lámina 8 -->
+<ul>
+<li>
+<p>Considere una variable con cuatro categorías: economía, medicina, ingeniería, no terminó universidad.</p>
+</li>
+<li>
+<p><em>salario</em> = <span class="arithmatex">\(\beta_0\)</span> + <span class="arithmatex">\(\beta_1\)</span>economía + <span class="arithmatex">\(\beta_2\)</span>medicina + <span class="arithmatex">\(\beta_3\)</span>Ingeniería + <span class="arithmatex">\(u\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\hat{salario} = 100 + 500\)</span>economía + 300medicina + 600Ingeniería</p>
+</li>
+</ul>
+<!-- sem11/clase 12.tex · lámina 9 -->
+<ul>
+<li>
+<p>Considere una variable con cuatro categorías: economía, medicina, ingeniería, no terminó universidad.</p>
+</li>
+<li>
+<p><em>salario</em> = <span class="arithmatex">\(\beta_0\)</span> + <span class="arithmatex">\(\beta_1\)</span>economía + <span class="arithmatex">\(\beta_2\)</span>medicina + <span class="arithmatex">\(\beta_3\)</span>Ingeniería + <span class="arithmatex">\(u\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\hat{salario} = 100 + 500\)</span>economía + 300medicina + 600Ingeniería</p>
+</li>
+<li>
+<p>¿Cómo se interpreta <span class="arithmatex">\(\hat{\beta_0} = 100\)</span>?</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\beta_0\)</span>: <span class="arithmatex">\(E[salario|econ = 0, med = 0, ing = 0]\)</span>. Es decir, el promedio de salario para los individuos en la categoría base (en este caso, no universidad).</p>
+</li>
+<li>
+<p>Entonces, los individuos que no fueron a la universidad ganan en promedio 100 dólares mensuales.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Noten que el promedio para los que estudiaron economía es:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(E[salario|econ = 1, med = 0, ing = 0] = \beta_0 + \beta_1\)</span>.</p>
+</li>
+<li>
+<p>Entonces, <span class="arithmatex">\(\beta_1\)</span> es la diferencia promedio de salario entre estudiar economía y los que no fueron a la universidad.</p>
+</li>
+<li>
+<p>En promedio se estima, los que estudian economía ganan 500 dólares más que los que no estudian.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_2\)</span>: la diferencia promedio entre estudiar medicina y no estudiar.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_3\)</span>: la diferencia promedio entre estudiar ingeniería y no estudiar.</p>
+</li>
+<li>
+<p>¿Cómo comparo economía versus medicina?</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con salario = 100 + 500·economía + 300·medicina + 600·ingeniería, ¿cuánto ganan en promedio los de medicina?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>400</button>
+<button class="econ-quiz-opt" data-why="300 es la diferencia respecto de la categoría base; hay que sumar el intercepto.">300</button>
+<button class="econ-quiz-opt" data-why="100 es el promedio de la categoría base (sin universidad).">100</button>
+</div>
+<p class="econ-quiz-fb">✅ β₀ + β₂ = 100 + 300 = 400.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Cuál es la diferencia promedio entre economía y medicina?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>200 a favor de economía.</button>
+<button class="econ-quiz-opt" data-why="500 es la diferencia de economía con la categoría base.">500</button>
+<button class="econ-quiz-opt" data-why="Sí se puede: β₁ − β₂ = 500 − 300.">No se puede calcular con esta regresión.</button>
+</div>
+<p class="econ-quiz-fb">✅ Responde la pregunta de la lámina 9.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Categorías y categoría base</p>
+<p>Simula los salarios de la lámina 8, estima con <code>factor()</code> y cambia la categoría base con <code>relevel()</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Lámina 8: salario = 100 + 500 economía + 300 medicina + 600 ingeniería</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">22</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">carrera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="nf">sample</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">"ninguna"</span><span class="p">,</span><span class="w"> </span><span class="s">"economia"</span><span class="p">,</span><span class="w"> </span><span class="s">"medicina"</span><span class="p">,</span><span class="w"> </span><span class="s">"ingenieria"</span><span class="p">),</span><span class="w"> </span><span class="m">800</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">                  </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">"ninguna"</span><span class="p">,</span><span class="w"> </span><span class="s">"economia"</span><span class="p">,</span><span class="w"> </span><span class="s">"medicina"</span><span class="p">,</span><span class="w"> </span><span class="s">"ingenieria"</span><span class="p">))</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">media</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">ninguna</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">economia</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">600</span><span class="p">,</span><span class="w"> </span><span class="n">medicina</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">400</span><span class="p">,</span><span class="w"> </span><span class="n">ingenieria</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">700</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">salario</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">media</span><span class="p">[</span><span class="nf">as.character</span><span class="p">(</span><span class="n">carrera</span><span class="p">)]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">800</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">salario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">carrera</span><span class="p">))</span><span class="w">           </span><span class="c1"># base: ninguna (la primera categoría)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="nf">tapply</span><span class="p">(</span><span class="n">salario</span><span class="p">,</span><span class="w"> </span><span class="n">carrera</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w">        </span><span class="c1"># los promedios por grupo</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">salario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="nf">relevel</span><span class="p">(</span><span class="n">carrera</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"medicina"</span><span class="p">)))</span><span class="w">   </span><span class="c1"># economía vs. medicina directo</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> usa <code>ref = "ingenieria"</code>. ¿Qué signo tienen ahora los coeficientes?</p>
+</div>
+<h3 class="econ-tema" data-laminas="Parte 1 · láminas 10–14" data-num="3" id="tema-3">Interacciones con dummies</h3>
+<p class="econ-tema-q">¿Y si la brecha depende de otra característica?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 10–11" id="interaccion-entre-variables-dummy">Interacción entre variables dummy</h4>
+<!-- sem11/clase 12.tex · lámina 10 -->
+<ul>
+<li>
+<p>Considere el siguiente modelo:</p>
+<div class="arithmatex">\[
+\text{wage} = \beta_0 + \beta_1 \text{mujer} + \beta_2 \text{casad} + \beta_3 \text{mujer} \times \text{casad} + u
+\]</div>
+</li>
+<li>
+<p>Esto nos permite testear, por ejemplo, si la discriminación salarial depende del estado civil de las mujeres o si el premio por matrimonio afecta diferente a hombres o mujeres.</p>
+</li>
+<li>
+<p>Noten que los coeficientes nos ayudan a entender los promedios para los 4 subgrupos de la población.</p>
+<ol>
+<li>
+<p><span class="arithmatex">\(E[wage|mujer = 0, casad = 0] = \beta_0\)</span>: promedio para hombres solteros.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(E[wage|mujer = 1, casad = 0] = \beta_0 + \beta_1\)</span>: promedio para mujeres solteras.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(E[wage|mujer = 0, casad = 1] = \beta_0 + \beta_2\)</span>: promedio para hombres casados.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(E[wage|mujer = 1, casad = 1] = \beta_0 + \beta_1 + \beta_2 + \beta_3\)</span>: promedio para mujeres casadas.</p>
+</li>
+</ol>
+</li>
+<li>
+<p><span class="arithmatex">\((2) - (1) = \beta_1\)</span>: La diferencia salarial entre las mujeres y los hombres cuando ambos son solteros.</p>
+</li>
+<li>
+<p><span class="arithmatex">\((3) - (1) = \beta_2\)</span>: La diferencia salarial entre casados y solteros, para el grupo de hombres.</p>
+</li>
+<li>
+<p><span class="arithmatex">\((4) - (3) = \beta_1 + \beta_3\)</span>: La diferencia salarial entre mujeres y hombres, cuando ambos están casados.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_3\)</span>: La diferencia extra que hay en la discriminacion salarial a las mujeres por estar casadas.</p>
+</li>
+</ul>
+<!-- sem11/clase 12.tex · lámina 11 -->
+<ul>
+<li>
+<p>Considere el siguiente modelo:</p>
+<div class="arithmatex">\[
+\text{wage} = \beta_0 + \beta_1 \text{mujer} + \beta_2 \text{casad} + \beta_3 \text{mujer} \times \text{casad} + u
+\]</div>
+</li>
+<li>
+<p>Otra forma de verlo es pensar en cómo cambia <em>wage</em> cuando cambia el estado civil:</p>
+<div class="arithmatex">\[
+\beta_2 + \beta_3 \times \text{mujer}
+\]</div>
+<ul>
+<li>
+<p><span class="arithmatex">\(\beta_2\)</span>: el efecto de estar casado para los hombres.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_2 + \beta_3\)</span>: el efecto de estar casado para las mujeres.</p>
+</li>
+<li>
+<p><strong><span class="arithmatex">\(\beta_3\)</span>: la diferencia del premio por matrimonio para hombres y para mujeres.</strong></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Entonces, testear la hipótesis nula de que el premio por matrimonio no depende del género corresponde a testear que el coeficiente <span class="arithmatex">\(\beta_3\)</span> no es significativo.</strong></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 12" id="interaccion-con-variables-cuantitativas">Interacción con variables cuantitativas</h4>
+<!-- sem11/clase 12.tex · lámina 12 -->
+<ul>
+<li>
+<p>Considere el siguiente modelo:</p>
+<div class="arithmatex">\[
+salario = \beta_0 + \delta_0 \cdot mujer + \beta_1 \cdot educ + \delta_1 \cdot mujer \cdot educ + u
+\]</div>
+</li>
+</ul>
+<p><strong>Diferencia de interceptos</strong></p>
+<ul>
+<li>
+<p>Para los hombres, el intercepto es <span class="arithmatex">\(\beta_0\)</span> (<span class="arithmatex">\(educ = 0\)</span>; <span class="arithmatex">\(mujer = 0\)</span>)</p>
+</li>
+<li>
+<p>Para las mujeres, el intercepto es <span class="arithmatex">\(\beta_0 + \delta_0\)</span> (<span class="arithmatex">\(educ = 0\)</span>; <span class="arithmatex">\(mujer = 1\)</span>)</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\delta_0\)</span>: mide la diferencia en los interceptos entre mujeres y hombres. Es decir, la diferencia salarial entre hombres y mujeres con cero años de educación.</p>
+</li>
+</ul>
+<p><strong>Diferencia de pendiente</strong></p>
+<ul>
+<li>
+<p>Noten que la interacción nos permite tener también pendientes diferentes del efecto de educación para cada grupo:</p>
+<div class="arithmatex">\[
+\frac{\triangle salario}{\triangle educ} = \beta_1 + \delta_1 \cdot mujer
+\]</div>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_1\)</span>: el efecto de un año más de educación en salarios para los hombres.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_1 + \delta_1\)</span>: el efecto de un año más de educación para las mujeres.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\delta_1\)</span>: la diferencia en los retornos a la educación de las mujeres con respecto a los hombres.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 13" id="ejemplo-diferentes-pendientes-e-interceptos-para-mujer-y-hombres">Ejemplo: diferentes pendientes e interceptos para mujer y hombres</h4>
+<!-- sem11/clase 12.tex · lámina 13 -->
+<p><svg class="econ-tikz-svg econ-tikz-plot" viewBox="0 0 498 208" role="img" aria-label="Panel a: la recta de mujeres tiene menor intercepto y menor pendiente. Panel b: menor intercepto pero mayor pendiente" style="max-width:498px;width:100%"><defs><marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs><line x1="60" y1="168" x2="198" y2="168" stroke="currentColor" marker-end="url(#ahk)"/><line x1="60" y1="168" x2="60" y2="30" stroke="currentColor" marker-end="url(#ahk)"/><text x="202" y="182" font-style="italic" fill="currentColor">educ</text><text x="54" y="34" text-anchor="end" font-style="italic" fill="currentColor">salario</text><line x1="60" y1="135.8" x2="175.0" y2="43.8" stroke="currentColor" stroke-width="2.6"/><text x="179.0" y="37.8" fill="currentColor">hombre</text><line x1="60" y1="158.8" x2="175.0" y2="99.0" stroke="#1d4ed8" stroke-width="2.6"/><text x="179.0" y="113.0" fill="currentColor">mujer</text><text x="129.0" y="195.0" text-anchor="middle" fill="currentColor">(a)</text><line x1="290" y1="168" x2="428" y2="168" stroke="currentColor" marker-end="url(#ahk)"/><line x1="290" y1="168" x2="290" y2="30" stroke="currentColor" marker-end="url(#ahk)"/><text x="432" y="182" font-style="italic" fill="currentColor">educ</text><text x="284" y="34" text-anchor="end" font-style="italic" fill="currentColor">salario</text><line x1="290" y1="140.4" x2="405.0" y2="76.0" stroke="currentColor" stroke-width="2.6"/><text x="409.0" y="90.0" fill="currentColor">hombre</text><line x1="290" y1="158.8" x2="405.0" y2="53.0" stroke="#1d4ed8" stroke-width="2.6"/><text x="409.0" y="47.0" fill="currentColor">mujer</text><text x="359.0" y="195.0" text-anchor="middle" fill="currentColor">(b)</text></svg>
+(a) <span class="arithmatex">\(\delta_0 &lt; 0\)</span>, <span class="arithmatex">\(\delta_1 &lt; 0\)</span> (b) <span class="arithmatex">\(\delta_0 &lt; 0\)</span>, <span class="arithmatex">\(\delta_1 &gt; 0\)</span>.</p>
+</div>
+<div class="econ-widget" data-widget="dummies"></div>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 14" id="test-de-hipotesis">Test de hipótesis</h4>
+<!-- sem11/clase 12.tex · lámina 14 -->
+<div class="arithmatex">\[
+salario = \beta_0 + \delta_0 \cdot mujer + \beta_1 \cdot educ + \delta_1 \cdot mujer \cdot educ + u
+\]</div>
+<ul>
+<li>¿Cómo testearía que los retornos a un año más de educación son diferentes para hombres y mujeres? <span class="arithmatex">\(H_0: \delta_1 = 0\)</span><br>
+    <span class="arithmatex">\(H_1: \delta_1 \neq 0\)</span> Si rechazo la hipótesis nula, entonces los retornos son diferentes.</li>
+</ul>
+<!-- -->
+<ul>
+<li>¿Cómo testearía que las mujeres ganan diferente a los hombres dada sus características? Noten que esto puede ser por diferencias en el intercepto o por diferencias en la pendiente. → <span class="arithmatex">\(H_0: \delta_0 = \delta_1 = 0\)</span> Si rechazo la hipótesis nula, entonces hay diferencias en las remuneraciones de las mujeres con respecto a los hombres.</li>
+</ul>
+<!-- -->
+<ul>
+<li>Pueden hacer un test F como los que vimos en clases pasadas.</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En wage = β₀ + β₁·mujer + β₂·casad + β₃·mujer·casad, ¿cuál es el promedio de las mujeres casadas?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>β₀ + β₁ + β₂ + β₃</button>
+<button class="econ-quiz-opt" data-why="Ese es el de las mujeres solteras.">β₀ + β₁</button>
+<button class="econ-quiz-opt" data-why="β₃ es solo la diferencia adicional por la interacción.">β₃</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 10, grupo 4.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En salario = β₀ + δ₀·mujer + β₁·educ + δ₁·mujer·educ, ¿cómo testeas que las mujeres ganan igual que los hombres dadas sus características?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>H₀: δ₀ = δ₁ = 0, con un test F.</button>
+<button class="econ-quiz-opt" data-why="Así se ignora una posible diferencia en la pendiente.">H₀: δ₀ = 0, con un test t.</button>
+<button class="econ-quiz-opt" data-why="β₁ es el retorno a la educación de los hombres.">H₀: β₁ = 0.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 14.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Interacción y test F</p>
+<p>Simula salarios con diferencias de intercepto y de pendiente, y testea H₀: δ₀ = δ₁ = 0.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">23</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">n</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">500</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">mujer</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbinom</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">educ</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="m">8</span><span class="o">:</span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">salario</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1.5</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mujer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.55</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mujer</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">ur</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">salario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">mujer</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="p">)</span><span class="w">       </span><span class="c1"># = mujer + educ + mujer:educ</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nf">coef</span><span class="p">(</span><span class="n">ur</span><span class="p">)</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">r</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">salario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">)</span><span class="w">               </span><span class="c1"># H0: delta0 = delta1 = 0</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nf">anova</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">ur</span><span class="p">)</span><span class="w">                           </span><span class="c1"># test F de la lámina 14</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>0.2 * mujer * educ</code> por <code>0 * mujer * educ</code>. ¿Sigue rechazándose H₀?</p>
+</div>
+<h2 class="econ-parte" data-eyebrow="Parte 2 · Cátedra" id="test-de-chow-y-variables-dependientes-binarias">Test de Chow y variables dependientes binarias</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem11/clase13.tex</code> · 8 láminas</p>
+
+<h3 class="econ-tema" data-laminas="Parte 2 · láminas 1–4" data-num="4" id="tema-4">El test de Chow</h3>
+<p class="econ-tema-q">¿Es el mismo modelo para hombres y mujeres?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="diferencias-entre-grupos">Diferencias entre grupos</h4>
+<!-- sem11/clase13.tex · lámina 1 -->
+<ul>
+<li>
+<p>Suponga el siguiente modelo:</p>
+<div class="arithmatex">\[
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u
+\]</div>
+<p>y que se puede clasificar las <span class="arithmatex">\(n\)</span> observaciones en <span class="arithmatex">\(G\)</span> grupos distintos.</p>
+</li>
+</ul>
+<!-- -->
+<ul>
+<li>
+<p>Se quiere testear que el modelo es el mismo para todos los grupos, es decir, los coeficientes son los mismos.</p>
+</li>
+<li>
+<p>En series de tiempo esto equivale a testear un cambio de régimen o cambio "estructural".</p>
+</li>
+</ul>
+<!-- -->
+<ul>
+<li>
+<p>Suponga <span class="arithmatex">\(G = 2\)</span>. Para realizar el test planteamos el modelo sin restringir:</p>
+<div class="arithmatex">\[
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \gamma_0 D + \gamma_1 x_1 D + \gamma_2 x_2 D + \gamma_3 x_3 D + u
+\]</div>
+<p>donde <span class="arithmatex">\(D\)</span> es una variable dummy para observaciones de un mismo grupo (e.g: mujer).</p>
+</li>
+</ul>
+<!-- -->
+<ul>
+<li>
+<p>La hipótesis nula correspondiente es:</p>
+<div class="arithmatex">\[
+H_0 : \gamma_0 = \gamma_1 = \gamma_2 = \gamma_3 = 0
+\]</div>
+</li>
+<li>
+<p>Y se puede hacer un test F.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="test-de-chow-diferencias-entre-grupos">Test de Chow: diferencias entre grupos</h4>
+<!-- sem11/clase13.tex · lámina 2 -->
+<ul>
+<li>
+<p>Otra forma de verificar esta hipótesis es usando el Test de Chow que plantea hacer una regresión para cada grupo.</p>
+</li>
+<li>
+<p>Estimar la ecuación:</p>
+<div class="arithmatex">\[
+y = \beta_{0}^g + \beta_{1}^g x_1 + \beta_{2}^g x_2 + \beta_{3}^g x_3 + u
+\]</div>
+<p>para cada subpoblación <span class="arithmatex">\(g = 1, \ldots, G\)</span>.</p>
+</li>
+</ul>
+<!-- -->
+<ul>
+<li>
+<p>Obtener la <span class="arithmatex">\(SSR_g\)</span> correspondiente a la regresión para dicho subgrupo, y construir <span class="arithmatex">\(SSR_{ur} = \sum_{g=1}^G SSR_g\)</span>.</p>
+</li>
+<li>
+<p>Estimar la ecuación restringida:</p>
+<div class="arithmatex">\[
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u
+\]</div>
+<p>usando todas las observaciones y obtener su <span class="arithmatex">\(SSR_r\)</span>.</p>
+</li>
+</ul>
+<!-- -->
+<ul>
+<li>
+<p>Construir el estadístico del Test de Chow:</p>
+<div class="arithmatex">\[
+F = \frac{(SSR_r - SSR_{ur}) / ((G - 1)(k + 1))}{SSR_{ur} / (n - G(k + 1))} \sim F((G - 1)(k + 1), n - G(k + 1))
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 3" id="ejemplo-test-de-chow">Ejemplo test de Chow</h4>
+<!-- sem11/clase13.tex · lámina 3 -->
+<div class="arithmatex">\[
+\log(wage) = \beta_0 + \beta_1 educ + \beta_2 experiencia + \beta_3 ingreso\_familiar + u
+\]</div>
+<ul>
+<li>
+<p>Queremos saber si el modelo es igual para dos grupos (<span class="arithmatex">\(G=2\)</span>): mujeres (g=1) y hombres (g=2). La hipótesis nula del test de Chow es que los modelos son iguales.</p>
+</li>
+<li>
+<p>Hacemos la regresión para cada subgrupo:</p>
+<ul>
+<li>
+<p>Solo considerando las 90 mujeres de la muestra, obtenemos <span class="arithmatex">\(SSR_1 = 19\)</span></p>
+</li>
+<li>
+<p>Solo considerando los 276 hombres de la muestra, obtenemos <span class="arithmatex">\(SSR_2 = 59\)</span></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Sumamos estos dos números para obtener: <span class="arithmatex">\(SSR_{ur} = 78\)</span></p>
+</li>
+<li>
+<p>Regresión restringida: hacemos la regresión para toda la muestra de 366 personas (asumiendo que no hay diferencias entre hombres y mujeres). Obtenemos <span class="arithmatex">\(SSR_r = 85\)</span></p>
+</li>
+<li>
+<p>Construimos el F-estadístico de Chow:</p>
+<div class="arithmatex">\[
+F = \frac{85 - 78}{78} \cdot \frac{366 - 2(3 + 1)}{(2 - 1)(3 + 1)} = 8,03
+\]</div>
+</li>
+<li>
+<p>Comparamos al 5% con <span class="arithmatex">\(F(4, 358) = 2.39\)</span>. Se rechaza la hipótesis nula, es decir, hay diferencias entre los grupos.</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="f-test" data-preset="3"></div>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 4" id="ejercicio">Ejercicio</h4>
+<!-- sem11/clase13.tex · lámina 4 -->
+<p>Una ecuación que explica el sueldo de los presidentes de consejos de administración es:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\log(\widehat{salary}) &amp;= 4.59 + 0.257 \log(sales) + 0.011 \, roe + 0.158 \, finance
++ 0.181 \, consprod - 0.283 \, service \\
+&amp;\quad (0.30) \quad \quad \quad (0.032) \quad  \quad \quad  \quad \quad  (0.004) \quad \quad \quad \quad \quad (0.089) \quad\quad \quad \quad \quad  (0.085) \quad \quad \quad \quad  (0.099) \\
+n &amp;= 209, \quad R^2 = 0.357
+\end{aligned}
+\]</div>
+<p>donde finance, consprod y service son variables binarias que corresponden a las industrias financiera, de productos de consumo y de servicios. La industria que se ha omitido es la del transporte.</p>
+<ul>
+<li>
+<p>Calcule la diferencia porcentual aproximada entre los sueldos estimados de las industrias de servicios y de transporte, manteniendo sales y roe constantes. Es esta diferencia estadísticamente significativa?</p>
+</li>
+<li>
+<p>Cuál es la diferencia porcentual aproximada entre los sueldos estimados de la industria de productos de consumo y en el sector financiero? Cómo podría probar si esta diferencia es estadísticamente significativa?</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-4">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 4</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En el test de Chow, ¿cómo se obtiene SSR_ur?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Sumando las SSR de las regresiones estimadas por separado para cada grupo.</button>
+<button class="econ-quiz-opt" data-why="Esa es SSR_r, la del modelo restringido.">Con la regresión de toda la muestra.</button>
+<button class="econ-quiz-opt" data-why="Se suman, no se promedian.">Promediando las SSR de los grupos.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 2.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En el ejemplo, F = 8.03 y el valor crítico F(4, 358) es 2.39. ¿Qué concluyes?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>El modelo es distinto para hombres y mujeres.</button>
+<button class="econ-quiz-opt" data-why="8.03 &gt; 2.39: se rechaza la igualdad.">El modelo es el mismo para ambos grupos.</button>
+<button class="econ-quiz-opt" data-why="El test de Chow no dice qué coeficientes difieren.">Solo difieren los interceptos.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 3.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Chow paso a paso</p>
+<p>Reproduce el F de la lámina 3 y repite el test con datos simulados estimando una regresión por grupo.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Lámina 3: test de Chow para hombres y mujeres</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">SSR_r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">85</span><span class="p">;</span><span class="w"> </span><span class="n">SSR_ur</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">59</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">366</span><span class="p">;</span><span class="w"> </span><span class="n">G</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="bp">F</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">SSR_r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">SSR_ur</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">SSR_ur</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">G</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">((</span><span class="n">G</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">))</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nf">c</span><span class="p">(</span><span class="bp">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">F</span><span class="p">,</span><span class="w"> </span><span class="n">critico</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">qf</span><span class="p">(</span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">G</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">G</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)))</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Con datos simulados: regresión por grupo contra regresión conjunta</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">24</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbinom</span><span class="p">(</span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0.4</span><span class="p">);</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">300</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="m">0.5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">300</span><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">SSRur</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">resid</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">subset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">resid</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">subset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">SSRr</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">resid</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">(</span><span class="n">SSRr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">SSRur</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">SSRur</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="m">300</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> en la simulación, cambia <code>g * (0.5 + 0.8 * x)</code> por <code>0 * g</code>. ¿Se rechaza?</p>
+</div>
+<h3 class="econ-tema" data-laminas="Parte 2 · láminas 5–8" data-num="5" id="tema-5">Variable dependiente binaria: el MPL</h3>
+<p class="econ-tema-q">¿Qué estimamos cuando y solo puede valer 0 o 1?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 5" id="variables-dependientes-binarias">Variables dependientes binarias</h4>
+<!-- sem11/clase13.tex · lámina 5 -->
+<p>Muchos problemas de la vida real consisten en explicar una variable dummy.</p>
+<ul>
+<li>
+<p>¿Qué explica si un alumno va a un colegio público o privado.</p>
+</li>
+<li>
+<p>¿Quiénes son las personas que se jubilan anticipamente?</p>
+</li>
+<li>
+<p>¿Qué tipos de personas tienen mas probabilidad de chocar el auto?</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 6" id="modelo-de-probabilidad-lineal-mpl">Modelo de probabilidad lineal (MPL)</h4>
+<!-- sem11/clase13.tex · lámina 6 -->
+<ul>
+<li>
+<p>Considere el caso simple cuando <span class="arithmatex">\(y\)</span> tiene sólo dos categorías, definidas como 0 (fracaso) y 1 (éxito).</p>
+<p>$$
+\begin{aligned}
+y &amp;= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k + u \
+\mathbb{E}[y \mid x] &amp;= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k</p>
+<p>\end{aligned}
+$$</p>
+</li>
+<li>
+<p>En este caso se cumple además que:</p>
+<div class="arithmatex">\[
+\mathbb{E}[y \mid x] = 1 \cdot \mathbb{P}[y = 1 \mid x] + 0 \cdot \mathbb{P}[y = 0 \mid x] = \mathbb{P}[y = 1 \mid x]
+\]</div>
+</li>
+<li>
+<p>Luego, la regresión es igual a:</p>
+<div class="arithmatex">\[
+\mathbb{P}[y = 1 \mid x] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k
+\]</div>
+</li>
+<li>
+<p>Los modelos con variable dependiente binaria son llamados <u>modelos de probabilidad lineal</u>.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\beta_j \quad (j\neq 0)\)</span> mide el cambio en la probabilidad de éxito debido a un cambio en una unidad de <span class="arithmatex">\(x_j\)</span>. <span class="arithmatex">\(\beta_0\)</span> mide la probabilidad de éxito cuando <span class="arithmatex">\(x_1 = x_2 = \dots = x_k = 0\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 7" id="el-mpl-presenta-dos-problemas">El MPL presenta dos problemas</h4>
+<!-- sem11/clase13.tex · lámina 7 -->
+<ol>
+<li>
+<p>Se pueden predecir individuos que tengan probabilidades de éxito negativas o mayores que uno. Si nos interesa el efecto en el promedio, este problema no es muy grave. Si nos interesa la predicción o efecto para individuos extremos, los modelos no-lineales Logit y Probit son mejores para este tipo de casos (no los vamos a ver en el curso).</p>
+</li>
+<li>
+<p>No se cumple el supuesto de homocedasticidad.</p>
+</li>
+</ol>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 8" id="ejemplo">Ejemplo</h4>
+<!-- sem11/clase13.tex · lámina 8 -->
+<p>Considere la siguiente regresión, donde la variable dependiente <strong>Accidente</strong> toma valor 1 si la persona tuvo al menos un accidente de tránsito y 0 si no.</p>
+<div class="arithmatex">\[
+\widehat{Accidente}_i = 0.30 -0.05educ_i -0.0001ingreso_i
+\]</div>
+<ul>
+<li>
+<p>Cómo interpretar el <span class="arithmatex">\(\hat{\beta}_0\)</span>=0,30?</p>
+<p>La probabilidad de accidente es 30% para individuos con 0 años de educación y 0 ingreso.</p>
+</li>
+<li>
+<p>Cómo interpretar el coeficiente de educ?</p>
+<p>Un aumento de la educación de la persona en un año reduce la probabilidad de accidente en 0,05.</p>
+</li>
+<li>
+<p>Cuál es la probabilidad de accidente de una persona cuyo ingreso es 2000 dólares y tiene 20 años de educación?</p>
+</li>
+<li>
+<p>Notar que si ponen valores altos de educ e ingreso se obtiene una probabilidad negativa!</p>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="mpl"></div>
+
+<div class="econ-practica" id="practica-5">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 5</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En el MPL, ¿qué mide βⱼ?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>El cambio en la probabilidad de que y = 1 por una unidad más de xⱼ.</button>
+<button class="econ-quiz-opt" data-why="y es 0 o 1: lo que cambia es la probabilidad.">El cambio porcentual en y.</button>
+<button class="econ-quiz-opt" data-why="Esa es la predicción completa, β₀ + β₁x₁ + …">La probabilidad de que y = 1.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 6.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Cuáles son los dos problemas del MPL según la lámina 7?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Puede predecir probabilidades fuera de [0, 1], y no cumple homocedasticidad.</button>
+<button class="econ-quiz-opt" data-why="Los coeficientes se interpretan bien como cambios en probabilidad.">Es sesgado y no tiene interpretación.</button>
+<button class="econ-quiz-opt" data-why="Sí se estima por MCO.">No se puede estimar por MCO.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 7.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Probabilidades imposibles</p>
+<p>Evalúa la ecuación de la lámina 8 y estima un MPL simulado para ver cuántas predicciones salen de [0, 1].</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Lámina 8: P(accidente) = 0.30 − 0.05 educ − 0.0001 ingreso</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">prob</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">educ</span><span class="p">,</span><span class="w"> </span><span class="n">ingreso</span><span class="p">)</span><span class="w"> </span><span class="m">0.30</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.0001</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ingreso</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nf">prob</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">500</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nf">prob</span><span class="p">(</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">2000</span><span class="p">)</span><span class="w">          </span><span class="c1"># ¡negativa!</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># MPL simulado: las predicciones pueden salir de [0, 1]</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">25</span><span class="p">)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="m">500</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbinom</span><span class="p">(</span><span class="m">500</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="nf">plogis</span><span class="p">(</span><span class="m">-3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">))</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nf">range</span><span class="p">(</span><span class="nf">fitted</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="nf">mean</span><span class="p">(</span><span class="nf">fitted</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nf">fitted</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">    </span><span class="c1"># % de predicciones imposibles</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> ¿con qué educación la probabilidad de accidente se vuelve negativa si el ingreso es 0?</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>Una <strong>dummy</strong> desplaza el intercepto; su <strong>interacción</strong> con una variable continua cambia la pendiente.</li>
+<li>Con <span class="arithmatex">\(q\)</span> categorías se incluyen <span class="arithmatex">\(q - 1\)</span> dummies; los coeficientes se leen respecto de la <strong>categoría base</strong>.</li>
+<li>El <strong>test de Chow</strong> compara la SSR de regresiones por grupo con la de la regresión conjunta.</li>
+<li>En el <strong>MPL</strong>, <span class="arithmatex">\(\beta_j\)</span> es un cambio en la probabilidad de éxito; puede predecir valores fuera de <span class="arithmatex">\([0, 1]\)</span> y es heterocedástico.</li>
+</ul>
+</div>
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">log(salario) = 1.2 + 0.08·educ − 0.15·mujer. ¿Cuánto menos ganan, aproximadamente, las mujeres con la misma educación?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Cerca de 15%.</button>
+<button class="econ-quiz-opt" data-why="Con log(salario), el coeficiente se lee como un porcentaje aproximado (Clase 6).">0.15 pesos.</button>
+<button class="econ-quiz-opt" data-why="0.08 es el retorno a un año de educación.">8%.</button>
+</div>
+<p class="econ-quiz-fb">✅ 100·(−0.15) ≈ −15%; el cálculo exacto es 100·(e^−0.15 − 1) ≈ −13.9%.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Para comparar salarios en 3 regiones (norte, centro y sur) con la región centro como base, ¿qué incluyes?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Dummies de norte y sur.</button>
+<button class="econ-quiz-opt" data-why="Con las tres y el intercepto hay colinealidad perfecta.">Dummies de norte, centro y sur.</button>
+<button class="econ-quiz-opt" data-why="Eso impondría un orden y distancias iguales entre regiones.">Una variable que vale 1, 2 y 3 según la región.</button>
+</div>
+<p class="econ-quiz-fb">✅ q − 1 dummies; la categoría omitida es la base.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Un MPL predice 1.12 para una persona. ¿Qué indica?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Una limitación del modelo: la probabilidad no puede superar 1.</button>
+<button class="econ-quiz-opt" data-why="Las probabilidades no superan 1.">Que la persona tiene 112% de probabilidad.</button>
+<button class="econ-quiz-opt" data-why="Es una consecuencia de usar una recta (lámina 7).">Que hay un error de cálculo.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 7.</p>
+</div>
+
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulo 7 (información cualitativa: variables binarias).</li>
+<li>📘 Ejercicios resueltos en la <strong><a href="../../ayudantias/ayudantia11/">Ayudantía 11</a></strong>.</li>
+<li>Próxima clase: <strong>Heterocedasticidad y variables instrumentales</strong>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+        <script src="../../javascripts/practica-banco.js"></script>
+      
+        <script src="../../javascripts/practica.js"></script>
+      
+    
+  </body>
+</html>

@@ -13,7 +13,7 @@
   if (!E || !C) return;
   const { WIDGETS, h, el, text, plot, rng, gauss, newSeed, mean, sd, ols, f, header, controls, slider, select,
     buttons, btn, statsRow, note, histogram } = E;
-  const { caso, svgBox, tween, ease, onVisible, popIn, hand, miles, shake, lmSummary, matHTML, lgamma, pT } = C;
+  const { caso, svgBox, tween, ease, onVisible, popIn, hand, miles, shake, lmSummary, matHTML, lgamma, pT, pF } = C;
 
   const C1 = "var(--econ-c1)", C2 = "var(--econ-c2)", C3 = "var(--econ-c3)";
   const st_ = (o) => Object.entries(o).map(([k, v]) => `${k}:${v}`).join(";");
@@ -821,6 +821,402 @@
       if (anim) { out.classList.remove("is-in"); void out.offsetWidth; out.classList.add("is-in"); }
     }
     render(false);
+  };
+
+
+  /* ========================================================================
+     CLASE 9 · El test F
+     ======================================================================== */
+  const dF = (x, d1, d2) => (x <= 0 ? 0 : Math.exp(0.5 * d1 * Math.log(d1) + 0.5 * d2 * Math.log(d2) + (0.5 * d1 - 1) * Math.log(x)
+    - 0.5 * (d1 + d2) * Math.log(d2 + d1 * x) - (lgamma(d1 / 2) + lgamma(d2 / 2) - lgamma((d1 + d2) / 2))));
+  function qF(p, d1, d2) {                       // P(F ≤ q) = p
+    let lo = 0, hi = 200;
+    for (let i = 0; i < 100; i++) { const m = (lo + hi) / 2; if (1 - pF(m, d1, d2) < p) lo = m; else hi = m; }
+    return (lo + hi) / 2;
+  }
+
+  /* --- Calculadora · Test F (SSR, R², significancia global, Chow) --------- */
+  WIDGETS["f-test"] = function (root) {
+    caso(root, "Calculadora · Láminas 14 a 20",
+      "El test F paso a paso 🧮",
+      "Elige cómo calcular el estadístico: con las SSR de los modelos restringido y no restringido, con sus R², o la prueba de " +
+      "significancia global. La curva es la distribución F bajo H₀: en rojo la zona de rechazo y en negro tu estadístico.");
+    const st = { modo: "ssr", ssrr: 198.31, ssru: 183.6, r2r: 0.5971, r2u: 0.627, n: 353, k: 4, j: 2, al: 0.05 };
+    const b = buttons(root);
+    const pr = presets(b, [
+      { label: "Baseball con SSR (lámina 16)", modo: "ssr", ssrr: 198.31, ssru: 183.6, n: 353, k: 4, j: 2 },
+      { label: "Baseball con R² (lámina 17)", modo: "r2", r2r: 0.5971, r2u: 0.627, n: 353, k: 4, j: 2 },
+      { label: "Significancia global (lámina 20)", modo: "global", r2u: 0.627, n: 353, k: 4, j: 4 },
+      { label: "Test de Chow (Clase 11)", modo: "ssr", ssrr: 85, ssru: 78, n: 366, k: 7, j: 4 },
+    ], (it) => { Object.assign(st, it); sync(); render(); });
+
+    const c = controls(root);
+    const sM = select(c, { label: "Forma del estadístico", value: st.modo, options: [["ssr", "Con SSR"], ["r2", "Con R²"], ["global", "Significancia global"]] },
+      (v) => { st.modo = v; if (v === "global") st.j = st.k; pr.clear(); sync(); render(); });
+    const iRr = numero(c, "SSR restringido", st.ssrr, "any", (v) => { st.ssrr = v; pr.clear(); render(); });
+    const iRu = numero(c, "SSR no restringido", st.ssru, "any", (v) => { st.ssru = v; pr.clear(); render(); });
+    const i2r = numero(c, "R² restringido", st.r2r, "any", (v) => { st.r2r = v; pr.clear(); render(); });
+    const i2u = numero(c, "R² no restringido", st.r2u, "any", (v) => { st.r2u = v; pr.clear(); render(); });
+    const iN = numero(c, "n", st.n, 1, (v) => { st.n = Math.round(v); pr.clear(); render(); });
+    const iK = numero(c, "k (regresores del modelo no restringido)", st.k, 1, (v) => { st.k = Math.round(v); if (st.modo === "global") st.j = st.k; pr.clear(); sync(); render(); });
+    const iJ = numero(c, "j (restricciones)", st.j, 1, (v) => { st.j = Math.round(v); pr.clear(); render(); });
+    select(c, { label: "α", value: "0.05", options: [["0.01", "1%"], ["0.05", "5%"], ["0.1", "10%"]] }, (v) => { st.al = +v; pr.clear(); render(); });
+    const p = plot(root, 640, 220, { l: 14, b: 36 });
+    const steps = h("ol", { class: "econ-ttest-steps", "aria-live": "polite" });
+    root.append(steps);
+    function vis(inp, on) { inp.closest(".econ-control").style.display = on ? "" : "none"; }
+    function sync() {
+      sM.value = st.modo; iRr.value = st.ssrr; iRu.value = st.ssru; i2r.value = st.r2r; i2u.value = st.r2u; iN.value = st.n; iK.value = st.k; iJ.value = st.j;
+      vis(iRr, st.modo === "ssr"); vis(iRu, st.modo === "ssr"); vis(i2r, st.modo === "r2"); vis(i2u, st.modo !== "ssr"); vis(iJ, st.modo !== "global");
+    }
+    function render() {
+      const { n, k, al } = st, j = st.modo === "global" ? k : st.j, gl = n - k - 1;
+      if (gl < 1 || j < 1) { steps.innerHTML = "<li>Revisa n, k y j: los grados de libertad deben ser positivos.</li>"; return; }
+      let F, form;
+      if (st.modo === "ssr") {
+        F = ((st.ssrr - st.ssru) / st.ssru) * (gl / j);
+        form = `F = (${st.ssrr} − ${st.ssru}) / ${st.ssru} · (${n} − ${k} − 1)/${j}`;
+      } else if (st.modo === "r2") {
+        F = ((st.r2u - st.r2r) / (1 - st.r2u)) * (gl / j);
+        form = `F = (${st.r2u} − ${st.r2r}) / (1 − ${st.r2u}) · (${n} − ${k} − 1)/${j}`;
+      } else {
+        F = (st.r2u / (1 - st.r2u)) * (gl / k);
+        form = `F = ${st.r2u} / (1 − ${st.r2u}) · (${n} − ${k} − 1)/${k}`;
+      }
+      const crit = qF(1 - al, j, gl), pv = pF(Math.max(F, 0), j, gl), rech = F > crit;
+      const hi = Math.max(crit * 2.2, Math.min(F * 1.15, 40), 5);
+      p.clear();
+      const ymax = Math.max(...Array.from({ length: 60 }, (_, i) => dF(0.05 + (i * hi) / 60, j, gl)));
+      p.domain([0, hi], [0, ymax * 1.15]);
+      p.axes({ noY: true, grid: false, xlabel: `F con (${j}, ${miles(gl)}) gl` });
+      let d = `M${p.x(crit)},${p.y(0)}`;
+      for (let i = 0; i <= 80; i++) { const x = crit + ((hi - crit) * i) / 80; d += `L${p.x(x).toFixed(1)},${p.y(dF(x, j, gl)).toFixed(1)}`; }
+      el("path", { d: d + `L${p.x(hi)},${p.y(0)}Z`, style: `fill:${C3};opacity:.35` }, p.svg);
+      p.curve(p.svg, (x) => dF(Math.max(x, 1e-6), j, gl), "", 200);
+      p.svg.lastChild.setAttribute("style", `fill:none;stroke:${C2};stroke-width:2.5`);
+      const fx = Math.min(F, hi);
+      const ln = el("line", { x1: p.x(fx), x2: p.x(fx), y1: 16, y2: p.y(0), style: "stroke:currentColor;stroke-width:2.5" }, p.svg);
+      text(p.svg, p.x(fx), 12, `F = ${f(F, 2)}${F > hi ? " →" : ""}`, { "text-anchor": "middle", "font-weight": "700" });
+      popIn(ln, 0, 300);
+      steps.innerHTML =
+        `<li><strong>Hipótesis:</strong> H₀: ${st.modo === "global" ? "β₁ = … = βₖ = 0 (el modelo no explica y)" : `las ${j} variables excluidas tienen coeficiente 0`}; H₁: al menos uno ≠ 0.</li>` +
+        `<li><strong>Estadístico:</strong> ${form} = <strong>${f(F, 3)}</strong>.</li>` +
+        `<li><strong>Valor crítico:</strong> F(${j}, ${miles(gl)}) al ${f(100 * al, 0)}% = ${f(crit, 3)}.</li>` +
+        `<li><strong>Decisión:</strong> ${rech ? "<span class='is-rej'>se rechaza H₀</span>" : "<span class='is-norej'>no se rechaza H₀</span>"} · valor-p = <strong>${pv < 1e-4 ? "&lt; 0.0001" : f(pv, 4)}</strong>.</li>`;
+    }
+    sync(); render();
+    // data-preset="3" en el HTML abre la calculadora con ese ejemplo (la Clase 11 la usa para Chow)
+    const ini = +(root.dataset.preset || 0);
+    if (ini) b.querySelectorAll("button")[ini].click();
+  };
+
+  /* --- Simulador · F conjunto contra t individuales (lámina 19) ----------- */
+  WIDGETS["f-vs-t"] = function (root) {
+    header(root, "Simulador: ninguna t es significativa, pero el F sí",
+      "y = 1 + 0.3·x₁ + 0.3·x₂ + u con n = 60. Sube la correlación entre x₁ y x₂: cada t individual pierde fuerza porque es difícil separar " +
+      "los efectos, pero el F conjunto sigue detectando que importan (como hrunsyr y rbisyr en el ejemplo del baseball).");
+    const st = { rho: 0.9, seed: 5 };
+    const c = controls(root);
+    const s = slider(c, { label: "Correlación entre x₁ y x₂", min: 0, max: 0.98, step: 0.01, value: st.rho, fmt: (v) => f(v, 2) }, (v) => { st.rho = v; render(); });
+    const b = buttons(root);
+    btn(b, "🎲 Otra muestra", () => { st.seed = newSeed(); render(); }, "econ-btn-gold");
+    btn(b, "Sin correlación", () => { s.set(0); st.rho = 0; render(); }, "econ-btn-ghost");
+    const tbl = h("table", { class: "econ-po-table econ-esc-tbl" });
+    root.append(h("div", { style: "overflow-x:auto" }, tbl));
+    const n_ = note(root);
+    function render() {
+      const r = rng(st.seed), n = 60;
+      const { x1, x2 } = muestra(r, n, st.rho);
+      const y = x1.map((a, i) => 1 + 0.3 * a + 0.3 * x2[i] + gauss(r));
+      const S = lmSummary([x1, x2], y);
+      const F = (S.R2 / (1 - S.R2)) * ((n - 3) / 2), pv = pF(F, 2, n - 3);
+      const fila = (lab, est, se, t, p) => `<tr><td>${lab}</td><td>${est}</td><td>${se}</td><td>${t}</td><td class="${p < 0.05 ? "revealed-po" : ""}">${p < 1e-4 ? "&lt;0.0001" : f(p, 4)}</td></tr>`;
+      tbl.innerHTML = "<tr><th></th><th>Estimación</th><th>s.e.</th><th>t o F</th><th>valor-p</th></tr>" +
+        fila("β̂₁ (x₁)", f(S.b[1], 3), f(S.se[1], 3), f(S.t[1], 2), S.p[1]) +
+        fila("β̂₂ (x₂)", f(S.b[2], 3), f(S.se[2], 3), f(S.t[2], 2), S.p[2]) +
+        fila("F conjunto: β₁ = β₂ = 0", "—", "—", f(F, 2), pv);
+      const indiv = (S.p[1] < 0.05 ? 1 : 0) + (S.p[2] < 0.05 ? 1 : 0);
+      n_.innerHTML = pv < 0.05 && indiv === 0
+        ? "<strong>Ninguna t es significativa al 5%, pero el F rechaza H₀.</strong> Con x₁ y x₂ muy correlacionadas, los errores estándar individuales se inflan; el F, al evaluarlas juntas, no tiene ese problema (lámina 19)."
+        : pv < 0.05 ? `El F rechaza H₀ y ${indiv} de las 2 t individuales también. Sube la correlación para ver cómo las t pierden fuerza.`
+          : "En esta muestra ni el F ni las t rechazan. Prueba otra muestra.";
+    }
+    render();
+  };
+
+  /* ========================================================================
+     CLASE 10 · Propiedades asintóticas
+     ======================================================================== */
+  function errorAsim(r) { return -Math.log(r() || 1e-12) - 1; }            // exponencial centrada: muy asimétrica, media 0
+
+  /* --- Simulador · Consistencia ------------------------------------------- */
+  WIDGETS.consistencia = function (root) {
+    header(root, "Simulador: ¿qué le pasa a β̂₁ cuando n crece?",
+      "Modelo y = 1 + 2·x + u con errores muy asimétricos (no normales). Para cada n se toman 400 muestras: el histograma muestra todas las β̂₁. " +
+      "Con exogeneidad, se concentran en 2 (consistencia). Si omites una variable correlacionada con x, se concentran… en otro valor.");
+    const NS = [10, 25, 50, 100, 250, 1000];
+    const st = { i: 1, omit: false };
+    const c = controls(root);
+    slider(c, { label: "Tamaño muestral n", min: 0, max: NS.length - 1, step: 1, value: st.i, fmt: (v) => miles(NS[v]) }, (v) => { st.i = v; render(); });
+    const b = buttons(root);
+    const tg = btn(b, "Omitir una variable correlacionada con x", () => { st.omit = !st.omit; tg.setAttribute("aria-pressed", String(st.omit)); render(); }, "econ-btn-ghost");
+    tg.setAttribute("aria-pressed", "false");
+    const p = plot(root, 640, 230, { l: 14, b: 38 });
+    const stats = statsRow(root, [
+      { k: "m", label: "Promedio de β̂₁", cls: "is-gold" },
+      { k: "sd", label: "Desv. estándar de β̂₁" },
+      { k: "lejos", label: "% de β̂₁ a más de 0.25 de 2" },
+    ]);
+    const n_ = note(root);
+    function render() {
+      const n = NS[st.i], r = rng(17 + st.i), est = [];
+      for (let k = 0; k < 400; k++) {
+        const x = [], y = [];
+        for (let i = 0; i < n; i++) {
+          const xi = gauss(r), z = 0.7 * xi + 0.7 * gauss(r);
+          x.push(xi);
+          y.push(1 + 2 * xi + (st.omit ? 1 * z : 0) + errorAsim(r));
+        }
+        est.push(ols(x, y).b1);
+      }
+      const lo = 0.5, hi = 4;
+      const H = histogram(est, lo, hi, 50);
+      p.clear();
+      p.domain([lo, hi], [0, Math.max(...H.counts) * 1.15]);
+      p.axes({ noY: true, grid: false, xlabel: `β̂₁ en 400 muestras de n = ${miles(n)}` });
+      const g = p.clipped();
+      H.counts.forEach((cnt, i) => {
+        if (!cnt) return;
+        const x0 = p.x(lo + i * H.w), w = p.x(lo + (i + 1) * H.w) - x0;
+        el("rect", { x: x0 + 0.5, width: Math.max(0.5, w - 1), y: p.y(cnt), height: p.y(0) - p.y(cnt), rx: 1.5, style: `fill:${C1};opacity:.85` }, g);
+      });
+      el("line", { x1: p.x(2), x2: p.x(2), y1: 12, y2: p.y(0), style: `stroke:${C2};stroke-width:2.5` }, p.svg);
+      text(p.svg, p.x(2), 10, "β₁ = 2", { "text-anchor": "middle", "font-weight": "700" });
+      const m = mean(est), lejos = est.filter((v) => Math.abs(v - 2) > 0.25).length / est.length;
+      stats.set("m", f(m, 3));
+      stats.set("sd", f(sd(est), 3));
+      stats.set("lejos", f(100 * lejos, 1) + "%");
+      n_.innerHTML = st.omit
+        ? `Con la variable omitida, E(x′u) ≠ 0: al crecer n la distribución se <strong>concentra en ${f(m, 2)}</strong>, no en 2. El sesgo no desaparece con más datos: MCO es <strong>inconsistente</strong> (lámina 4).`
+        : `Al crecer n, la probabilidad de que β̂₁ quede lejos de 2 cae hacia cero (hoy ${f(100 * lejos, 1)}%): <strong>plim β̂₁ = β₁</strong>, aunque los errores no sean normales (lámina 5).`;
+    }
+    render();
+  };
+
+  /* --- Simulador · Normalidad asintótica ---------------------------------- */
+  WIDGETS["normal-asintotica"] = function (root) {
+    header(root, "Simulador: la t se vuelve normal aunque u no lo sea",
+      "Errores muy asimétricos. Para cada muestra se calcula t = (β̂₁ − β₁)/s.e.(β̂₁). Con n chico, su distribución se aleja de la normal; " +
+      "con n grande, la curva normal (en dorado) la describe bien: es el TCL en acción (láminas 7 a 10).");
+    const NS = [5, 10, 30, 100, 500];
+    const st = { i: 0 };
+    const c = controls(root);
+    slider(c, { label: "Tamaño muestral n", min: 0, max: NS.length - 1, step: 1, value: st.i, fmt: (v) => NS[v] }, (v) => { st.i = v; render(); });
+    const p = plot(root, 640, 230, { l: 14, b: 38 });
+    const stats = statsRow(root, [
+      { k: "rej", label: "Rechazos de H₀ verdadera con |t| > 1.96 (meta 5%)", cls: "is-gold" },
+    ]);
+    const n_ = note(root);
+    function render() {
+      const n = NS[st.i], r = rng(31 + st.i), ts = [];
+      for (let k = 0; k < 3000; k++) {
+        const x = [], y = [];
+        for (let i = 0; i < n; i++) { const xi = Math.abs(gauss(r)) + 0.2 * r(); x.push(xi); y.push(1 + 2 * xi + 2 * errorAsim(r) * xi); }
+        const o = ols(x, y);
+        const se = Math.sqrt(o.SSR / (n - 2) / o.sxx);
+        if (Number.isFinite(se) && se > 0) ts.push((o.b1 - 2) / se);
+      }
+      const lo = -5, hi = 5, H = histogram(ts, lo, hi, 50);
+      const dens = H.counts.map((v) => v / (ts.length * H.w));
+      p.clear();
+      p.domain([lo, hi], [0, Math.max(0.45, ...dens) * 1.1]);
+      p.axes({ noY: true, grid: false, xlabel: `t en 3 000 muestras de n = ${n}` });
+      const g = p.clipped();
+      dens.forEach((v, i) => {
+        if (!v) return;
+        const x0 = p.x(lo + i * H.w), w = p.x(lo + (i + 1) * H.w) - x0;
+        el("rect", { x: x0 + 0.5, width: Math.max(0.5, w - 1), y: p.y(v), height: p.y(0) - p.y(v), style: `fill:${C1};opacity:.75` }, g);
+      });
+      p.curve(g, (x) => Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI), "", 160);
+      g.lastChild.setAttribute("style", `fill:none;stroke:${C2};stroke-width:2.5`);
+      const rej = ts.filter((t) => Math.abs(t) > 1.96).length / ts.length;
+      stats.set("rej", f(100 * rej, 1) + "%");
+      n_.innerHTML = n <= 10
+        ? `Con n = ${n} la distribución es asimétrica y se aleja de la normal: el test rechaza H₀ verdadera el ${f(100 * rej, 1)}% de las veces, no el 5%.`
+        : `Con n = ${n} la normal ya describe bien a t: rechaza cerca del 5%. Por eso la inferencia habitual sirve en muestras grandes aunque u no sea normal (lámina 10).`;
+    }
+    render();
+  };
+
+  /* ========================================================================
+     CLASE 11 · Variables binarias
+     ======================================================================== */
+  WIDGETS.dummies = function (root) {
+    header(root, "Simulador: diferencias de intercepto y de pendiente",
+      "salario = β₀ + δ₀·mujer + β₁·educ + δ₁·mujer·educ (valores ilustrativos). δ₀ desplaza la recta de las mujeres hacia arriba o abajo; " +
+      "δ₁ cambia su pendiente: el retorno a la educación.");
+    const st = { d0: -1, d1: 0 };
+    const b = buttons(root);
+    const pr = presets(b, [
+      { label: "Solo intercepto (lámina 4)", d0: -1, d1: 0 },
+      { label: "Panel (a): δ₀ < 0, δ₁ < 0", d0: -0.5, d1: -0.25 },
+      { label: "Panel (b): δ₀ < 0, δ₁ > 0", d0: -0.5, d1: 0.35 },
+    ], (it) => { Object.assign(st, it); s0.set(it.d0); s1.set(it.d1); render(); });
+    const c = controls(root);
+    const s0 = slider(c, { label: "δ₀ (diferencia de intercepto)", min: -2, max: 2, step: 0.05, value: st.d0, fmt: (v) => f(v, 2) }, (v) => { st.d0 = v; pr.clear(); render(); });
+    const s1 = slider(c, { label: "δ₁ (diferencia de pendiente)", min: -0.5, max: 0.5, step: 0.01, value: st.d1, fmt: (v) => f(v, 2) }, (v) => { st.d1 = v; pr.clear(); render(); });
+    const p = plot(root, 640, 260, { l: 44, b: 38 });
+    const n_ = note(root);
+    const B0 = 1.5, B1 = 0.55;
+    function render() {
+      const hom = (e) => B0 + B1 * e, muj = (e) => B0 + st.d0 + (B1 + st.d1) * e;
+      const ys = [hom(0), hom(16), muj(0), muj(16)];
+      p.clear();
+      p.domain([0, 16], [Math.min(0, ...ys) - 0.5, Math.max(...ys) + 1]);
+      p.axes({ xlabel: "años de educación", ylabel: "salario" });
+      [[hom, C1, "mujer = 0"], [muj, C3, "mujer = 1"]].forEach(([fn, col, lab]) => {
+        el("line", { x1: p.x(0), y1: p.y(fn(0)), x2: p.x(16), y2: p.y(fn(16)), style: `stroke:${col};stroke-width:3` }, p.svg);
+        text(p.svg, p.x(16) - 4, p.y(fn(16)) - 8, lab, { "text-anchor": "end", "font-weight": "700", style: `fill:${col}` });
+      });
+      n_.innerHTML = `Pendiente de los hombres β₁ = ${f(B1, 2)}; de las mujeres β₁ + δ₁ = ${f(B1 + st.d1, 2)}. ` +
+        (st.d1 === 0 ? "Con δ₁ = 0 las rectas son <strong>paralelas</strong>: la brecha δ₀ es la misma para todo nivel de educación (efecto aditivo)."
+          : `Con δ₁ ${st.d1 > 0 ? "&gt;" : "&lt;"} 0 las rectas <strong>no son paralelas</strong>: la brecha cambia con la educación${B0 + st.d0 + (B1 + st.d1) * 16 > B0 + B1 * 16 && st.d0 < 0 ? " y hasta se invierte" : ""}. ` +
+            "Para testear que hombres y mujeres ganan igual dadas sus características: H₀: δ₀ = δ₁ = 0, con un test F (lámina 14).");
+    }
+    render();
+  };
+
+  WIDGETS.mpl = function (root) {
+    caso(root, "Interactivo · Lámina 8",
+      "Probabilidades imposibles en el MPL ⚠️",
+      "La regresión de la lámina: P̂(accidente) = 0.30 − 0.05·educ − 0.0001·ingreso. Mueve la educación y el ingreso: el modelo lineal puede " +
+      "predecir probabilidades negativas, que no tienen sentido.");
+    const st = { e: 4, ing: 500 };
+    const c = controls(root);
+    slider(c, { label: "Años de educación", min: 0, max: 20, step: 1, value: st.e }, (v) => { st.e = v; render(); });
+    slider(c, { label: "Ingreso (US$)", min: 0, max: 3000, step: 100, value: st.ing, fmt: (v) => miles(v) }, (v) => { st.ing = v; render(); });
+    const meter = h("div", { class: "econ-mpl" });
+    root.append(meter);
+    const n_ = note(root);
+    function render() {
+      const pr_ = 0.3 - 0.05 * st.e - 0.0001 * st.ing;
+      const pct = Math.max(-0.5, Math.min(1, pr_));
+      meter.innerHTML = `<div class="econ-mpl-bar"><span class="econ-mpl-zero"></span><span class="econ-mpl-fill ${pr_ < 0 ? "is-neg" : ""}" style="${pr_ >= 0 ? `left:33.3%;width:${(pct / 1.5) * 100}%` : `left:${((pct + 0.5) / 1.5) * 100}%;width:${(-pct / 1.5) * 100}%`}"></span></div>` +
+        `<div class="econ-mpl-lbl"><span>−0.5</span><span>0</span><span>1</span></div>` +
+        `<p class="econ-po-eq is-big">P̂ = 0.30 − 0.05·${st.e} − 0.0001·${miles(st.ing)} = <strong>${f(pr_, 3)}</strong></p>`;
+      n_.innerHTML = pr_ < 0
+        ? "<strong>¡Probabilidad negativa!</strong> Es el primer problema del MPL (lámina 7): una recta no respeta los límites 0 y 1. Prueba con 20 años de educación e ingreso 2 000 (la pregunta de la lámina 8)."
+        : `Para esta persona el modelo predice una probabilidad de accidente de ${f(100 * pr_, 1)}%. Cada año más de educación la reduce en 0.05 (5 puntos porcentuales).`;
+    }
+    render();
+  };
+
+  /* ========================================================================
+     CLASE 12 · Heterocedasticidad y variables instrumentales
+     ======================================================================== */
+  WIDGETS["robustos"] = function (root) {
+    header(root, "Simulador: ¿cuántos intervalos de 95% contienen a β₁?",
+      "2 000 muestras de y = 1 + 2·x + u con n = 100. Con heterocedasticidad, el error estándar usual se equivoca y el intervalo cubre menos " +
+      "del 95%; el error estándar robusto de White (lámina 18) corrige el problema.");
+    const st = { het: true };
+    const c = controls(root);
+    select(c, { label: "Errores", value: "het", options: [["het", "Heterocedásticos: la varianza crece con x"], ["hom", "Homocedásticos"]] }, (v) => { st.het = v === "het"; render(); });
+    const b = buttons(root);
+    btn(b, "🎲 Otras 2 000 muestras", () => { seed = newSeed(); render(); }, "econ-btn-gold");
+    const stats = statsRow(root, [
+      { k: "u", label: "Cobertura con s.e. usual", cls: "is-red" },
+      { k: "r", label: "Cobertura con s.e. robusto", cls: "is-gold" },
+      { k: "sd", label: "Desv. est. real de β̂₁ / s.e. usual promedio / robusto" },
+    ]);
+    const n_ = note(root);
+    let seed = 4;
+    function render() {
+      const r = rng(seed), n = 100;
+      let cu = 0, cr = 0;
+      const est = [], seu = [], ser = [];
+      for (let k = 0; k < 2000; k++) {
+        const x = [], y = [];
+        for (let i = 0; i < n; i++) { const xi = 3 * r(); x.push(xi); y.push(1 + 2 * xi + (st.het ? 0.2 + 1.2 * xi * xi : 2.2) * gauss(r) * 0.6); }
+        const o = ols(x, y);
+        const s2 = o.SSR / (n - 2), se1 = Math.sqrt(s2 / o.sxx);
+        let num = 0;
+        for (let i = 0; i < n; i++) num += (x[i] - o.mx) ** 2 * o.resid[i] ** 2;
+        const se2 = Math.sqrt(num) / o.sxx;
+        est.push(o.b1); seu.push(se1); ser.push(se2);
+        if (Math.abs(o.b1 - 2) <= 1.984 * se1) cu++;
+        if (Math.abs(o.b1 - 2) <= 1.984 * se2) cr++;
+      }
+      stats.set("u", f((100 * cu) / 2000, 1) + "%");
+      stats.set("r", f((100 * cr) / 2000, 1) + "%");
+      stats.set("sd", `${f(sd(est), 3)} / ${f(mean(seu), 3)} / ${f(mean(ser), 3)}`);
+      n_.innerHTML = st.het
+        ? "Con heterocedasticidad, el s.e. usual <strong>subestima</strong> la dispersión real de β̂₁: los intervalos son muy angostos y cubren menos del 95% (los tests rechazan de más). El s.e. robusto se acerca a la dispersión real. Más datos no corrigen el s.e. usual (lámina 2)."
+        : "Con homocedasticidad, ambos errores estándar funcionan: los dos intervalos cubren cerca del 95%.";
+    }
+    render();
+  };
+
+  WIDGETS["iv-sim"] = function (root) {
+    header(root, "Simulador: MCO contra variables instrumentales",
+      "y = 1 + 1·x + u, pero x es endógena: comparte un factor no observado con u. El instrumento z afecta a x (relevancia) y, si es válido, " +
+      "no se relaciona con u (exogeneidad). 1 000 muestras de n = 200.");
+    const st = { endo: 0.6, rel: 0.6, inval: 0 };
+    const c = controls(root);
+    slider(c, { label: "Endogeneidad de x (Cov(x, u))", min: 0, max: 1, step: 0.05, value: st.endo, fmt: (v) => f(v, 2) }, (v) => { st.endo = v; render(); });
+    const sR = slider(c, { label: "Relevancia del instrumento (efecto de z en x)", min: 0.05, max: 1, step: 0.05, value: st.rel, fmt: (v) => f(v, 2) }, (v) => { st.rel = v; render(); });
+    const sI = slider(c, { label: "Violación de exogeneidad (Cov(z, u))", min: 0, max: 0.5, step: 0.05, value: st.inval, fmt: (v) => f(v, 2) }, (v) => { st.inval = v; render(); });
+    const b = buttons(root);
+    btn(b, "Buen instrumento (gráfico A)", () => { st.rel = 0.6; st.inval = 0; sR.set(0.6); sI.set(0); render(); }, "econ-btn-ghost");
+    btn(b, "Instrumento inválido (gráfico B)", () => { st.inval = 0.4; sI.set(0.4); render(); }, "econ-btn-ghost");
+    btn(b, "Instrumento débil (gráfico C)", () => { st.rel = 0.05; st.inval = 0; sR.set(0.05); sI.set(0); render(); }, "econ-btn-ghost");
+    const p = plot(root, 640, 240, { l: 14, b: 38 });
+    const stats = statsRow(root, [
+      { k: "mco", label: "Mediana β̂ MCO", cls: "is-red" },
+      { k: "iv", label: "Mediana β̂ VI", cls: "is-gold" },
+      { k: "r2", label: "R² de x sobre z (promedio)" },
+    ]);
+    const n_ = note(root);
+    function render() {
+      const r = rng(9), n = 200, mco = [], iv = [], r2s = [];
+      for (let k = 0; k < 1000; k++) {
+        const x = [], y = [], z = [];
+        for (let i = 0; i < n; i++) {
+          const a = gauss(r), zi = gauss(r), u = st.endo * a + st.inval * zi + gauss(r) * 0.8;
+          const xi = st.rel * zi + st.endo * a + gauss(r) * 0.8;
+          x.push(xi); z.push(zi); y.push(1 + xi + u);
+        }
+        mco.push(ols(x, y).b1);
+        const mx = mean(x), my = mean(y), mz = mean(z);
+        let szy = 0, szx = 0;
+        for (let i = 0; i < n; i++) { szy += (z[i] - mz) * (y[i] - my); szx += (z[i] - mz) * (x[i] - mx); }
+        iv.push(szy / szx);
+        r2s.push(ols(z, x).R2);
+      }
+      const med = (a) => { const s = a.slice().sort((p_, q) => p_ - q); return s[Math.floor(s.length / 2)]; };
+      const lo = -1, hi = 3;
+      const Hm = histogram(mco, lo, hi, 60), Hi = histogram(iv, lo, hi, 60);
+      p.clear();
+      p.domain([lo, hi], [0, Math.max(...Hm.counts, ...Hi.counts) * 1.1]);
+      p.axes({ noY: true, grid: false, xlabel: "estimaciones de β₁ (verdadero: 1)" });
+      const g = p.clipped();
+      [[Hi, C2, 0.6], [Hm, C3, 0.55]].forEach(([H, col, op]) => H.counts.forEach((cnt, i) => {
+        if (!cnt) return;
+        const x0 = p.x(lo + i * H.w), w = p.x(lo + (i + 1) * H.w) - x0;
+        el("rect", { x: x0 + 0.4, width: Math.max(0.5, w - 0.8), y: p.y(cnt), height: p.y(0) - p.y(cnt), style: `fill:${col};opacity:${op}` }, g);
+      }));
+      el("line", { x1: p.x(1), x2: p.x(1), y1: 12, y2: p.y(0), style: "stroke:currentColor;stroke-width:2;stroke-dasharray:5 3" }, p.svg);
+      text(p.svg, p.x(1), 10, "β₁ = 1", { "text-anchor": "middle", "font-weight": "700" });
+      text(p.svg, p.x(hi) - 4, 26, "rojo: MCO · dorado: VI", { "text-anchor": "end" });
+      const mm = med(mco), mi = med(iv), r2 = mean(r2s);
+      stats.set("mco", f(mm, 2)); stats.set("iv", f(mi, 2)); stats.set("r2", f(r2, 3));
+      n_.innerHTML = st.inval > 0
+        ? `El instrumento se relaciona con el error: <strong>VI también queda sesgado</strong> (mediana ${f(mi, 2)}). Viola la exogeneidad (gráfico B de la lámina 6).`
+        : st.rel < 0.15
+          ? `Instrumento <strong>débil</strong> (R² de x sobre z = ${f(r2, 3)}): VI se dispersa muchísimo. Var(β̂_VI) = σ̂²/(SSTₓ·R²ₓ,z) se dispara cuando R²ₓ,z es chico (lámina 15).`
+          : st.endo === 0 ? "Sin endogeneidad, MCO y VI apuntan a 1; MCO es más preciso (Var VI ≥ Var MCO)."
+            : `MCO está sesgado por la endogeneidad (mediana ${f(mm, 2)}), mientras VI se centra en el valor verdadero (${f(mi, 2)}) a costa de más dispersión.`;
+    }
+    render();
   };
 
   if (typeof document$ !== "undefined") document$.subscribe(E.mountAll);

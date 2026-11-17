@@ -1,0 +1,3417 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase12/">
+      
+      
+        <link rel="prev" href="../clase11/">
+      
+      
+        <link rel="next" href="../../practica/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Clase 12 · Heterocedasticidad y variables instrumentales - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-12-heterocedasticidad-y-variables-instrumentales" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 12 · Heterocedasticidad y variables instrumentales
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../practica/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🎮 Práctica · Primer bloque
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ayudantias/" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 9 · El test F
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 10 · Propiedades asintóticas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 11 · Variables binarias, Chow y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 12 · Heterocedasticidad y variables instrumentales
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 12 · Heterocedasticidad y variables instrumentales
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-3-horas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (3 horas)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Heterocedasticidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Heterocedasticidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Heterocedasticidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Heterocedasticidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#homocedasticidad-vs-heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Homocedasticidad vs Heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consecuencias-de-la-heterocedastidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consecuencias de la heterocedastidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homocedasticidad-vs-heterocedasticidad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Homocedasticidad vs Heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Breusch-Pagan y White
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Breusch-Pagan y White">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-para-la-heterocedasticidad-breusch-pagan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test para la heterocedasticidad (Breusch-Pagan)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadistico-f-global-breusch-pagan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadístico F global (Breusch-Pagan)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breusch-pagan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breusch-Pagan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadistico-global-breusch-pagan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadístico global (Breusch– Pagan)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-f-vs-test-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test F vs test LM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-white-para-la-heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de White para la heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regresion-auxiliar-test-de-white-k3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regresión auxiliar (Test de White, k=3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-white-simplificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de White simplificado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#white" class="md-nav__link">
+    <span class="md-ellipsis">
+      White
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Errores robustos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Errores robustos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#varianza-del-estimador-de-mco-con-heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Varianza del estimador de MCO con heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimador-mco-y-su-descomposicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimador MCO y su descomposición
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#varianza-general-y-caso-homocedastico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Varianza general y caso homocedástico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-robustos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Errores robustos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-robustos-white" class="md-nav__link">
+    <span class="md-ellipsis">
+      Errores robustos White
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#varianza-del-estimador-mco-con-heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Varianza del estimador MCO con heterocedasticidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Varianza del estimador MCO con heterocedasticidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#varianza-del-estimador-de-mco-con-heterocedasticidad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Varianza del estimador de MCO con heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perturbaciones-esfericas-y-no-esfericas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Perturbaciones esféricas y no esféricas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endogeneidad-y-variables-instrumentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 3 · Endogeneidad y variables instrumentales
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 3 · Endogeneidad y variables instrumentales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Endogeneidad e instrumentos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Endogeneidad e instrumentos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#causas-de-la-endogeneidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Causas de la endogeneidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#endogeneidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Endogeneidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion-1-variables-instrumentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución 1: Variables instrumentales
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intuicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intuición
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buenos-y-malos-instrumentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Buenos y malos instrumentos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplos-de-variables-endogenas-e-instrumentos-en-la-literatura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplos de variables endógenas e instrumentos en la literatura
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 5 · VI y MC2E
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 5 · VI y MC2E">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementacion-del-metodo-iv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementación del método IV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimacion-por-variables-instrumentales-vi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimación por Variables Instrumentales (VI)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-poblacional-y-analogo-muestral" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relación poblacional y análogo muestral
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimacion-con-vi-en-modelos-de-regresion-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimación con VI en modelos de regresión múltiple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resumen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inferencia-y-estimacion-por-variables-instrumentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inferencia y estimación por Variables Instrumentales
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimador-para-la-varianza-de-las-estimaciones-por-vi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimador para la varianza de las estimaciones por VI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimacion-por-minimos-cuadrados-en-dos-etapas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimación por mínimos cuadrados en dos etapas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mc2e-etapa-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      MC2E - Etapa 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mc2e-etapa-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      MC2E - Etapa 2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusiones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusiones
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practica/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🎮 Práctica · Primer bloque
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 11 · Variables binarias y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 12 · Test de White y errores robustos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-3-horas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (3 horas)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Heterocedasticidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Heterocedasticidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Heterocedasticidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Heterocedasticidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#homocedasticidad-vs-heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Homocedasticidad vs Heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consecuencias-de-la-heterocedastidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consecuencias de la heterocedastidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homocedasticidad-vs-heterocedasticidad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Homocedasticidad vs Heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Breusch-Pagan y White
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Breusch-Pagan y White">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-para-la-heterocedasticidad-breusch-pagan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test para la heterocedasticidad (Breusch-Pagan)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadistico-f-global-breusch-pagan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadístico F global (Breusch-Pagan)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breusch-pagan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breusch-Pagan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estadistico-global-breusch-pagan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadístico global (Breusch– Pagan)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-f-vs-test-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test F vs test LM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-white-para-la-heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de White para la heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regresion-auxiliar-test-de-white-k3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regresión auxiliar (Test de White, k=3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-white-simplificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de White simplificado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#white" class="md-nav__link">
+    <span class="md-ellipsis">
+      White
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Errores robustos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Errores robustos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#varianza-del-estimador-de-mco-con-heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Varianza del estimador de MCO con heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimador-mco-y-su-descomposicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimador MCO y su descomposición
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#varianza-general-y-caso-homocedastico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Varianza general y caso homocedástico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-robustos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Errores robustos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errores-robustos-white" class="md-nav__link">
+    <span class="md-ellipsis">
+      Errores robustos White
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#varianza-del-estimador-mco-con-heterocedasticidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Varianza del estimador MCO con heterocedasticidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Varianza del estimador MCO con heterocedasticidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#varianza-del-estimador-de-mco-con-heterocedasticidad_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Varianza del estimador de MCO con heterocedasticidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perturbaciones-esfericas-y-no-esfericas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Perturbaciones esféricas y no esféricas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endogeneidad-y-variables-instrumentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 3 · Endogeneidad y variables instrumentales
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 3 · Endogeneidad y variables instrumentales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Endogeneidad e instrumentos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Endogeneidad e instrumentos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#causas-de-la-endogeneidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Causas de la endogeneidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#endogeneidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Endogeneidad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion-1-variables-instrumentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución 1: Variables instrumentales
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intuicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intuición
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buenos-y-malos-instrumentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Buenos y malos instrumentos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplos-de-variables-endogenas-e-instrumentos-en-la-literatura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplos de variables endógenas e instrumentos en la literatura
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 5 · VI y MC2E
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 5 · VI y MC2E">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementacion-del-metodo-iv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementación del método IV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimacion-por-variables-instrumentales-vi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimación por Variables Instrumentales (VI)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relacion-poblacional-y-analogo-muestral" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relación poblacional y análogo muestral
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimacion-con-vi-en-modelos-de-regresion-multiple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimación con VI en modelos de regresión múltiple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resumen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inferencia-y-estimacion-por-variables-instrumentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inferencia y estimación por Variables Instrumentales
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimador-para-la-varianza-de-las-estimaciones-por-vi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimador para la varianza de las estimaciones por VI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estimacion-por-minimos-cuadrados-en-dos-etapas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimación por mínimos cuadrados en dos etapas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mc2e-etapa-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      MC2E - Etapa 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mc2e-etapa-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      MC2E - Etapa 2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusiones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusiones
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="clase-12-heterocedasticidad-y-variables-instrumentales">Clase 12 · Heterocedasticidad y variables instrumentales</h1>
+<div class="usm-session-meta">
+<span>📅 Fecha por confirmar (el viernes 1 de enero es feriado)</span>
+<span class="usm-tag-gold">Semana 12 · Heterocedasticidad, endogeneidad y variables instrumentales</span>
+<span class="usm-tag-red">🛠️ Semana del Taller 3</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la semana</p>
+<p>Esta página reproduce <strong>íntegras y en orden</strong> las diapositivas de la cátedra de la semana 12:
+<code>sem12/Clase14.tex</code> (Parte 1), <code>sem12/varianza_estimador_heteroce.tex</code> (Parte 2) y <code>sem12/Clase15.tex</code>
+(Parte 3). Los ejercicios de la semana están en la <a href="../../ayudantias/ayudantia12/">📘 Ayudantía 12</a>.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Cómo estudiar esta página</p>
+<p>La clase está ordenada en <strong>5 temas</strong>. Cada tema parte con una <strong>pregunta guía</strong>, sigue con las láminas
+y los simuladores, y termina con <strong>✍️ preguntas de selección múltiple</strong> (cada alternativa incorrecta explica
+por qué no lo es) y un <strong>🧪 ejercicio de R</strong> que puedes editar y ejecutar aquí mismo, sin instalar nada.
+Los 5 ejercicios de R en un solo archivo: <a href="../../r/clase12.R">📥 clase12.R</a>.</p>
+</div>
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<ul>
+<li>Reconocer la <strong>heterocedasticidad</strong> y sus consecuencias para la inferencia.</li>
+<li>Detectarla con los tests de <strong>Breusch-Pagan</strong> y de <strong>White</strong>.</li>
+<li>Corregir la inferencia con <strong>errores estándar robustos</strong> de White.</li>
+<li>Entender la <strong>endogeneidad</strong> y estimar con <strong>variables instrumentales</strong> y <strong>MC2E</strong>.</li>
+</ul>
+<h2 id="agenda-de-la-catedra-3-horas">🗓️ Agenda de la cátedra (3 horas)</h2>
+<p>La fecha se confirmará porque el viernes de la semana es feriado. Haz clic en un tema para ir directo a él.</p>
+<ol class="econ-ruta">
+<li><span class="econ-ruta-h">18:40</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Heterocedasticidad y sus consecuencias</span><span class="econ-ruta-l">Parte 1 · láminas 1–5 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:05</span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">Detectarla: Breusch-Pagan y White</span><span class="econ-ruta-l">Parte 1 · láminas 6–14 · ✍️ 3 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:35</span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">Errores estándar robustos</span><span class="econ-ruta-l">Partes 1 y 2 · varianza y errores robustos · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">19:55</span><span class="econ-ruta-t">☕ Receso</span></li>
+<li><span class="econ-ruta-h">20:05</span><a class="econ-ruta-a" href="#tema-4"><span class="econ-ruta-n">4</span><span class="econ-ruta-t">Endogeneidad e instrumentos</span><span class="econ-ruta-l">Parte 3 · láminas 1–7 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">20:40</span><a class="econ-ruta-a" href="#tema-5"><span class="econ-ruta-n">5</span><span class="econ-ruta-t">Estimación por VI y MC2E</span><span class="econ-ruta-l">Parte 3 · láminas 8–19 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">21:15</span><span class="econ-ruta-t">✅ Ideas clave, autoevaluación y cierre</span></li>
+</ol>
+
+<p class="econ-ruta-sub">📘 <strong>Ayudantía de la semana</strong> · se trabaja otro día, en su propia página: <a href="../../ayudantias/ayudantia12/">Ir a la Ayudantía 12 →</a></p>
+<h2 class="econ-parte" data-eyebrow="Parte 1 · Cátedra" id="heterocedasticidad">Heterocedasticidad</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem12/Clase14.tex</code> · 19 láminas</p>
+
+<h3 class="econ-tema" data-laminas="Parte 1 · láminas 1–5" data-num="1" id="tema-1">Heterocedasticidad y sus consecuencias</h3>
+<p class="econ-tema-q">¿Qué se rompe cuando la varianza del error no es constante?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="homocedasticidad-vs-heterocedasticidad">Homocedasticidad vs Heterocedasticidad</h4>
+<!-- sem12/Clase14.tex · lámina 1 -->
+<p>Los errores <span class="arithmatex">\(u_i\)</span> son heterocedásticos si la varianza condicional de <span class="arithmatex">\(u_i\)</span> dado <span class="arithmatex">\(X_i\)</span>, <span class="arithmatex">\(Var[u_i|X_i]\)</span> no es constante.</p>
+<p><img alt="Homocedasticidad vs Heterocedasticidad" class="econ-slide-img" src="../../images/slides/sem12_d2.png" /></p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="consecuencias-de-la-heterocedastidad">Consecuencias de la heterocedastidad</h4>
+<!-- sem12/Clase14.tex · lámina 2 -->
+<ul>
+<li>
+<p>El estimador MCO sigue siendo insesgado y consistente, <span class="arithmatex">\(E[\hat{\beta}|X]=\beta\)</span>.</p>
+</li>
+<li>
+<p>Pero el estimador de MCO no es MELI.</p>
+</li>
+<li>
+<p>Los estimadores de las varianzas, <span class="arithmatex">\(Var(\hat{\beta})\)</span>, serían sesgados.</p>
+</li>
+<li>
+<p>También, los estadísticos t no distribuirán t, ni los estadísticos F distribuirán F.</p>
+</li>
+<li>
+<p><strong>Estos problemas no se resuelven con tamaños de muestra grande.</strong></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 3" id="homocedasticidad-vs-heterocedasticidad_1">Homocedasticidad vs Heterocedasticidad</h4>
+<!-- sem12/Clase14.tex · lámina 3 -->
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Propiedad</strong></th>
+<th style="text-align: left;"><strong>Homocedasticidad</strong></th>
+<th style="text-align: left;"><strong>Heterocedasticidad</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Insesgadez y consistencia de <span class="arithmatex">\(\hat{\beta}\)</span></td>
+<td style="text-align: left;">Se mantienen</td>
+<td style="text-align: left;">Se mantienen</td>
+</tr>
+<tr>
+<td style="text-align: left;">Eficiencia (MELI)</td>
+<td style="text-align: left;">Sí</td>
+<td style="text-align: left;">No (hay estimadores lineales más eficientes)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Var(<span class="arithmatex">\(\hat{\beta}\)</span>)</td>
+<td style="text-align: left;">Estimada sin sesgo</td>
+<td style="text-align: left;">Sesgada <span class="arithmatex">\(\Rightarrow\)</span> estadísticas <span class="arithmatex">\(t\)</span> y <span class="arithmatex">\(F\)</span> no fiables</td>
+</tr>
+<tr>
+<td style="text-align: left;">Inferencia asintótica</td>
+<td style="text-align: left;">Correcta</td>
+<td style="text-align: left;">Las varianzas sesgadas persisten, por tanto los tests no mejoran</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 4–5" id="ejemplo">Ejemplo</h4>
+<!-- sem12/Clase14.tex · lámina 4 -->
+<p>Considere el siguiente modelo lineal:</p>
+<div class="arithmatex">\[
+Salario_i = \beta_0 + \beta_1 \cdot educacion_i + u_i
+\]</div>
+<p>En este contexto, analizamos si se cumple la <strong>suposición de homocedasticidad</strong> del término de error <span class="arithmatex">\(u_i\)</span>. Esta condición implica que la varianza del término de error, condicional a los años de educación, sea constante:</p>
+<ul>
+<li>
+<p>Para que haya homocedasticidad, debe cumplirse que:</p>
+<div class="arithmatex">\[
+\text{Var}[u_i \mid educacion_i] = \sigma^2
+\]</div>
+</li>
+<li>
+<p>Es decir, la varianza del término de error no debe depender del número de años de educación.</p>
+</li>
+<li>
+<p>Bajo homocedasticidad, los errores tienen varianza constante y no sistemáticamente relacionada con los niveles de educación.</p>
+</li>
+</ul>
+<!-- sem12/Clase14.tex · lámina 5 -->
+<p><img alt="Ejemplo" class="econ-slide-img" src="../../images/slides/sem12_d5.png" /></p>
+</div>
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con heterocedasticidad, ¿qué le pasa a β̂ de MCO?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Sigue siendo insesgado y consistente, pero deja de ser MELI y sus varianzas usuales quedan sesgadas.</button>
+<button class="econ-quiz-opt" data-why="La heterocedasticidad no afecta el insesgamiento (lámina 2).">Queda sesgado.</button>
+<button class="econ-quiz-opt" data-why="Los errores estándar usuales y los tests t y F dejan de ser válidos.">Nada: todo sigue igual.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 2 y 3.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Se resuelven los problemas de la heterocedasticidad con una muestra más grande?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>No: la lámina 2 lo dice explícitamente.</button>
+<button class="econ-quiz-opt" data-why="El sesgo de los errores estándar usuales no desaparece al crecer n.">Sí, por el TCL.</button>
+<button class="econ-quiz-opt" data-why="La normalidad no corrige el problema.">Solo si los errores son normales.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 2.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · El abanico de los residuos</p>
+<p>Simula salarios cuya varianza crece con la educación y grafica los residuos.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">31</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">n</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">300</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">educ</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">salario</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="p">)</span><span class="w">    </span><span class="c1"># Var(u | educ) crece</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">salario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nf">plot</span><span class="p">(</span><span class="n">educ</span><span class="p">,</span><span class="w"> </span><span class="nf">resid</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"steelblue"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"residuo"</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Heterocedasticidad: el abanico se abre"</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nf">abline</span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>sd = 0.3 * educ</code> por <code>sd = 3</code>. ¿Cómo cambia el gráfico?</p>
+</div>
+<h3 class="econ-tema" data-laminas="Parte 1 · láminas 6–14" data-num="2" id="tema-2">Detectarla: Breusch-Pagan y White</h3>
+<p class="econ-tema-q">¿Cómo sabemos si hay heterocedasticidad?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 6" id="test-para-la-heterocedasticidad-breusch-pagan">Test para la heterocedasticidad (Breusch-Pagan)</h4>
+<!-- sem12/Clase14.tex · lámina 6 -->
+<ul>
+<li>
+<p>Considere el modelo MRL múltiple:</p>
+<div class="arithmatex">\[
+y=\beta_0+\beta_1x_1+\beta_2x_2+...+\beta_kx_k+u
+\]</div>
+</li>
+<li>
+<p>La hipótesis nula de homocedasticidad es:</p>
+<div class="arithmatex">\[
+H_0:E(u^2|x_1,...,x_k)=E(u^2)=\sigma^2
+\]</div>
+</li>
+<li>
+<p>Se busca probar si <span class="arithmatex">\(u^2\)</span> se relaciona con las variables explicativas.</p>
+</li>
+<li>
+<p>Se puede suponer la siguiente relación:</p>
+<div class="arithmatex">\[
+u^2=\delta_0+\delta_1x_1++...+\delta_kx_k+v
+\]</div>
+</li>
+<li>
+<p>Con la hipótesis nula:</p>
+<div class="arithmatex">\[
+H_0: \delta_1=\delta_2=...=\delta_3=0
+\]</div>
+</li>
+<li>
+<p>No se conocen los errores de MLR original, pero se usan los residuos <span class="arithmatex">\(\hat{u_i}\)</span>. Se estima:</p>
+<div class="arithmatex">\[
+\hat{u}^2_i= \delta_0 +\delta_1x_1+...+\delta_kx_k+v
+\]</div>
+</li>
+<li>
+<p>Uitilizamos el test F de significancia global.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 7" id="estadistico-f-global-breusch-pagan">Estadístico <span class="arithmatex">\(F\)</span> global (Breusch-Pagan)</h4>
+<!-- sem12/Clase14.tex · lámina 7 -->
+<p><strong>Hipótesis</strong></p>
+<p><span class="arithmatex">\(H_0\)</span>: <span class="arithmatex">\(\delta_1 = \dots = \delta_k = 0\)</span> (homocedasticidad)</p>
+<p><span class="arithmatex">\(H_1\)</span>: Al menos un <span class="arithmatex">\(\delta_j \neq 0\)</span> (heterocedasticidad)</p>
+<p><strong>Regresión auxiliar</strong></p>
+<div class="arithmatex">\[
+\hat u_i^{2} = \delta_0 + \delta_1 x_{1i} + \dots + \delta_k x_{ki} + v_i
+\]</div>
+<p><strong>Estadístico F</strong></p>
+<div class="arithmatex">\[
+F = \frac{R_{\text{aux}}^{2}/k}{(1 - R_{\text{aux}}^{2})/(n - k - 1)} \quad \sim \quad F_{k,\, n - k - 1}
+\]</div>
+<p><strong>Decisión</strong></p>
+<ul>
+<li>
+<p>Rechazar <span class="arithmatex">\(H_0\)</span> si <span class="arithmatex">\(F &gt; F_{1-\alpha,k, n-k-1,}\)</span>.</p>
+</li>
+<li>
+<p>Cuanto <strong>más</strong> grande sea el valor de <span class="arithmatex">\(F\)</span>, mayor será la probabilidad de <em>rechazar</em> la hipótesis nula; es decir, de concluir que existe heterocedasticidad.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 8" id="breusch-pagan">Breusch-Pagan</h4>
+<!-- sem12/Clase14.tex · lámina 8 -->
+<p><img alt="Breusch-Pagan" class="econ-slide-img" src="../../images/slides/sem12_bptest.png" /></p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 9" id="estadistico-global-breusch-pagan">Estadístico global (Breusch– Pagan)</h4>
+<!-- sem12/Clase14.tex · lámina 9 -->
+<ul>
+<li>
+<p>Las pruebas de <strong>Lagrange Multiplier (LM)</strong> constituyen una alternativa equivalente para detectar heterocedasticidad :</p>
+<div class="arithmatex">\[
+LM = n R_{\text{aux}}^{2} \;\sim\; \chi^{2}_{(k)}.
+\]</div>
+</li>
+<li>
+<p>Es una alternativa asintótica al test F.</p>
+</li>
+<li>
+<p>En <span class="sans-serif">R</span> puede utilizarse la función <strong><em>bptest</em></strong> del paquete <strong><em>lmtest</em></strong> para aplicar esta prueba mediante el estadístico <strong>LM</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 10" id="test-f-vs-test-lm">Test F vs test LM</h4>
+<!-- sem12/Clase14.tex · lámina 10 -->
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: center;"><strong>Test F</strong></th>
+<th style="text-align: center;"><strong>Test LM</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Distribución</td>
+<td style="text-align: center;"><span class="arithmatex">\(F_{k, n-k-1}\)</span> (exacta)</td>
+<td style="text-align: center;"><span class="arithmatex">\(\chi^2(k)\)</span> (asintótica)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Muestra pequeña</td>
+<td style="text-align: center;">Mejor</td>
+<td style="text-align: center;">Menos confiable</td>
+</tr>
+<tr>
+<td style="text-align: left;">Muestra grande</td>
+<td style="text-align: center;">Equivalente</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Fórmula</td>
+<td style="text-align: center;"><span class="arithmatex">\(F = \frac{(SCR_r - SCR_{nr})/k}{SCR_{nr}/(n-k-1)}\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(LM = n \cdot R^2_{aux}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 11" id="test-de-white-para-la-heterocedasticidad">Test de White para la heterocedasticidad</h4>
+<!-- sem12/Clase14.tex · lámina 11 -->
+<ul>
+<li>
+<p>Extiende BP: la regresión auxiliar incluye cada regresora <span class="arithmatex">\(x_j\)</span>, sus cuadrados <span class="arithmatex">\(x_j^{2}\)</span> y los productos cruzados <span class="arithmatex">\(x_jx_{\ell}\)</span>.</p>
+</li>
+<li>
+<p>Hipótesis nula: <span class="arithmatex">\(\delta_1=\dots=\delta_q=0\)</span> (homocedasticidad).</p>
+</li>
+<li>
+<p>Estadísticos equivalentes:</p>
+<div class="arithmatex">\[
+\text{LM}=nR_{\text{aux}}^{2}\;\sim\;\chi^{2}_{(q)},\quad
+F=\frac{R_{\text{aux}}^{2}/q}{(1-R_{\text{aux}}^{2})/(n-q-1)}\;\sim\;F_{q,\,n-q-1}.
+\]</div>
+</li>
+<li>
+<p><span class="arithmatex">\(q\)</span> crece rápidamente: <span class="arithmatex">\(q=k+\tfrac{k(k+1)}{2}\)</span> si incluyes todos los términos.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 12" id="regresion-auxiliar-test-de-white-k3">Regresión auxiliar (Test de White, <span class="arithmatex">\(k=3\)</span>)</h4>
+<!-- sem12/Clase14.tex · lámina 12 -->
+<p>Sea</p>
+<div class="arithmatex">\[
+y_i \;=\;\beta_0+\beta_1x_{1i}+\beta_2x_{2i}+\beta_3x_{3i}+u_i ,
+\qquad i=1,\dots,n .
+\]</div>
+<p><strong>Paso 2 del test (regresión auxiliar):</strong></p>
+<div class="arithmatex">\[
+\hat{u}_i^{\,2}\;=\;
+\delta_0
++\delta_1 x_{1i}+\delta_2 x_{2i}+\delta_3 x_{3i}
++\delta_4 x_{1i}^{2}+\delta_5 x_{2i}^{2}+\delta_6 x_{3i}^{2} \\
++\delta_7 x_{1i}x_{2i}+\delta_8 x_{1i}x_{3i}+\delta_9 x_{2i}x_{3i}
++ v_i .
+\]</div>
+<ul>
+<li>
+<p>Incluye: los 3 regresores originales, sus 3 cuadrados y los 3 productos cruzados.</p>
+</li>
+<li>
+<p>Número de restricciones simultáneas: <span class="arithmatex">\(q =k+ \tfrac{k(k+1)}{2} = 9\)</span>.</p>
+</li>
+<li>
+<p>Contraste global: <span class="arithmatex">\(LM=nR_{aux}^{2}\sim\chi^{2}_{(9)}\)</span> o bien <span class="arithmatex">\(F=\dfrac{R_{aux}^{2}/9}{(1-R_{aux}^{2})/(n-9-1)}
+              \sim F_{9,\;n-10}\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 13" id="test-de-white-simplificado">Test de White simplificado</h4>
+<!-- sem12/Clase14.tex · lámina 13 -->
+<ul>
+<li>
+<p>Una alternativa simplificada es emplear los valores ajustados <span class="arithmatex">\(\hat{y}\)</span> (y <span class="arithmatex">\(\hat{y}^{2}\)</span>) como regresores auxiliares.</p>
+<div class="arithmatex">\[
+\hat{u}^2=\delta_0 + \delta_1\hat{y}+\delta_2\hat{y}^2+v
+\]</div>
+</li>
+<li>
+<p>Esto implica evaluar sólo 2 restricciones, sin importar el número de variables explicativas en el modelo original.</p>
+</li>
+<li>
+<p>Se construye el valor</p>
+<div class="arithmatex">\[
+LM = nR_{\hat{u}^2}^2\sim X_{2}^2
+\]</div>
+</li>
+<li>
+<p>Ventajas:</p>
+<ul>
+<li>
+<p>Reduce <span class="arithmatex">\(q\)</span>, siendo igual a 2.</p>
+</li>
+<li>
+<p>Sigue capturando dependencias cuadráticas de la varianza.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Desventaja: menos claro en la forma de la heterocedasticidad, cuando depende de variables específicas.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 14" id="white">White</h4>
+<!-- sem12/Clase14.tex · lámina 14 -->
+<p><img alt="White" class="econ-slide-img" src="../../images/slides/sem14_white_test.png" /></p>
+</div>
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En el test de Breusch-Pagan, ¿qué variable dependiente tiene la regresión auxiliar?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Los residuos al cuadrado, û².</button>
+<button class="econ-quiz-opt" data-why="Se busca si la varianza (û²) se relaciona con las x.">La variable y original.</button>
+<button class="econ-quiz-opt" data-why="Los residuos tienen media cero: lo relevante es su cuadrado.">Los residuos sin elevar al cuadrado.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 6.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En el test de White con k = 3 regresores, ¿cuántas restricciones (q) hay?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>9</button>
+<button class="econ-quiz-opt" data-why="Faltan los 3 productos cruzados.">6</button>
+<button class="econ-quiz-opt" data-why="Esas son solo las variables originales.">3</button>
+</div>
+<p class="econ-quiz-fb">✅ q = k + k(k + 1)/2 = 3 + 6 = 9 (lámina 12).</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Cuál es el estadístico LM del test de Breusch-Pagan?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>n·R²_aux, que se distribuye χ² con k grados de libertad.</button>
+<button class="econ-quiz-opt" data-why="Esa expresión es parte del F, no el LM.">R²_aux/(1 − R²_aux).</button>
+<button class="econ-quiz-opt" data-why="Se usa la regresión auxiliar, no la original.">El F de la regresión original.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 9.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Breusch-Pagan y White a mano</p>
+<p>Simula errores heterocedásticos y calcula los tests de Breusch-Pagan (F y LM) y de White.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">32</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">n</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">300</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">x1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">);</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">y</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x1</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">m</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">u2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">resid</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">^</span><span class="m">2</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Breusch-Pagan: u² sobre las x</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">aux</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">u2</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">R2a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="n">aux</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nf">c</span><span class="p">(</span><span class="bp">F</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">R2a</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">((</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">R2a</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)),</span><span class="w"> </span><span class="n">p_F</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">pf</span><span class="p">(</span><span class="n">R2a</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">((</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">R2a</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)),</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">),</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="n">LM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">R2a</span><span class="p">,</span><span class="w">                            </span><span class="n">p_LM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">pchisq</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">R2a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># White: agrega cuadrados y productos cruzados (q = k + k(k + 1)/2 = 5)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">auxW</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">u2</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="n">x1</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="n">x2</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="n">x1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x2</span><span class="p">))</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nf">c</span><span class="p">(</span><span class="n">LM_White</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="n">auxW</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span><span class="w"> </span><span class="n">critico</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">qchisq</span><span class="p">(</span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">))</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>sd = 0.2 + 0.3 * x1</code> por <code>sd = 1</code>. ¿Se rechaza la homocedasticidad?</p>
+</div>
+<h3 class="econ-tema" data-laminas="Partes 1 y 2 · varianza y errores robustos" data-num="3" id="tema-3">Errores estándar robustos</h3>
+<p class="econ-tema-q">Si la varianza usual está mal, ¿cómo hacemos inferencia válida?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 15" id="varianza-del-estimador-de-mco-con-heterocedasticidad">Varianza del estimador de MCO con heterocedasticidad</h4>
+<!-- sem12/Clase14.tex · lámina 15 -->
+<ul>
+<li>
+<p>Considere el modelo de regresión lineal</p>
+<div class="arithmatex">\[
+y \;=\; X\beta + u,
+\]</div>
+<p>donde <span class="arithmatex">\(y\)</span> es el vector de <span class="arithmatex">\(n\)</span> observaciones de la variable dependiente, <span class="arithmatex">\(X\)</span> es la matriz de diseño <span class="arithmatex">\(n\times k\)</span>, <span class="arithmatex">\(\beta\)</span> el vector de parámetros y <span class="arithmatex">\(u\)</span> el vector de errores.</p>
+</li>
+<li>
+<p>Suponemos <span class="alert">heterocedasticidad</span>: la matriz de varianzas--covarianzas de los errores no es esférica,</p>
+<div class="arithmatex">\[
+\mathbb{E}(u u') \;=\; \Omega
+\quad\text{(general\, $n\times n$).}
+\]</div>
+<p>Si fuera homocedástica tendríamos <span class="arithmatex">\(\Omega = \sigma^{2} I_n\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 16" id="estimador-mco-y-su-descomposicion">Estimador MCO y su descomposición</h4>
+<!-- sem12/Clase14.tex · lámina 16 -->
+<div class="arithmatex">\[
+\begin{aligned}
+\hat{\beta}_{\text{MCO}}
+&amp;= (X'X)^{-1} X' y \\
+&amp;= (X'X)^{-1} X' (X\beta + u) \\
+&amp;= \beta \;+\; (X'X)^{-1} X' u.
+\end{aligned}
+\]</div>
+<ul>
+<li>
+<p>El término aleatorio es <span class="arithmatex">\((X'X)^{-1}X'u\)</span>.</p>
+</li>
+<li>
+<p>Para evaluar la precisión de <span class="arithmatex">\(\hat{\beta}_{\text{MCO}}\)</span> necesitamos su varianza condicional en presencia de <span class="arithmatex">\(\Omega\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 17" id="varianza-general-y-caso-homocedastico">Varianza general y caso homocedástico</h4>
+<!-- sem12/Clase14.tex · lámina 17 -->
+<p><strong>Varianza con heterocedasticidad</strong></p>
+<div class="arithmatex">\[
+\operatorname{Var}(\hat{\beta}_{\text{MCO}}|X)
+\;=\;
+(X'X)^{-1} X' \,\Omega\, X (X'X)^{-1}.
+\]</div>
+<p><strong>Caso particular (homocedasticidad)</strong></p>
+<p>Si <span class="arithmatex">\(\Omega = \sigma^{2} I_n\)</span>, se reduce a</p>
+<div class="arithmatex">\[
+\operatorname{Var}(\hat{\beta}_{\text{MCO}}|X)
+\;=\;
+\sigma^{2} (X'X)^{-1}.
+\]</div>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 18" id="errores-robustos">Errores robustos</h4>
+<!-- sem12/Clase14.tex · lámina 18 -->
+<p>En la práctica trabajamos con:</p>
+<div class="arithmatex">\[
+\widehat{\operatorname{Var}}(\hat{\boldsymbol{\beta}}|X) =
+(X'X)^{-1} X' \hat{\Omega} X (X'X)^{-1}
+\]</div>
+<div class="arithmatex">\[
+\hat{\Omega} =
+\begin{bmatrix}
+\hat{u}_1^2 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; \hat{u}_2^2 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; \hat{u}_n^2
+\end{bmatrix}
+= \operatorname{diag}(\hat{u}_1^2, \hat{u}_2^2, \dots, \hat{u}_n^2)
+\]</div>
+<div class="arithmatex">\[
+\widehat{\operatorname{Var}}(\hat{\boldsymbol{\beta}}|X) =
+(X'X)^{-1} \left( \sum_{i=1}^n \hat{u}_i^2 x_i x_i' \right) (X'X)^{-1}
+\]</div>
+<p>Los <strong>errores estándar robustos de White</strong> son iguales a la raíz cuadrada de los elementos en la diagonal de la matriz <span class="arithmatex">\(\widehat{\operatorname{Var}}(\hat{\beta}_{\text{MCO}})\)</span></p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 19" id="errores-robustos-white">Errores robustos White</h4>
+<!-- sem12/Clase14.tex · lámina 19 -->
+<ul>
+<li>
+<div class="arithmatex">\[
+    \widehat{\text{Var}}[\hat{\beta}_j|X] = \frac{\sum_{i=1}^n \hat{r}_{ij}^2 \hat{u}_i^2}{SSR_j^2}
+    \]</div>
+<p>donde <span class="arithmatex">\(\hat{r}_{ij}^2\)</span> es el i-ésimo residuo de la regresión de <span class="arithmatex">\(x_j\)</span> sobre las otras variables independientes, y <span class="arithmatex">\(SSR_j^2\)</span> es la suma residual de cuadrados de esa regresión.</p>
+</li>
+<li>
+<p>Usando estos errores estándar robustos se puede calcular los tests de hipótesis tal como lo hacíamos antes. Por ejemplo, un estadístico <span class="arithmatex">\(t\)</span> robusto a la heterocedasticidad como</p>
+<div class="arithmatex">\[
+t = \frac{\text{estimador} - \text{valor hipotético}}{\text{error estándar robusto}}
+\]</div>
+</li>
+</ul>
+</div>
+<h2 class="econ-parte" data-eyebrow="Parte 2 · Cátedra" id="varianza-del-estimador-mco-con-heterocedasticidad">Varianza del estimador MCO con heterocedasticidad</h2>
+<p class="econ-source">📄 Documento: <code>sem12/varianza_estimador_heteroce.tex</code> · 2 secciones</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="varianza-del-estimador-de-mco-con-heterocedasticidad_1">Varianza del estimador de MCO con heterocedasticidad</h4>
+<!-- sem12/varianza_estimador_heteroce.tex · lámina 1 -->
+<p>Consideremos el modelo de regresión lineal:</p>
+<div class="arithmatex">\[
+y = X \beta + u
+\]</div>
+<p>donde: - <span class="arithmatex">\(y\)</span> es el vector de <span class="arithmatex">\(n\)</span> observaciones de la variable dependiente, - <span class="arithmatex">\(X\)</span> es la matriz de diseño de <span class="arithmatex">\(n \times k\)</span> que incluye las variables explicativas, - <span class="arithmatex">\(\beta\)</span> es el vector de <span class="arithmatex">\(k\)</span> parámetros a estimar, - <span class="arithmatex">\(u\)</span> es el vector de errores aleatorios de tamaño <span class="arithmatex">\(n\)</span>.</p>
+<p>En este caso, suponemos que existe heterocedasticidad en los errores, lo que significa que la matriz de varianzas-covarianzas de los errores <span class="arithmatex">\(u\)</span> no es esférica. En lugar de asumir homocedasticidad (<span class="arithmatex">\(\mathbb{E}(uu') = \sigma^2 I\)</span>), asumimos que:</p>
+<div class="arithmatex">\[
+\mathbb{E}(uu') = \Omega
+\]</div>
+<p>donde <span class="arithmatex">\(\Omega\)</span> es una matriz de varianzas-covarianzas <span class="arithmatex">\(n \times n\)</span>, que refleja que las varianzas pueden cambiar entre las observaciones.</p>
+<div class="arithmatex">\[
+\boldsymbol{\Omega} =
+\begin{bmatrix}
+\sigma_1^2 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; \sigma_2^2 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; \sigma_n^2
+\end{bmatrix}
+\]</div>
+<p>El estimador de mínimos cuadrados ordinarios (MCO) para <span class="arithmatex">\(\beta\)</span> se define como:</p>
+<div class="arithmatex">\[
+\hat{\beta}_{\text{MCO}} = (X'X)^{-1} X'y
+\]</div>
+<p>Sustituyendo <span class="arithmatex">\(y = X \beta + u\)</span> en esta expresión, obtenemos:</p>
+<div class="arithmatex">\[
+\hat{\beta}_{\text{MCO}} = (X'X)^{-1} X'(X \beta + u)
+\]</div>
+<p>Al desarrollar, esto se convierte en:</p>
+<div class="arithmatex">\[
+\hat{\beta}_{\text{MCO}} = \beta + (X'X)^{-1} X'u
+\]</div>
+<p>Queremos encontrar la varianza de <span class="arithmatex">\(\hat{\beta}_{MCO}\)</span>, es decir, <span class="arithmatex">\(Var(\hat{\beta}_{MCO})\)</span>.</p>
+<p>Dado que <span class="arithmatex">\(\hat{\beta}_{MCO} = \beta + (X'X)^{-1} X'u\)</span>, podemos escribir:</p>
+<div class="arithmatex">\[
+\text{Var}(\hat{\beta}_{\text{MCO}}) = \text{Var}((X'X)^{-1} X'u)
+\]</div>
+<p>Utilizando la propiedad de que <span class="arithmatex">\(Var(A u) = A \, Var(u) \, A'\)</span>, tenemos:</p>
+<div class="arithmatex">\[
+\text{Var}(\hat{\beta}_{\text{MCO}}) = (X'X)^{-1} X' \, \text{Var}(u) \, X (X'X)^{-1}
+\]</div>
+<p>Como hemos supuesto que <span class="arithmatex">\(Var(u) = \Omega\)</span>, sustituimos esto en la expresión anterior:</p>
+<div class="arithmatex">\[
+\text{Var}(\hat{\beta}_{\text{MCO}}) = (X'X)^{-1} X' \Omega X (X'X)^{-1}
+\]</div>
+<p>Si <span class="arithmatex">\(\Omega = \sigma^2 I\)</span> (homocedasticidad), entonces la expresión se reduce a:</p>
+<div class="arithmatex">\[
+\text{Var}(\hat{\beta}_{\text{MCO}}) = \sigma^2 (X'X)^{-1}
+\]</div>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="perturbaciones-esfericas-y-no-esfericas">Perturbaciones esféricas y no esféricas</h4>
+<!-- sem12/varianza_estimador_heteroce.tex · lámina 2 -->
+<p><img alt="Perturbaciones esféricas y no esféricas" class="econ-slide-img" src="../../images/slides/sem12_image.png" /></p>
+<p><img alt="Perturbaciones esféricas y no esféricas" class="econ-slide-img" src="../../images/slides/sem12_no_esf.png" /></p>
+<p>Comparación de perturbaciones esféricas y no esféricas.</p>
+<p><strong>Curvas de isoprobabilidad:</strong> Las líneas del gráfico representan <em>curvas de isoprobabilidad</em> (o de igual densidad) de la distribución conjunta de los errores. Cada curva une los puntos <span class="arithmatex">\((u_1,u_2)\)</span> que tienen la misma probabilidad de ocurrencia bajo la distribución de los errores.</p>
+<p>En el caso de errores normales con matriz de varianzas--covarianzas <span class="arithmatex">\(\Omega\)</span>, la densidad conjunta se expresa como</p>
+<div class="arithmatex">\[
+f(u) = \frac{1}{2\pi |\Omega|^{1/2}}
+\exp\!\left(-\tfrac{1}{2}u'\Omega^{-1}u\right).
+\]</div>
+<p>De esta forma, las curvas de nivel que satisfacen <span class="arithmatex">\(u'\Omega^{-1}u = c\)</span> describen las regiones de igual probabilidad.</p>
+<p>La <strong>mayor probabilidad</strong> se encuentra en el centro de la distribución, en el punto <span class="arithmatex">\((0,0)\)</span>, donde la densidad es máxima. Es decir, las curvas más cercanas al centro representan valores más probables, mientras que las curvas más externas corresponden a valores menos probables.</p>
+</div>
+<div class="econ-widget" data-widget="robustos"></div>
+
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Cuál es la varianza de β̂ de MCO con heterocedasticidad general?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>(X′X)⁻¹X′ΩX(X′X)⁻¹</button>
+<button class="econ-quiz-opt" data-why="Ese es el caso particular homocedástico, Ω = σ²I.">σ²(X′X)⁻¹</button>
+<button class="econ-quiz-opt" data-why="Falta el término X′ΩX en el centro.">Ω(X′X)⁻¹</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 17.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué se usa en lugar de Ω para calcular los errores robustos de White?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Una matriz diagonal con los residuos al cuadrado, ûᵢ².</button>
+<button class="econ-quiz-opt" data-why="Eso reproduce los errores usuales.">La identidad multiplicada por σ̂².</button>
+<button class="econ-quiz-opt" data-why="Ω es la varianza de los errores, no de las x.">La matriz de correlaciones de las x.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 18.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Errores robustos con matrices</p>
+<p>Calcula los errores estándar usuales y los robustos de White con la fórmula de la lámina 18.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">33</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">200</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1.2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">model.matrix</span><span class="p">(</span><span class="n">m</span><span class="p">);</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">resid</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">XtXi</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">X</span><span class="p">)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">V_usual</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">u</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">XtXi</span><span class="w">                      </span><span class="c1"># σ̂²(X'X)⁻¹</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">V_robusta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">XtXi</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="nf">diag</span><span class="p">(</span><span class="n">u</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">XtXi</span><span class="w">     </span><span class="c1"># lámina 18</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="nf">cbind</span><span class="p">(</span><span class="n">se_usual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">diag</span><span class="p">(</span><span class="n">V_usual</span><span class="p">)),</span><span class="w"> </span><span class="n">se_robusto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">diag</span><span class="p">(</span><span class="n">V_robusta</span><span class="p">)))</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia el error por <code>rnorm(n, sd = 1)</code> (homocedástico). ¿Se parecen ahora ambos errores estándar?</p>
+</div>
+<h2 class="econ-parte" data-eyebrow="Parte 3 · Cátedra" id="endogeneidad-y-variables-instrumentales">Endogeneidad y variables instrumentales</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem12/Clase15.tex</code> · 19 láminas</p>
+
+<h3 class="econ-tema" data-laminas="Parte 3 · láminas 1–7" data-num="4" id="tema-4">Endogeneidad e instrumentos</h3>
+<p class="econ-tema-q">¿Qué hacer cuando x está correlacionada con el error?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="introduccion">Introducción</h4>
+<!-- sem12/Clase15.tex · lámina 1 -->
+<ul>
+<li>
+<p>En las clases pasadas vimos que cuando omitimos una variable <span class="arithmatex">\(x_{2}\)</span> que se correlaciona con <span class="arithmatex">\(x_{1}\)</span>, se viola el supuesto <span class="arithmatex">\(E\left[u \mid x_{1}\right]=0\)</span> y nuestro estimador MCO estará sesgado.</p>
+</li>
+<li>
+<p>Cuando esto sucede, decimos que <span class="arithmatex">\(x_{1}\)</span> es <strong>endógena (está correlacionada con el error)</strong>.</p>
+</li>
+<li>
+<p><strong>Una variable explicativa es endógena cuando su valor está parcialmente determinado dentro del sistema por relaciones que también afectan a la variable dependiente, lo que se manifiesta estadísticamente como correlación con el término de error.</strong></p>
+</li>
+<li>
+<p><strong>Qué podemos hacer</strong>?</p>
+</li>
+<li>
+<p>Método 1: variables instrumentales (IV).</p>
+</li>
+<li>
+<p>Método 2: mínimos cuadrados en 2 etapas (MC2E).</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="causas-de-la-endogeneidad">Causas de la endogeneidad</h4>
+<!-- sem12/Clase15.tex · lámina 2 -->
+<p>Generalmente observamos problemas de endogeneidad en una de estas tres situaciones:</p>
+<ol>
+<li>
+<p>Variables omitidas:</p>
+<ul>
+<li>Son variables que están correlacionadas con las <span class="arithmatex">\(x\)</span> (los regresores) pero no las podemos incluir por ser inobservables.</li>
+</ul>
+</li>
+<li>
+<p>Simultaneidad: <span class="arithmatex">\(x \rightarrow y\)</span> y <span class="arithmatex">\(y \rightarrow x\)</span>.</p>
+</li>
+<li>
+<p>Error de medida en las <span class="arithmatex">\(x\)</span>.</p>
+</li>
+</ol>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 3" id="endogeneidad">Endogeneidad</h4>
+<!-- sem12/Clase15.tex · lámina 3 -->
+<p>El problema de la endogeneidad:</p>
+<p><img alt="Endogeneidad" class="econ-slide-img" src="../../images/slides/complemetario_imagenes_grafico4_1.jpeg" /></p>
+<div class="arithmatex">\[
+E\left[\hat{\beta}_{1}^{M C O}\right]=\beta_{1}+\delta_{1} \beta_{2}
+\]</div>
+<p>Con variable omitida.</p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 4" id="solucion-1-variables-instrumentales">Solución 1: Variables instrumentales</h4>
+<!-- sem12/Clase15.tex · lámina 4 -->
+<p>Una variable instrumental válida es una variable <span class="arithmatex">\(\mathbf{Z}\)</span> que se correlaciona con <span class="arithmatex">\(X\)</span>, pero no con el error.</p>
+<p><img alt="Solución 1: Variables instrumentales" class="econ-slide-img" src="../../images/slides/complemetario_imagenes_grafico4_2.jpeg" /></p>
+<p>Formalmente, un instrumento es válido si cumple con <strong>dos</strong> supuestos clave:</p>
+<ol>
+<li>
+<p><strong>Relevancia:</strong> <span class="arithmatex">\(\operatorname{Cov}(X, Z) \neq 0\)</span>. La variable <span class="arithmatex">\(Z\)</span> afecta a <span class="arithmatex">\(X\)</span>. Como observamos <span class="arithmatex">\(Z\)</span> y <span class="arithmatex">\(X\)</span>, este supuesto es testeable.</p>
+</li>
+<li>
+<p><strong>Exogeneidad o restricción de exclusión:</strong> <span class="arithmatex">\(\operatorname{Cov}(Z, U)=0\)</span>.</p>
+<ul>
+<li>
+<p>El instrumento no se correlaciona con el error.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(E[Y \mid X]=E[Y \mid X, Z]\)</span>: el instrumento <span class="arithmatex">\(Z\)</span> no afecta directamente a <span class="arithmatex">\(Y\)</span>, sólo lo hace a través de su efecto en <span class="arithmatex">\(X\)</span>.</p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 5" id="intuicion">Intuición</h4>
+<!-- sem12/Clase15.tex · lámina 5 -->
+<ul>
+<li>
+<p>La intuición es que <span class="arithmatex">\(X\)</span> tiene dos componentes: una parte exógena y una parte endógena (que está correlacionada con <span class="arithmatex">\(u\)</span>).</p>
+</li>
+<li>
+<p>El instrumento <span class="arithmatex">\(Z\)</span>, al no estar correlacionado con <span class="arithmatex">\(u\)</span>, nos permitirá utilizar solamente la parte exógena de <span class="arithmatex">\(X\)</span> para identificar su efecto en <span class="arithmatex">\(Y\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 6" id="buenos-y-malos-instrumentos">Buenos y malos instrumentos</h4>
+<!-- sem12/Clase15.tex · lámina 6 -->
+<ul>
+<li>
+<p><strong>Cuál de los siguientes <span class="arithmatex">\(Z\)</span> es un buen instrumento</strong>?</p>
+<p><img alt="Buenos y malos instrumentos" class="econ-slide-img" src="../../images/slides/complemetario_imagenes_grafico4_3.jpeg" /></p>
+</li>
+<li>
+<p>Sólo el gráfico A muestra un instrumento válido, ya que cumple con:<br>
+    1) <strong>Relevancia:</strong> <span class="arithmatex">\(\operatorname{Cov}(z,x) \neq 0\)</span> y 2) <strong>Exogeneidad:</strong> <span class="arithmatex">\(\operatorname{Cov}(z,u)=0\)</span>.</p>
+</li>
+<li>
+<p>El caso B viola la exogeneidad porque el instrumento se correlaciona con el error (<span class="arithmatex">\(\operatorname{Cov}(z,u) \neq 0\)</span>).</p>
+</li>
+<li>
+<p>El caso C viola la relevancia. Si bien el instrumento no se correlaciona con el error, tampoco lo hace con <span class="arithmatex">\(X\)</span> (<span class="arithmatex">\(\operatorname{Cov}(x,z)=0\)</span>).</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 7" id="ejemplos-de-variables-endogenas-e-instrumentos-en-la-literatura">Ejemplos de variables endógenas e instrumentos en la literatura</h4>
+<!-- sem12/Clase15.tex · lámina 7 -->
+<ul>
+<li>
+<p><strong>Retornos de la educación:</strong></p>
+<div class="arithmatex">\[
+\log \bigl(\text{salario}\bigr)_{i}=\beta_{0}+\beta_{1} \,\text{educ}_{i}+u_{i}.
+\]</div>
+<ul>
+<li>
+<p><span class="arithmatex">\(Z\)</span>: trimestre de nacimiento (Angrist y Krueger, 1991).</p>
+</li>
+<li>
+<p><span class="arithmatex">\(Z\)</span>: proximidad geográfica a una universidad (Card, 1995).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Efecto de las instituciones en el PIB per cápita:</strong></p>
+<div class="arithmatex">\[
+\text{GDP}_{2015,i}=\beta_{0}+\beta_{1}\, \text{instituciones}_{2015,i}+u_{i}.
+\]</div>
+<ul>
+<li><span class="arithmatex">\(Z\)</span>: mortalidad por enfermedades en el paı́s cuando llegaron los europeos siglos atrás (Acemoglu <em>et al.</em>, 2001).</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-4">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 4</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Cuáles son las tres fuentes habituales de endogeneidad?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Variables omitidas, simultaneidad y error de medida en las x.</button>
+<button class="econ-quiz-opt" data-why="Ninguna de ellas hace que Cov(x, u) ≠ 0 por sí sola.">Heterocedasticidad, multicolinealidad y autocorrelación.</button>
+<button class="econ-quiz-opt" data-why="No son causas de endogeneidad.">Muestras pequeñas, R² bajo y valores atípicos.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 2.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué dos condiciones debe cumplir un instrumento válido z?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Relevancia, Cov(x, z) ≠ 0, y exogeneidad, Cov(z, u) = 0.</button>
+<button class="econ-quiz-opt" data-why="Es al revés.">Cov(x, z) = 0 y Cov(z, u) ≠ 0.</button>
+<button class="econ-quiz-opt" data-why="La restricción de exclusión exige que z afecte a y solo a través de x.">Que z afecte directamente a y.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 4.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · MCO con endogeneidad</p>
+<p>Simula retornos a la educación con la habilidad omitida y mira el sesgo de MCO aun con n = 5 000.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Endogeneidad por variable omitida: MCO sesgado aunque n sea grande</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">34</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">5000</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">habilidad</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">educ</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">habilidad</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">lsalario</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.08</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">habilidad</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">lsalario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">))[</span><span class="s">"educ"</span><span class="p">]</span><span class="w">      </span><span class="c1"># verdadero: 0.08</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nf">cor</span><span class="p">(</span><span class="n">educ</span><span class="p">,</span><span class="w"> </span><span class="m">0.10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">habilidad</span><span class="p">)</span><span class="w">            </span><span class="c1"># educ se correlaciona con el error</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>2 * habilidad</code> por <code>0 * habilidad</code> en la educación. ¿Desaparece el sesgo?</p>
+</div>
+<h3 class="econ-tema" data-laminas="Parte 3 · láminas 8–19" data-num="5" id="tema-5">Estimación por VI y MC2E</h3>
+<p class="econ-tema-q">¿Cómo se usa el instrumento para estimar β?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 8" id="implementacion-del-metodo-iv">Implementación del método IV</h4>
+<!-- sem12/Clase15.tex · lámina 8 -->
+<ul>
+<li>
+<p>Métodos para estimar <span class="arithmatex">\(\hat{\beta}^{IV}\)</span>:</p>
+<ol>
+<li>
+<p>Estimación por Variables Instrumentales (VI) <em>per se</em>.</p>
+</li>
+<li>
+<p>Mínimos Cuadrados en Dos Etapas (MC2E),</p>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 9" id="estimacion-por-variables-instrumentales-vi">Estimación por Variables Instrumentales (VI)</h4>
+<!-- sem12/Clase15.tex · lámina 9 -->
+<ul>
+<li>
+<p>Consideremos el modelo de regresión simple:</p>
+<div class="arithmatex">\[
+y_{i}=\beta_{0}+\beta_{1} x_{i}+u_{i}, \quad i=1,\ldots,N.
+\]</div>
+</li>
+<li>
+<p>Problema: <span class="arithmatex">\(\operatorname{Cov}\left(u_{i},x_{i}\right) \neq 0\)</span>.</p>
+</li>
+<li>
+<p>Contamos con un instrumento <span class="arithmatex">\(z\)</span> que cumple:</p>
+<ol>
+<li>
+<p><span class="arithmatex">\(\operatorname{Cov}\left(u_{i},z_{i}\right)=0\)</span>.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\operatorname{Cov}\left(x_{i},z_{i}\right)\neq 0\)</span>.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Entonces:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\operatorname{Cov}\left(y_{i},z_{i}\right) &amp;= \operatorname{Cov}\bigl(\underbrace{\beta_{0}+\beta_{1}x_{i}+u_{i}}_{y_{i}}, z_{i}\bigr) \\
+&amp;= \underbrace{\operatorname{Cov}\left(\beta_{0},z_{i}\right)}_{0} + \beta_{1}\, \operatorname{Cov}\left(x_{i},z_{i}\right) + \underbrace{\operatorname{Cov}\left(u_{i},z_{i}\right)}_{0} \\
+&amp;= \beta_{1}\, \operatorname{Cov}\left(x_{i},z_{i}\right).
+\end{aligned}
+\]</div>
+</li>
+<li>
+<p>Despejando: <span class="arithmatex">\(\beta_{1}=\frac{\operatorname{Cov}\left(y_{i},z_{i}\right)}{\operatorname{Cov}\left(x_{i},z_{i}\right)}.\)</span></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 10" id="relacion-poblacional-y-analogo-muestral">Relación poblacional y análogo muestral</h4>
+<!-- sem12/Clase15.tex · lámina 10 -->
+<ul>
+<li>
+<p>La <strong>identificación</strong> del parámetro en este contexto significa que se puede escribir <span class="arithmatex">\(\beta_1\)</span> en términos de los momentos poblacionales que se pueden estimar mediante una muestra de datos.</p>
+<div class="arithmatex">\[
+\hat{\beta}_{VI}=\frac{S_{y_{i},z_{i}}}{S_{x_{i},z_{i}}}=\frac{\sum_{i=1}^{N}(y_{i}-\bar{y})(z_{i}-\bar{z})}{\sum_{i=1}^{N}(x_{i}-\bar{x})(z_{i}-\bar{z})}.
+\]</div>
+</li>
+<li>
+<p>Todo esto es observable, por lo que podemos estimarlo (<code>R</code> lo hace por ustedes).</p>
+</li>
+<li>
+<p>Además, si se cumplen los supuestos sobre el instrumento <span class="arithmatex">\(Z\)</span>, el estimador es consistente:</p>
+<div class="arithmatex">\[
+\hat{\beta}_{VI} \xrightarrow{p} \beta.
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 11" id="estimacion-con-vi-en-modelos-de-regresion-multiple">Estimación con VI en modelos de regresión múltiple</h4>
+<!-- sem12/Clase15.tex · lámina 11 -->
+<ul>
+<li>
+<p>La estimación por IV se extiende fácilmente a modelos con múltiples regresores.</p>
+</li>
+<li>
+<p>Nos centraremos en el caso con un <strong>único</strong> regresor endógeno y varios controles exógenos, aunque es posible tener más de una variable endógena.</p>
+</li>
+</ul>
+<p><u><strong>Estimación por VI con una endógena y varias exógenas</strong></u><br></p>
+<div class="arithmatex">\[
+\ln \bigl(\text{salario}_{i}\bigr)=\beta_{0}+\beta_{1}\, \text{educ}_{i}+\beta_{2}\, \text{mujer}_{i}+u_{i}.
+\]</div>
+<ul>
+<li>
+<p>Idea: usar las exógenas como sus propios instrumentos; la matriz <span class="arithmatex">\(Z\)</span> incluirá (i) la constante; (ii) el instrumento para <em>educ</em>; y (iii) <em>mujer</em>.</p>
+</li>
+<li>
+<p>Aplicamos la fórmula anterior:</p>
+<div class="arithmatex">\[
+\hat{\beta}_{VI}=(Z^{T}X)^{-1}Z^{T}Y,
+\]</div>
+<p>donde <span class="arithmatex">\(Z\)</span> es de <span class="arithmatex">\(N\times k+1\)</span>, <span class="arithmatex">\(X\)</span> es de <span class="arithmatex">\(N\times k+1\)</span>, <span class="arithmatex">\(Y\)</span> es de <span class="arithmatex">\(N\times 1\)</span> y <span class="arithmatex">\(\hat{\beta}^{IV}\)</span> de <span class="arithmatex">\(k+1\times 1\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 12" id="resumen">Resumen</h4>
+<!-- sem12/Clase15.tex · lámina 12 -->
+<ul>
+<li>
+<p>Decimos que una variable es endógena cuando <span class="arithmatex">\(\operatorname{Cov}(u,x) \neq 0\)</span>.</p>
+</li>
+<li>
+<p>En presencia de endogeneidad se viola uno de los supuestos de Gauss--Markov, y <span class="arithmatex">\(\hat{\beta}_{\text{MCO}}\)</span> será:</p>
+<ul>
+<li>
+<p>Sesgado.</p>
+</li>
+<li>
+<p>Inconsistente.</p>
+</li>
+<li>
+<p>No eficiente.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Existen tres fuentes habituales de endogeneidad en economı́a:</p>
+<ol>
+<li>
+<p>Omisión de variables relevantes.</p>
+</li>
+<li>
+<p>Simultaneidad.</p>
+</li>
+<li>
+<p>Errores de medida.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Para estimar de manera consistente necesitaremos un <strong>instrumento</strong>.</p>
+</li>
+<li>
+<p>Un instrumento válido es una tercera variable <span class="arithmatex">\(z\)</span> que cumple:</p>
+<ul>
+<li>
+<p><strong>Exogeneidad:</strong> <span class="arithmatex">\(\operatorname{Cov}(u,z)=0\)</span>.</p>
+</li>
+<li>
+<p><strong>Relevancia:</strong> <span class="arithmatex">\(\operatorname{Cov}(x,z) \neq 0\)</span>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>El método de IV permite estimar <span class="arithmatex">\(\beta\)</span> de forma consistente.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Láminas 13–14" id="inferencia-y-estimacion-por-variables-instrumentales">Inferencia y estimación por Variables Instrumentales</h4>
+<!-- sem12/Clase15.tex · lámina 13 -->
+<ul>
+<li>
+<p>Al igual que MCO, VI es un método de estimación</p>
+<p>→ Un método para obtener un estimador de nuestro parámetro de interés <span class="arithmatex">\(\beta\)</span></p>
+</li>
+<li>
+<p>Tal como con MCO, una vez obtenidas las estimaciones <span class="arithmatex">\(\hat{\beta}_{VI}\)</span> queremos hacer inferencia estadística sobre las mismas. Necesitamos errores estándar.</p>
+<p>→ Ej. pruebas t de significación de los parámetros</p>
+</li>
+<li>
+<p>Tal como en MCO, vamos a asumir homoscedasticidad, ahora condicional en el instrumento <span class="arithmatex">\(z\)</span>: <span class="arithmatex">\(Var(u \mid z) = \sigma^2\)</span></p>
+</li>
+</ul>
+<!-- sem12/Clase15.tex · lámina 14 -->
+<ul>
+<li>
+<p>Se puede demostrar que se puede estimar la varianza de <span class="arithmatex">\(\hat{\beta}_{VI}\)</span> como:</p>
+<div class="arithmatex">\[
+\text{Var}(\hat{\beta}_{VI}) = \frac{\hat{\sigma}^2}{\text{SST}_x R^2_{x,z}}
+\]</div>
+<p>donde</p>
+<ol>
+<li>
+<p><span class="arithmatex">\(\hat{\sigma}^2 = \frac{1}{n-2} \sum_{i=1}^{n} \hat{u}_i^2\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(R^2_{x,z}\)</span> es el <span class="arithmatex">\(R^2\)</span> de la regresión: <span class="arithmatex">\(X_i = \alpha_0 + \alpha_1 Z_i + v\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(SST_x = \sum_{i=1}^{n} (x_i - \bar{x})^2\)</span> es la suma de cuadrados total de <span class="arithmatex">\(X\)</span>.</p>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 15" id="estimador-para-la-varianza-de-las-estimaciones-por-vi">Estimador para la varianza de las estimaciones por VI</h4>
+<!-- sem12/Clase15.tex · lámina 15 -->
+<ul>
+<li>
+<p>Noten que:</p>
+<div class="arithmatex">\[
+\text{Var}(\hat{\beta}_{VI}) = \frac{\hat{\sigma}^2}{\text{SST}_x R^2_{x,z}}
+\]</div>
+</li>
+<li>
+<p>Noto: Mientras más débil la relación entre <span class="arithmatex">\(x\)</span> y su instrumento <span class="arithmatex">\(z\)</span>, menor <span class="arithmatex">\(R^2_{x,z}\)</span>→ mayor <span class="arithmatex">\(Var(\hat{\beta}_{VI})\)</span>.</p>
+</li>
+<li>
+<p>l Modelo de Regresión Simple:</p>
+<div class="arithmatex">\[
+\text{Var}(\hat{\beta}_{MCO}) = \frac{\hat{\sigma}^2}{\text{SST}_x}
+\]</div>
+</li>
+<li>
+<p>Dado que <span class="arithmatex">\(R^2_{x,z} \leq 1\)</span>, la varianza de las estimaciones por VI será mayor o igual a la varianza de los estimadores MCO.</p>
+<ul>
+<li>
+<p>Mientras más fuerte la relación entre <span class="arithmatex">\(x\)</span> y <span class="arithmatex">\(z\)</span>, más se acercarán las varianzas.</p>
+</li>
+<li>
+<p>Caso extremo: <span class="arithmatex">\(x\)</span> es exógena, <span class="arithmatex">\(x\)</span> es el instrumento de <span class="arithmatex">\(x\)</span> → <span class="arithmatex">\(R^2_{x,z} = 1\)</span> → <span class="arithmatex">\(Var(\hat{\beta}_{VI}) = Var(\hat{\beta}_{MCO})\)</span>.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="iv-sim"></div>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 16" id="estimacion-por-minimos-cuadrados-en-dos-etapas">Estimación por mínimos cuadrados en dos etapas</h4>
+<!-- sem12/Clase15.tex · lámina 16 -->
+<ul>
+<li>
+<p>Otro método para estimar consistentemente los parámetros con instrumentos es el Mínimos Cuadrados en 2 etapas (MC2E). El coeficiente que obtenemos será el mismo.</p>
+</li>
+<li>
+<p>Comenzamos con el siguiente modelo donde estamos interesados en el efecto de <span class="arithmatex">\(x_1\)</span> en <span class="arithmatex">\(y_1\)</span>:</p>
+<div class="arithmatex">\[
+y_i = \beta_0 + \beta_1 x_{1i} \text{(endo)} + \beta_2 x_{2i} \text{(exog)} + u_i \quad \forall i = 1, \ldots, N
+\]</div>
+<p>Con:</p>
+<p>(i) <span class="arithmatex">\(Cov(x_{1i}, u_i) \neq 0\)</span>,</p>
+<p>(ii) <span class="arithmatex">\(Cov(x_{2i}, u_i) = 0\)</span>,</p>
+<p>(iii) <span class="arithmatex">\(Cov(z_i, u_i) = 0\)</span></p>
+</li>
+<li>
+<p>Por ejemplo:</p>
+<div class="arithmatex">\[
+\ln(\text{salario}_i) = \beta_0 + \beta_1 \text{educ}_i + \beta_2 \text{mujer} + u_i
+\]</div>
+</li>
+<li>
+<p>Y podemos usar como instrumento de <em>educ</em> la distancia al establecimiento educativo más cercano.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 17" id="mc2e-etapa-1">MC2E - Etapa 1</h4>
+<!-- sem12/Clase15.tex · lámina 17 -->
+<p>Primera etapa: <span class="arithmatex">\(Z \rightarrow X\)</span> Regresamos la variable endógena sobre todas las exógenas incluido el instrumento</p>
+<ul>
+<li>
+<p><strong>Paso 1:</strong> Estimamos la siguiente ecuación por MCO.</p>
+<div class="arithmatex">\[
+x_{1i} = \beta_0 + \beta_1 z_i + \beta_2 x_{2i} + v_i
+\]</div>
+</li>
+<li>
+<p><strong>Paso 2:</strong> Obtenemos los <span class="arithmatex">\(\hat{\beta}\)</span> y construimos el valor predicho de <span class="arithmatex">\(x_1\)</span>:</p>
+<div class="arithmatex">\[
+\hat{x}_{1i} = \hat{\beta}_0 + \hat{\beta}_1 z_i + \hat{\beta}_2 x_{2i}
+\]</div>
+</li>
+<li>
+<p>Noten que <span class="arithmatex">\(\hat{x}_1\)</span> es una función de <span class="arithmatex">\(z\)</span> y <span class="arithmatex">\(x_2\)</span> que son variables exógenas. Por lo tanto, no correlaciona con el error <span class="arithmatex">\((u)\)</span>. El instrumento permite quedarnos con la parte exógena de <span class="arithmatex">\(x\)</span>.</p>
+</li>
+<li>
+<p><strong>Intuición:</strong> <span class="arithmatex">\(x_i = \hat{x}_i + \hat{v}_i\)</span>. Solo usamos la parte exógena: <span class="arithmatex">\(\hat{x}_i\)</span> y nos deshacemos de la endógena.</p>
+</li>
+<li>
+<p><strong>Paso 3:</strong> Noten que durante este paso, se aprovecha para testear la relevancia del instrumento. Haciendo un test de <span class="arithmatex">\(\hat{\beta}_1 \neq 0\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 18" id="mc2e-etapa-2">MC2E - Etapa 2</h4>
+<!-- sem12/Clase15.tex · lámina 18 -->
+<p>Segunda etapa: <span class="arithmatex">\(\hat{x} \rightarrow y\)</span></p>
+<ul>
+<li>
+<p>En la ecuación original, reemplazamos la variable endógena <span class="arithmatex">\(x_1\)</span> por la predicción de esta variable que obtuvimos en la primera etapa <span class="arithmatex">\(\hat{x}_1\)</span> (Ec.2).</p>
+</li>
+<li>
+<p>Nuestra ecuación original (Ec.1) la podemos escribir entonces:</p>
+<div class="arithmatex">\[
+y_i = \beta_0 + \beta_1 \hat{x}_{1i} + \beta_2 x_{2i} + u_i
+\]</div>
+</li>
+<li>
+<p><span class="arithmatex">\(\hat{x}_{1i}\)</span> es exógena, ya que es una combinación lineal de variables exógenas (Ec.2).</p>
+</li>
+<li>
+<p>Ahora, ¡podemos estimar Ec.3 por MCO!</p>
+<div class="arithmatex">\[
+\hat{\beta}_{MC2E} = (\hat{X}^T \hat{X})^{-1} \hat{X}^T Y
+\]</div>
+</li>
+<li>
+<p>Con <span class="arithmatex">\(\hat{X} =    \begin{bmatrix}
+        1 &amp; \hat{x}_{1,1} &amp; x_{2,1} \\
+        1 &amp; \hat{x}_{1,2} &amp; x_{2,2} \\
+        \vdots &amp; \vdots &amp; \vdots \\
+        1 &amp; \hat{x}_{1,n} &amp; x_{2,n} \\
+        \end{bmatrix}\)</span></p>
+</li>
+<li>
+<p>El <span class="arithmatex">\(\hat{\beta}_1\)</span> hallado de esta manera se conoce como <span class="arithmatex">\(\hat{\beta}_{1,MC2E}\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 19" id="conclusiones">Conclusiones</h4>
+<!-- sem12/Clase15.tex · lámina 19 -->
+<ul>
+<li>
+<p>Vimos dos métodos para estimar consistentemente los parámetros cuando el regresor es endógeno y contamos con un instrumento válido:</p>
+<ul>
+<li>
+<p>VI</p>
+</li>
+<li>
+<p>MC2E</p>
+</li>
+</ul>
+</li>
+<li>
+<p>En el Modelo de Regresión Simple (MRS), con un solo instrumento, ambos métodos nos darán las mismas estimaciones puntuales y los mismos errores estándar.</p>
+</li>
+<li>
+<p>Los resultados serán distintos cuando tengamos más de un instrumento para la variable endógena.</p>
+</li>
+<li>
+<p>Estimar por estos métodos nos asegura la consistencia de las estimaciones siempre que los instrumentos sean válidos.</p>
+</li>
+<li>
+<p>Pero pagaremos el precio de menos precisión en esas estimaciones (errores estándar más grandes que en MCO).</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-5">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 5</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En la regresión simple, el estimador de VI es…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Cov(y, z)/Cov(x, z)</button>
+<button class="econ-quiz-opt" data-why="Ese es el estimador de MCO.">Cov(y, x)/Var(x)</button>
+<button class="econ-quiz-opt" data-why="Está invertido.">Cov(x, z)/Cov(y, z)</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 9 y 10.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué pasa con la varianza de β̂_VI si el instrumento es débil (R²ₓ,z bajo)?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Aumenta mucho: Var(β̂_VI) = σ̂²/(SSTₓ·R²ₓ,z).</button>
+<button class="econ-quiz-opt" data-why="R²ₓ,z está en el denominador.">Disminuye.</button>
+<button class="econ-quiz-opt" data-why="Depende directamente de R²ₓ,z.">No cambia.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 15.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · VI y MC2E paso a paso</p>
+<p>Estima los retornos a la educación con un instrumento binario por VI y por MC2E, y compáralos con MCO.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">35</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">5000</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">habilidad</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">z</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbinom</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w">                          </span><span class="c1"># instrumento: p. ej., vivir cerca de una universidad</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">educ</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">habilidad</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">      </span><span class="c1"># relevancia: z afecta educ</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">lsalario</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.08</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">educ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">habilidad</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">b_mco</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">lsalario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ</span><span class="p">))[</span><span class="s">"educ"</span><span class="p">]</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">b_vi</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cov</span><span class="p">(</span><span class="n">lsalario</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">cov</span><span class="p">(</span><span class="n">educ</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w">            </span><span class="c1"># lámina 10</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># MC2E: primera etapa y segunda etapa (láminas 17 y 18)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">educ_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fitted</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">educ</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">z</span><span class="p">))</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="n">b_mc2e</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">lsalario</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">educ_hat</span><span class="p">))[</span><span class="s">"educ_hat"</span><span class="p">]</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="nf">c</span><span class="p">(</span><span class="n">MCO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unname</span><span class="p">(</span><span class="n">b_mco</span><span class="p">),</span><span class="w"> </span><span class="n">VI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b_vi</span><span class="p">,</span><span class="w"> </span><span class="n">MC2E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unname</span><span class="p">(</span><span class="n">b_mc2e</span><span class="p">))</span><span class="w">   </span><span class="c1"># verdadero: 0.08</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">educ</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">z</span><span class="p">))</span><span class="o">$</span><span class="n">r.squared</span><span class="w">                     </span><span class="c1"># R² de la primera etapa</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>2 * z</code> por <code>0.05 * z</code> (instrumento débil). ¿Qué pasa con el R² de la primera etapa y con la estimación?</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>Con <strong>heterocedasticidad</strong>, MCO sigue insesgado y consistente, pero no es MELI y los errores estándar usuales (y los tests t y F) fallan, aun con muestras grandes.</li>
+<li>Se detecta con <strong>Breusch-Pagan</strong> (<span class="arithmatex">\(\hat{u}^2\)</span> sobre las <span class="arithmatex">\(x\)</span>) o <strong>White</strong> (agrega cuadrados y productos cruzados).</li>
+<li>Se corrige la inferencia con <strong>errores robustos de White</strong>: <span class="arithmatex">\((X'X)^{-1}\big(\sum_i \hat{u}_i^2 x_i x_i'\big)(X'X)^{-1}\)</span>.</li>
+<li>Con <strong>endogeneidad</strong>, MCO es sesgado e inconsistente; un instrumento <strong>relevante</strong> y <strong>exógeno</strong> permite estimar con VI o MC2E, con más varianza.</li>
+</ul>
+</div>
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En una regresión con n = 200, el R² de la regresión auxiliar de Breusch-Pagan (k = 2) es 0.05. ¿Cuánto vale el LM?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>10, que supera el valor crítico χ²(2) al 5% (5.99): se rechaza la homocedasticidad.</button>
+<button class="econ-quiz-opt" data-why="Hay que multiplicar por n.">0.05</button>
+<button class="econ-quiz-opt" data-why="LM = n·R² = 200·0.05.">2.5</button>
+</div>
+<p class="econ-quiz-fb">✅ LM = n·R²_aux (lámina 9).</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Un coeficiente tiene s.e. usual 0.10 y s.e. robusto 0.16, con β̂ = 0.25. ¿Qué concluyes al 5%?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Con el s.e. usual parece significativo (t = 2.5), pero con el robusto no (t = 1.56).</button>
+<button class="econ-quiz-opt" data-why="Con el robusto, t = 0.25/0.16 = 1.56 &lt; 1.96.">Es significativo con ambos errores estándar.</button>
+<button class="econ-quiz-opt" data-why="Basta calcular ambos t.">No se puede saber.</button>
+</div>
+<p class="econ-quiz-fb">✅ Con heterocedasticidad, hay que usar el robusto.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Un instrumento z está muy correlacionado con x, pero también con el error. ¿Qué ocurre con VI?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Queda sesgado: el instrumento no es exógeno.</button>
+<button class="econ-quiz-opt" data-why="La relevancia sola no basta: también se requiere exogeneidad.">Es consistente, porque z es relevante.</button>
+<button class="econ-quiz-opt" data-why="Con un instrumento inválido, VI ni siquiera es consistente.">Es más eficiente que MCO.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 6, gráfico B.</p>
+</div>
+
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulos 8 (heterocedasticidad) y 15 (variables instrumentales y MC2E).</li>
+<li>🛠️ Esta semana es el <strong>Taller 3</strong>. Ejercicios en la <strong><a href="../../ayudantias/ayudantia12/">Ayudantía 12</a></strong>.</li>
+<li>Próxima clase: <strong>Series de tiempo</strong>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+        <script src="../../javascripts/practica-banco.js"></script>
+      
+        <script src="../../javascripts/practica.js"></script>
+      
+    
+  </body>
+</html>

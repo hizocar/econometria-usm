@@ -8,7 +8,7 @@ window.MathJax = {
     // Lista completa y explícita: la forma {"[+]": [...]} no se aplicaba y "color" quedaba fuera.
     packages: ["base", "ams", "newcommand", "noundefined", "require", "autoload", "configmacros", "color"],
     // Comandos de LaTeX que usan las láminas y MathJax no trae (Clase 4, lámina 8: \hdots)
-    macros: { hdots: "\\ldots" },
+    macros: { hdots: "\\ldots", plim: "\\operatorname*{plim}" },
     inlineMath: [["\\(", "\\)"]],
     displayMath: [["\\[", "\\]"]],
     processEscapes: true,

@@ -1,0 +1,1816 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/ayudantias/ayudantia11/">
+      
+      
+        <link rel="prev" href="../ayudantia4/">
+      
+      
+        <link rel="next" href="../ayudantia12/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Ayudantía 11 · Variables binarias y MPL - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ayudantia-11-variables-binarias-y-modelo-de-probabilidad-lineal" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ayudantía 11 · Variables binarias y MPL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../clases/clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../practica/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🎮 Práctica · Primer bloque
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 9 · El test F
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 10 · Propiedades asintóticas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 11 · Variables binarias, Chow y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 12 · Heterocedasticidad y variables instrumentales
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practica/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🎮 Práctica · Primer bloque
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ayudantia1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 11 · Variables binarias y MPL
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 11 · Variables binarias y MPL
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temas-de-la-ayudantia" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗺️ Temas de la ayudantía
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-diferencias-salariales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Ayudantía · Ejercicio: diferencias salariales
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Ayudantía · Ejercicio: diferencias salariales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Dummies de industria
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Dummies de industria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejercicio-diferencias-salariales-entre-industrias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicio: Diferencias salariales entre industrias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejercicio: Diferencias salariales entre industrias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-diferencia-porcentual-entre-servicios-y-transporte" class="md-nav__link">
+    <span class="md-ellipsis">
+      (a) Diferencia porcentual entre servicios y transporte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-diferencia-porcentual-entre-productos-de-consumo-y-sector-financiero" class="md-nav__link">
+    <span class="md-ellipsis">
+      (b) Diferencia porcentual entre productos de consumo y sector financiero
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-prueba-de-significancia-para-la-diferencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      (c) Prueba de significancia para la diferencia
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicios-modelo-de-probabilidad-lineal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Ayudantía · Ejercicios: modelo de probabilidad lineal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Ayudantía · Ejercicios: modelo de probabilidad lineal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · MPL y heterocedasticidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · MPL y heterocedasticidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejercicios-modelo-de-probabilidad-lineal_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicios: modelo de probabilidad lineal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejercicios: modelo de probabilidad lineal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-dos-criticas-a-la-estimacion-por-mco-del-modelo-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      4) Dos críticas a la estimación por MCO del modelo (1).
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#volver-a-la-catedra" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Volver a la cátedra
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ayudantia12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 12 · Test de White y errores robustos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temas-de-la-ayudantia" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗺️ Temas de la ayudantía
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-diferencias-salariales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Ayudantía · Ejercicio: diferencias salariales
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Ayudantía · Ejercicio: diferencias salariales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Dummies de industria
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Dummies de industria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejercicio-diferencias-salariales-entre-industrias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicio: Diferencias salariales entre industrias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejercicio: Diferencias salariales entre industrias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-diferencia-porcentual-entre-servicios-y-transporte" class="md-nav__link">
+    <span class="md-ellipsis">
+      (a) Diferencia porcentual entre servicios y transporte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-diferencia-porcentual-entre-productos-de-consumo-y-sector-financiero" class="md-nav__link">
+    <span class="md-ellipsis">
+      (b) Diferencia porcentual entre productos de consumo y sector financiero
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-prueba-de-significancia-para-la-diferencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      (c) Prueba de significancia para la diferencia
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicios-modelo-de-probabilidad-lineal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 2 · Ayudantía · Ejercicios: modelo de probabilidad lineal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 2 · Ayudantía · Ejercicios: modelo de probabilidad lineal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · MPL y heterocedasticidad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · MPL y heterocedasticidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejercicios-modelo-de-probabilidad-lineal_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejercicios: modelo de probabilidad lineal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejercicios: modelo de probabilidad lineal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-dos-criticas-a-la-estimacion-por-mco-del-modelo-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      4) Dos críticas a la estimación por MCO del modelo (1).
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#volver-a-la-catedra" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Volver a la cátedra
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="ayudantia-11-variables-binarias-y-modelo-de-probabilidad-lineal">Ayudantía 11 · Variables binarias y modelo de probabilidad lineal</h1>
+<div class="usm-session-meta">
+<span>📘 Ayudantía · Semana 11</span>
+<span class="usm-tag-gold">Complementa la Clase 11</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la ayudantía</p>
+<p>Esta página reproduce <strong>íntegros y en orden</strong> los ejercicios de la semana 11 (<code>sem11/ejer_dummy.tex</code> y
+<code>sem11/ejercicio_dummy_hete.tex</code>). Se trabajan en la <strong>ayudantía</strong>, no en la cátedra
+(<a href="../../clases/clase11/">Clase 11</a>).</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Cómo estudiar esta página</p>
+<p>La ayudantía está ordenada en <strong>2 temas</strong>. Cada tema parte con una <strong>pregunta guía</strong>, sigue con las láminas
+y los simuladores, y termina con <strong>✍️ preguntas de selección múltiple</strong> (cada alternativa incorrecta explica
+por qué no lo es) y un <strong>🧪 ejercicio de R</strong> que puedes editar y ejecutar aquí mismo, sin instalar nada.
+Los 2 ejercicios de R en un solo archivo: <a href="../../r/ayudantia11.R">📥 ayudantia11.R</a>.</p>
+</div>
+<h2 id="objetivos">🎯 Objetivos</h2>
+<ul>
+<li>Calcular diferencias porcentuales entre categorías con dummies, de forma aproximada y exacta.</li>
+<li>Testear la diferencia entre dos categorías y entender el papel de la covarianza.</li>
+<li>Derivar la varianza del error en el modelo de probabilidad lineal.</li>
+</ul>
+<h2 id="temas-de-la-ayudantia">🗺️ Temas de la ayudantía</h2>
+<p>Haz clic en un tema para ir directo a él.</p>
+<ol class="econ-ruta is-ayudantia">
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Diferencias salariales entre industrias</span><span class="econ-ruta-l">Parte 1 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h"></span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">El MPL es heterocedástico</span><span class="econ-ruta-l">Parte 2 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+</ol>
+
+<h2 class="econ-parte is-ayudantia" data-eyebrow="Parte 1 · Ayudantía" id="ejercicio-diferencias-salariales">Ejercicio: diferencias salariales</h2>
+<p class="econ-source">📄 Documento: <code>sem11/ejer_dummy.tex</code> · 1 secciones</p>
+
+<h3 class="econ-tema is-ayudantia" data-laminas="Parte 1" data-num="1" id="tema-1">Diferencias salariales entre industrias</h3>
+<p class="econ-tema-q">¿Cuánto más ganan los presidentes de consejo en una industria que en otra?</p>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 1" id="ejercicio-diferencias-salariales-entre-industrias">Ejercicio: Diferencias salariales entre industrias</h4>
+<!-- sem11/ejer_dummy.tex · lámina 1 -->
+<p>Se estima la siguiente ecuación de regresión para los sueldos de los presidentes de consejos de administración:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\log(\widehat{salary}) &amp;= 4.59 + 0.257 \log(sales) + 0.011 \, roe + 0.158 \, finance
++ 0.181 \, consprod - 0.283 \, service \\
+&amp;\quad (0.30) \quad \quad \, (0.032) \quad \quad \qquad \, (0.004) \qquad \qquad (0.089) \qquad \quad (0.085) \qquad \qquad \qquad (0.099) \\
+n &amp;= 209, \quad R^2 = 0.357
+\end{aligned}
+\]</div>
+<p>donde las variables <em>finance</em>, <em>consprod</em> y <em>service</em> son <strong>dummies</strong> que indican si la empresa pertenece a los sectores financiero, de productos de consumo o de servicios, respectivamente. La categoría de referencia (omitida) corresponde a la <strong>industria del transporte</strong>.</p>
+<hr />
+<h5 id="a-diferencia-porcentual-entre-servicios-y-transporte">(a) Diferencia porcentual entre servicios y transporte</h5>
+<p>El coeficiente de la variable <em>service</em> es <span class="arithmatex">\(\hat{\beta}_{service} = -0.283\)</span>.</p>
+<ul>
+<li>
+<p><strong>Interpretación aproximada:</strong> El salario en el sector servicios es aproximadamente un <span class="arithmatex">\(28.3\%\)</span> menor que en el transporte.</p>
+</li>
+<li>
+<p><strong>Cálculo exacto:</strong></p>
+<div class="arithmatex">\[
+\Delta \% salary = 100 \cdot \left( e^{\hat{\beta}_{service}} - 1 \right)
+= 100 \cdot (e^{-0.283} - 1)
+= 100 \cdot (0.753 - 1) = -24.7\%.
+\]</div>
+<p>Por lo tanto, los sueldos en la industria de servicios son un <strong>24.7% menores</strong> que en la industria del transporte, manteniendo constantes <em>sales</em> y <em>roe</em>.[^1]</p>
+</li>
+</ul>
+<p>El error estándar del coeficiente es <span class="arithmatex">\(se(\hat{\beta}_{service}) = 0.099\)</span>, por lo que el estadístico <span class="arithmatex">\(t\)</span> es:</p>
+<div class="arithmatex">\[
+t = \frac{-0.283}{0.099} \approx -2.86.
+\]</div>
+<p>Dado que <span class="arithmatex">\(|t| &gt; 1.96\)</span>, se <strong>rechaza <span class="arithmatex">\(H_0: \beta_{service} = 0\)</span></strong> al 5%. La diferencia salarial con respecto al transporte es estadísticamente significativa.</p>
+<hr />
+<h5 id="b-diferencia-porcentual-entre-productos-de-consumo-y-sector-financiero">(b) Diferencia porcentual entre productos de consumo y sector financiero</h5>
+<p>Se comparan los coeficientes de <em>consprod</em> y <em>finance</em>:</p>
+<div class="arithmatex">\[
+\Delta \log(salary) = \hat{\beta}_{consprod} - \hat{\beta}_{finance}
+= 0.181 - 0.158 = 0.023.
+\]</div>
+<p><strong>Interpretación:</strong> Aproximadamente, los sueldos en el sector de productos de consumo son un <span class="arithmatex">\(2.3\%\)</span> más altos que en el sector financiero.</p>
+<div class="arithmatex">\[
+\Delta \% salary = 100 \cdot \left( e^{0.023} - 1 \right)
+= 100 \cdot (1.0233 - 1) = 2.33\%.
+\]</div>
+<hr />
+<h5 id="c-prueba-de-significancia-para-la-diferencia">(c) Prueba de significancia para la diferencia</h5>
+<p>El error estándar de la diferencia se calcula como:</p>
+<div class="arithmatex">\[
+se(\hat{\beta}_{consprod} - \hat{\beta}_{finance})
+= \sqrt{Var(\hat{\beta}_{consprod}) + Var(\hat{\beta}_{finance}) - 2 \, Cov(\hat{\beta}_{consprod}, \hat{\beta}_{finance})}.
+\]</div>
+<p>Como la covarianza no fue reportada, consideramos distintos escenarios:</p>
+<ul>
+<li>
+<p><strong>Caso 1:</strong> <span class="arithmatex">\(\text{Cov} = 0\)</span></p>
+<div class="arithmatex">\[
+se = \sqrt{(0.085)^2 + (0.089)^2}
+= \sqrt{0.015146} \approx 0.123,
+\quad
+t = \frac{0.023}{0.123} \approx 0.19.
+\]</div>
+<p>Dado que <span class="arithmatex">\(|t| &lt; 1.96\)</span>, no se puede rechazar <span class="arithmatex">\(H_0\)</span> de igualdad de salarios.</p>
+</li>
+<li>
+<p><strong>Caso 2:</strong> <span class="arithmatex">\(\text{Cov} &lt; 0\)</span></p>
+<div class="arithmatex">\[
+se = \sqrt{(0.085)^2 + (0.089)^2 - 2\,\text{Cov}} &gt; 0.123.
+\]</div>
+<p>El valor de <span class="arithmatex">\(t\)</span> sería aún más cercano a 0, por lo tanto, no se rechazaría <span class="arithmatex">\(H_0\)</span> de igualdad de salarios.</p>
+</li>
+<li>
+<p><strong>Caso 3:</strong> <span class="arithmatex">\(\text{Cov} &gt; 0\)</span> El error estándar sería menor que 0.123, en este caso el resultado del test es ambiguo depende de que tanto disminuya se.</p>
+</li>
+</ul>
+<hr />
+<p>[^1]: <em>Nota:</em> La diferencia entre el cálculo aproximado (<span class="arithmatex">\(-28.3\%\)</span>) y el exacto (<span class="arithmatex">\(-24.7\%\)</span>) se debe a que la aproximación lineal <span class="arithmatex">\(100\beta\)</span> es válida solo para valores pequeños de <span class="arithmatex">\(|\beta|\)</span>.</p>
+</div>
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Con log(salary) y un coeficiente de −0.283 para service, ¿cuál es la diferencia exacta respecto de transporte?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>−24.7%</button>
+<button class="econ-quiz-opt" data-why="Esa es la aproximación 100·β, buena solo para β pequeños.">−28.3%</button>
+<button class="econ-quiz-opt" data-why="Hay que multiplicar por 100.">−0.283%</button>
+</div>
+<p class="econ-quiz-fb">✅ 100·(e^−0.283 − 1) = −24.7%.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Para testear si consprod y finance difieren, ¿qué falta en la salida para calcular el error estándar exacto?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>La covarianza entre los dos coeficientes.</button>
+<button class="econ-quiz-opt" data-why="El R² no entra en el error estándar de una diferencia.">El R² de la regresión.</button>
+<button class="econ-quiz-opt" data-why="n = 209 sí se reporta.">El número de observaciones.</button>
+</div>
+<p class="econ-quiz-fb">✅ se = √(Var₁ + Var₂ − 2·Cov), como en la Clase 8.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Las cuentas del ejercicio</p>
+<p>Reproduce las diferencias porcentuales y los estadísticos t del ejercicio.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Ejercicio de diferencias salariales entre industrias</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">b_service</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">-0.283</span><span class="p">;</span><span class="w"> </span><span class="n">se_service</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.099</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b_service</span><span class="w">                     </span><span class="c1"># aproximación: −28.3%</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nf">exp</span><span class="p">(</span><span class="n">b_service</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">          </span><span class="c1"># exacto: −24.7%</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">b_service</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">se_service</span><span class="w">              </span><span class="c1"># t ≈ −2.86</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Consumo vs. financiero: la covarianza no se reporta</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">dif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.181</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.158</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">se_sin_cov</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="m">0.085</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.089</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nf">c</span><span class="p">(</span><span class="n">dif</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dif</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">se_sin_cov</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dif</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">se_sin_cov</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> ¿qué covarianza haría que t = 1.96 en la comparación de consprod y finance?</p>
+</div>
+<h2 class="econ-parte is-ayudantia" data-eyebrow="Parte 2 · Ayudantía" id="ejercicios-modelo-de-probabilidad-lineal">Ejercicios: modelo de probabilidad lineal</h2>
+<p class="econ-source">📄 Documento: <code>sem11/ejercicio_dummy_hete.tex</code> · 1 secciones</p>
+
+<h3 class="econ-tema is-ayudantia" data-laminas="Parte 2" data-num="2" id="tema-2">El MPL es heterocedástico</h3>
+<p class="econ-tema-q">¿Por qué la varianza del error en el MPL depende de x?</p>
+
+<div class="econ-lamina is-ayudantia">
+<h4 data-lamina="Lámina 1" id="ejercicios-modelo-de-probabilidad-lineal_1">Ejercicios: modelo de probabilidad lineal</h4>
+<!-- sem11/ejercicio_dummy_hete.tex · lámina 1 -->
+<p><strong>Ejercicio 1:</strong></p>
+<p>En un Modelo de Probabilidad Lineal (MPL) con variable dependiente binaria <span class="arithmatex">\(Y_i \in \{0,1\}\)</span>:</p>
+<div class="arithmatex">\[
+Y_i = X_i\beta + u_i
+\]</div>
+<p>donde <span class="arithmatex">\(E[Y_i|X_i] = P(Y_i=1|X_i) = X_i\beta\)</span>.</p>
+<p>El error es:</p>
+<div class="arithmatex">\[
+u_i = Y_i - X_i\beta
+\]</div>
+<p>La varianza condicional del error:</p>
+<div class="arithmatex">\[
+\operatorname{Var}(u_i|X_i) = E[u_i^2|X_i] - (E[u_i|X_i])^2
+\]</div>
+<p>Pero <span class="arithmatex">\(E[u_i|X_i]=0\)</span> por construcción, luego:</p>
+<div class="arithmatex">\[
+\operatorname{Var}(u_i|X_i) = E[u_i^2|X_i]
+\]</div>
+<p>Desarrollando <span class="arithmatex">\(E[u_i^2|X_i]\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+E[u_i^2|X_i] &amp;= P(Y_i=1|X_i)\cdot(1 - X_i\beta)^2 + P(Y_i=0|X_i)\cdot(0 - X_i\beta)^2 \\
+&amp;= (X_i\beta)(1 - X_i\beta)^2 + (1 - X_i\beta)(X_i\beta)^2
+\end{aligned}
+\]</div>
+<p>Factorizando <span class="arithmatex">\((X_i\beta)(1 - X_i\beta)\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+E[u_i^2|X_i] &amp;= (X_i\beta)(1 - X_i\beta)\big[(1 - X_i\beta) + X_i\beta\big] \\
+&amp;= (X_i\beta)(1 - X_i\beta) \cdot 1 \\
+&amp;= (X_i\beta)(1 - X_i\beta)
+\end{aligned}
+\]</div>
+<p>Por tanto:</p>
+<div class="arithmatex">\[
+\operatorname{Var}(u_i|X_i) = (X_i\beta)(1 - X_i\beta)
+\]</div>
+<p>La varianza depende de <span class="arithmatex">\(X_i\beta\)</span> (la probabilidad predicha). Como <span class="arithmatex">\(X_i\beta\)</span> varía con <span class="arithmatex">\(i\)</span>, la varianza no es constante. No se cumple homocedasticidad a menos que <span class="arithmatex">\(X_i\beta\)</span> sea el mismo para todo <span class="arithmatex">\(i\)</span> (caso trivial).</p>
+<p><strong>Ejercicio 2:</strong></p>
+<p>Suponga que usted cuenta con información sobre la <em>felicidad</em> de las personas (<span class="arithmatex">\(B_i\)</span>), la cual es una variable dummy que puede tomar sólo dos valores: <span class="arithmatex">\(0\)</span> si el individuo se clasifica como "no feliz" y <span class="arithmatex">\(1\)</span> si el individuo dice "ser feliz". Por otro lado, asuma que tiene información, para estos mismos individuos, sobre un conjunto de variables que afectan la felicidad. En concreto, se conoce la edad (<span class="arithmatex">\(E_i\)</span>), género (<span class="arithmatex">\(M_i\)</span>: mujer=1), años de escolaridad (<span class="arithmatex">\(S_i\)</span>), ingreso familiar (<span class="arithmatex">\(I_i\)</span>, en miles de pesos al año) y estado de salud (<span class="arithmatex">\(H_i\)</span>: buena salud=1). Con base en esto se plantea el siguiente modelo econométrico:</p>
+<div class="arithmatex">\[
+B_i \;=\; \beta_1 + \beta_2 E_i + \beta_3 M_i + \beta_4 S_i + \beta_5 I_i + \beta_6 H_i + u_i
+\tag{1}
+\]</div>
+<p>donde <span class="arithmatex">\(u_i\)</span> es un shock estocástico que captura factores no observables que afectan la felicidad, cumpliendo <span class="arithmatex">\(\mathbb{E}[u_i|X_i]=0\)</span>.</p>
+<ol>
+<li>
+<p>¿Es posible estimar el modelo (1) por Mínimos Cuadrados Ordinarios (MCO)? Justifique.</p>
+</li>
+<li>
+<p>Suponiendo que se ha estimado (1) por MCO y se ha obtenido el vector de coeficientes estimados <span class="arithmatex">\(\hat{\beta} = (\hat{\beta}_1, \ldots, \hat{\beta}_6)'\)</span>, escriba la expresión del estimador de la probabilidad de que un individuo con características <span class="arithmatex">\(X_i\)</span> sea feliz. ¿Qué propiedades estadísticas tiene este estimador bajo los supuestos clásicos?</p>
+</li>
+<li>
+<p>Con base en <span class="arithmatex">\(\hat{\beta}_5\)</span> (coeficiente estimado para el ingreso), ¿cuál es el efecto marginal estimado del ingreso familiar sobre la probabilidad de ser feliz? ¿Es este efecto marginal constante o variable? Interprete <span class="arithmatex">\(\hat{\beta}_5 = 0.012\)</span> suponiendo que <span class="arithmatex">\(I_i\)</span> se mide en miles de pesos anuales.</p>
+</li>
+<li>
+<p>Mencione y explique dos críticas a la estimación por MCO del modelo (1).</p>
+</li>
+</ol>
+<h5 id="1">1)</h5>
+<p>Sí, es <em>posible</em> estimar (1) por MCO; esto se conoce como <strong>Modelo de Probabilidad Lineal (MPL)</strong>. El estimador MCO es consistente e insesgado bajo los supuestos de exogeneidad estricta (<span class="arithmatex">\(\mathbb{E}[u_i|X_i]=0\)</span>) y rango completo de la matriz de regresores. Sin embargo, el supuesto de homocedasticidad se viola inherentemente debido a la naturaleza binaria de <span class="arithmatex">\(B_i\)</span>. Demostración:</p>
+<p>Dado que <span class="arithmatex">\(B_i\in\{0,1\}\)</span>, la esperanza condicional es:</p>
+<div class="arithmatex">\[
+\mathbb{E}[B_i|X_i] = \Pr(B_i=1|X_i) \equiv p_i = X_i'\beta.
+\]</div>
+<p>El error es <span class="arithmatex">\(u_i = B_i - p_i\)</span>. Calculando su varianza condicional:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\operatorname{Var}(u_i|X_i) &amp;= \mathbb{E}[u_i^2|X_i] - (\mathbb{E}[u_i|X_i])^2 = \mathbb{E}[u_i^2|X_i] \\
+&amp;= \Pr(B_i=1|X_i)\cdot(1-p_i)^2 + \Pr(B_i=0|X_i)\cdot(0-p_i)^2 \\
+&amp;= p_i(1-p_i)^2 + (1-p_i)p_i^2 \\
+&amp;= p_i(1-p_i)\big[(1-p_i)+p_i\big] = p_i(1-p_i).
+\end{aligned}
+\]</div>
+<p>Por tanto,</p>
+<div class="arithmatex">\[
+\operatorname{Var}(u_i|X_i) = (X_i'\beta)(1 - X_i'\beta).
+\]</div>
+<p>Dado que esta expresión depende de <span class="arithmatex">\(X_i\)</span> (a través de <span class="arithmatex">\(p_i\)</span>), la varianza no es constante: hay heterocedasticidad pura. En consecuencia, los errores estándar habituales de MCO son inconsistentes, aunque los coeficientes siguen siendo insesgados y consistentes.</p>
+<h5 id="2">2)</h5>
+<p>Una vez estimado (1) por MCO, el estimador de la probabilidad condicional de felicidad para un individuo con características <span class="arithmatex">\(X_i\)</span> viene dado por el valor predicho:</p>
+<div class="arithmatex">\[
+\widehat{\Pr}(B_i=1 \mid X_i) = \mathbb{E}[B_i \mid X_i] = X_i'\hat{\beta} = \hat{\beta}_1 + \hat{\beta}_2 E_i + \hat{\beta}_3 M_i + \hat{\beta}_4 S_i + \hat{\beta}_5 I_i + \hat{\beta}_6 H_i.
+\]</div>
+<p><strong>Propiedades estadísticas:</strong> Bajo los supuestos de MCO (exogeneidad, rango completo y homocedasticidad ---esta última no se cumple en la práctica---), <span class="arithmatex">\(\widehat{\Pr}(B_i=1|X_i)\)</span> es un estimador insesgado de <span class="arithmatex">\(\Pr(B_i=1|X_i)\)</span> en el sentido de que <span class="arithmatex">\(\mathbb{E}[X_i'\hat{\beta}|X_i] = X_i'\beta\)</span>. Además, es consistente: plim<span class="arithmatex">\(_{n\to\infty} X_i'\hat{\beta} = X_i'\beta\)</span>. No obstante, debido a la heterocedasticidad, su varianza estimada por el método clásico es incorrecta, afectando la construcción de intervalos de confianza. Una limitación adicional es que <span class="arithmatex">\(X_i'\hat{\beta}\)</span> puede tomar valores fuera del intervalo <span class="arithmatex">\([0,1]\)</span>, en cuyo caso la estimación carece de sentido probabilístico.</p>
+<h5 id="3">3)</h5>
+<p>En el MPL, el efecto marginal estimado del ingreso sobre la probabilidad de ser feliz es constante e igual al coeficiente estimado:</p>
+<div class="arithmatex">\[
+\widehat{\frac{\partial \Pr(B_i=1 \mid X_i)}{\partial I_i}} = \hat{\beta}_5.
+\]</div>
+<p><strong>Constancia:</strong> Este efecto marginal <strong>no varía</strong> con el nivel de ingreso ni con las demás covariables, debido a la linealidad del modelo. Es una propiedad restrictiva del MPL.</p>
+<p><strong>Interpretación de <span class="arithmatex">\(\hat{\beta}_5 = 0.012\)</span>:</strong> Dado que <span class="arithmatex">\(I_i\)</span> se mide en miles de pesos anuales, un aumento de mil pesos en el ingreso familiar anual está asociado con un incremento esperado de <span class="arithmatex">\(0.012\)</span> en la probabilidad de ser feliz, es decir, <strong>1.2 puntos porcentuales</strong>, manteniendo constantes las demás variables (<span class="arithmatex">\(E_i, M_i, S_i, H_i\)</span>). Este efecto es marginal y constante: el cambio en probabilidad es el mismo si el ingreso pasa de 10 a 11 mil pesos que de 100 a 101 mil pesos.</p>
+<h5 id="4-dos-criticas-a-la-estimacion-por-mco-del-modelo-1">4) Dos críticas a la estimación por MCO del modelo (1).</h5>
+<ol>
+<li>
+<p><strong>Heterocedasticidad y validez de la inferencia.</strong> Como se demostró en (1), <span class="arithmatex">\(\operatorname{Var}(u_i|X_i)=p_i(1-p_i)\)</span> no es constante. Los errores estándar convencionales de MCO serán incorrectos, invalidando los contrastes de hipótesis (<span class="arithmatex">\(t\)</span>, <span class="arithmatex">\(F\)</span>) si no se aplica una corrección. La solución más simple es emplear errores estándar robustos a heterocedasticidad (Huber-White), aunque la solución óptima es usar modelos de elección discreta como Logit o Probit, que modelan explícitamente esta heterocedasticidad inherente.</p>
+</li>
+<li>
+<p><strong>Restricción funcional lineal y predicciones fuera de rango.</strong> El MPL impone una relación lineal entre las covariables y la probabilidad, lo que produce dos problemas relacionados: (i) es frecuente obtener <span class="arithmatex">\(\hat p_i = X_i'\hat\beta &lt; 0\)</span> o <span class="arithmatex">\(\hat p_i &gt; 1\)</span>, valores sin sentido probabilístico; (ii) los efectos marginales constantes son poco realistas ---como se vio en (3), <span class="arithmatex">\(\hat\beta_5\)</span> no captura posibles rendimientos marginales decrecientes del ingreso sobre la felicidad. Los modelos Logit/Probit garantizan <span class="arithmatex">\(\hat p_i \in (0,1)\)</span> y generan efectos marginales que varían con las covariables, capturando la curvatura natural de las funciones de distribución acumulada.</p>
+</li>
+</ol>
+</div>
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En el MPL, Var(u | x) es igual a…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>p(x)·(1 − p(x)), donde p(x) = P(y = 1 | x).</button>
+<button class="econ-quiz-opt" data-why="Depende de x a través de p(x): no es constante.">σ², constante.</button>
+<button class="econ-quiz-opt" data-why="Esa es la esperanza de y, no la varianza del error.">p(x).</button>
+</div>
+<p class="econ-quiz-fb">✅ Por eso el MPL viola la homocedasticidad.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Para qué valor de p(x) es máxima la varianza del error?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>0.5</button>
+<button class="econ-quiz-opt" data-why="Con p = 1, p(1 − p) = 0.">1</button>
+<button class="econ-quiz-opt" data-why="Con p = 0, la varianza también es 0.">0</button>
+</div>
+<p class="econ-quiz-fb">✅ p(1 − p) se maximiza en p = 0.5, con valor 0.25.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · La varianza del error en el MPL</p>
+<p>Tabula y grafica p(1 − p), la varianza del error en el MPL.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># En el MPL, Var(u | x) = p(x)·(1 − p(x)): depende de x, así que hay heterocedasticidad</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nf">data.frame</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">varianza</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p</span><span class="p">))</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nf">curve</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"steelblue"</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"p(x) = P(y = 1 | x)"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Var(u | x)"</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> ¿qué valores de p dan una varianza menor a 0.1?</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li>Con <span class="arithmatex">\(\log(y)\)</span>, el coeficiente de una dummy se lee como un porcentaje aproximado; el cálculo exacto es <span class="arithmatex">\(100(e^{\beta} - 1)\)</span>.</li>
+<li>Para comparar dos categorías no base se necesita la <strong>covarianza</strong> entre sus coeficientes.</li>
+<li>En el MPL, <span class="arithmatex">\(\text{Var}(u \mid x) = p(x)(1 - p(x))\)</span>: el modelo es heterocedástico por construcción.</li>
+</ul>
+</div>
+<h2 id="volver-a-la-catedra">🔗 Volver a la cátedra</h2>
+<ul>
+<li><a href="../../clases/clase11/">Clase 11 · Variables binarias, test de Chow y modelo de probabilidad lineal</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+        <script src="../../javascripts/practica-banco.js"></script>
+      
+        <script src="../../javascripts/practica.js"></script>
+      
+    
+  </body>
+</html>

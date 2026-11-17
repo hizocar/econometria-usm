@@ -1,0 +1,2229 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/clases/clase10/">
+      
+      
+        <link rel="prev" href="../clase9/">
+      
+      
+        <link rel="next" href="../clase11/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Clase 10 · Propiedades asintóticas - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clase-10-propiedades-asintoticas" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clase 10 · Propiedades asintóticas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../practica/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🎮 Práctica · Primer bloque
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ayudantias/" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 9 · El test F
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Clase 10 · Propiedades asintóticas
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 10 · Propiedades asintóticas
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#propiedades-asintoticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Propiedades asintóticas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Propiedades asintóticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Muestras grandes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Muestras grandes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#muestras-finitas-vs-muestras-grandes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Muestras finitas vs. muestras grandes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supuestos-para-la-consistencia-de-mco" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supuestos para la consistencia de MCO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#un-supuesto-4-exogeneidad-debil" class="md-nav__link">
+    <span class="md-ellipsis">
+      Un supuesto 4': exogeneidad débil
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Consistencia
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Consistencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-la-consistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Qué es la consistencia?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consistencia
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Normalidad asintótica
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Normalidad asintótica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#distribucion-normal-asintotica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distribución normal asintótica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalidad-asintotica-de-mco" class="md-nav__link">
+    <span class="md-ellipsis">
+      Normalidad asintótica de MCO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idea-de-la-demostracion-caso-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Idea de la demostración (caso simple)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consecuencias-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consecuencias prácticas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Eficiencia asintótica
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Eficiencia asintótica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eficiencia-asintotica-de-mco-teorema-53" class="md-nav__link">
+    <span class="md-ellipsis">
+      Eficiencia asintótica de MCO (Teorema 5.3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumen-muestra-finita-vs-asintotica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resumen: muestra finita vs.\ asintótica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puntos-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Puntos clave para recordar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalidad-asintotica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Normalidad Asintótica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eficiencia-asintotica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Eficiencia Asintótica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importancia-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Importancia práctica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aplicacion-en-r-bucle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aplicación en R: Bucle
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 11 · Variables binarias, Chow y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clase12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 12 · Heterocedasticidad y variables instrumentales
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practica/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🎮 Práctica · Primer bloque
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 11 · Variables binarias y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ayudantias/ayudantia12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 12 · Test de White y errores robustos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos de la sesión
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#propiedades-asintoticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parte 1 · Propiedades asintóticas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parte 1 · Propiedades asintóticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tema-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 1 · Muestras grandes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 1 · Muestras grandes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#muestras-finitas-vs-muestras-grandes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Muestras finitas vs. muestras grandes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supuestos-para-la-consistencia-de-mco" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supuestos para la consistencia de MCO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#un-supuesto-4-exogeneidad-debil" class="md-nav__link">
+    <span class="md-ellipsis">
+      Un supuesto 4': exogeneidad débil
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 2 · Consistencia
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 2 · Consistencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-la-consistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Qué es la consistencia?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consistencia
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 3 · Normalidad asintótica
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 3 · Normalidad asintótica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#distribucion-normal-asintotica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distribución normal asintótica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalidad-asintotica-de-mco" class="md-nav__link">
+    <span class="md-ellipsis">
+      Normalidad asintótica de MCO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idea-de-la-demostracion-caso-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Idea de la demostración (caso simple)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consecuencias-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consecuencias prácticas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tema-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tema 4 · Eficiencia asintótica
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tema 4 · Eficiencia asintótica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eficiencia-asintotica-de-mco-teorema-53" class="md-nav__link">
+    <span class="md-ellipsis">
+      Eficiencia asintótica de MCO (Teorema 5.3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumen-muestra-finita-vs-asintotica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resumen: muestra finita vs.\ asintótica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puntos-clave-para-recordar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Puntos clave para recordar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalidad-asintotica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Normalidad Asintótica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eficiencia-asintotica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Eficiencia Asintótica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importancia-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Importancia práctica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aplicacion-en-r-bucle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aplicación en R: Bucle
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoevaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#para-la-proxima-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Para la próxima clase
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<!-- ARCHIVO GENERADO por tools/clases.py a partir de las diapositivas oficiales. No editar a mano: modifica tools/clases.py o el .tex y vuelve a generar. -->
+
+<h1 id="clase-10-propiedades-asintoticas">Clase 10 · Propiedades asintóticas</h1>
+<div class="usm-session-meta">
+<span>📅 Viernes 18 de diciembre de 2026</span>
+<span>⏱️ 18:40 – 21:25</span>
+<span class="usm-tag-gold">Semana 10 · Contenido 5 · Análisis de regresión múltiple</span>
+<span class="usm-tag-red">📝 Semana del Certamen 2 (lunes 14)</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Contenido oficial de la semana</p>
+<p>Esta página reproduce <strong>íntegras y en orden</strong> las diapositivas de la cátedra del viernes de la
+semana 10 (<code>sem10/clase11.tex</code>, 17 láminas). Los bloques <strong>Interactivo</strong>, los casos y las preguntas
+son material adicional para estudiar.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Cómo estudiar esta página</p>
+<p>La clase está ordenada en <strong>4 temas</strong>. Cada tema parte con una <strong>pregunta guía</strong>, sigue con las láminas
+y los simuladores, y termina con <strong>✍️ preguntas de selección múltiple</strong> (cada alternativa incorrecta explica
+por qué no lo es) y un <strong>🧪 ejercicio de R</strong> que puedes editar y ejecutar aquí mismo, sin instalar nada.
+Los 4 ejercicios de R en un solo archivo: <a href="../../r/clase10.R">📥 clase10.R</a>.</p>
+</div>
+<h2 id="objetivos-de-la-sesion">🎯 Objetivos de la sesión</h2>
+<ul>
+<li>Distinguir propiedades de <strong>muestra finita</strong> (insesgamiento) de propiedades <strong>asintóticas</strong> (consistencia).</li>
+<li>Entender la <strong>consistencia</strong> de MCO y por qué basta la exogeneidad débil <span class="arithmatex">\(E(x'u) = 0\)</span>.</li>
+<li>Usar la <strong>normalidad asintótica</strong> para justificar tests e intervalos aunque <span class="arithmatex">\(u\)</span> no sea normal.</li>
+<li>Conocer la <strong>eficiencia asintótica</strong> de MCO y qué cambia con heterocedasticidad.</li>
+</ul>
+<h2 id="agenda-de-la-catedra-viernes-1840-2125">🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)</h2>
+<p>Haz clic en un tema para ir directo a él.</p>
+<ol class="econ-ruta">
+<li><span class="econ-ruta-h">18:40</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Muestras grandes y los supuestos de la consistencia</span><span class="econ-ruta-l">láminas 1–4 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:05</span><a class="econ-ruta-a" href="#tema-2"><span class="econ-ruta-n">2</span><span class="econ-ruta-t">¿Qué es la consistencia?</span><span class="econ-ruta-l">láminas 5–6 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li><span class="econ-ruta-h">19:25</span><a class="econ-ruta-a" href="#tema-3"><span class="econ-ruta-n">3</span><span class="econ-ruta-t">Normalidad asintótica y sus consecuencias</span><span class="econ-ruta-l">láminas 7–10 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">19:55</span><span class="econ-ruta-t">☕ Receso</span></li>
+<li><span class="econ-ruta-h">20:05</span><a class="econ-ruta-a" href="#tema-4"><span class="econ-ruta-n">4</span><span class="econ-ruta-t">Eficiencia asintótica, resumen y aplicación</span><span class="econ-ruta-l">láminas 11–17 · ✍️ 2 preguntas · 🧪 R</span></a></li>
+<li class="is-break"><span class="econ-ruta-h">21:00</span><span class="econ-ruta-t">🧪 Práctica guiada con R y cierre</span></li>
+</ol>
+
+<h2 class="econ-parte" data-eyebrow="Parte 1 · Cátedra" id="propiedades-asintoticas">Propiedades asintóticas</h2>
+<p class="econ-source">📄 Diapositivas: <code>sem10/clase11.tex</code> · 17 láminas</p>
+
+<h3 class="econ-tema" data-laminas="láminas 1–4" data-num="1" id="tema-1">Muestras grandes y los supuestos de la consistencia</h3>
+<p class="econ-tema-q">¿Qué le pasa a MCO cuando la muestra crece sin límite?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 1" id="introduccion">Introducción</h4>
+<!-- sem10/clase11.tex · lámina 1 -->
+<p><strong>Pregunta clave:</strong> ¿Cómo se comporta el estimador de MCO cuando el tamaño de la muestra crece indefinidamente?</p>
+<ul>
+<li>
+<p>El análisis asintótico nos permite estudiar el comportamiento del estimador en muestras grandes.</p>
+</li>
+<li>
+<p>Es útil para justificar inferencias cuando la normalidad exacta de los errores no se cumple.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 2" id="muestras-finitas-vs-muestras-grandes">Muestras finitas vs. muestras grandes</h4>
+<!-- sem10/clase11.tex · lámina 2 -->
+<ul>
+<li>
+<p>Propiedades de muestras finitas: válidas para cualquier <span class="arithmatex">\(n\)</span>, como la insesgadez bajo Gauss-Markov.</p>
+</li>
+<li>
+<p>Propiedades asintóticas: válidas cuando <span class="arithmatex">\(n \to \infty\)</span>.</p>
+</li>
+<li>
+<p>Nos interesa estudiar el comportamiento de los estimadores cuando el tamaño de la muestra crece.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 3" id="supuestos-para-la-consistencia-de-mco">Supuestos para la consistencia de MCO</h4>
+<!-- sem10/clase11.tex · lámina 3 -->
+<ul>
+<li>
+<p>1) Linealidad en los parámetros.</p>
+</li>
+<li>
+<p>2) Muestreo aleatorio.</p>
+</li>
+<li>
+<p>3) No hay multicolinealidad perfecta.</p>
+</li>
+<li>
+<p>4) Exogeneidad: <span class="arithmatex">\(E[u | x_1, x_2, x_3, ..., x_k] = 0\)</span></p>
+</li>
+</ul>
+<p>Estos supuestos son los mismos del insesgamiento.</p>
+<p>No asumimos que la distribución de los u es normal.</p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 4" id="un-supuesto-4-exogeneidad-debil">Un supuesto 4': exogeneidad débil</h4>
+<!-- sem10/clase11.tex · lámina 4 -->
+<ul>
+<li>
+<p>Para la <strong>consistencia</strong> basta con</p>
+<div class="arithmatex">\[
+E(x_i' u_i) = 0 \quad \text{(no correlación / exogeneidad débil)}
+\]</div>
+</li>
+<li>
+<p>Una manera de caracterizar el supuesto de media condicional cero, <span class="arithmatex">\(E(u|x_1, ..., x_k)=0\)</span> es que ninguna <strong>función</strong> de las variables explicativas está correlacionada con u. El supuesto 4' sólo requiere que ninguna <span class="arithmatex">\(x_j\)</span> esté correlacionada con u.</p>
+</li>
+<li>
+<p>Consecuencia práctica: la <strong>omisión de variables relevantes</strong> correlacionadas con los regresores incluidos genera <strong>inconsistencia</strong> (no solo sesgo), y ese sesgo asintótico <em>no desaparece</em> al aumentar <span class="arithmatex">\(n\)</span>.</p>
+</li>
+</ul>
+</div>
+<div class="econ-practica" id="practica-1">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué supuesto es suficiente para la consistencia de MCO, según la lámina 4?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>E(x′u) = 0: que las x no estén correlacionadas con el error.</button>
+<button class="econ-quiz-opt" data-why="La consistencia no requiere normalidad (lámina 3).">Que u sea normal.</button>
+<button class="econ-quiz-opt" data-why="La homocedasticidad no se necesita para la consistencia.">Homocedasticidad.</button>
+</div>
+<p class="econ-quiz-fb">✅ Es la exogeneidad débil, más débil que E(u | x) = 0.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Si se omite una variable relevante correlacionada con x, al aumentar n…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…el sesgo no desaparece: MCO es inconsistente.</button>
+<button class="econ-quiz-opt" data-why="Más datos no corrigen la correlación entre x y el error.">…el sesgo desaparece gracias al TCL.</button>
+<button class="econ-quiz-opt" data-why="Ni insesgado ni consistente: E(x′u) ≠ 0.">…MCO se vuelve insesgado.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 4: la omisión genera inconsistencia.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · El sesgo que no se va</p>
+<p>Estima β₁ con una variable omitida para muestras cada vez más grandes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Con una variable omitida correlacionada con x, el sesgo NO desaparece al crecer n</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">sesgo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="n">z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.7</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">              </span><span class="c1"># omitida, correlacionada con x</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nf">unname</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">))[</span><span class="m">2</span><span class="p">])</span><span class="w">           </span><span class="c1"># verdadero: 2</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nf">sapply</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">500</span><span class="p">,</span><span class="w"> </span><span class="m">5000</span><span class="p">,</span><span class="w"> </span><span class="m">50000</span><span class="p">),</span><span class="w"> </span><span class="n">sesgo</span><span class="p">)</span><span class="w">  </span><span class="c1"># se acerca a 2.7, no a 2</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia <code>0.7 * x</code> por <code>0 * x</code> (la omitida ya no se correlaciona con x). ¿Hacia dónde converge ahora?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 5–6" data-num="2" id="tema-2">¿Qué es la consistencia?</h3>
+<p class="econ-tema-q">¿Qué significa que un estimador se acerque al valor verdadero?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 5" id="que-es-la-consistencia">¿Qué es la consistencia?</h4>
+<!-- sem10/clase11.tex · lámina 5 -->
+<p><strong>Un estimador es <strong>consistente</strong> si:</strong></p>
+<p>al aumentar el tamaño de la muestra, el estimador se aproxima al valor verdadero del parámetro:</p>
+<div class="arithmatex">\[
+\hat{\beta}_j^n \xrightarrow{p} \beta_j
+\]</div>
+<ul>
+<li>
+<p>En términos probabilísticos: su distribución se concentra en torno al parámetro.</p>
+</li>
+<li>
+<p>A medida que el tamaño de la muestra aumenta (<span class="arithmatex">\(n\rightarrow \infty\)</span>), la probabilidad de que el estimador esté muy cerca del parámetro se aproxima a 1. Es decir, los valores del estimador se agrupan cada vez más cerca del valor del parámetro conforme n crece.</p>
+</li>
+<li>
+<p><strong><span class="arithmatex">\(Prob(|\hat{\beta}_j^n-\beta_j|&gt;\epsilon)\rightarrow 0\)</span> cuando <span class="arithmatex">\(n\rightarrow \infty \quad \forall \epsilon\)</span></strong></p>
+<p>Se escribe usando la notación <strong>plim</strong>: <span class="arithmatex">\(\plim \hat{\beta}_j^n = \beta_j\)</span></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 6" id="consistencia">Consistencia</h4>
+<!-- sem10/clase11.tex · lámina 6 -->
+<p><img alt="Consistencia" class="econ-slide-img" src="../../images/slides/sem10_graficos_betas.png" /></p>
+</div>
+<div class="econ-widget" data-widget="consistencia"></div>
+
+<div class="econ-practica" id="practica-2">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 2</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">plim β̂ⱼ = βⱼ significa que…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…la probabilidad de que β̂ⱼ esté lejos de βⱼ tiende a cero cuando n crece.</button>
+<button class="econ-quiz-opt" data-why="En cada muestra hay error; lo que tiende a cero es la probabilidad de un error grande.">…β̂ⱼ = βⱼ en toda muestra grande.</button>
+<button class="econ-quiz-opt" data-why="Eso es insesgamiento, una propiedad distinta.">…E(β̂ⱼ) = βⱼ.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 5.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Puede un estimador ser consistente pero sesgado en muestras pequeñas?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Sí: consistencia e insesgamiento son propiedades distintas.</button>
+<button class="econ-quiz-opt" data-why="La lámina 13 dice explícitamente que consistencia ≠ insesgamiento.">No: todo estimador consistente es insesgado.</button>
+<button class="econ-quiz-opt" data-why="La normalidad no tiene relación con esto.">Solo si u es normal.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 13, punto 1.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · Consistencia por simulación</p>
+<p>Como en la aplicación de la lámina 17: estima β₁ en 300 muestras para cada n y mira cómo se concentra la distribución.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Como la aplicación en R de la lámina 17: β̂1 para muestras cada vez más grandes</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">11</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">ns</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">200</span><span class="p">,</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="m">5000</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">beta_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sapply</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nf">replicate</span><span class="p">(</span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">u</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rexp</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w">                    </span><span class="c1"># error muy asimétrico, media 0</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">))[</span><span class="m">2</span><span class="p">]</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="p">})</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">})</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="nf">colnames</span><span class="p">(</span><span class="n">beta_hat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ns</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nf">round</span><span class="p">(</span><span class="nf">apply</span><span class="p">(</span><span class="n">beta_hat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="p">),</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">                      </span><span class="c1"># la dispersión cae</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="nf">round</span><span class="p">(</span><span class="nf">colMeans</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">beta_hat</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.1</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">            </span><span class="c1"># P(|β̂1 − 2| &gt; 0.1) → 0</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nf">boxplot</span><span class="p">(</span><span class="n">beta_hat</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"n"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"beta1 estimado"</span><span class="p">);</span><span class="w"> </span><span class="nf">abline</span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">lty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> cambia el error por <code>rnorm(n) * 3</code>. ¿Converge igual?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 7–10" data-num="3" id="tema-3">Normalidad asintótica y sus consecuencias</h3>
+<p class="econ-tema-q">¿Podemos usar t y F si los errores no son normales?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 7" id="distribucion-normal-asintotica">Distribución normal asintótica</h4>
+<!-- sem10/clase11.tex · lámina 7 -->
+<p>Una secuencia de variables aleatorias <span class="arithmatex">\(\{Z_n\}\)</span> tiene una <strong>distribución normal estándar asintótica</strong> si para todo <span class="arithmatex">\(z\)</span>:</p>
+<div class="arithmatex">\[
+P(Z_n \le z) \to \Phi(z) \quad \text{cuando } n \to \infty,
+\]</div>
+<p>donde <span class="arithmatex">\(\Phi(\cdot)\)</span> es la función de distribución acumulada normal estándar. Se escribe</p>
+<div class="arithmatex">\[
+Z_n \; \dot\sim \; \text{Normal}(0,1).
+\]</div>
+<ul>
+<li>Base del <strong>Teorema Central del Límite (TCL)</strong>: la suma (estandarizada) de v.a.i.i.d. converge a una normal, sin importar la distribución original.</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 8" id="normalidad-asintotica-de-mco">Normalidad asintótica de MCO</h4>
+<!-- sem10/clase11.tex · lámina 8 -->
+<p>Bajo los supuestos de Gauss-Markov (sin requerir normalidad de <span class="arithmatex">\(u\)</span>):</p>
+<div class="arithmatex">\[
+\sqrt{n}(\hat\beta_j - \beta_j) \;\dot\sim\; \text{Normal}(0, \sigma^2 a_j^{-2})
+\]</div>
+<p>En notación matricial:</p>
+<div class="arithmatex">\[
+\sqrt{n}(\hat\beta - \beta) \;\dot\sim\; \text{Normal}\big(0,\; \sigma^2 A^{-1}\big), \qquad A = E(x_i'x_i)
+\]</div>
+<p><strong>Interpretación:</strong> para <span class="arithmatex">\(n\)</span> suficientemente grande, <span class="arithmatex">\(\hat\beta\)</span> se distribuye <strong>aproximadamente</strong> normal, aun si <span class="arithmatex">\(u\)</span> no es normal.</p>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 9" id="idea-de-la-demostracion-caso-simple">Idea de la demostración (caso simple)</h4>
+<!-- sem10/clase11.tex · lámina 9 -->
+<p>Se puede escribir:</p>
+<div class="arithmatex">\[
+\sqrt{n}(\hat\beta_1 - \beta_1) = (1/s_x^2)\, n^{-1/2}\sum_{i=1}^n (x_i - \bar x)u_i
+\]</div>
+<ol>
+<li>
+<p>Por LGN: <span class="arithmatex">\(s_x^2 \xrightarrow{p} \sigma_x^2 = \text{Var}(x)\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(\{(x_i-\mu)u_i\}\)</span> es i.i.d., media 0, varianza <span class="arithmatex">\(\sigma^2\sigma_x^2\)</span> (bajo homocedasticidad)</p>
+</li>
+<li>
+<p>Por el <strong>TCL</strong>: <span class="arithmatex">\(n^{-1/2}\sum_i (x_i-\mu)u_i \;\dot\sim\; \text{Normal}(0,\sigma^2\sigma_x^2)\)</span></p>
+</li>
+<li>
+<p>El término <span class="arithmatex">\((\mu-\bar x)\,n^{-1/2}\sum_i u_i \xrightarrow{p} 0\)</span> (no afecta la distribución límite)</p>
+</li>
+</ol>
+<div class="arithmatex">\[
+\Rightarrow \sqrt{n}(\hat\beta_1-\beta_1) \;\dot\sim\; \text{Normal}(0, \sigma^2/\sigma_x^2)
+\]</div>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 10" id="consecuencias-practicas">Consecuencias prácticas</h4>
+<!-- sem10/clase11.tex · lámina 10 -->
+<ul>
+<li>
+<p>Los estadísticos <span class="arithmatex">\(t\)</span> y <span class="arithmatex">\(F\)</span> tienen distribuciones <strong>asintóticamente</strong> <span class="arithmatex">\(t\)</span> / <span class="arithmatex">\(\chi^2\)</span>, incluso sin normalidad de <span class="arithmatex">\(u\)</span>.</p>
+</li>
+<li>
+<p>Justifica el uso de inferencia estándar (IC, valores-<span class="arithmatex">\(p\)</span>) en <strong>muestras grandes</strong>, aun si los errores no son normales.</p>
+</li>
+<li>
+<p>El <strong>Multiplicador de Lagrange (LM)</strong> y el <strong>estadístico de Wald</strong> se basan en estos mismos resultados de convergencia.</p>
+</li>
+<li>
+<p>Con heterocedasticidad, se reemplaza <span class="arithmatex">\(\sigma^2 A^{-1}\)</span> por una matriz de varianza-covarianza <strong>robusta</strong>:</p>
+<div class="arithmatex">\[
+\widehat{\text{Avar}}(\hat\beta) = (X'X)^{-1}\left(\sum_i \hat u_i^2\, x_i'x_i\right)(X'X)^{-1}
+\]</div>
+</li>
+</ul>
+</div>
+<div class="econ-widget" data-widget="normal-asintotica"></div>
+
+<div class="econ-practica" id="practica-3">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 3</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué justifica usar tests t e intervalos con errores no normales?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Que β̂ es asintóticamente normal: en muestras grandes se distribuye aproximadamente normal.</button>
+<button class="econ-quiz-opt" data-why="No es necesario suponerlo con n grande (lámina 8).">Que los errores siempre son normales en la práctica.</button>
+<button class="econ-quiz-opt" data-why="El insesgamiento no da la distribución de β̂.">Que MCO es insesgado.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 8 y 10.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">La normalidad asintótica de MCO proviene del…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…Teorema Central del Límite.</button>
+<button class="econ-quiz-opt" data-why="Gauss-Markov habla de varianza mínima, no de distribución.">…teorema de Gauss-Markov.</button>
+<button class="econ-quiz-opt" data-why="Justamente no se requiere ese supuesto.">…supuesto de normalidad del error.</button>
+</div>
+<p class="econ-quiz-fb">✅ La LGN da la consistencia; el TCL, la normalidad asintótica (lámina 13).</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · La t con errores asimétricos</p>
+<p>Con errores asimétricos, compara la tasa de rechazo de una H₀ verdadera con n = 10 y n = 500.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">12</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">t_stats</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="m">4000</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nf">rexp</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">2</span><span class="w">      </span><span class="c1"># errores asimétricos</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="n">s</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">)))</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">]</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">})</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">t10</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t_stats</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">t500</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t_stats</span><span class="p">(</span><span class="m">500</span><span class="p">)</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nf">c</span><span class="p">(</span><span class="n">rechazo_n10</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">t10</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1.96</span><span class="p">),</span><span class="w"> </span><span class="n">rechazo_n500</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">t500</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1.96</span><span class="p">))</span><span class="w">  </span><span class="c1"># meta: 0.05</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="nf">hist</span><span class="p">(</span><span class="n">t500</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"t con n = 500"</span><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nf">curve</span><span class="p">(</span><span class="nf">dnorm</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"goldenrod"</span><span class="p">)</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> prueba n = 30. ¿Se acerca al 5%?</p>
+</div>
+<h3 class="econ-tema" data-laminas="láminas 11–17" data-num="4" id="tema-4">Eficiencia asintótica, resumen y aplicación</h3>
+<p class="econ-tema-q">Si varios estimadores son consistentes, ¿cuál conviene usar?</p>
+
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 11" id="eficiencia-asintotica-de-mco-teorema-53">Eficiencia asintótica de MCO (Teorema 5.3)</h4>
+<!-- sem10/clase11.tex · lámina 11 -->
+<ul>
+<li>
+<p>Bajo los supuestos de Gauss-Markov <strong>más</strong> homocedasticidad, MCO no solo es MELI (Gauss-Markov) en muestra finita.</p>
+</li>
+<li>
+<p>Es también <strong>asintóticamente eficiente</strong> entre una clase amplia de estimadores (no solo lineales) que son consistentes bajo los mismos supuestos.</p>
+</li>
+<li>
+<p>Compara la matriz de varianza-covarianza asintótica de MCO con la de cualquier otro estimador consistente y asintóticamente normal: MCO tiene la menor varianza asintótica.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 12" id="resumen-muestra-finita-vs-asintotica">Resumen: muestra finita vs.\ asintótica</h4>
+<!-- sem10/clase11.tex · lámina 12 -->
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><strong>Muestra finita</strong></th>
+<th style="text-align: left;"><strong>Asintótico</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Propiedad</td>
+<td style="text-align: left;">Insesgamiento</td>
+<td style="text-align: left;">Consistencia</td>
+</tr>
+<tr>
+<td style="text-align: left;">Requiere normalidad</td>
+<td style="text-align: left;">Sí (para <span class="arithmatex">\(t\)</span>, <span class="arithmatex">\(F\)</span> exactas)</td>
+<td style="text-align: left;">No</td>
+</tr>
+<tr>
+<td style="text-align: left;">Supuesto clave</td>
+<td style="text-align: left;"><span class="arithmatex">\(E(u\mid x) = 0\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(E(x'u) = 0\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">Herramienta</td>
+<td style="text-align: left;">Álgebra exacta</td>
+<td style="text-align: left;">LGN + TCL</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resultado</td>
+<td style="text-align: left;"><span class="arithmatex">\(\hat\beta \sim \text{Normal exacta}\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(\sqrt{n}(\hat\beta-\beta) \dot\sim \text{Normal}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 13" id="puntos-clave-para-recordar">Puntos clave para recordar</h4>
+<!-- sem10/clase11.tex · lámina 13 -->
+<ol>
+<li>
+<p><strong>Consistencia</strong> <span class="arithmatex">\(\neq\)</span> insesgamiento: son propiedades distintas.</p>
+</li>
+<li>
+<p>La <strong>LGN</strong> da consistencia; el <strong>TCL</strong> da normalidad asintótica.</p>
+</li>
+<li>
+<p>MCO es consistente bajo supuestos <strong>más débiles</strong> que los necesarios para el insesgamiento.</p>
+</li>
+<li>
+<p>La normalidad asintótica <strong>no requiere</strong> que <span class="arithmatex">\(u\)</span> sea normal --- solo tamaño de muestra grande.</p>
+</li>
+<li>
+<p>Estos resultados justifican la inferencia estándar (t, F, IC) en la práctica aplicada.</p>
+</li>
+</ol>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 14" id="normalidad-asintotica">Normalidad Asintótica</h4>
+<!-- sem10/clase11.tex · lámina 14 -->
+<div class="arithmatex">\[
+\hat{\beta}  \xrightarrow{d} N(\beta, \Sigma)
+\]</div>
+<p>donde <span class="arithmatex">\(\Sigma = \sigma^2 (X'X)^{-1}\)</span>.</p>
+<p><strong>La convergencia en distribución se debe al Teorema Central del Límite.</strong></p>
+<p><strong>Implicaciones:</strong></p>
+<ul>
+<li>
+<p>Permite construir intervalos de confianza asintóticos.</p>
+</li>
+<li>
+<p>Justifica la inferencia estadística en muestras grandes aun cuando no se cumpla la normalidad de los errores.</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 15" id="eficiencia-asintotica">Eficiencia Asintótica</h4>
+<!-- sem10/clase11.tex · lámina 15 -->
+<p><strong>Definición:</strong> Un estimador es asintóticamente eficiente si minimiza la varianza dentro de la clase de estimadores consistentes y asintóticamente normales.</p>
+<ul>
+<li>
+<p>Bajo homocedasticidad, MCO es eficiente (Gauss-Markov).</p>
+</li>
+<li>
+<p>Bajo heterocedasticidad, MCO sigue siendo consistente, pero no eficiente (no se soluciona con muestra grande).</p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 16" id="importancia-practica">Importancia práctica</h4>
+<!-- sem10/clase11.tex · lámina 16 -->
+<ul>
+<li>
+<p>En la práctica, siempre usamos muestras finitas.</p>
+</li>
+<li>
+<p>La consistencia indica que con suficientes datos, podemos acercarnos al valor verdadero.</p>
+</li>
+<li>
+<p>Granger (Nobel Economía 2003): <em>"Si usted no puede obtener un resultado correcto a medida que <span class="arithmatex">\(n\)</span> tiende a infinito, es mejor que se dedique a otra cosa."</em></p>
+</li>
+</ul>
+</div>
+<div class="econ-lamina">
+<h4 data-lamina="Lámina 17" id="aplicacion-en-r-bucle">Aplicación en R: Bucle</h4>
+<!-- sem10/clase11.tex · lámina 17 -->
+<p><a class="usm-btn" href="https://colab.research.google.com/drive/1sgiL5ubKRmtMeEIaTwql5VA4dO5qxoNL?usp=sharing" target="_blank">Colab</a></p>
+<p><img alt="Aplicación en R: Bucle" class="econ-slide-img" src="../../images/slides/sem10_codigorconsistencia.png" /></p>
+</div>
+<div class="econ-practica" id="practica-4">
+<p class="econ-practica-t"><span>✍️ Practica · Tema 4</span></p>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Bajo heterocedasticidad, MCO…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…sigue siendo consistente, pero ya no es eficiente.</button>
+<button class="econ-quiz-opt" data-why="La consistencia no requiere homocedasticidad (lámina 15).">…deja de ser consistente.</button>
+<button class="econ-quiz-opt" data-why="La lámina 15 dice que no se soluciona con muestra grande.">…recupera la eficiencia con muestras grandes.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 15.</p>
+</div>
+<div class="econ-quiz">
+<p class="econ-quiz-q">En la tabla de la lámina 12, ¿qué herramienta da la consistencia?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>La Ley de los Grandes Números.</button>
+<button class="econ-quiz-opt" data-why="El álgebra exacta corresponde a las propiedades de muestra finita.">El álgebra exacta.</button>
+<button class="econ-quiz-opt" data-why="No se usa normalidad en lo asintótico.">El supuesto de normalidad.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 12 y 13: LGN + TCL.</p>
+</div>
+</div>
+
+<div class="econ-r">
+<p class="econ-r-t">🧪 Practica en R · MCO contra otro estimador consistente</p>
+<p>Compara MCO con un estimador que divide la muestra en dos grupos: ambos son consistentes, pero ¿cuál varía menos?</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># MCO tiene menor varianza que otro estimador consistente (eficiencia asintótica)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nf">set.seed</span><span class="p">(</span><span class="m">13</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">400</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">sim</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="m">2000</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="n">mco</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">))[</span><span class="m">2</span><span class="p">]</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="n">alto</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nf">median</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">                   </span><span class="c1"># estimador alternativo: compara dos grupos</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="n">grupos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">alto</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="o">!</span><span class="n">alto</span><span class="p">]))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">alto</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">!</span><span class="n">alto</span><span class="p">]))</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nf">c</span><span class="p">(</span><span class="n">MCO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unname</span><span class="p">(</span><span class="n">mco</span><span class="p">),</span><span class="w"> </span><span class="n">grupos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grupos</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">})</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nf">rowMeans</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span><span class="w">          </span><span class="c1"># ambos ≈ 2: los dos son consistentes</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="nf">apply</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">var</span><span class="p">)</span><span class="w">     </span><span class="c1"># pero MCO tiene menor varianza</span>
+</code></pre></div>
+<p class="econ-r-reto"><strong>🎯 Reto:</strong> aumenta n a 4000. ¿Siguen ambos cerca de 2? ¿Se mantiene la diferencia de varianzas?</p>
+</div>
+<hr />
+<div class="admonition abstract">
+<p class="admonition-title">🧠 Ideas clave</p>
+<ul>
+<li><strong>Insesgamiento</strong> es una propiedad de muestra finita; <strong>consistencia</strong> (<span class="arithmatex">\(\operatorname*{plim} \hat{\beta}_j = \beta_j\)</span>) es asintótica: son distintas.</li>
+<li>MCO es consistente con supuestos más débiles: basta <span class="arithmatex">\(E(x'u) = 0\)</span>. Una variable omitida correlacionada con <span class="arithmatex">\(x\)</span> produce <strong>inconsistencia</strong>.</li>
+<li>Por el TCL, <span class="arithmatex">\(\hat{\beta}\)</span> es <strong>asintóticamente normal</strong> aunque <span class="arithmatex">\(u\)</span> no lo sea: los tests <span class="arithmatex">\(t\)</span> y <span class="arithmatex">\(F\)</span> valen en muestras grandes.</li>
+<li>Con homocedasticidad, MCO es <strong>asintóticamente eficiente</strong>; con heterocedasticidad sigue siendo consistente, pero no eficiente.</li>
+</ul>
+</div>
+<h2 id="autoevaluacion">✅ Autoevaluación</h2>
+<div class="econ-quiz">
+<p class="econ-quiz-q">Un estimador tiene E(β̃) = β + 1/n. ¿Es insesgado? ¿Es consistente (si su varianza tiende a cero)?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Sesgado, pero consistente.</button>
+<button class="econ-quiz-opt" data-why="E(β̃) ≠ β para todo n finito: tiene sesgo 1/n.">Insesgado y consistente.</button>
+<button class="econ-quiz-opt" data-why="El sesgo 1/n desaparece cuando n crece, y la varianza también.">Sesgado e inconsistente.</button>
+</div>
+<p class="econ-quiz-fb">✅ Consistencia ≠ insesgamiento (lámina 13).</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">¿Qué se necesita para usar el test t en una muestra de 5 000 observaciones con errores no normales?</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>Los supuestos de Gauss-Markov: por la normalidad asintótica, el test t es aproximadamente válido.</button>
+<button class="econ-quiz-opt" data-why="Con n grande no se requiere normalidad (lámina 10).">Que los errores sean normales.</button>
+<button class="econ-quiz-opt" data-why="Requiere al menos los supuestos de Gauss-Markov.">Nada: el test t nunca necesita supuestos.</button>
+</div>
+<p class="econ-quiz-fb">✅ Láminas 8 y 10.</p>
+</div>
+
+<div class="econ-quiz">
+<p class="econ-quiz-q">Duplicas el tamaño de una muestra en que hay una variable omitida correlacionada con x. El sesgo de β̂₁…</p>
+<div class="econ-quiz-opts">
+<button class="econ-quiz-opt" data-correct>…se mantiene aproximadamente igual.</button>
+<button class="econ-quiz-opt" data-why="El sesgo asintótico no depende de n.">…se reduce a la mitad.</button>
+<button class="econ-quiz-opt" data-why="Solo desaparecería si la omitida no se correlacionara con x.">…desaparece.</button>
+</div>
+<p class="econ-quiz-fb">✅ Lámina 4.</p>
+</div>
+
+<h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
+<ul>
+<li><strong>Wooldridge</strong>, capítulo 5 (análisis de regresión múltiple: MCO asintótico).</li>
+<li>Próxima clase: <strong>Variables binarias, test de Chow y modelo de probabilidad lineal</strong>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+        <script src="../../javascripts/practica-banco.js"></script>
+      
+        <script src="../../javascripts/practica.js"></script>
+      
+    
+  </body>
+</html>
