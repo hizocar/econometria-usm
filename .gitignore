@@ -7,3 +7,6 @@ __pycache__/
 
 # Enlace local de la CLI de Supabase (no versionar)
 supabase/.temp/
+
+# Quizzes con su pauta: viven solo en la base de datos, nunca en el repositorio público
+privado/

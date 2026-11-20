@@ -76,6 +76,7 @@ extra_javascript:
   - javascripts/practica3.js
   - javascripts/cuentas.js
   - javascripts/admin.js
+  - javascripts/quiz.js
   - javascripts/practica.js
 
 # Customization
@@ -108,6 +109,7 @@ nav:
       - "Clase 10 · Propiedades asintóticas": clases/clase10.md
       - "Clase 11 · Variables binarias, Chow y MPL": clases/clase11.md
       - "Clase 12 · Heterocedasticidad y variables instrumentales": clases/clase12.md
+  - "📝 Quiz": quiz/index.md
   - "🎮 Práctica":
       - "Primer bloque · Clases 1 a 5": practica/index.md
       - "Segundo bloque · Clases 6 a 9": practica/bloque2.md
