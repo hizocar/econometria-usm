@@ -48,6 +48,10 @@
     const [r1, r2, r3, r4, r5, r6, r7, r8] = await Promise.all([sb.rpc("econ_resumen3"), sb.rpc("econ_actividad", { dias: 42 }), sb.rpc("econ_avance"),
       sb.rpc("econ_conexiones"), sb.rpc("econ_minutos", { dias: 42 }), sb.rpc("econ_horario", { dias: 28 }), sb.rpc("econ_paginas", { dias: 28 }),
       sb.from("econ_simulacros").select("user_id,bloque,modo,inicio,fin,limite_min,preguntas,correctas,logro,puntos,detalle").order("fin", { ascending: false }).limit(1000)]);
+    const [q1, q2] = await Promise.all([
+      sb.from("econ_quizzes").select("id,titulo,clase,duracion_min,abierto,abierto_en,cerrado_en,preguntas").order("clase", { ascending: false }),
+      sb.from("econ_quiz_intentos").select("id,quiz_id,user_id,inicio,limite,entregado,correctas,total,logro,fuera_de_tiempo,detalle").limit(5000)]);
+    const quizzes = q1.data || [], intentos = (q2.data || []).filter((x) => x.user_id !== yo.id);
     if (r1.error || r2.error || r3.error) { area.innerHTML = '<p class="pr-acceso-msg is-bad">No se pudieron cargar los datos. Usa ↻ para reintentar.</p>'; return; }
     const est = r1.data.filter((r) => r.id !== yo.id);
     const act = r2.data;
@@ -84,13 +88,13 @@
     if (aviso) { msg.className = "pr-acceso-msg is-ok"; msg.innerHTML = aviso; }
     pie.append(recargar);
     area.append(kpis, tabs, msg, cuerpo, pie);
-    const VISTAS = [["resumen", "📌 Resumen por bloque"], ["actividad", "📈 Actividad diaria"], ["conexiones", "⏰ Conexiones"], ["temas", "🧠 Por tema"],
+    const VISTAS = [["resumen", "📌 Resumen por bloque"], ["quiz", "📝 Quiz"], ["actividad", "📈 Actividad diaria"], ["conexiones", "⏰ Conexiones"], ["temas", "🧠 Por tema"],
       ["precert", "⏱️ Precertámenes"], ["estudiantes", "👥 Estudiantes"]];
     const ir = (k) => {
       vista = k;
       tabs.querySelectorAll(".pr-chip").forEach((b) => b.classList.toggle("is-on", b.dataset.k === k));
       cuerpo.innerHTML = "";
-      ({ resumen, actividad, conexiones, temas, precert, estudiantes })[k]();
+      ({ resumen, quiz, actividad, conexiones, temas, precert, estudiantes })[k]();
     };
     VISTAS.forEach(([k, lab]) => { const b = h("button", "pr-chip", lab); b.type = "button"; b.dataset.k = k; b.addEventListener("click", () => ir(k)); tabs.append(b); });
 
@@ -140,6 +144,95 @@
       const det = h("details", "econ-admin-tabla-datos", `<summary>Ver como tabla</summary><div class="econ-panel-tabla"><table><thead><tr><th>Día</th><th>Estudiantes</th><th>Respuestas</th><th>Aciertos</th></tr></thead><tbody>` +
         act.slice().reverse().map((d) => `<tr><td>${dia(d.dia)}</td><td>${d.estudiantes}</td><td>${d.respuestas}</td><td>${pct(d.aciertos, d.respuestas)}</td></tr>`).join("") + `</tbody></table></div>`);
       cuerpo.append(det);
+    }
+
+    /* ---------- Quiz de clase: abrir/cerrar, resultados y acierto por pregunta ---------- */
+    let quizSel = null;
+    function quiz() {
+      if (!quizzes.length) { cuerpo.append(h("p", "pr-nota", "No hay quizzes cargados todavía.")); return; }
+      if (!quizSel || !quizzes.some((x) => x.id === quizSel)) quizSel = (quizzes.find((x) => x.abierto) || quizzes[0]).id;
+      const chips = h("div", "pr-chips");
+      quizzes.forEach((x) => {
+        const b = h("button", "pr-chip" + (x.id === quizSel ? " is-on" : ""), `${x.abierto ? "🟢 " : ""}${esc(x.titulo)}`); b.type = "button";
+        b.addEventListener("click", () => { quizSel = x.id; cuerpo.innerHTML = ""; quiz(); });
+        chips.append(b);
+      });
+      const q = quizzes.find((x) => x.id === quizSel);
+      const its = intentos.filter((x) => x.quiz_id === q.id);
+      const ent = its.filter((x) => x.entregado);
+      const enCurso = its.filter((x) => !x.entregado);
+      const logros = ent.map((x) => +x.logro).sort((a, b) => a - b);
+      const prom = logros.length ? Math.round((10 * logros.reduce((a, b) => a + b, 0)) / logros.length) / 10 : null;
+      const med = logros.length ? logros[Math.floor((logros.length - 1) / 2)] : null;
+      const control = h("div", "econ-quiz-control");
+      control.innerHTML = `<div><strong>${esc(q.titulo)}</strong><span class="pr-sesion-mail">${q.preguntas.length} preguntas, ${q.duracion_min} minutos por estudiante</span></div>` +
+        `<p class="econ-quiz-estado ${q.abierto ? "is-abierto" : ""}">${q.abierto ? `Abierto desde las ${new Date(q.abierto_en).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" })}: los estudiantes pueden comenzarlo`
+          : q.cerrado_en ? `Cerrado a las ${fecha(q.cerrado_en)}: los estudiantes ven su resultado y la pauta` : "Cerrado: nadie lo ha visto todavía"}</p>`;
+      const toggle = h("button", "econ-btn " + (q.abierto ? "econ-btn-ghost" : "econ-btn-gold"), q.abierto ? "Cerrar quiz" : "Abrir quiz ahora");
+      toggle.type = "button";
+      let armadoT = false;
+      toggle.addEventListener("click", async () => {
+        if (!armadoT) { armadoT = true; toggle.textContent = q.abierto ? "¿Cerrar? Toca otra vez" : "¿Abrir? Toca otra vez"; setTimeout(() => { armadoT = false; toggle.textContent = q.abierto ? "Cerrar quiz" : "Abrir quiz ahora"; }, 3500); return; }
+        toggle.disabled = true;
+        const cambio = q.abierto ? { abierto: false, cerrado_en: new Date().toISOString() } : { abierto: true, abierto_en: new Date().toISOString() };
+        const { error } = await sb.from("econ_quizzes").update(cambio).eq("id", q.id);
+        if (error) { msg.className = "pr-acceso-msg is-bad"; msg.textContent = "No se pudo cambiar el estado del quiz."; toggle.disabled = false; return; }
+        cargar(sb, area, yo, C, "quiz", q.abierto ? `Quiz cerrado. Quienes alcanzaron a comenzarlo todavía pueden entregarlo; los demás ya ven su pauta.` : `Quiz abierto: los estudiantes lo encuentran en la sección 📝 Quiz del sitio.`);
+      });
+      control.append(toggle);
+      cuerpo.append(chips, control, h("div", "econ-admin-listas",
+        `<div><p class="pr-lbl">Entregaron</p><p><strong>${ent.length}</strong> de ${est.length} registrados</p></div>` +
+        `<div><p class="pr-lbl">Comenzado, sin entregar</p><p><strong>${enCurso.length}</strong></p></div>` +
+        `<div><p class="pr-lbl">Logro promedio</p><p><strong>${prom === null ? "—" : String(prom).replace(".", ",") + "%"}</strong></p></div>` +
+        `<div><p class="pr-lbl">Mediana</p><p><strong>${med === null ? "—" : String(med).replace(".", ",") + "%"}</strong></p></div>`));
+      // acierto por pregunta (entre quienes entregaron)
+      if (ent.length) {
+        const plano = (t) => t.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+        const filas = q.preguntas.map((p, i) => {
+          const n = ent.filter((x) => x.detalle && x.detalle.aciertos && p.id in x.detalle.aciertos).length;
+          const ok = ent.filter((x) => x.detalle && x.detalle.aciertos && x.detalle.aciertos[p.id] === 1).length;
+          return { i, p, n, ok, pct: n ? Math.round((100 * ok) / n) : 0 };
+        });
+        cuerpo.append(h("h4", "econ-admin-h", "Acierto por pregunta"), h("div", "econ-quiz-preguntas", filas.map((x) => {
+          const t = plano(x.p.enunciado);
+          return `<div class="econ-quiz-fila${x.pct < 50 ? " is-baja" : ""}"><span class="econ-quiz-n">${x.i + 1}</span><span class="econ-quiz-t" title="${esc(t)}">${esc(t.length > 120 ? t.slice(0, 118) + "…" : t)}</span>` +
+            `<span class="econ-medidor"><span style="width:${x.pct}%"></span></span><span class="econ-quiz-p">${x.pct}%${x.pct < 50 ? " ⚠️" : ""}</span></div>`;
+        }).join("")), h("p", "pr-nota", "Las preguntas con menos de 50% de acierto aparecen marcadas: conviene retomarlas al comienzo de la próxima clase. El orden de las preguntas es distinto para cada estudiante; aquí se muestran en el orden original."));
+      }
+      // por estudiante
+      const filasE = est.map((r) => ({ r, x: its.find((y) => y.user_id === r.id) }))
+        .sort((a, b) => (b.x ? (b.x.entregado ? 2 : 1) : 0) - (a.x ? (a.x.entregado ? 2 : 1) : 0) || (a.r.apellido + a.r.nombre).localeCompare(b.r.apellido + b.r.nombre, "es"));
+      const tabla = h("div", "econ-panel-tabla");
+      tabla.innerHTML = `<table><thead><tr><th>Estudiante</th><th>Estado</th><th>Correctas</th><th>Logro</th><th>Nota ref.</th><th>Comenzó</th><th>Tiempo usado</th><th></th></tr></thead><tbody>` +
+        filasE.map(({ r, x }) => `<tr class="${x ? "" : "is-cero"}"><td>${esc(r.apellido)}, ${esc(r.nombre)}</td>` +
+          `<td>${!x ? "No lo rindió" : x.entregado ? "Entregado" + (x.fuera_de_tiempo ? " (fuera de tiempo)" : "") : "Comenzado, sin entregar"}</td>` +
+          `<td>${x && x.entregado ? `${x.correctas} de ${x.total}` : "—"}</td><td>${x && x.entregado ? String(x.logro).replace(".", ",") + "%" : "—"}</td>` +
+          `<td>${x && x.entregado ? String(notaRef(+x.logro).toFixed(1)).replace(".", ",") : "—"}</td><td>${x ? fecha(x.inicio) : "—"}</td>` +
+          `<td>${x && x.detalle && x.detalle.usados_seg != null ? mmss(x.detalle.usados_seg) : "—"}</td>` +
+          `<td>${x ? `<button type="button" class="econ-btn econ-btn-ghost econ-btn-sm" data-repetir="${x.id}" data-nombre="${esc(r.nombre)} ${esc(r.apellido)}">Permitir repetir</button>` : ""}</td></tr>`).join("") +
+        "</tbody></table>";
+      tabla.querySelectorAll("button[data-repetir]").forEach((b) => {
+        let armado = false;
+        b.addEventListener("click", async () => {
+          if (!armado) { armado = true; b.textContent = "¿Borrar su intento? Toca otra vez"; setTimeout(() => { armado = false; b.textContent = "Permitir repetir"; }, 3500); return; }
+          const { error } = await sb.from("econ_quiz_intentos").delete().eq("id", +b.dataset.repetir);
+          if (error) { msg.className = "pr-acceso-msg is-bad"; msg.textContent = "No se pudo borrar el intento."; return; }
+          cargar(sb, area, yo, C, "quiz", `Intento de ${b.dataset.nombre} borrado: puede rendir el quiz de nuevo mientras esté abierto.`);
+        });
+      });
+      const csv = h("button", "econ-btn econ-btn-ghost econ-btn-sm", "⬇ Descargar resultados (CSV)"); csv.type = "button";
+      csv.addEventListener("click", () => {
+        const cab = ["apellido", "nombre", "email", "estado", "correctas", "total", "logro", "nota_referencial", "comenzo", "entregado", "tiempo_usado_seg", "fuera_de_tiempo"]
+          .concat(q.preguntas.map((p, i) => `p${i + 1}`));
+        const filas = filasE.map(({ r, x }) => [r.apellido, r.nombre, r.email, !x ? "no_rindio" : x.entregado ? "entregado" : "en_curso", x?.correctas ?? "", x?.total ?? "",
+          x?.logro ?? "", x && x.entregado ? notaRef(+x.logro).toFixed(1) : "", x?.inicio ?? "", x?.entregado ?? "", x?.detalle?.usados_seg ?? "", x?.fuera_de_tiempo ? "sí" : ""]
+          .concat(q.preguntas.map((p) => (x && x.detalle && x.detalle.aciertos ? x.detalle.aciertos[p.id] ?? "" : ""))));
+        const txt = "﻿" + [cab, ...filas].map((f) => f.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(";")).join("\n");
+        const a = h("a"); a.href = URL.createObjectURL(new Blob([txt], { type: "text/csv;charset=utf-8" }));
+        a.download = `quiz-${q.id}-${new Date().toISOString().slice(0, 10)}.csv`; a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      });
+      cuerpo.append(h("h4", "econ-admin-h", "Por estudiante"), tabla, csv);
     }
 
     /* ---------- Conexiones: cuándo entran y cuánto tiempo pasan en el sitio ---------- */

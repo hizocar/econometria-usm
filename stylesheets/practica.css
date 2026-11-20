@@ -235,3 +235,24 @@
   .pr-vista.is-in, .pr-pre-barra.is-alerta .pr-reloj-t { animation: none; }
   .pr-celdas i { transition: none; }
 }
+
+/* ---------- Quiz de clase ---------- */
+.md-typeset .qz-cab { margin: 0.2rem 0 1rem; font-size: 0.82rem; }
+.qz-card.is-abierto { border-color: color-mix(in srgb, var(--usm-gold) 80%, transparent); }
+.md-typeset .qz-estado { display: flex; align-items: center; gap: 0.45rem; margin: 0.6rem 0 0.9rem; font-size: 0.74rem; }
+.qz-punto { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #2e8b57; box-shadow: 0 0 0 3px color-mix(in srgb, #2e8b57 25%, transparent); }
+.md-typeset .qz-intro { max-width: 46rem; padding: 1.1rem 1.3rem; border: 1px solid var(--pr-borde); border-radius: 14px; }
+.md-typeset .qz-intro h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+.md-typeset .qz-intro ul { margin: 0 0 0.6rem 1rem; font-size: 0.8rem; }
+.qz-opciones { display: grid; gap: 0.5rem; max-width: 46rem; }
+.qz-opcion { display: flex; align-items: flex-start; gap: 0.7rem; width: 100%; padding: 0.65rem 0.8rem; text-align: left; font: inherit; font-size: 0.82rem; cursor: pointer;
+  border: 1.5px solid var(--md-default-fg-color--lighter); border-radius: 10px; background: var(--md-default-bg-color); color: var(--md-default-fg-color); }
+.qz-opcion:hover { border-color: var(--usm-blue); }
+.qz-opcion:focus-visible { outline: 2px solid var(--usm-blue); outline-offset: 2px; }
+.qz-letra { display: inline-grid; place-items: center; flex: none; width: 1.4rem; height: 1.4rem; border-radius: 50%; border: 1px solid currentColor; font-size: 0.66rem; font-weight: 700; opacity: 0.7; }
+.qz-opcion[aria-pressed="true"] { border-color: var(--usm-navy); background: color-mix(in srgb, var(--usm-navy) 7%, var(--md-default-bg-color)); }
+.qz-opcion[aria-pressed="true"] .qz-letra { background: var(--usm-navy); color: #fff; border-color: var(--usm-navy); opacity: 1; }
+[data-md-color-scheme="slate"] .qz-opcion[aria-pressed="true"] { border-color: var(--usm-blue); }
+[data-md-color-scheme="slate"] .qz-opcion[aria-pressed="true"] .qz-letra { background: var(--usm-blue); border-color: var(--usm-blue); color: #0c1330; }
+.pr-app .qz-num { max-width: 18rem; }
+.pr-app .qz-recargar { margin-top: 1rem; }

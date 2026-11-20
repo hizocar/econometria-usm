@@ -2322,3 +2322,17 @@ body.pr-bloqueado .pr-marcador, body.pr-bloqueado .pr-zona { display: none; }
 .md-typeset .econ-admin-ficha-con { font-size: 0.74rem; margin: 0.4rem 0 0.6rem; }
 .econ-panel-kpis { grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); }
 .econ-panel-kpis .pr-lbl, .econ-admin-listas .pr-lbl { text-transform: none; letter-spacing: 0; font-size: 0.66rem; }
+
+/* Panel /admin: quiz de clase */
+.econ-quiz-control { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; margin: 0.6rem 0 0.4rem; padding: 0.8rem 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest); border-radius: 12px; }
+.econ-quiz-control > div { display: flex; flex-direction: column; }
+.md-typeset .econ-quiz-estado { margin: 0; flex: 1 1 18rem; font-size: 0.74rem; color: var(--md-default-fg-color--light); }
+.md-typeset .econ-quiz-estado.is-abierto { color: #2e8b57; font-weight: 700; }
+.econ-quiz-preguntas { display: flex; flex-direction: column; gap: 0.35rem; }
+.econ-quiz-fila { display: grid; grid-template-columns: 1.6rem 1fr 6rem 3.6rem; align-items: center; gap: 0.6rem; font-size: 0.72rem; }
+.econ-quiz-n { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 5px; font-weight: 800; background: var(--md-default-fg-color--lightest); }
+.econ-quiz-fila.is-baja .econ-quiz-n { background: var(--usm-red); color: #fff; }
+.econ-quiz-fila .econ-medidor { width: 100%; }
+.econ-quiz-p { font-weight: 700; text-align: right; }
+@media (max-width: 760px) { .econ-quiz-fila { grid-template-columns: 1.6rem 1fr 3.4rem; } .econ-quiz-fila .econ-medidor { display: none; } }
