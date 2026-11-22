@@ -37,6 +37,15 @@
     C.cliente().then(entrar).catch((e) => { caja.innerHTML = `<p class="pr-acceso-msg is-bad">${esc(e.message)}</p>`; });
   }
 
+  // "hace 3 horas", "hace 1 día y 4 horas": cuánto tiempo lleva abierto un quiz
+  const haceCuanto = (s) => {
+    const min = Math.max(0, Math.round((Date.now() - new Date(s).getTime()) / 60000));
+    if (min < 60) return `hace ${min} ${min === 1 ? "minuto" : "minutos"}`;
+    const hrs = Math.floor(min / 60), d = Math.floor(hrs / 24), hr = hrs % 24;
+    if (!d) return `hace ${hrs} ${hrs === 1 ? "hora" : "horas"}`;
+    return `hace ${d} ${d === 1 ? "día" : "días"}${hr ? ` y ${hr} ${hr === 1 ? "hora" : "horas"}` : ""}`;
+  };
+  const HORAS_AVISO = 2; // un quiz de fin de clase no debería quedar abierto más que esto
   const fecha = (s) => (s ? new Date(s).toLocaleString("es-CL", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—");
   const dia = (s) => new Date(s + "T12:00:00").toLocaleDateString("es-CL", { weekday: "short", day: "2-digit", month: "2-digit" });
   const corto = (s) => new Date(s + "T12:00:00").toLocaleDateString("es-CL", { day: "2-digit", month: "2-digit" });
@@ -87,7 +96,28 @@
     const msg = h("p", "pr-acceso-msg"); msg.setAttribute("aria-live", "polite");
     if (aviso) { msg.className = "pr-acceso-msg is-ok"; msg.innerHTML = aviso; }
     pie.append(recargar);
-    area.append(kpis, tabs, msg, cuerpo, pie);
+    // Aviso visible en todas las pestañas si un quiz lleva más de HORAS_AVISO horas abierto
+    const avisos = h("div", "econ-avisos");
+    quizzes.filter((q) => q.abierto && q.abierto_en && Date.now() - new Date(q.abierto_en).getTime() > HORAS_AVISO * 3600e3).forEach((q) => {
+      const a = h("div", "econ-aviso", `<p><strong>⚠️ ${esc(q.titulo)} sigue abierto</strong> desde el ${new Date(q.abierto_en).toLocaleString("es-CL", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" })} ` +
+        `(${haceCuanto(q.abierto_en)}). Mientras esté abierto, quienes ya lo entregaron no pueden ver la pauta.</p>`);
+      const acc = h("div", "econ-aviso-acc");
+      const cerrar = h("button", "econ-btn econ-btn-gold econ-btn-sm", "Cerrar ahora"); cerrar.type = "button";
+      const ver = h("button", "econ-btn econ-btn-ghost econ-btn-sm", "Ver el quiz"); ver.type = "button";
+      let armado = false;
+      cerrar.addEventListener("click", async () => {
+        if (!armado) { armado = true; cerrar.textContent = "¿Cerrar? Toca otra vez"; setTimeout(() => { armado = false; cerrar.textContent = "Cerrar ahora"; }, 3500); return; }
+        cerrar.disabled = true;
+        const { error } = await sb.from("econ_quizzes").update({ abierto: false, cerrado_en: new Date().toISOString() }).eq("id", q.id);
+        if (error) { msg.className = "pr-acceso-msg is-bad"; msg.textContent = "No se pudo cerrar el quiz."; cerrar.disabled = false; return; }
+        cargar(sb, area, yo, C, vista, `${esc(q.titulo)} cerrado: quienes lo entregaron ya ven su pauta.`);
+      });
+      ver.addEventListener("click", () => { quizSel = q.id; ir("quiz"); });
+      acc.append(cerrar, ver);
+      a.append(acc);
+      avisos.append(a);
+    });
+    area.append(avisos, kpis, tabs, msg, cuerpo, pie);
     const VISTAS = [["resumen", "📌 Resumen por bloque"], ["quiz", "📝 Quiz"], ["actividad", "📈 Actividad diaria"], ["conexiones", "⏰ Conexiones"], ["temas", "🧠 Por tema"],
       ["precert", "⏱️ Precertámenes"], ["estudiantes", "👥 Estudiantes"]];
     const ir = (k) => {
@@ -166,7 +196,7 @@
       const med = logros.length ? logros[Math.floor((logros.length - 1) / 2)] : null;
       const control = h("div", "econ-quiz-control");
       control.innerHTML = `<div><strong>${esc(q.titulo)}</strong><span class="pr-sesion-mail">${q.preguntas.length} preguntas, ${q.duracion_min} minutos por estudiante</span></div>` +
-        `<p class="econ-quiz-estado ${q.abierto ? "is-abierto" : ""}">${q.abierto ? `Abierto desde las ${new Date(q.abierto_en).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" })}: los estudiantes pueden comenzarlo`
+        `<p class="econ-quiz-estado ${q.abierto ? "is-abierto" : ""}">${q.abierto ? `Abierto desde ${fecha(q.abierto_en)} (${haceCuanto(q.abierto_en)}): los estudiantes pueden comenzarlo y no ven la pauta hasta que lo cierres`
           : q.cerrado_en ? `Cerrado a las ${fecha(q.cerrado_en)}: los estudiantes ven su resultado y la pauta` : "Cerrado: nadie lo ha visto todavía"}</p>`;
       const toggle = h("button", "econ-btn " + (q.abierto ? "econ-btn-ghost" : "econ-btn-gold"), q.abierto ? "Cerrar quiz" : "Abrir quiz ahora");
       toggle.type = "button";
