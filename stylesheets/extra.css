@@ -2336,3 +2336,10 @@ body.pr-bloqueado .pr-marcador, body.pr-bloqueado .pr-zona { display: none; }
 .econ-quiz-fila .econ-medidor { width: 100%; }
 .econ-quiz-p { font-weight: 700; text-align: right; }
 @media (max-width: 760px) { .econ-quiz-fila { grid-template-columns: 1.6rem 1fr 3.4rem; } .econ-quiz-fila .econ-medidor { display: none; } }
+
+/* Panel /admin: aviso de quiz que quedó abierto */
+.econ-avisos:empty { display: none; }
+.econ-aviso { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; margin: 0 0 0.8rem; padding: 0.75rem 1rem; border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--usm-gold) 70%, transparent); background: color-mix(in srgb, var(--usm-gold) 12%, var(--md-default-bg-color)); }
+.md-typeset .econ-aviso p { flex: 1 1 22rem; margin: 0; font-size: 0.76rem; }
+.econ-aviso-acc { display: flex; flex-wrap: wrap; gap: 0.4rem; }
