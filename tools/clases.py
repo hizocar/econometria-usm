@@ -2327,14 +2327,14 @@ S7 = "sem7/Clase8.tex"
 C7_CABECERA = """# Clase 7 · Inferencia sobre un parámetro
 
 <div class="usm-session-meta">
-<span>📅 Viernes 27 de noviembre de 2026</span>
+<span>📅 Lunes 23 de noviembre de 2026 (cambio de día)</span>
 <span>⏱️ 18:40 – 21:25</span>
 <span class="usm-tag-gold">Semana 7 · Contenido 5 · Análisis de regresión múltiple</span>
 </div>
 
 !!! info "Contenido oficial de la semana"
-    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra del viernes de la
-    semana 7 (`sem7/Clase8.tex`, 21 láminas). Los bloques **Interactivo**, los casos y las preguntas
+    Esta página reproduce **íntegras y en orden** las diapositivas de la cátedra de la semana 7
+    (`sem7/Clase8.tex`, 21 láminas). Esta semana la cátedra es el **lunes 23** y el taller de Iván, el **viernes 27**. Los bloques **Interactivo**, los casos y las preguntas
     son material adicional para estudiar.
 
 <!--COMO-ESTUDIAR-->
@@ -2346,7 +2346,7 @@ C7_CABECERA = """# Clase 7 · Inferencia sobre un parámetro
 - Distinguir los **errores tipo I y II**, y construir **intervalos de confianza** para $\\beta_j$.
 - Calcular e interpretar el **valor-p**, y hacer **tests de una cola**.
 
-## 🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+## 🗓️ Agenda de la cátedra (lunes 18:40 – 21:25)
 
 Haz clic en un tema para ir directo a él.
 """
@@ -2568,8 +2568,7 @@ C7_CIERRE = """!!! abstract "🧠 Ideas clave"
           ("Que el efecto es exactamente cero.", "No rechazar H₀ no es lo mismo que demostrarla."),
           ("Que la variable debe eliminarse siempre.", "Puede ser relevante por teoría o para evitar sesgo por variable omitida.")], 0,
          "Ausencia de evidencia no es evidencia de ausencia."),
-]) + """
-
+]) + "\n\n" + (REPO / "tools" / "desafios_clase7.md").read_text(encoding="utf-8") + """
 ## 📚 Para la próxima clase
 
 - **Wooldridge**, capítulo 4, secciones 4.1 a 4.3 (distribución de los estimadores, test t e intervalos de confianza).

@@ -714,7 +714,6 @@ Muchos problemas de la vida real consisten en explicar una variable dummy.
     \begin{aligned}
     y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k + u \\
     \mathbb{E}[y \mid x] &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k
-    
     \end{aligned}
     $$
 

@@ -476,7 +476,6 @@ Bajo los supuestos clásicos, los estimadores MCO cumplen lo siguiente:
     &= \beta + (X^{\top}X)^{-1}X^{\top}u \quad \text{(5)} \\
     E(\hat{\beta}|X) &= \beta + (X^{\top}X)^{-1}X^{\top}E(u|X) \quad \text{(6)} \\
     &= \beta \quad \text{(7)}
-    
     \end{aligned}
     $$
 
@@ -503,7 +502,6 @@ Bajo los supuestos clásicos, los estimadores MCO cumplen lo siguiente:
     &= (X^{\top}X)^{-1}X^{\top}\sigma^2IX(X^{\top}X)^{-1} \quad \text{(12)} \\
     &= \sigma^2(X^{\top}X)^{-1}(X^{\top}X)(X^{\top}X)^{-1} \quad \text{(13)} \\
     &= \sigma^2(X^{\top}X)^{-1} \quad \text{(14)}
-    
     \end{aligned}
     $$
 

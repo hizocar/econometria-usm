@@ -42,7 +42,7 @@
 </div>
 
 <div class="econ-week" markdown>
-### Semana 5 · 9 al 14 de noviembre <span class="econ-pill is-gold">En curso</span>
+### Semana 5 · 9 al 14 de noviembre
 - **Lunes 9** — Taller.
 - **Viernes 13** — [Clase 5 · Propiedades estadísticas del estimador MCO](clases/clase5.md): supuestos
   clásicos, insesgamiento y errores estándar.
@@ -56,10 +56,13 @@
 </div>
 
 <div class="econ-week" markdown>
-### Semana 7 · 23 al 28 de noviembre
-- **Lunes 23** — Taller.
-- **Viernes 27** — [Clase 7 · Inferencia sobre un parámetro](clases/clase7.md): test t, errores tipo I
-  y II, intervalos de confianza y valor-p.
+### Semana 7 · 23 al 28 de noviembre <span class="econ-pill is-gold">En curso</span>
+!!! warning "Cambio de días esta semana"
+    La cátedra pasa al **lunes 23** y el taller de Iván al **viernes 27**.
+
+- **Lunes 23** — [Clase 7 · Inferencia sobre un parámetro](clases/clase7.md): test t, errores tipo I
+  y II, intervalos de confianza y valor-p. Al final, 📝 [quiz de la clase](quiz/index.md).
+- **Viernes 27** — Taller (Iván).
 </div>
 
 <div class="econ-week is-eval" markdown>

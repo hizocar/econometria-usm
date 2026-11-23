@@ -333,6 +333,9 @@ def cleanup(md):
     md = re.sub(r"(?m)(?<!\\)\\[ ]*$", "<br>", md)   # "\" al final de línea = salto de línea
     for a, b in RENDER_FIXES.items():
         md = md.replace(a, b)
+    # Una línea en blanco dentro de $$...$$ (comentarios o espacios del .tex) corta el bloque en Markdown
+    # y MathJax ya no lo reconoce: se eliminan
+    md = re.sub(r"\$\$(.*?)\$\$", lambda m: "$$" + re.sub(r"\n[ \t]*(?=\n)", "", m.group(1)) + "$$", md, flags=re.S)
     # \(...\) dentro de una fórmula destacada $$...$$: los delimitadores sobran
     md = re.sub(r"\$\$(.*?)\$\$", lambda m: "$$" + re.sub(r"\\\(|\\\)", "", m.group(1)) + "$$", md, flags=re.S)
     # Paréntesis escapados por pandoc, como \(a\): son texto, no fórmulas

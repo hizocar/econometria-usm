@@ -65,7 +65,6 @@ Haz clic en un tema para ir directo a él.
     \begin{aligned}
     H_0 & : \beta_{\text{1}} = \beta_{\text{2}} = 0 \\
     H_1 & :  \text{Al menos uno }\neq 0
-    
     \end{aligned}
     $$
 

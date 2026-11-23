@@ -297,7 +297,6 @@ Testee la $H_0$ de que el efecto de $x_1$ sobre $y$ es el doble que el efecto de
         \hat{ \text{Var}}(\hat{\beta}_1 - 2\hat{\beta}_2) &= 42.5 + 4 \times 1.42 - 4(-2.84) \\
         &= 59.5 \\
         \Rightarrow \text{s.e}(\hat{\beta}_1 - 2\hat{\beta}_2) &= \sqrt{\hat{\text{Var}}(\hat{\beta}_1 - 2\hat{\beta}_2)} = 7.68
-        
         \end{aligned}
         $$
 

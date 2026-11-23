@@ -74,7 +74,7 @@ complementan con el **taller de los lunes** (Iván), que tiene su propia secció
 
 <div class="usm-card" markdown>
 ### 7️⃣ Inferencia sobre un parámetro
-**Viernes 27 de noviembre** · Normalidad · Test t · Errores tipo I y II · Intervalos de confianza · Valor-p · Una cola
+**Lunes 23 de noviembre** (cambio de día) · Normalidad · Test t · Errores tipo I y II · Intervalos de confianza · Valor-p · Una cola
 
 🎯 Calculadora del test t con valor-p · 1 000 investigadores y el error tipo I · 40 intervalos para β
 
