@@ -12,6 +12,14 @@
   const notaRef = (l) => Math.round(10 * (l < 60 ? 1 + (3 * l) / 60 : 4 + (3 * (l - 60)) / 40)) / 10;
   const claveLocal = (quiz, uid) => `econometria-usm:quiz:${quiz}:${uid}`;
   const leer = (k) => { try { return JSON.parse(localStorage.getItem(k) || "{}"); } catch (e) { return {}; } };
+  // MathJax solo procesa elementos con la clase "arithmatex" (ver mathjax.js): todo texto con fórmulas va envuelto así
+  const M = (html) => `<span class="arithmatex">${html ?? ""}</span>`;
+  function tipografiar(el, intentos = 0) {
+    const mj = window.MathJax;
+    if (mj && mj.typesetPromise) { mj.typesetPromise([el]).catch(() => {}); return; }
+    if (intentos < 40) setTimeout(() => tipografiar(el, intentos + 1), 250); // MathJax aún cargando
+  }
+  const numTxt = (v) => String(v).replace(".", ",");
   const escribir = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } };
 
   function montar(root) {
@@ -126,12 +134,12 @@
       const panes = j.preguntas.map((p, i) => {
         const card = h("article", "pr-card pr-pre-preg");
         card.hidden = true;
-        card.innerHTML = `<div class="pr-meta"><span>Pregunta ${i + 1} de ${j.preguntas.length}</span></div><p class="pr-stmt">${p.enunciado}</p>`;
+        card.innerHTML = `<div class="pr-meta"><span>Pregunta ${i + 1} de ${j.preguntas.length}</span></div><div class="pr-stmt">${M(p.enunciado)}</div>`;
         if (p.tipo === "vfi" || p.tipo === "opcion") {
           const ops = h("div", p.tipo === "vfi" ? "pr-vfi" : "qz-opciones");
           const valores = p.tipo === "vfi" ? ["V", "F", "I"] : p.opciones.map((_, n) => String(n));
           valores.forEach((val, n) => {
-            const lab = p.tipo === "vfi" ? `<kbd>${val}</kbd>${VERED[val]}` : `<span class="qz-letra">${"abcdef"[n]}</span><span>${p.opciones[n]}</span>`;
+            const lab = p.tipo === "vfi" ? `<kbd>${val}</kbd>${VERED[val]}` : `<span class="qz-letra">${"abcdef"[n]}</span>${M(p.opciones[n])}`;
             const b = boton(p.tipo === "vfi" ? "pr-vfi-btn" : "qz-opcion", lab, () => {
               resp[p.id] = resp[p.id] === val ? "" : val;
               ops.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x.dataset.v === resp[p.id]));
@@ -144,7 +152,7 @@
           card.append(ops);
         } else {
           const campo = h("div", "pr-campo qz-num");
-          campo.innerHTML = `<label>Tu respuesta<input type="text" inputmode="decimal" autocomplete="off" placeholder="número (coma o punto)"></label>`;
+          campo.innerHTML = `<label>Tu respuesta${p.unidad ? ` (en ${esc(p.unidad)})` : ""}<input type="text" inputmode="decimal" autocomplete="off" placeholder="número (coma o punto)"></label>`;
           const inp = campo.querySelector("input");
           if (resp[p.id] !== undefined) inp.value = resp[p.id];
           inp.addEventListener("input", () => { resp[p.id] = inp.value; guardarLocal(); pintarNav(); });
@@ -171,6 +179,7 @@
         pintarNav();
       }
       mostrar(0);
+      tipografiar(panel);
 
       async function enviar(porTiempo) {
         if (entregando) return;
@@ -237,17 +246,46 @@
       vista.append(res);
       if (r.pauta) {
         const pauta = h("section", "pr-pauta");
-        pauta.innerHTML = "<h4>Pauta</h4>";
+        const cab = h("div", "qz-pauta-cab", "<h4>Pauta</h4>");
+        const todas = boton("econ-btn econ-btn-ghost econ-btn-sm", "Abrir todas las preguntas", () => {
+          const abrir = todas.textContent.startsWith("Abrir");
+          pauta.querySelectorAll("details").forEach((d) => (d.open = abrir));
+          todas.textContent = abrir ? "Cerrar todas las preguntas" : "Abrir todas las preguntas";
+        });
+        cab.append(todas);
+        pauta.append(cab, h("p", "pr-nota", "Las preguntas que respondiste mal o dejaste en blanco aparecen abiertas."));
+        const vacia = (v) => v === null || v === undefined || String(v).trim() === "";
+        const TIPO = { vfi: "Verdadero, falso o incierto", opcion: "Selección múltiple", numero: "Cálculo" };
         r.pauta.forEach((p, i) => {
-          const d = h("details", "pr-pauta-item " + (p.ok ? "is-ok" : p.tu !== null && p.tu !== "" ? "is-bad" : "is-vacia"));
-          const ver = (v) => (v === null || v === "" ? "sin responder" : p.tipo === "vfi" ? VERED[v] : p.tipo === "opcion" ? p.opciones[+v] : coma(v));
-          d.innerHTML = `<summary><span class="pr-pauta-n">${i + 1}</span><span>${p.tipo === "vfi" ? "Verdadero, falso o incierto" : p.tipo === "opcion" ? "Selección múltiple" : "Cálculo"}</span>` +
-            `<span class="pr-pauta-e">${p.ok ? "correcta" : p.tu === null || p.tu === "" ? "sin responder" : "incorrecta"}</span><span></span></summary>` +
-            `<div class="pr-pauta-cuerpo"><p class="pr-stmt">${p.enunciado}</p><p>Tu respuesta: <strong>${esc(ver(p.tu))}</strong>. Respuesta correcta: <strong>${esc(ver(p.ans))}</strong>.</p>` +
-            `<ul>${p.exp.map((x) => `<li>${x}</li>`).join("")}</ul>${p.repaso ? `<p class="pr-repaso">Repasa en ${esc(p.repaso)}</p>` : ""}</div>`;
+          const d = h("details", "pr-pauta-item " + (p.ok ? "is-ok" : vacia(p.tu) ? "is-vacia" : "is-bad"));
+          d.open = !p.ok;
+          d.innerHTML = `<summary><span class="pr-pauta-n">${i + 1}</span><span>${TIPO[p.tipo]}</span>` +
+            `<span class="pr-pauta-e">${p.ok ? "correcta" : vacia(p.tu) ? "sin responder" : "incorrecta"}</span><span></span></summary>`;
+          let resp = "";
+          if (p.tipo === "opcion") {
+            resp = `<ol class="qz-alts">` + p.opciones.map((o, n) => {
+              const correcta = n === Number(p.ans), tuya = !vacia(p.tu) && n === Number(p.tu);
+              return `<li class="${correcta ? "is-correcta" : ""}${tuya ? " is-tuya" : ""}"><span class="qz-letra">${"abcdef"[n]}</span>` +
+                `<div><div class="qz-alt-t">${M(o)}${correcta ? '<span class="qz-tag is-ok">respuesta correcta</span>' : ""}${tuya && !correcta ? '<span class="qz-tag is-bad">tu respuesta</span>' : tuya ? '<span class="qz-tag">tu respuesta</span>' : ""}</div>` +
+                (p.por_que && p.por_que[n] ? `<p class="qz-alt-por">${M(p.por_que[n])}</p>` : "") + "</div></li>";
+            }).join("") + "</ol>" + (vacia(p.tu) ? '<p class="pr-nota">No respondiste esta pregunta.</p>' : "");
+          } else {
+            const ver = (v, clave) => (vacia(v) ? "sin responder" : p.tipo === "vfi" ? VERED[v]
+              : numTxt(clave ? Number(v).toFixed(p.dec ?? 2) : v) + (p.unidad ? ` ${esc(p.unidad)}` : ""));
+            resp = `<dl class="qz-resp"><div><dt>Tu respuesta</dt><dd class="${p.ok ? "is-ok" : "is-bad"}">${esc(ver(p.tu))}</dd></div>` +
+              `<div><dt>Respuesta correcta</dt><dd>${esc(ver(p.ans, true))}</dd></div></dl>` +
+              (p.tipo === "numero" ? '<p class="pr-nota">Se aceptaba un pequeño margen de redondeo.</p>' : "");
+          }
+          // Dentro de un paso numerado, una fórmula destacada \[ \] quedaría centrada y lejos del número: se muestra en línea a tamaño completo
+          const enLinea = (x) => x.replace(/\\\[([\s\S]*?)\\\]/g, (_, f) => `\\(\\displaystyle ${f.trim()}\\)`);
+          const pasos = (p.pasos || []).length ? `<p class="qz-pauta-t">Desarrollo</p><ol class="qz-pasos">${p.pasos.map((x) => `<li>${M(enLinea(x))}</li>`).join("")}</ol>` : "";
+          d.insertAdjacentHTML("beforeend", `<div class="pr-pauta-cuerpo"><div class="pr-stmt">${M(p.enunciado)}</div>${resp}${pasos}` +
+            (p.idea ? `<p class="qz-idea"><strong>Idea clave.</strong> ${M(p.idea)}</p>` : "") +
+            (p.repaso ? `<p class="pr-repaso">Repasa en ${esc(p.repaso)}</p>` : "") + "</div>");
           pauta.append(d);
         });
         vista.append(pauta);
+        tipografiar(pauta);
       }
       vista.append(boton("econ-btn econ-btn-ghost qz-recargar", "Volver a la lista", lista));
     }
