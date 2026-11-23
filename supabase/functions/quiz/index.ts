@@ -20,9 +20,11 @@ const clave = (env: string, legacy: string) => {
 };
 const GRACIA_MS = 90_000; // margen para la entrega automática al acabarse el tiempo
 
-type Pregunta = { id: string; tipo: "numero" | "opcion" | "vfi"; enunciado: string; opciones?: string[]; ans: number | string; tol?: number; dec?: number; exp?: string[]; repaso?: string };
+type Pregunta = { id: string; tipo: "numero" | "opcion" | "vfi"; enunciado: string; opciones?: string[]; ans: number | string; tol?: number; dec?: number;
+  unidad?: string; exp?: string[]; pasos?: string[]; por_que?: string[]; idea?: string; repaso?: string };
 
-const publica = (p: Pregunta) => ({ id: p.id, tipo: p.tipo, enunciado: p.enunciado, opciones: p.opciones ?? null, dec: p.dec ?? null });
+// Lo único que ve el estudiante mientras el quiz está abierto: nada de respuestas, pasos ni explicaciones
+const publica = (p: Pregunta) => ({ id: p.id, tipo: p.tipo, enunciado: p.enunciado, opciones: p.opciones ?? null, dec: p.dec ?? null, unidad: p.unidad ?? null });
 const numero = (v: unknown) => {
   const t = String(v ?? "").trim().replace(/\s+/g, "").replace(",", ".").replace("−", "-");
   return t === "" || !/^[-+]?\d*\.?\d+(e[-+]?\d+)?$/i.test(t) ? null : parseFloat(t);
@@ -83,7 +85,8 @@ Deno.serve(async (req) => {
       entregado: x.entregado, inicio: x.inicio, pauta_disponible: !q.abierto };
     if (q.abierto) return base;
     const resp = (x.respuestas ?? {}) as Record<string, unknown>;
-    return { ...base, pauta: (x.orden as number[]).map((i) => { const p = P[i]; return { ...publica(p), ans: p.ans, exp: p.exp ?? [], repaso: p.repaso ?? "", tu: resp[p.id] ?? null, ok: correcta(p, resp[p.id]) }; }) };
+    return { ...base, pauta: (x.orden as number[]).map((i) => { const p = P[i]; return { ...publica(p), ans: p.ans, pasos: p.pasos ?? p.exp ?? [], por_que: p.por_que ?? null, idea: p.idea ?? "",
+      repaso: p.repaso ?? "", tu: resp[p.id] ?? null, ok: correcta(p, resp[p.id]) }; }) };
   };
 
   if (accion === "comenzar") {

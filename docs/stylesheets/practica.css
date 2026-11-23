@@ -256,3 +256,27 @@
 [data-md-color-scheme="slate"] .qz-opcion[aria-pressed="true"] .qz-letra { background: var(--usm-blue); border-color: var(--usm-blue); color: #0c1330; }
 .pr-app .qz-num { max-width: 18rem; }
 .pr-app .qz-recargar { margin-top: 1rem; }
+
+/* Pauta del quiz */
+.qz-pauta-cab { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.md-typeset .qz-pauta-cab h4 { margin: 1.4rem 0 0.4rem; }
+.md-typeset .qz-alts { list-style: none; margin: 0.6rem 0; padding: 0; display: grid; gap: 0.45rem; }
+.md-typeset .qz-alts li { display: flex; gap: 0.65rem; margin: 0; padding: 0.55rem 0.75rem; border: 1px solid var(--pr-borde); border-radius: 10px; }
+.md-typeset .qz-alts li.is-correcta { border-color: var(--pr-ok); background: color-mix(in srgb, var(--pr-ok) 7%, transparent); }
+.md-typeset .qz-alts li.is-tuya:not(.is-correcta) { border-color: var(--pr-bad); background: color-mix(in srgb, var(--pr-bad) 6%, transparent); }
+.md-typeset .qz-alts li.is-correcta .qz-letra { background: var(--pr-ok); border-color: var(--pr-ok); color: #fff; opacity: 1; }
+.qz-alt-t { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; font-weight: 600; }
+.md-typeset .qz-alt-por { margin: 0.25rem 0 0; font-size: 0.74rem; color: var(--md-default-fg-color--light); }
+.qz-tag { font-size: 0.62rem; font-weight: 700; padding: 0.08rem 0.45rem; border-radius: 999px; background: var(--md-default-fg-color--lightest); }
+.qz-tag.is-ok { background: color-mix(in srgb, var(--pr-ok) 18%, transparent); }
+.qz-tag.is-bad { background: color-mix(in srgb, var(--pr-bad) 15%, transparent); }
+.md-typeset .qz-resp { display: flex; flex-wrap: wrap; gap: 0.4rem 2rem; margin: 0.6rem 0; }
+.md-typeset .qz-resp dt { font-size: 0.66rem; font-weight: 600; color: var(--md-default-fg-color--light); margin: 0; }
+.md-typeset .qz-resp dd { margin: 0.1rem 0 0; font-size: 0.95rem; font-weight: 800; }
+.md-typeset .qz-resp dd.is-ok { color: var(--pr-ok); }
+.md-typeset .qz-resp dd.is-bad { color: var(--pr-bad); }
+.md-typeset .qz-pauta-t { margin: 0.9rem 0 0.3rem; font-size: 0.74rem; font-weight: 700; }
+.md-typeset .qz-pasos { margin: 0 0 0.6rem 1.1rem; font-size: 0.8rem; }
+.md-typeset .qz-pasos li { margin: 0.3rem 0; }
+.md-typeset .qz-idea { margin: 0.6rem 0; padding: 0.55rem 0.75rem; border-radius: 10px; font-size: 0.78rem; background: color-mix(in srgb, var(--usm-gold) 13%, transparent); }
+.md-typeset .pr-app div.pr-stmt { font-size: 1.02rem; font-weight: 600; line-height: 1.55; max-width: 68ch; margin: 0.35rem 0 1rem; }
