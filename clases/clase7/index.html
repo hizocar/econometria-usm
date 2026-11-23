@@ -719,9 +719,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+  <a href="#agenda-de-la-catedra-lunes-1840-2125" class="md-nav__link">
     <span class="md-ellipsis">
-      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+      🗓️ Agenda de la cátedra (lunes 18:40 – 21:25)
     </span>
   </a>
   
@@ -998,6 +998,15 @@
   <a href="#autoevaluacion" class="md-nav__link">
     <span class="md-ellipsis">
       ✅ Autoevaluación
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafios-teoricos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧠 Desafíos teóricos
     </span>
   </a>
   
@@ -1481,9 +1490,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#agenda-de-la-catedra-viernes-1840-2125" class="md-nav__link">
+  <a href="#agenda-de-la-catedra-lunes-1840-2125" class="md-nav__link">
     <span class="md-ellipsis">
-      🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)
+      🗓️ Agenda de la cátedra (lunes 18:40 – 21:25)
     </span>
   </a>
   
@@ -1766,6 +1775,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#desafios-teoricos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧠 Desafíos teóricos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#para-la-proxima-clase" class="md-nav__link">
     <span class="md-ellipsis">
       📚 Para la próxima clase
@@ -1794,15 +1812,15 @@
 
 <h1 id="clase-7-inferencia-sobre-un-parametro">Clase 7 · Inferencia sobre un parámetro</h1>
 <div class="usm-session-meta">
-<span>📅 Viernes 27 de noviembre de 2026</span>
+<span>📅 Lunes 23 de noviembre de 2026 (cambio de día)</span>
 <span>⏱️ 18:40 – 21:25</span>
 <span class="usm-tag-gold">Semana 7 · Contenido 5 · Análisis de regresión múltiple</span>
 </div>
 
 <div class="admonition info">
 <p class="admonition-title">Contenido oficial de la semana</p>
-<p>Esta página reproduce <strong>íntegras y en orden</strong> las diapositivas de la cátedra del viernes de la
-semana 7 (<code>sem7/Clase8.tex</code>, 21 láminas). Los bloques <strong>Interactivo</strong>, los casos y las preguntas
+<p>Esta página reproduce <strong>íntegras y en orden</strong> las diapositivas de la cátedra de la semana 7
+(<code>sem7/Clase8.tex</code>, 21 láminas). Esta semana la cátedra es el <strong>lunes 23</strong> y el taller de Iván, el <strong>viernes 27</strong>. Los bloques <strong>Interactivo</strong>, los casos y las preguntas
 son material adicional para estudiar.</p>
 </div>
 <div class="admonition example">
@@ -1819,7 +1837,7 @@ Los 6 ejercicios de R en un solo archivo: <a href="../../r/clase7.R">📥 clase7
 <li>Distinguir los <strong>errores tipo I y II</strong>, y construir <strong>intervalos de confianza</strong> para <span class="arithmatex">\(\beta_j\)</span>.</li>
 <li>Calcular e interpretar el <strong>valor-p</strong>, y hacer <strong>tests de una cola</strong>.</li>
 </ul>
-<h2 id="agenda-de-la-catedra-viernes-1840-2125">🗓️ Agenda de la cátedra (viernes 18:40 – 21:25)</h2>
+<h2 id="agenda-de-la-catedra-lunes-1840-2125">🗓️ Agenda de la cátedra (lunes 18:40 – 21:25)</h2>
 <p>Haz clic en un tema para ir directo a él.</p>
 <ol class="econ-ruta">
 <li><span class="econ-ruta-h">18:40</span><a class="econ-ruta-a" href="#tema-1"><span class="econ-ruta-n">1</span><span class="econ-ruta-t">Gauss-Markov, normalidad y la distribución de β̂</span><span class="econ-ruta-l">láminas 1–5 · ✍️ 2 preguntas · 🧪 R</span></a></li>
@@ -1988,12 +2006,12 @@ Y_i = \beta_0 + \beta_1X_{i1} + \ldots + \beta_kX_{ik} + u_i
 <ul>
 <li>
 <p>Suponga que quiere testear si el coeficiente <span class="arithmatex">\(\beta_j\)</span> que acompaña a <span class="arithmatex">\(x_j\)</span> es significativamente distinto al valor <span class="arithmatex">\(a_j\)</span>. Donde <span class="arithmatex">\(a_j\)</span> es una constante (un número). Es decir:</p>
-<p>$$
+<div class="arithmatex">\[
 \begin{aligned}
-H_0 &amp;: \beta_j = a_j \
-H_1 &amp;: \beta_j \neq a_j</p>
-<p>\end{aligned}
-$$</p>
+H_0 &amp;: \beta_j = a_j \\
+H_1 &amp;: \beta_j \neq a_j
+\end{aligned}
+\]</div>
 </li>
 <li>
 <p>Para el caso particular de <span class="arithmatex">\(a_j = 0\)</span>, el test busca determinar si la variable <span class="arithmatex">\(x_j\)</span> es significativa o relevante para el modelo.</p>
@@ -2516,6 +2534,97 @@ t_{\hat{\beta}_1} = \frac{42.0576 - 0}{6.5498} = 6.4212
 <p class="econ-quiz-fb">✅ Ausencia de evidencia no es evidencia de ausencia.</p>
 </div>
 
+<h2 id="desafios-teoricos">🧠 Desafíos teóricos</h2>
+<p>Problemas de desarrollo, más exigentes que las preguntas de cada tema. Intenta resolverlos en papel,
+justificando cada paso, antes de abrir la solución.</p>
+<div class="admonition question">
+<p class="admonition-title">Desafío 1 · ¿Por qué una <span class="arithmatex">\(t\)</span> y no una normal?</p>
+<p>Bajo los supuestos 1 a 6 del modelo lineal clásico:</p>
+<p>(a) Explica por qué <span class="arithmatex">\(\dfrac{\hat{\beta}_j - \beta_j}{sd(\hat{\beta}_j)} \sim N(0, 1)\)</span>.</p>
+<p>(b) Explica por qué, al reemplazar <span class="arithmatex">\(sd(\hat{\beta}_j)\)</span> por <span class="arithmatex">\(se(\hat{\beta}_j)\)</span>, el estadístico pasa a distribuirse <span class="arithmatex">\(t_{n-k-1}\)</span>.</p>
+<p>(c) ¿Qué ocurre con esa diferencia cuando <span class="arithmatex">\(n - k - 1 \to \infty\)</span>? ¿Qué implica para los valores críticos?</p>
+<details class="success">
+<summary>Ver solución</summary>
+<p>(a) Condicional en las <span class="arithmatex">\(x\)</span>, <span class="arithmatex">\(\hat{\beta}_j\)</span> es una <strong>combinación lineal</strong> de los errores <span class="arithmatex">\(u_i\)</span>. Si los <span class="arithmatex">\(u_i\)</span> son normales (supuesto 6), cualquier combinación lineal de ellos también lo es; como <span class="arithmatex">\(\hat{\beta}_j\)</span> es insesgado y tiene varianza <span class="arithmatex">\(sd(\hat{\beta}_j)^2\)</span>, al estandarizarlo queda una <span class="arithmatex">\(N(0,1)\)</span>.</p>
+<p>(b) <span class="arithmatex">\(sd(\hat{\beta}_j)\)</span> depende de <span class="arithmatex">\(\sigma^2\)</span>, que no se conoce; se estima con <span class="arithmatex">\(\hat{\sigma}^2 = SSR/(n-k-1)\)</span>, que es aleatorio. Se cumple que <span class="arithmatex">\((n-k-1)\hat{\sigma}^2/\sigma^2 \sim \chi^2_{n-k-1}\)</span>, independiente de <span class="arithmatex">\(\hat{\beta}_j\)</span>. El cociente entre una normal estándar y la raíz de una <span class="arithmatex">\(\chi^2\)</span> dividida por sus grados de libertad es, por definición, una <span class="arithmatex">\(t_{n-k-1}\)</span>.</p>
+<p>(c) Con muchos grados de libertad <span class="arithmatex">\(\hat{\sigma}^2\)</span> se acerca a <span class="arithmatex">\(\sigma^2\)</span> y la <span class="arithmatex">\(t\)</span> se acerca a la normal estándar: el valor crítico al 5% (dos colas) pasa de 2,021 con 40 gl a 1,96 en el límite. La <span class="arithmatex">\(t\)</span> tiene colas más pesadas porque incorpora la incertidumbre de estimar <span class="arithmatex">\(\sigma^2\)</span>.</p>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Desafío 2 · Test e intervalo: dos caras de la misma moneda</p>
+<p>Demuestra que, para un mismo <span class="arithmatex">\(\alpha\)</span>, se rechaza <span class="arithmatex">\(H_0: \beta_j = a\)</span> contra <span class="arithmatex">\(H_1: \beta_j \neq a\)</span> <strong>si y solo si</strong> <span class="arithmatex">\(a\)</span> no pertenece al intervalo de confianza de <span class="arithmatex">\((1-\alpha)\)</span> para <span class="arithmatex">\(\beta_j\)</span>.</p>
+<details class="success">
+<summary>Ver solución</summary>
+<p>Sea <span class="arithmatex">\(c\)</span> el valor crítico de dos colas. Se rechaza <span class="arithmatex">\(H_0\)</span> cuando
+$<span class="arithmatex">\(\left|\frac{\hat{\beta}_j - a}{se(\hat{\beta}_j)}\right| &gt; c \iff |\hat{\beta}_j - a| &gt; c\, se(\hat{\beta}_j) \iff a &lt; \hat{\beta}_j - c\, se(\hat{\beta}_j) \ \text{ o } \ a &gt; \hat{\beta}_j + c\, se(\hat{\beta}_j).\)</span>$
+Es decir, cuando <span class="arithmatex">\(a\)</span> cae fuera de <span class="arithmatex">\(\hat{\beta}_j \pm c\, se(\hat{\beta}_j)\)</span>, que es justamente el intervalo de confianza de <span class="arithmatex">\((1-\alpha)\)</span>. Cada implicancia se puede leer en ambos sentidos, así que la equivalencia es exacta.</p>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Desafío 3 · Lo que un intervalo de confianza esconde</p>
+<p>Un artículo con una muestra grande reporta, para <span class="arithmatex">\(\beta_1\)</span>, el intervalo de confianza de 95%: <span class="arithmatex">\((0{,}12;\ 0{,}48)\)</span>.</p>
+<p>(a) Recupera <span class="arithmatex">\(\hat{\beta}_1\)</span> y <span class="arithmatex">\(se(\hat{\beta}_1)\)</span>.</p>
+<p>(b) ¿Se rechaza <span class="arithmatex">\(H_0: \beta_1 = 0{,}5\)</span> al 5%? ¿Y al 10%? ¿Y al 1%? Justifica sin calcular de nuevo cuando puedas.</p>
+<p>(c) Calcula el estadístico <span class="arithmatex">\(t\)</span> y el valor-p aproximado para <span class="arithmatex">\(H_0: \beta_1 = 0\)</span>.</p>
+<details class="success">
+<summary>Ver solución</summary>
+<p>(a) El intervalo es simétrico: <span class="arithmatex">\(\hat{\beta}_1 = (0{,}12 + 0{,}48)/2 = 0{,}30\)</span> y su semiancho es <span class="arithmatex">\(0{,}18 = 1{,}96 \cdot se\)</span>, así que <span class="arithmatex">\(se = 0{,}18/1{,}96 \approx 0{,}0918\)</span>.</p>
+<p>(b) <strong>Al 5%:</strong> sí, porque <span class="arithmatex">\(0{,}5\)</span> está fuera del IC de 95% (Desafío 2). <strong>Al 10%:</strong> también; el IC de 90% es <strong>más angosto</strong> y está contenido en el de 95%, así que <span class="arithmatex">\(0{,}5\)</span> sigue afuera (es <span class="arithmatex">\((0{,}149;\ 0{,}451)\)</span>). <strong>Al 1%:</strong> el IC de 99% es más ancho y no se puede concluir sin calcularlo: <span class="arithmatex">\(0{,}30 \pm 2{,}576 \cdot 0{,}0918 = (0{,}063;\ 0{,}537)\)</span>, que <strong>contiene</strong> a <span class="arithmatex">\(0{,}5\)</span>, así que no se rechaza.</p>
+<p>(c) <span class="arithmatex">\(t = 0{,}30/0{,}0918 \approx 3{,}27\)</span>. Con muestra grande, valor-p <span class="arithmatex">\(= 2\,P(Z &gt; 3{,}27) \approx 0{,}001\)</span>: se rechaza a cualquier nivel usual.</p>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Desafío 4 · El poder de un test</p>
+<p>Con una muestra grande, <span class="arithmatex">\(\hat{\beta} \approx N(\beta,\ se^2)\)</span> con <span class="arithmatex">\(se = 0{,}05\)</span>. Se testea <span class="arithmatex">\(H_0: \beta = 0\)</span> contra <span class="arithmatex">\(H_1: \beta &gt; 0\)</span> al 5% (valor crítico 1,645).</p>
+<p>(a) ¿Para qué valores de <span class="arithmatex">\(\hat{\beta}\)</span> se rechaza <span class="arithmatex">\(H_0\)</span>?</p>
+<p>(b) Si en realidad <span class="arithmatex">\(\beta = 0{,}10\)</span>, ¿cuál es la probabilidad de rechazar <span class="arithmatex">\(H_0\)</span> (el poder)? ¿Cuál es la probabilidad de error tipo II?</p>
+<p>(c) ¿Qué error estándar haría falta para tener un poder de 90% con ese mismo <span class="arithmatex">\(\beta = 0{,}10\)</span>? ¿Por cuánto habría que multiplicar el tamaño muestral?</p>
+<details class="success">
+<summary>Ver solución</summary>
+<p>(a) Se rechaza si <span class="arithmatex">\(\hat{\beta}/0{,}05 &gt; 1{,}645\)</span>, es decir, si <span class="arithmatex">\(\hat{\beta} &gt; 0{,}0822\)</span>.</p>
+<p>(b) Poder <span class="arithmatex">\(= P(\hat{\beta} &gt; 0{,}0822 \mid \beta = 0{,}10) = P\!\left(Z &gt; \frac{0{,}0822 - 0{,}10}{0{,}05}\right) = P(Z &gt; -0{,}355) \approx 0{,}639\)</span>. El error tipo II es <span class="arithmatex">\(1 - 0{,}639 \approx 0{,}361\)</span>: en más de un tercio de las muestras no se detectaría un efecto que sí existe.</p>
+<p>(c) Se necesita <span class="arithmatex">\(\dfrac{0{,}10}{se} - 1{,}645 = z_{0,90} = 1{,}282\)</span>, o sea <span class="arithmatex">\(se = 0{,}10/2{,}927 \approx 0{,}0342\)</span>. Como <span class="arithmatex">\(se\)</span> es proporcional a <span class="arithmatex">\(1/\sqrt{n}\)</span>, hay que multiplicar <span class="arithmatex">\(n\)</span> por <span class="arithmatex">\((0{,}05/0{,}0342)^2 \approx 2{,}14\)</span>.</p>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Desafío 5 · Muchos tests a la vez</p>
+<p>Un investigador testea 20 variables que en realidad no tienen ningún efecto (todas las <span class="arithmatex">\(H_0\)</span> son verdaderas), con tests independientes al 5%.</p>
+<p>(a) ¿Cuántos rechazos espera?</p>
+<p>(b) ¿Cuál es la probabilidad de que rechace <strong>al menos una</strong> hipótesis nula?</p>
+<p>(c) ¿Qué nivel de significancia debería usar en cada test para que esa probabilidad sea 5%?</p>
+<details class="success">
+<summary>Ver solución</summary>
+<p>(a) Cada test rechaza con probabilidad <span class="arithmatex">\(\alpha = 0{,}05\)</span> (error tipo I): espera <span class="arithmatex">\(20 \cdot 0{,}05 = 1\)</span> rechazo, que sería un "hallazgo" falso.</p>
+<p>(b) <span class="arithmatex">\(P(\text{al menos uno}) = 1 - 0{,}95^{20} \approx 0{,}64\)</span>. Es más probable encontrar algún resultado "significativo" que no encontrar ninguno, aunque nada importe.</p>
+<p>(c) Se necesita <span class="arithmatex">\(1 - (1-\alpha^*)^{20} = 0{,}05\)</span>, o sea <span class="arithmatex">\(\alpha^* = 1 - 0{,}95^{1/20} \approx 0{,}00256\)</span>. La regla aproximada de Bonferroni da casi lo mismo: <span class="arithmatex">\(0{,}05/20 = 0{,}0025\)</span>. Moraleja: buscar entre muchos coeficientes hasta encontrar uno significativo infla el error tipo I.</p>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Desafío 6 · Una misma muestra, tres conclusiones</p>
+<p>Se obtuvo <span class="arithmatex">\(t = -1{,}80\)</span> con 40 grados de libertad. Calcula el valor-p y decide al 5% para:</p>
+<p>(a) <span class="arithmatex">\(H_1: \beta_j \neq 0\)</span>; (b) <span class="arithmatex">\(H_1: \beta_j &lt; 0\)</span>; (c) <span class="arithmatex">\(H_1: \beta_j &gt; 0\)</span>.</p>
+<p>(d) ¿Por qué la hipótesis alternativa debe fijarse <strong>antes</strong> de mirar los datos?</p>
+<details class="success">
+<summary>Ver solución</summary>
+<p>(a) Valor-p <span class="arithmatex">\(= 2\,P(t_{40} &gt; 1{,}80) \approx 0{,}079\)</span>: no se rechaza al 5% (sí al 10%).</p>
+<p>(b) Valor-p <span class="arithmatex">\(= P(t_{40} &lt; -1{,}80) \approx 0{,}040\)</span>: se rechaza al 5%. Es la mitad del de dos colas porque el <span class="arithmatex">\(t\)</span> apunta en la dirección de <span class="arithmatex">\(H_1\)</span>.</p>
+<p>(c) Valor-p <span class="arithmatex">\(= P(t_{40} &gt; -1{,}80) \approx 0{,}960\)</span>: no hay ninguna evidencia a favor de <span class="arithmatex">\(\beta_j &gt; 0\)</span>; el <span class="arithmatex">\(t\)</span> va en la dirección contraria.</p>
+<p>(d) Si se elige la cola después de ver el signo de <span class="arithmatex">\(t\)</span>, en la práctica se está haciendo un test de dos colas con la mitad del valor-p: la probabilidad real de error tipo I es el doble de la declarada.</p>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Desafío 7 · Comentes de desarrollo</p>
+<p>Responde Verdadero, Falso o Incierto y justifica con una fórmula:</p>
+<p>(a) "Si se duplica el tamaño de la muestra, el estadístico <span class="arithmatex">\(t\)</span> de un coeficiente se duplica."</p>
+<p>(b) "Si <span class="arithmatex">\(\hat{\beta}_j\)</span> es significativo al 1% en un test de dos colas, el intervalo de confianza de 95% para <span class="arithmatex">\(\beta_j\)</span> no contiene el cero."</p>
+<p>(c) "Un valor-p de 0,20 indica que hay un 80% de probabilidad de que <span class="arithmatex">\(H_0\)</span> sea falsa."</p>
+<details class="success">
+<summary>Ver solución</summary>
+<p>(a) <strong>Falso.</strong> <span class="arithmatex">\(se(\hat{\beta}_j) = \hat{\sigma}/\sqrt{SST_j(1-R_j^2)}\)</span> y <span class="arithmatex">\(SST_j\)</span> crece aproximadamente en proporción a <span class="arithmatex">\(n\)</span>, así que <span class="arithmatex">\(se\)</span> cae como <span class="arithmatex">\(1/\sqrt{n}\)</span>. Si <span class="arithmatex">\(\hat{\beta}_j\)</span> no cambiara, <span class="arithmatex">\(t\)</span> se multiplicaría por <span class="arithmatex">\(\sqrt{2} \approx 1{,}41\)</span>, no por 2.</p>
+<p>(b) <strong>Verdadero.</strong> Rechazar al 1% implica rechazar al 5% (el valor crítico al 5% es menor), y por el Desafío 2 eso equivale a que el 0 quede fuera del IC de 95%.</p>
+<p>(c) <strong>Falso.</strong> El valor-p se calcula <strong>suponiendo que <span class="arithmatex">\(H_0\)</span> es verdadera</strong>: es la probabilidad de obtener un <span class="arithmatex">\(t\)</span> tan o más extremo que el observado. No es la probabilidad de que <span class="arithmatex">\(H_0\)</span> sea verdadera ni falsa.</p>
+</details>
+</div>
 <h2 id="para-la-proxima-clase">📚 Para la próxima clase</h2>
 <ul>
 <li><strong>Wooldridge</strong>, capítulo 4, secciones 4.1 a 4.3 (distribución de los estimadores, test t e intervalos de confianza).</li>

@@ -2241,15 +2241,15 @@ Y = A K^{\alpha_1} Q^{\alpha_2} L^{\alpha_3}
 </li>
 <li>
 <p>Demostración:</p>
-<p>$$
+<div class="arithmatex">\[
 \begin{aligned}
-\hat{\beta} &amp;= (X^{\top}X)^{-1}X^{\top}y \quad \text{(3)} \
-&amp;= (X^{\top}X)^{-1}X^{\top}(X\beta + u) \quad \text{(4)} \
-&amp;= \beta + (X^{\top}X)^{-1}X^{\top}u \quad \text{(5)} \
-E(\hat{\beta}|X) &amp;= \beta + (X^{\top}X)^{-1}X^{\top}E(u|X) \quad \text{(6)} \
-&amp;= \beta \quad \text{(7)}</p>
-<p>\end{aligned}
-$$</p>
+\hat{\beta} &amp;= (X^{\top}X)^{-1}X^{\top}y \quad \text{(3)} \\
+&amp;= (X^{\top}X)^{-1}X^{\top}(X\beta + u) \quad \text{(4)} \\
+&amp;= \beta + (X^{\top}X)^{-1}X^{\top}u \quad \text{(5)} \\
+E(\hat{\beta}|X) &amp;= \beta + (X^{\top}X)^{-1}X^{\top}E(u|X) \quad \text{(6)} \\
+&amp;= \beta \quad \text{(7)}
+\end{aligned}
+\]</div>
 </li>
 <li>
 <p>Esto implica que el promedio de los estimadores <span class="arithmatex">\(\hat{\beta}\)</span> obtenidos con todas las muestras aleatorias posibles es igual a <span class="arithmatex">\(\beta\)</span>.</p>
@@ -2265,17 +2265,17 @@ $$</p>
 </li>
 <li>
 <p>Demostración:</p>
-<p>$$
+<div class="arithmatex">\[
 \begin{aligned}
-\text{Var}(\hat{\beta}|X) &amp;= E[(\hat{\beta} - E(\hat{\beta}))(\hat{\beta} - E(\hat{\beta}))^{\top}|X] \quad \text{(8)} \
-&amp;= E[(\hat{\beta} - \beta)(\hat{\beta} - \beta)^{\top}|X] \quad \text{(9)} \
-&amp;= E[(X^{\top}X)^{-1}X^{\top}u \, u^{\top}X(X^{\top}X)^{-1}|X] \quad \text{(10)} \
-&amp;= (X^{\top}X)^{-1}X^{\top}E[u \, u^{\top}|X]X(X^{\top}X)^{-1} \quad \text{(11)} \
-&amp;= (X^{\top}X)^{-1}X^{\top}\sigma^2IX(X^{\top}X)^{-1} \quad \text{(12)} \
-&amp;= \sigma^2(X^{\top}X)^{-1}(X^{\top}X)(X^{\top}X)^{-1} \quad \text{(13)} \
-&amp;= \sigma^2(X^{\top}X)^{-1} \quad \text{(14)}</p>
-<p>\end{aligned}
-$$</p>
+\text{Var}(\hat{\beta}|X) &amp;= E[(\hat{\beta} - E(\hat{\beta}))(\hat{\beta} - E(\hat{\beta}))^{\top}|X] \quad \text{(8)} \\
+&amp;= E[(\hat{\beta} - \beta)(\hat{\beta} - \beta)^{\top}|X] \quad \text{(9)} \\
+&amp;= E[(X^{\top}X)^{-1}X^{\top}u \, u^{\top}X(X^{\top}X)^{-1}|X] \quad \text{(10)} \\
+&amp;= (X^{\top}X)^{-1}X^{\top}E[u \, u^{\top}|X]X(X^{\top}X)^{-1} \quad \text{(11)} \\
+&amp;= (X^{\top}X)^{-1}X^{\top}\sigma^2IX(X^{\top}X)^{-1} \quad \text{(12)} \\
+&amp;= \sigma^2(X^{\top}X)^{-1}(X^{\top}X)(X^{\top}X)^{-1} \quad \text{(13)} \\
+&amp;= \sigma^2(X^{\top}X)^{-1} \quad \text{(14)}
+\end{aligned}
+\]</div>
 </li>
 <li>
 <p>nota: <span class="arithmatex">\(\hat{\beta}=\beta+(X^{T}X)^{-1}X^{T}u\)</span></p>
