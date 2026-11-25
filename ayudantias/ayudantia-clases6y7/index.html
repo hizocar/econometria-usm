@@ -1,0 +1,1805 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ICS-294 - Econometría (USM) · Trimestre 3, 2026">
+      
+      
+        <meta name="author" content="Sebastian Azocar">
+      
+      
+        <link rel="canonical" href="https://hizocar.github.io/econometria-usm/ayudantias/ayudantia-clases6y7/">
+      
+      
+        <link rel="prev" href="../ayudantia4/">
+      
+      
+        <link rel="next" href="../ayudantia11/">
+      
+      
+      <link rel="icon" href="../../images/usm_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>Ayudantía · Clases 6 y 7: interpretación e inferencia - Econometría ICS-294</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/practica.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ayudantia-clases-6-y-7-interpretacion-e-inferencia" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Econometría ICS-294" class="md-header__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Econometría ICS-294
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ayudantía · Clases 6 y 7: interpretación e inferencia
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../programa/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Programa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../calendario/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Calendario
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../clases/clases/" class="md-tabs__link">
+          
+  
+  
+  Clases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../quiz/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  📝 Quiz
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../practica/" class="md-tabs__link">
+          
+  
+  
+  🎮 Práctica
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Ayudantías
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Econometría ICS-294" class="md-nav__button md-logo" aria-label="Econometría ICS-294" data-md-component="logo">
+      
+  <img src="../../images/usm_shield.png" alt="logo">
+
+    </a>
+    Econometría ICS-294
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../calendario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calendario
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Clases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Clases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏫 Clases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 1 · Introducción y repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 2 · Regresión lineal simple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 3 · Causalidad y variable omitida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 4 · Regresión lineal múltiple
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 5 · Propiedades estadísticas del estimador MCO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 6 · Interpretación: logaritmos, cuadráticas e interacciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 7 · Inferencia sobre un parámetro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 8 · Inferencia sobre un conjunto de parámetros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 9 · El test F
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 10 · Propiedades asintóticas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 11 · Variables binarias, Chow y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clases/clase12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clase 12 · Heterocedasticidad y variables instrumentales
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quiz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📝 Quiz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    🎮 Práctica
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🎮 Práctica
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practica/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Primer bloque · Clases 1 a 5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practica/bloque2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Segundo bloque · Clases 6 a 9
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practica/bloque3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tercer bloque · Clases 10 a 12
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ayudantías
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Ayudantías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    📘 Ayudantías
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ayudantia1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 1 · Repaso de estadística
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ayudantia4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 4 · La inversa de XᵀX por cofactores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía · Clases 6 y 7: interpretación e inferencia
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía · Clases 6 y 7: interpretación e inferencia
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-ronda-rapida-10-minutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      1 · Ronda rápida (10 minutos)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-problema-de-interpretacion-40-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      2 · Problema de interpretación (40 puntos)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-problema-de-inferencia-40-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      3 · Problema de inferencia (40 puntos)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-comentes-20-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      4 · Comentes (20 puntos)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errores-frecuentes-para-el-cierre" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Errores frecuentes para el cierre
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formulario-minimo" class="md-nav__link">
+    <span class="md-ellipsis">
+      📐 Formulario mínimo
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ayudantia11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 11 · Variables binarias y MPL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ayudantia12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ayudantía 12 · Test de White y errores robustos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objetivos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-ronda-rapida-10-minutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      1 · Ronda rápida (10 minutos)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-problema-de-interpretacion-40-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      2 · Problema de interpretación (40 puntos)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-problema-de-inferencia-40-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      3 · Problema de inferencia (40 puntos)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-comentes-20-puntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      4 · Comentes (20 puntos)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errores-frecuentes-para-el-cierre" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Errores frecuentes para el cierre
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formulario-minimo" class="md-nav__link">
+    <span class="md-ellipsis">
+      📐 Formulario mínimo
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ayudantia-clases-6-y-7-interpretacion-e-inferencia">Ayudantía · Clases 6 y 7: interpretación e inferencia</h1>
+<div class="usm-session-meta">
+<span>📘 Ayudantía de refuerzo</span>
+<span class="usm-tag-gold">Complementa las Clases 6 y 7</span>
+</div>
+
+<div class="admonition info">
+<p class="admonition-title">Material de refuerzo</p>
+<p>Ejercicios de desarrollo con el nivel de exigencia de las evaluaciones del curso, para trabajar <strong>en conjunto
+durante la ayudantía</strong>. No reemplaza las láminas: repasa lo visto en la
+<a href="../../clases/clase6/">Clase 6 · Interpretación</a> y la <a href="../../clases/clase7/">Clase 7 · Inferencia sobre un parámetro</a>.
+Se permite calculadora; usa <span class="arithmatex">\(\log(\cdot) = \ln(\cdot)\)</span>.</p>
+</div>
+<h2 id="objetivos">🎯 Objetivos</h2>
+<ul>
+<li>Obtener y evaluar <strong>efectos parciales</strong> en modelos con logaritmos, términos cuadráticos e interacciones.</li>
+<li>Distinguir la <strong>aproximación</strong> <span class="arithmatex">\(100\,\hat{\beta}\,\Delta x\)</span> del <strong>cambio porcentual exacto</strong> y saber cuándo usar cada uno.</li>
+<li>Predecir cómo cambian coeficientes, estadísticos <span class="arithmatex">\(t\)</span> y <span class="arithmatex">\(R^2\)</span> al <strong>reescalar</strong> variables.</li>
+<li>Plantear <strong>tests <span class="arithmatex">\(t\)</span> con hipótesis nula distinta de cero</strong>, de una y de dos colas, y <strong>acotar el valor-p</strong> con una tabla.</li>
+<li>Conectar tests e <strong>intervalos de confianza</strong>, incluidos los de una cola.</li>
+<li>Justificar <strong>comentes</strong> con el supuesto o la fórmula que corresponde.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Sugerencia para conducir la ayudantía (90 minutos)</p>
+<table>
+<thead>
+<tr>
+<th>Bloque</th>
+<th style="text-align: center;">Tiempo</th>
+<th>Dinámica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 · Ronda rápida</td>
+<td style="text-align: center;">10 min</td>
+<td>Responden en parejas; se corrige en voz alta.</td>
+</tr>
+<tr>
+<td>2 · Problema de interpretación</td>
+<td style="text-align: center;">30 min</td>
+<td>6–8 min por parte: primero intentan, luego se desarrolla en la pizarra.</td>
+</tr>
+<tr>
+<td>3 · Problema de inferencia</td>
+<td style="text-align: center;">30 min</td>
+<td>Insistir en escribir <span class="arithmatex">\(H_0\)</span> y <span class="arithmatex">\(H_1\)</span> <strong>antes</strong> de calcular.</td>
+</tr>
+<tr>
+<td>4 · Comentes</td>
+<td style="text-align: center;">15 min</td>
+<td>Cada pareja defiende una respuesta; el resto evalúa la justificación.</td>
+</tr>
+<tr>
+<td>Cierre</td>
+<td style="text-align: center;">5 min</td>
+<td>Repasar los errores frecuentes del final.</td>
+</tr>
+</tbody>
+</table>
+<p>Las pautas están plegadas: ábrelas <strong>después</strong> de que el curso haya intentado cada parte. En una evaluación,
+una respuesta sin desarrollo no tiene puntaje, así que vale la pena exigir el desarrollo completo también aquí.</p>
+</div>
+<h2 id="1-ronda-rapida-10-minutos">1 · Ronda rápida (10 minutos)</h2>
+<p>Seis preguntas cortas para activar las herramientas que se usan después.</p>
+<ol>
+<li>En <span class="arithmatex">\(\log(y) = \beta_0 + \beta_1 x + u\)</span> se estimó <span class="arithmatex">\(\hat{\beta}_1 = 0{,}12\)</span>. ¿Cuánto cambia <span class="arithmatex">\(y\)</span>, en %, si <span class="arithmatex">\(x\)</span> sube 3 unidades? Da la aproximación y el valor exacto.</li>
+<li>En <span class="arithmatex">\(y = 50 + 8\log(x)\)</span>, ¿cuánto cambia <span class="arithmatex">\(\hat{y}\)</span> si <span class="arithmatex">\(x\)</span> aumenta 5%?</li>
+<li>En <span class="arithmatex">\(\log(q) = \beta_0 - 0{,}7\log(p) + u\)</span>, ¿qué ocurre con <span class="arithmatex">\(q\)</span> si <span class="arithmatex">\(p\)</span> sube 2%?</li>
+<li>Con <span class="arithmatex">\(n = 60\)</span> observaciones y 4 variables explicativas, ¿cuántos grados de libertad tiene el test <span class="arithmatex">\(t\)</span>?</li>
+<li>Se estimó <span class="arithmatex">\(\hat{\beta}_j = 1{,}90\)</span> con <span class="arithmatex">\(se(\hat{\beta}_j) = 0{,}25\)</span>. Calcula el estadístico para <span class="arithmatex">\(H_0: \beta_j = 1{,}5\)</span>.</li>
+<li>En <span class="arithmatex">\(\log(y) = \beta_0 + \beta_1\, dist + u\)</span>, la distancia pasa de kilómetros a metros. ¿Qué pasa con <span class="arithmatex">\(\hat{\beta}_1\)</span> y con su <span class="arithmatex">\(t\)</span>?</li>
+</ol>
+<details class="success">
+<summary>Respuestas de la ronda rápida</summary>
+<ol>
+<li>Aproximación: <span class="arithmatex">\(100 \cdot 0{,}12 \cdot 3 = 36\%\)</span>. Exacto: <span class="arithmatex">\(100\,(e^{0{,}36} - 1) \approx 43{,}3\%\)</span>. La aproximación se aleja porque <span class="arithmatex">\(\hat{\beta}\,\Delta x = 0{,}36\)</span> no es pequeño.</li>
+<li>Nivel-log: <span class="arithmatex">\(\Delta \hat{y} \approx (8/100) \cdot 5 = 0{,}40\)</span> unidades.</li>
+<li>Log-log: <span class="arithmatex">\(\%\Delta q \approx -0{,}7 \cdot 2 = -1{,}4\%\)</span>.</li>
+<li><span class="arithmatex">\(gl = n - k - 1 = 60 - 4 - 1 = 55\)</span> (ver <a href="../../clases/clase7/#de-donde-sale-n-k-1">¿De dónde sale <span class="arithmatex">\(n - k - 1\)</span>?</a>).</li>
+<li><span class="arithmatex">\(t = (1{,}90 - 1{,}5)/0{,}25 = 1{,}6\)</span>. Siempre se resta el valor de la hipótesis nula.</li>
+<li><span class="arithmatex">\(dist_{m} = 1000\, dist_{km}\)</span>: el coeficiente se divide por 1000, su error estándar también, y el <span class="arithmatex">\(t\)</span> no cambia.</li>
+</ol>
+</details>
+<h2 id="2-problema-de-interpretacion-40-puntos">2 · Problema de interpretación (40 puntos)</h2>
+<p>Un estudio agrícola estimó, con datos de 210 parcelas, el rendimiento del trigo en función del número de riegos
+por temporada (<span class="arithmatex">\(riego\)</span>) y del fertilizante aplicado (<span class="arithmatex">\(fert\)</span>, en decenas de kilos por hectárea):</p>
+<div class="arithmatex">\[
+\hat{y} = 2{,}10 + 0{,}150\, riego + 0{,}060\, fert - 0{,}0015\, fert^2 + 0{,}010\, (riego \cdot fert)
+\]</div>
+<p>donde <span class="arithmatex">\(y = \log(rend)\)</span> y <span class="arithmatex">\(rend\)</span> es el rendimiento en quintales por hectárea.</p>
+<p><strong>a) (10 pts)</strong> Obtén una expresión para el efecto parcial de una decena de kilos más de fertilizante sobre el
+rendimiento y calcúlalo, en porcentaje, para una parcela con 3 riegos y 10 decenas de kilos de fertilizante.</p>
+<details class="success">
+<summary>Pauta de a)</summary>
+<p>Derivando respecto de <span class="arithmatex">\(fert\)</span>:</p>
+<div class="arithmatex">\[
+\frac{\partial \log(rend)}{\partial fert} = 0{,}060 - 2(0{,}0015)\, fert + 0{,}010\, riego = 0{,}060 - 0{,}003\, fert + 0{,}010\, riego
+\]</div>
+<p>Con <span class="arithmatex">\(riego = 3\)</span> y <span class="arithmatex">\(fert = 10\)</span>: <span class="arithmatex">\(0{,}060 - 0{,}030 + 0{,}030 = 0{,}060\)</span>. Una decena de kilos más de fertilizante se
+asocia con un rendimiento <strong>cerca de 6% mayor</strong>, manteniendo constante el número de riegos.</p>
+<p><strong>Criterio:</strong> 5 pts por la expresión (debe incluir los términos del cuadrado y de la interacción); 5 pts por el
+cálculo y la interpretación en %, con <em>ceteris paribus</em>.</p>
+<p><strong>Errores frecuentes:</strong> olvidar el factor 2 del término cuadrático, u omitir la interacción en la derivada.</p>
+</details>
+<p><strong>b) (10 pts)</strong> Para una parcela con 3 riegos, ¿a partir de qué cantidad de fertilizante una decena adicional
+se asocia con un <strong>menor</strong> rendimiento? ¿Cómo cambia ese umbral si la parcela tiene más riegos? Explica la intuición.</p>
+<details class="success">
+<summary>Pauta de b)</summary>
+<p>El efecto se anula cuando <span class="arithmatex">\(0{,}060 + 0{,}010\, riego = 0{,}003\, fert\)</span>. Con <span class="arithmatex">\(riego = 3\)</span>:</p>
+<div class="arithmatex">\[
+fert^* = \frac{0{,}060 + 0{,}030}{0{,}003} = 30 \text{ decenas de kilos (300 kg por hectárea)}.
+\]</div>
+<p>En general <span class="arithmatex">\(fert^* = (0{,}060 + 0{,}010\, riego)/0{,}003\)</span>, <strong>creciente</strong> en el número de riegos: como el
+coeficiente de la interacción es positivo, el fertilizante rinde más cuando hay más agua, y el punto en que
+empieza a perjudicar se aleja.</p>
+<p><strong>Criterio:</strong> 5 pts por el umbral; 5 pts por la dependencia de <span class="arithmatex">\(riego\)</span> y su intuición.</p>
+</details>
+<p><strong>c) (10 pts)</strong> Calcula el efecto de un riego adicional para una parcela con 10 y con 25 decenas de kilos de
+fertilizante. En ambos casos compara la aproximación con el cambio porcentual exacto (<span class="arithmatex">\(e^{0{,}25} \approx 1{,}284\)</span>;
+<span class="arithmatex">\(e^{0{,}40} \approx 1{,}492\)</span>) y comenta cuándo es aceptable la aproximación.</p>
+<details class="success">
+<summary>Pauta de c)</summary>
+<p><span class="arithmatex">\(\dfrac{\partial \log(rend)}{\partial riego} = 0{,}150 + 0{,}010\, fert\)</span>.</p>
+<p>El cambio exacto es <span class="arithmatex">\(100\,(e^{c} - 1)\)</span>, donde <span class="arithmatex">\(c\)</span> es el coeficiente:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><span class="arithmatex">\(fert\)</span></th>
+<th style="text-align: center;"><span class="arithmatex">\(c\)</span></th>
+<th style="text-align: center;">Aprox.</th>
+<th style="text-align: center;">Exacto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;"><span class="arithmatex">\(0{,}25\)</span></td>
+<td style="text-align: center;">25%</td>
+<td style="text-align: center;">28,4%</td>
+</tr>
+<tr>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;"><span class="arithmatex">\(0{,}40\)</span></td>
+<td style="text-align: center;">40%</td>
+<td style="text-align: center;">49,2%</td>
+</tr>
+</tbody>
+</table>
+<p>La aproximación viene de <span class="arithmatex">\(\log(1 + z) \approx z\)</span>, que solo es buena para <span class="arithmatex">\(z\)</span> cercano a 0. Con un efecto de
+0,25 ya se equivoca en 3,4 puntos, y con 0,40 en más de 9: para efectos grandes hay que usar el cambio exacto.</p>
+<p><strong>Criterio:</strong> 3 pts por cada caso; 4 pts por la comparación con el exacto y el comentario.</p>
+</details>
+<p><strong>d) (10 pts)</strong> Se vuelve a estimar el modelo midiendo el fertilizante en <strong>kilos</strong> (<span class="arithmatex">\(fert_{kg} = 10\, fert\)</span>) y el
+rendimiento en <strong>kilos por hectárea</strong> (<span class="arithmatex">\(rend_{kg} = 100\, rend\)</span>). Indica cómo cambia cada uno de los cinco
+coeficientes, los estadísticos <span class="arithmatex">\(t\)</span> y el <span class="arithmatex">\(R^2\)</span>. Justifica.</p>
+<details class="success">
+<summary>Pauta de d)</summary>
+<p><strong>Rendimiento:</strong> <span class="arithmatex">\(\log(100\, rend) = \log(100) + \log(rend)\)</span>. Solo cambia el intercepto:
+<span class="arithmatex">\(2{,}10 + \log(100) \approx 2{,}10 + 4{,}605 = 6{,}705\)</span>. Las pendientes no cambian, porque con <span class="arithmatex">\(y\)</span> en logaritmo
+miden cambios porcentuales, que no dependen de las unidades.</p>
+<p><strong>Fertilizante:</strong> si <span class="arithmatex">\(fert = fert_{kg}/10\)</span>, cada término se reescribe en kilos:</p>
+<ul>
+<li><span class="arithmatex">\(0{,}060\, fert = 0{,}006\, fert_{kg}\)</span>: el coeficiente se divide por 10.</li>
+<li><span class="arithmatex">\(-0{,}0015\, fert^2 = -0{,}000015\, fert_{kg}^2\)</span>: se divide por <span class="arithmatex">\(10^2 = 100\)</span>.</li>
+<li><span class="arithmatex">\(0{,}010\, riego \cdot fert = 0{,}001\, riego \cdot fert_{kg}\)</span>: se divide por 10.</li>
+<li>El coeficiente de <span class="arithmatex">\(riego\)</span> no cambia.</li>
+</ul>
+<p>Los errores estándar se reescalan en la misma proporción que cada coeficiente, así que los <span class="arithmatex">\(t\)</span> de las
+pendientes y el <span class="arithmatex">\(R^2\)</span> <strong>no cambian</strong>: el modelo explica lo mismo, solo en otras unidades.</p>
+<p><strong>Criterio:</strong> 2 pts por el intercepto; 5 pts por los coeficientes de <span class="arithmatex">\(fert\)</span>, <span class="arithmatex">\(fert^2\)</span> y la interacción;
+3 pts por los <span class="arithmatex">\(t\)</span> y el <span class="arithmatex">\(R^2\)</span>.</p>
+<p><strong>Error frecuente:</strong> dividir el coeficiente de <span class="arithmatex">\(fert^2\)</span> por 10 en vez de por 100.</p>
+</details>
+<h2 id="3-problema-de-inferencia-40-puntos">3 · Problema de inferencia (40 puntos)</h2>
+<p>Con datos de <span class="arithmatex">\(n = 40\)</span> colegios se estimó la relación entre el puntaje promedio en una prueba estandarizada, el
+gasto por alumno (en miles de pesos) y el tamaño promedio de los cursos (número de alumnos):</p>
+<div class="arithmatex">\[
+\log(puntaje) = \beta_0 + \beta_1 \log(gasto) + \beta_2\, tamano + u
+\]</div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: center;">Coeficiente</th>
+<th style="text-align: center;">Error estándar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constante</td>
+<td style="text-align: center;">2,850</td>
+<td style="text-align: center;">0,610</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\log(gasto)\)</span></td>
+<td style="text-align: center;">0,220</td>
+<td style="text-align: center;">0,085</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(tamano\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(-0{,}006\)</span></td>
+<td style="text-align: center;">0,004</td>
+</tr>
+</tbody>
+</table>
+<p>Valores críticos de una <span class="arithmatex">\(t\)</span> con 37 grados de libertad, <span class="arithmatex">\(P(T &gt; c)\)</span>:</p>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(P(T &gt; c)\)</span></th>
+<th style="text-align: center;">0,10</th>
+<th style="text-align: center;">0,05</th>
+<th style="text-align: center;">0,025</th>
+<th style="text-align: center;">0,01</th>
+<th style="text-align: center;">0,005</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(c\)</span></td>
+<td style="text-align: center;">1,305</td>
+<td style="text-align: center;">1,687</td>
+<td style="text-align: center;">2,026</td>
+<td style="text-align: center;">2,431</td>
+<td style="text-align: center;">2,715</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Sugerencia</p>
+<p>Antes de calcular, pide que alguien verifique en la pizarra que los grados de libertad son
+<span class="arithmatex">\(40 - 2 - 1 = 37\)</span>, y que el resto diga qué tipo de interpretación tiene cada coeficiente (elasticidad o
+semielasticidad).</p>
+</div>
+<p><strong>a) (8 pts)</strong> Interpreta <span class="arithmatex">\(\hat{\beta}_1\)</span> y <span class="arithmatex">\(\hat{\beta}_2\)</span> en términos de la pregunta.</p>
+<details class="success">
+<summary>Pauta de a)</summary>
+<p><span class="arithmatex">\(\hat{\beta}_1 = 0{,}220\)</span> es una <strong>elasticidad</strong>: un aumento de 1% en el gasto por alumno se asocia con un
+puntaje 0,22% mayor (10% de gasto, 2,2% de puntaje), manteniendo constante el tamaño de los cursos.</p>
+<p><span class="arithmatex">\(\hat{\beta}_2 = -0{,}006\)</span> es una <strong>semielasticidad</strong>: un alumno más por curso se asocia con un puntaje
+aproximadamente <span class="arithmatex">\(100 \cdot 0{,}006 = 0{,}6\%\)</span> menor, manteniendo constante el gasto.</p>
+<p><strong>Criterio:</strong> 4 pts por cada una; descontar si no mencionan <em>ceteris paribus</em> o confunden elasticidad con
+semielasticidad.</p>
+</details>
+<p><strong>b) (10 pts)</strong> ¿Es el gasto estadísticamente significativo al 5% y al 1% (dos colas)? Con esa información,
+acota el valor-p. Explica cómo es posible que el tamaño de los cursos no sea significativo aunque su signo sea el esperado.</p>
+<details class="success">
+<summary>Pauta de b)</summary>
+<p><span class="arithmatex">\(t = 0{,}220/0{,}085 \approx 2{,}59\)</span>, con 37 grados de libertad.</p>
+<ul>
+<li><strong>Al 5%</strong> (dos colas, crítico 2,026): <span class="arithmatex">\(2{,}59 &gt; 2{,}026\)</span>, se rechaza <span class="arithmatex">\(H_0: \beta_1 = 0\)</span>.</li>
+<li><strong>Al 1%</strong> (crítico 2,715): <span class="arithmatex">\(2{,}59 &lt; 2{,}715\)</span>, no se rechaza.</li>
+<li>Por lo tanto, <span class="arithmatex">\(0{,}01 &lt; \text{valor-p} &lt; 0{,}05\)</span> (el valor exacto es cerca de 0,014).</li>
+</ul>
+<p><strong>Tamaño:</strong> <span class="arithmatex">\(t = -0{,}006/0{,}004 = -1{,}5\)</span> y <span class="arithmatex">\(|t| &lt; 2{,}026\)</span>: no es significativo al 5%. El signo es el
+esperado, pero la estimación es <strong>imprecisa</strong> (error estándar grande respecto del coeficiente, con solo 40
+colegios). No significativo no quiere decir que el efecto sea cero, sino que la evidencia no alcanza.</p>
+<p><strong>Criterio:</strong> 3 pts por los grados de libertad y el <span class="arithmatex">\(t\)</span>; 4 pts por las decisiones y la cota del valor-p;
+3 pts por la explicación sobre el tamaño.</p>
+</details>
+<p><strong>c) (12 pts)</strong> Un informe ministerial afirma que "aumentar 10% el gasto por alumno sube el puntaje en <strong>al menos 4%</strong>".
+Plantea las hipótesis que permitirían <strong>refutar</strong> esa afirmación, calcula el estadístico y concluye al 5% y al 1%.</p>
+<details class="success">
+<summary>Pauta de c)</summary>
+<p>La afirmación es <span class="arithmatex">\(\beta_1 \geq 0{,}40\)</span> (10% de gasto por 0,40 da 4% de puntaje). Para refutarla, la afirmación
+va en la hipótesis nula y la alternativa apunta hacia abajo:</p>
+<div class="arithmatex">\[
+H_0: \beta_1 = 0{,}40 \qquad H_1: \beta_1 &lt; 0{,}40 \quad \text{(una cola)}
+\]</div>
+<div class="arithmatex">\[
+t = \frac{0{,}220 - 0{,}40}{0{,}085} \approx -2{,}12
+\]</div>
+<ul>
+<li><strong>Al 5%</strong> (crítico <span class="arithmatex">\(-1{,}687\)</span>): <span class="arithmatex">\(-2{,}12 &lt; -1{,}687\)</span>, <strong>se rechaza</strong> <span class="arithmatex">\(H_0\)</span>; hay evidencia de que la elasticidad
+  es menor que 0,40 y el informe exagera.</li>
+<li><strong>Al 1%</strong> (crítico <span class="arithmatex">\(-2{,}431\)</span>): <span class="arithmatex">\(-2{,}12 &gt; -2{,}431\)</span>, <strong>no se rechaza</strong>. La evidencia en contra del informe es
+  moderada (valor-p de una cola cerca de 0,02).</li>
+</ul>
+<p><strong>Criterio:</strong> 3 pts por hipótesis bien orientadas; 3 pts por el estadístico; 3 pts por cada decisión. Un test
+de dos colas tiene como máximo 7 pts.</p>
+<p><strong>Errores frecuentes:</strong> calcular <span class="arithmatex">\(t = 0{,}220/0{,}085\)</span> (eso testea <span class="arithmatex">\(\beta_1 = 0\)</span>), o poner la afirmación en
+<span class="arithmatex">\(H_1\)</span>, con lo que el test no puede refutarla.</p>
+</details>
+<p><strong>d) (10 pts)</strong> Construye el intervalo de confianza de 95% para <span class="arithmatex">\(\beta_1\)</span>. ¿Contiene el valor 0,40? Luego construye
+la <strong>cota superior de una cola</strong> al 95% y al 99%, y explica por qué esas cotas, y no el intervalo de dos colas, son
+las coherentes con el test de (c).</p>
+<details class="success">
+<summary>Pauta de d)</summary>
+<p><strong>IC de 95% (dos colas):</strong> <span class="arithmatex">\(0{,}220 \pm 2{,}026 \cdot 0{,}085 = 0{,}220 \pm 0{,}172 \Rightarrow (0{,}048;\ 0{,}392)\)</span>.
+No contiene 0,40 ni 0.</p>
+<p>El IC de dos colas al 95% equivale al test <strong>bilateral</strong> al 5% (2,5% en cada cola). El test de (c) es
+<strong>unilateral</strong>: deja todo el 5% en una cola, así que el intervalo coherente es una cota superior:</p>
+<ul>
+<li><strong>95%:</strong> <span class="arithmatex">\(0{,}220 + 1{,}687 \cdot 0{,}085 \approx 0{,}363 &lt; 0{,}40\)</span>, coherente con rechazar al 5% en (c).</li>
+<li><strong>99%:</strong> <span class="arithmatex">\(0{,}220 + 2{,}431 \cdot 0{,}085 \approx 0{,}427 &gt; 0{,}40\)</span>, coherente con no rechazar al 1%.</li>
+</ul>
+<p>Regla: se rechaza <span class="arithmatex">\(H_0: \beta_1 = a\)</span> contra <span class="arithmatex">\(H_1: \beta_1 &lt; a\)</span> si y solo si <span class="arithmatex">\(a\)</span> queda por encima de la cota
+superior de una cola.</p>
+<p><strong>Criterio:</strong> 5 pts por el IC de dos colas; 5 pts por las cotas y la explicación.</p>
+</details>
+<h2 id="4-comentes-20-puntos">4 · Comentes (20 puntos)</h2>
+<p>Responde <strong>Verdadero, Falso o Incierto</strong>. El puntaje depende solo de la justificación.</p>
+<p><strong>a) (5 pts)</strong> "Si los errores del modelo no son normales, el test <span class="arithmatex">\(t\)</span> es inválido aunque la muestra tenga 2.000 observaciones."</p>
+<details class="success">
+<summary>Pauta de a)</summary>
+<p><strong>Falso.</strong> Sin normalidad, el estadístico no sigue exactamente una <span class="arithmatex">\(t_{n-k-1}\)</span> en muestras finitas, pero con
+<span class="arithmatex">\(n\)</span> grande se distribuye <strong>aproximadamente</strong> normal estándar (teorema del límite central). Con 2.000
+observaciones el test <span class="arithmatex">\(t\)</span> es aproximadamente válido. La normalidad importa sobre todo con muestras pequeñas.</p>
+</details>
+<p><strong>b) (5 pts)</strong> "Si se rechaza <span class="arithmatex">\(H_0: \beta_j = 0\)</span> al 5% con un test de dos colas, entonces también se rechaza al 5% con un test de una cola contra <span class="arithmatex">\(H_1: \beta_j &gt; 0\)</span>."</p>
+<details class="success">
+<summary>Pauta de b)</summary>
+<p><strong>Incierto.</strong> Depende del signo de <span class="arithmatex">\(\hat{\beta}_j\)</span>. Si <span class="arithmatex">\(t &gt; 0\)</span>, el valor-p de una cola es la mitad del de dos
+colas y se rechaza también. Si <span class="arithmatex">\(t &lt; 0\)</span>, por ejemplo <span class="arithmatex">\(t = -2{,}5\)</span>, se rechaza en dos colas pero <strong>no</strong> contra
+<span class="arithmatex">\(H_1: \beta_j &gt; 0\)</span>: el estimador apunta en la dirección contraria a la alternativa.</p>
+</details>
+<p><strong>c) (5 pts)</strong> "En <span class="arithmatex">\(\log(y) = \beta_0 + \beta_1 x + u\)</span>, <span class="arithmatex">\(\beta_1\)</span> mide el cambio porcentual de <span class="arithmatex">\(y\)</span> cuando <span class="arithmatex">\(x\)</span> aumenta en 1%."</p>
+<details class="success">
+<summary>Pauta de c)</summary>
+<p><strong>Falso.</strong> Es un modelo log-nivel: <span class="arithmatex">\(100\,\beta_1\)</span> es el cambio porcentual (aproximado) de <span class="arithmatex">\(y\)</span> cuando <span class="arithmatex">\(x\)</span> aumenta
+en <strong>una unidad</strong>. El cambio de <span class="arithmatex">\(y\)</span> ante un 1% de <span class="arithmatex">\(x\)</span> es la elasticidad, que corresponde a un modelo log-log,
+<span class="arithmatex">\(\log(y) = \beta_0 + \beta_1 \log(x) + u\)</span>.</p>
+</details>
+<p><strong>d) (5 pts)</strong> "Un intervalo de confianza de 90% es mejor que uno de 95%, porque es más angosto y por lo tanto más preciso."</p>
+<details class="success">
+<summary>Pauta de d)</summary>
+<p><strong>Falso (o Incierto, si se argumenta el trade-off).</strong> Con los mismos datos, el intervalo de 90% es más angosto
+solo porque <strong>acepta más riesgo</strong>: en el 10% de las muestras no contiene al verdadero <span class="arithmatex">\(\beta_j\)</span>, frente al 5%
+del de 95%. No hay más información; hay menos confianza. Para un intervalo más angosto <strong>con la misma
+confianza</strong> se necesita reducir el error estándar, por ejemplo con más datos.</p>
+</details>
+<h2 id="errores-frecuentes-para-el-cierre">✅ Errores frecuentes para el cierre</h2>
+<div class="admonition warning">
+<p class="admonition-title">Lo que más se equivoca en este tipo de ejercicios</p>
+<ul>
+<li>Derivar mal los términos cuadráticos (<span class="arithmatex">\(\partial(\beta x^2)/\partial x = 2\beta x\)</span>) u olvidar la interacción en el efecto parcial.</li>
+<li>Usar <span class="arithmatex">\(100\,\hat{\beta}\,\Delta x\)</span> cuando el efecto es grande, en lugar de <span class="arithmatex">\(100\,(e^{\hat{\beta}\Delta x} - 1)\)</span>.</li>
+<li>Al reescalar <span class="arithmatex">\(x^2\)</span>, dividir por la constante en vez de por su cuadrado.</li>
+<li>Calcular <span class="arithmatex">\(t = \hat{\beta}/se\)</span> cuando la hipótesis nula no es cero: siempre <span class="arithmatex">\(t = (\hat{\beta} - a)/se\)</span>.</li>
+<li>Poner en <span class="arithmatex">\(H_1\)</span> la afirmación que se quiere refutar, o usar valores críticos de dos colas en un test de una cola.</li>
+<li>Concluir "no tiene efecto" cuando un coeficiente no es significativo.</li>
+</ul>
+</div>
+<h2 id="formulario-minimo">📐 Formulario mínimo</h2>
+<details class="note">
+<summary>Ver fórmulas</summary>
+<ul>
+<li><strong>Logaritmos:</strong> log-nivel <span class="arithmatex">\(\%\Delta y \approx 100\,\beta\,\Delta x\)</span> (exacto: <span class="arithmatex">\(100\,(e^{\beta\Delta x} - 1)\)</span>); log-log <span class="arithmatex">\(\%\Delta y \approx \beta\,\%\Delta x\)</span>; nivel-log <span class="arithmatex">\(\Delta y \approx (\beta/100)\,\%\Delta x\)</span></li>
+<li><strong>Cuadrática:</strong> <span class="arithmatex">\(\partial \hat{y}/\partial x = \hat{\beta}_1 + 2\hat{\beta}_2 x\)</span>; punto de quiebre <span class="arithmatex">\(x^* = -\hat{\beta}_1/(2\hat{\beta}_2)\)</span></li>
+<li><strong>Interacción:</strong> en <span class="arithmatex">\(y = \beta_0 + \beta_1 x + \beta_2 z + \beta_3 xz\)</span>, <span class="arithmatex">\(\partial y/\partial x = \beta_1 + \beta_3 z\)</span></li>
+<li><strong>Reescalar:</strong> <span class="arithmatex">\(x \to c\,x\)</span> divide el coeficiente de <span class="arithmatex">\(x\)</span> por <span class="arithmatex">\(c\)</span> y el de <span class="arithmatex">\(x^2\)</span> por <span class="arithmatex">\(c^2\)</span>; con <span class="arithmatex">\(y\)</span> en logaritmo, <span class="arithmatex">\(y \to c\,y\)</span> solo suma <span class="arithmatex">\(\log(c)\)</span> al intercepto</li>
+<li><strong>Test <span class="arithmatex">\(t\)</span>:</strong> <span class="arithmatex">\(t = (\hat{\beta}_j - a_j)/se(\hat{\beta}_j) \sim t_{n-k-1}\)</span></li>
+<li><strong>IC de dos colas:</strong> <span class="arithmatex">\(\hat{\beta}_j \pm c_{\alpha/2}\, se(\hat{\beta}_j)\)</span>; <strong>cota superior de una cola:</strong> <span class="arithmatex">\(\hat{\beta}_j + c_{\alpha}\, se(\hat{\beta}_j)\)</span></li>
+</ul>
+</details>
+<p>Para seguir practicando: <a href="../../practica/bloque2/">Práctica · Segundo bloque</a>, con talleres de logaritmos,
+cuadráticas, interacciones, test <span class="arithmatex">\(t\)</span> y valores-p, y los <a href="../../clases/clase7/#desafios-teoricos">desafíos teóricos de la Clase 7</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hizocar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.tabs", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/econ.js"></script>
+      
+        <script src="../../javascripts/casos.js"></script>
+      
+        <script src="../../javascripts/casos2.js"></script>
+      
+        <script src="../../javascripts/r-run.js"></script>
+      
+        <script src="../../javascripts/practica-banco.js"></script>
+      
+        <script src="../../javascripts/practica-banco2.js"></script>
+      
+        <script src="../../javascripts/practica-banco3.js"></script>
+      
+        <script src="../../javascripts/practica2.js"></script>
+      
+        <script src="../../javascripts/practica2-extra.js"></script>
+      
+        <script src="../../javascripts/practica3-comentes.js"></script>
+      
+        <script src="../../javascripts/practica3.js"></script>
+      
+        <script src="../../javascripts/cuentas.js"></script>
+      
+        <script src="../../javascripts/admin.js"></script>
+      
+        <script src="../../javascripts/quiz.js"></script>
+      
+        <script src="../../javascripts/practica.js"></script>
+      
+    
+  </body>
+</html>
