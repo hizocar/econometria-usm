@@ -121,6 +121,10 @@ nav:
       - "Ayudantía · Clases 6 y 7: interpretación e inferencia": ayudantias/ayudantia-clases6y7.md
       - "Ayudantía 11 · Variables binarias y MPL": ayudantias/ayudantia11.md
       - "Ayudantía 12 · Test de White y errores robustos": ayudantias/ayudantia12.md
+  - "📄 Evaluaciones":
+      - evaluaciones/index.md
+      - "Certamen 1": evaluaciones/certamen1.md
+      - "Control 1 · Taller": evaluaciones/control1.md
 
 not_in_nav: |
   practica/panel.md
