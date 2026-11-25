@@ -1938,6 +1938,69 @@ y|X\sim N(\beta_0+\beta_1x_1+...+\beta_kx_k, \sigma^2)
 </li>
 </ul>
 </div>
+<div class="econ-ancla" id="de-donde-sale-n-k-1">
+<div class="admonition tip">
+<p class="admonition-title">¿De dónde sale <span class="arithmatex">\(n - k - 1\)</span>?</p>
+<p><strong><span class="arithmatex">\(k\)</span> es el número de variables explicativas del modelo, sin contar el intercepto.</strong> Los grados de libertad son
+las observaciones menos la cantidad de coeficientes <span class="arithmatex">\(\beta\)</span> que se estiman:</p>
+<div class="arithmatex">\[
+gl = n - \underbrace{(k + 1)}_{\text{pendientes } + \text{ intercepto}} = n - k - 1
+\]</div>
+<p><strong>Intuición.</strong> Si te digo que tres números suman 30, puedes elegir libremente dos de ellos, pero el tercero
+queda obligado: hay <span class="arithmatex">\(3 - 1 = 2\)</span> grados de libertad. En MCO pasa lo mismo con los residuos: deben cumplir
+<span class="arithmatex">\(k + 1\)</span> condiciones (sumar cero, <span class="arithmatex">\(\sum_i \hat{u}_i = 0\)</span>, y no estar correlacionados con ninguna variable
+explicativa, <span class="arithmatex">\(\sum_i x_{ij}\hat{u}_i = 0\)</span>). Por cada coeficiente que se estima se "gasta" una condición, y
+solo <span class="arithmatex">\(n - k - 1\)</span> residuos quedan libres. Por eso <span class="arithmatex">\(\hat{\sigma}^2 = \dfrac{SSR}{n - k - 1}\)</span>, y esos mismos
+grados de libertad tiene la distribución <span class="arithmatex">\(t\)</span> del test.</p>
+<p><strong>Ejemplos con <span class="arithmatex">\(n = 100\)</span> observaciones:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variables explicativas</th>
+<th style="text-align: center;"><span class="arithmatex">\(k\)</span></th>
+<th style="text-align: center;"><span class="arithmatex">\(gl\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ninguna (solo la media)</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">99</td>
+</tr>
+<tr>
+<td>educ</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">98</td>
+</tr>
+<tr>
+<td>educ, IQ</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">97</td>
+</tr>
+<tr>
+<td>educ, exper, tenure</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">96</td>
+</tr>
+</tbody>
+</table>
+<p>En cada fila se estiman <span class="arithmatex">\(k + 1\)</span> coeficientes (las pendientes y el intercepto), así que <span class="arithmatex">\(gl = 100 - k - 1\)</span>.</p>
+<p>La primera fila es el caso de estadística: estimar solo una media deja <span class="arithmatex">\(n - 1\)</span> grados de libertad.</p>
+<p><strong>En los ejemplos de esta clase:</strong> en la lámina 14 el modelo tiene educ e IQ (<span class="arithmatex">\(k = 2\)</span>) y <span class="arithmatex">\(n = 935\)</span>, así que
+<span class="arithmatex">\(gl = 935 - 2 - 1 = 932\)</span>. En la lámina 20 tiene educ, exper y tenure (<span class="arithmatex">\(k = 3\)</span>) con <span class="arithmatex">\(n = 526\)</span>:
+<span class="arithmatex">\(gl = 526 - 3 - 1 = 522\)</span>.</p>
+<p><strong>Ojo con un error frecuente:</strong> <span class="arithmatex">\(k\)</span> <strong>no</strong> cuenta la varianza del error. Estimar <span class="arithmatex">\(\sigma^2\)</span> no resta un grado
+de libertad adicional; solo se descuentan los coeficientes <span class="arithmatex">\(\beta_0, \beta_1, \dots, \beta_k\)</span>.</p>
+<p><strong>¿Por qué importa?</strong> Con pocos grados de libertad la <span class="arithmatex">\(t\)</span> tiene colas más gruesas y el valor crítico al 5%
+(dos colas) es más exigente: con <span class="arithmatex">\(n = 10\)</span> y <span class="arithmatex">\(k = 3\)</span> hay 6 grados de libertad y el crítico es 2,447; con 20
+es 2,086; con 96 es 1,985, y con muchos grados de libertad se acerca a 1,96, el valor de la normal.</p>
+<details class="question">
+<summary>Ponte a prueba: con <span class="arithmatex">\(n = 25\)</span> y 4 variables explicativas, ¿cuántos grados de libertad hay?</summary>
+<p><span class="arithmatex">\(gl = 25 - 4 - 1 = 20\)</span>: se estiman 5 coeficientes (4 pendientes y el intercepto). El valor crítico al 5%
+(dos colas) es <span class="arithmatex">\(t_{20} = 2{,}086\)</span>.</p>
+</details>
+</div>
+</div>
 <div class="econ-practica" id="practica-1">
 <p class="econ-practica-t"><span>✍️ Practica · Tema 1</span></p>
 <div class="econ-quiz">
