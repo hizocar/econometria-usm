@@ -2352,6 +2352,7 @@ Haz clic en un tema para ir directo a él.
 """
 
 C7_INSERTAR = {
+    (S7, 5): (REPO / "tools" / "caja_gl_clase7.md").read_text(encoding="utf-8"),
     (S7, 9): widget("errores-tipo"),
     (S7, 12): widget("ic-beta"),
     (S7, 17): widget("t-test"),

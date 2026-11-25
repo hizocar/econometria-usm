@@ -2343,3 +2343,12 @@ body.pr-bloqueado .pr-marcador, body.pr-bloqueado .pr-zona { display: none; }
   border: 1px solid color-mix(in srgb, var(--usm-gold) 70%, transparent); background: color-mix(in srgb, var(--usm-gold) 12%, var(--md-default-bg-color)); }
 .md-typeset .econ-aviso p { flex: 1 1 22rem; margin: 0; font-size: 0.76rem; }
 .econ-aviso-acc { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+/* Secciones con enlace directo (por ejemplo, clases/clase7/#de-donde-sale-n-k-1): no quedar bajo el encabezado fijo */
+.econ-ancla { scroll-margin-top: 5rem; }
+.econ-ancla:target .admonition { box-shadow: 0 0 0 3px color-mix(in srgb, var(--usm-gold) 55%, transparent); }
+/* Tablas dentro del recuadro enlazable: sin márgenes negativos (se salían del recuadro en el teléfono) */
+.md-typeset .econ-ancla .md-typeset__scrollwrap { margin: 1em 0; max-width: 100%; overflow-x: auto; }
+.md-typeset .econ-ancla .md-typeset__table { padding: 0; }
+.md-typeset .econ-ancla table:not([class]) { font-size: 0.7rem; }
+.md-typeset .econ-ancla table:not([class]) th, .md-typeset .econ-ancla table:not([class]) td { padding: 0.5em 0.7em; }
