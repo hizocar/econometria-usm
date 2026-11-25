@@ -2352,3 +2352,9 @@ body.pr-bloqueado .pr-marcador, body.pr-bloqueado .pr-zona { display: none; }
 .md-typeset .econ-ancla .md-typeset__table { padding: 0; }
 .md-typeset .econ-ancla table:not([class]) { font-size: 0.7rem; }
 .md-typeset .econ-ancla table:not([class]) th, .md-typeset .econ-ancla table:not([class]) td { padding: 0.5em 0.7em; }
+/* Tablas dentro de recuadros (admonitions y desplegables): sin márgenes negativos, que las sacaban del recuadro en el teléfono */
+.md-typeset .admonition .md-typeset__scrollwrap, .md-typeset details .md-typeset__scrollwrap { margin: 1em 0; max-width: 100%; overflow-x: auto; }
+.md-typeset .admonition .md-typeset__table, .md-typeset details .md-typeset__table { padding: 0; }
+.md-typeset .admonition table:not([class]) th, .md-typeset details table:not([class]) th { min-width: 0; }
+.md-typeset .admonition table:not([class]) th, .md-typeset .admonition table:not([class]) td,
+.md-typeset details table:not([class]) th, .md-typeset details table:not([class]) td { padding: 0.6em 0.8em; }

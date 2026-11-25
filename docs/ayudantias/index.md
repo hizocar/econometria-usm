@@ -29,6 +29,15 @@ Material de la **ayudantía**, que complementa la cátedra del viernes en otro d
 </div>
 
 <div class="usm-card" markdown>
+### 📘 Ayudantía · Clases 6 y 7: interpretación e inferencia
+**Refuerzo** · Efectos parciales con cuadráticas e interacciones · Cambio exacto · Reescalamiento · Test t con H₀ ≠ 0 · Valor-p · Intervalos de una y dos colas · Comentes
+
+📝 Ronda rápida · 2 problemas de desarrollo con puntaje y pauta · 4 comentes
+
+[Ir a la ayudantía →](ayudantia-clases6y7.md) · Cátedra: [Clase 6](../clases/clase6.md) y [Clase 7](../clases/clase7.md)
+</div>
+
+<div class="usm-card" markdown>
 ### 📘 Ayudantía 11 · Variables binarias y MPL
 **Semana 11** · Diferencias salariales entre industrias · Varianza del error en el MPL
 
